@@ -20,14 +20,28 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 <details markdown="1">
 <summary>Output files</summary>
 
-- `kaiju/`
-  - `<database_name>.fmi`: Kaiju FMI file
+- `diamond/`
+  - `<database>.dmnd`: DIAMOND dmnd database file
 
 </details>
 
-[Kaiju](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a fast and sensitive taxonomic classification for metagenomics utilising nucletoide to protein translations.
+[DIAMOND](https://github.com/bbuchfink/diamond) is a accelerated BLAST compatible local sequence aligner particularly used for protein alignment.
 
-The `fmi` file can be given to kaiju itself with `kaiju -f <your_database` etc.
+The `dmnd` file can be given to one of the DIAMOND alignment commands with `diamond blast<x/p> -d <your_database>.dmnd` etc.
+
+### Kaiju
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `kaiju/`
+  - `<database_name>.fmi`: Kaiju FMI index file
+
+</details>
+
+[Kaiju](https://bioinformatics-centre.github.io/kaiju/) is a fast and sensitive taxonomic classification for metagenomics utilising nucletoide to protein translations.
+
+The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi` etc.
 
 ### MultiQC
 
