@@ -4,7 +4,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { paramsSummaryLog; paramsSummaryMap } from 'plugin/nf-validation'
+include { paramsSummaryLog; paramsSummaryMap; fromSamplesheet  } from 'plugin/nf-validation'
 
 def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
 def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
@@ -14,6 +14,19 @@ def summary_params = paramsSummaryMap(workflow)
 log.info logo + paramsSummaryLog(workflow) + citation
 
 WorkflowCreatetaxdb.initialise(params, log)
+
+// Validate input files parameters (from Sarek)
+def checkPathParamList = [
+    params.prot2taxid,
+    params.nuc2taxid,
+    params.nodesdmp,
+    params.namesdmp,
+]
+
+for (param in checkPathParamList) if (param) file(param, checkIfExists: true)
+
+// Validate parameter combinations
+if ( params.build_diamond && ![params.prot2taxid, params.nodesdmp, params.namesdmp,].any() ) { error('[nf-core/createtaxdb] Supplied --build_diamond, but missing at least one of: --prot2taxid, --nodesdmp, or --namesdmp') }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,11 +45,6 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
-//
-include { INPUT_CHECK } from '../subworkflows/local/input_check'
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT NF-CORE MODULES/SUBWORKFLOWS
@@ -46,10 +54,13 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { FASTQC                      } from '../modules/nf-core/fastqc/main'
+
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
+include { CAT_CAT as CAT_CAT_AA       } from '../modules/nf-core/cat/cat/main'
+include { KAIJU_MKFMI                 } from '../modules/nf-core/kaiju/mkfmi/main'
+include { DIAMOND_MAKEDB              } from '../modules/nf-core/diamond/makedb/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -64,23 +75,44 @@ workflow CREATETAXDB {
     ch_versions = Channel.empty()
 
     //
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
+    // INPUT: Read in samplesheet, validate and stage input files
     //
-    INPUT_CHECK (
-        file(params.input)
-    )
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    // TODO: OPTIONAL, you can use nf-validation plugin to create an input channel from the samplesheet with Channel.fromSamplesheet("input")
-    // See the documentation https://nextflow-io.github.io/nf-validation/samplesheets/fromSamplesheet/
-    // ! There is currently no tooling to help you write a sample sheet schema
+    ch_input = Channel.fromSamplesheet("input")
+
+    // Prepare input for single file inputs modules
+
+    // TODO: Need to have a modification step to get header correct to actually run with kaiju...
+    // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
+    // docs: https://github.com/nf-core/test-datasets/tree/taxprofiler#kaiju
+    // idea: try just appending `_<tax_id_from_meta>` to end of each sequence header using a local sed module... it might be sufficient
+    if ( [params.build_kaiju].any() ) {
+
+        // Pull just AA sequences
+        ch_refs_for_singleref = ch_input.dump(tag: 'premap')
+                                    .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_aa]}
+                                    .filter{meta, fasta_aa ->
+                                        fasta_aa
+                                    }
+                                    .groupTuple().dump(tag: "cat_input")
+
+        // Place in single file
+        ch_singleref_for_aa = CAT_CAT_AA ( ch_refs_for_singleref )
+        ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
+    }
 
     //
-    // MODULE: Run FastQC
+    // MODULE: Run KAIJU/MKFMI
     //
-    FASTQC (
-        INPUT_CHECK.out.reads
-    )
-    ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+
+    if ( params.build_kaiju ) {
+        KAIJU_MKFMI ( CAT_CAT_AA.out.file_out )
+        ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
+    }
+
+    if ( params.build_diamond  ) {
+        DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
+        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
+    }
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
@@ -99,7 +131,6 @@ workflow CREATETAXDB {
     ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
     ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml'))
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
 
     MULTIQC (
         ch_multiqc_files.collect(),

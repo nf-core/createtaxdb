@@ -20,7 +20,8 @@
                     "pattern": "^\\S+\\.csv$",
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
                     "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/createtaxdb/usage#samplesheet-input).",
-                    "fa_icon": "fas fa-file-csv"
+                    "fa_icon": "fas fa-file-csv",
+                    "schema": "assets/schema_input.json"
                 },
                 "outdir": {
                     "type": "string",
@@ -266,6 +267,35 @@
                     "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
                 }
             }
+        },
+        "new_group_1": {
+            "title": "New Group 1",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "dbname": {
+                    "type": "string",
+                    "default": "database",
+                    "description": "Specify name that resulting databases will be prefixed with.",
+                    "fa_icon": "fas fa-id-badge"
+                }
+            },
+            "fa_icon": "fas fa-globe"
+        },
+        "new_group_2": {
+            "title": "New Group 2",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "build_kaiju": {
+                    "type": "boolean",
+                    "description": "Turn on building of KAIJU database. Requires protein files.",
+                    "fa_icon": "fas fa-toggle-on"
+                }
+            },
+            "fa_icon": "fas fa-hard-hat"
         }
     },
     "allOf": [
@@ -283,6 +313,12 @@
         },
         {
             "$ref": "#/definitions/generic_options"
+        },
+        {
+            "$ref": "#/definitions/new_group_1"
+        },
+        {
+            "$ref": "#/definitions/new_group_2"
         }
     ]
 }

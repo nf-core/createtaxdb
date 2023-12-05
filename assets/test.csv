@@ -1,0 +1,3 @@
+id,taxid,fasta_dna,fasta_aa
+Severe_acute_respiratory_syndrome_coronavirus_2,2697049,/home/james/Downloads/createtaxdb/sarscov2.fasta,/home/james/Downloads/createtaxdb/sarscov2.faa
+Haemophilus_influenzae,727,/home/james/Downloads/createtaxdb/haemophilus_infuenzae.fna.gz,
