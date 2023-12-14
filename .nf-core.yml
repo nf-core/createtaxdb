@@ -1,2 +1,4 @@
 repository_type: pipeline
-actions_ci: False
+## TODO: re-activate once nf-test ci.yml structure updated
+lint:
+  actions_ci: False
