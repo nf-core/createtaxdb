@@ -26,7 +26,7 @@ def checkPathParamList = [
 for (param in checkPathParamList) if (param) file(param, checkIfExists: true)
 
 // Validate parameter combinations
-if ( params.build_diamond && ![params.prot2taxid, params.nodesdmp, params.namesdmp,].any() ) { error('[nf-core/createtaxdb] Supplied --build_diamond, but missing at least one of: --prot2taxid, --nodesdmp, or --namesdmp') }
+if ( params.build_diamond && [!params.prot2taxid, !params.nodesdmp, !params.namesdmp,].any() ) { error('[nf-core/createtaxdb] Supplied --build_diamond, but missing at least one of: --prot2taxid, --nodesdmp, or --namesdmp (all are mandatory for DIAMOND)') }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,12 +88,12 @@ workflow CREATETAXDB {
     if ( [params.build_kaiju].any() ) {
 
         // Pull just AA sequences
-        ch_refs_for_singleref = ch_input.dump(tag: 'premap')
+        ch_refs_for_singleref = ch_input
                                     .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_aa]}
                                     .filter{meta, fasta_aa ->
                                         fasta_aa
                                     }
-                                    .groupTuple().dump(tag: "cat_input")
+                                    .groupTuple()
 
         // Place in single file
         ch_singleref_for_aa = CAT_CAT_AA ( ch_refs_for_singleref )
@@ -109,6 +109,10 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
     }
 
+    // TODO
+    // - Schema build
+    // - Test data
+    // - WorkflowCreatetaxdb thing
     if ( params.build_diamond  ) {
         DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
         ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
