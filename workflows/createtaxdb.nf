@@ -82,6 +82,7 @@ workflow CREATETAXDB {
     // Prepare input for single file inputs modules
 
     // TODO: Need to have a modification step to get header correct to actually run with kaiju...
+    // TEST first!
     // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
     // docs: https://github.com/nf-core/test-datasets/tree/taxprofiler#kaiju
     // idea: try just appending `_<tax_id_from_meta>` to end of each sequence header using a local sed module... it might be sufficient
@@ -110,9 +111,7 @@ workflow CREATETAXDB {
     }
 
     // TODO
-    // - Schema build
-    // - Test data
-    // - WorkflowCreatetaxdb thing
+    // - nf-test
     if ( params.build_diamond  ) {
         DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
         ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
