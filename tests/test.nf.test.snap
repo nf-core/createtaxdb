@@ -1,0 +1,10 @@
+{
+    "test_profile": {
+        "content": [
+            "database.dmnd:md5,9d57aa88cd1766adfda8360876fc0e4f",
+            "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
+            "software_versions.yml:md5,e807fbfb5969b28495024decc5a639a1"
+        ],
+        "timestamp": "2023-12-14T12:29:56.030615203"
+    }
+}
