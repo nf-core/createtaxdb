@@ -12,15 +12,7 @@
                 "pattern": "^\\S+$",
                 "unique": true,
                 "errorMessage": "Sequence reference name must be provided and cannot contain spaces",
-                "meta": ["id"],
-                "anyOf": [
-                    {
-                        "dependentRequired": ["fasta_dna"]
-                    },
-                    {
-                        "dependentRequired": ["fasta_aa"]
-                    }
-                ]
+                "meta": ["id"]
             },
             "taxid": {
                 "type": "integer",
@@ -61,6 +53,14 @@
                 "format": "file-path"
             }
         },
-        "required": ["id", "taxid"]
+        "required": ["id", "taxid"],
+        "anyOf": [
+            {
+                "required": ["fasta_dna"]
+            },
+            {
+                "required": ["fasta_aa"]
+            }
+        ]
     }
 }
