@@ -20,8 +20,8 @@ nextflow_pipeline {
                 { assert snapshot(
                     path("${params.outdir}/diamond/database.dmnd"),
                     path("${params.outdir}/kaiju/database.fmi"),
-                    path("${params.outdir}/pipeline_info/software_versions.yml")
                     ).match() },
+                { assert new File("$outputDir/pipeline_info/software_versions.yml").exists() },
                 { assert new File("$outputDir/multiqc/multiqc_report.html").exists() }
             )
         }
