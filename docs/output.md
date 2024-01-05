@@ -12,32 +12,36 @@ The directories listed below will be created in the results directory after the 
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
-- [FastQC](#fastqc) - Raw read QC
 - [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipeline
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 
-### FastQC
+### Diamond
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `fastqc/`
-  - `*_fastqc.html`: FastQC report containing quality metrics.
-  - `*_fastqc.zip`: Zip archive containing the FastQC report, tab-delimited data file and plot images.
+- `diamond/`
+  - `<database>.dmnd`: DIAMOND dmnd database file
 
 </details>
 
-[FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) gives general quality metrics about your sequenced reads. It provides information about the quality score distribution across your reads, per base sequence content (%A/T/G/C), adapter contamination and overrepresented sequences. For further reading and documentation see the [FastQC help pages](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
+[DIAMOND](https://github.com/bbuchfink/diamond) is a accelerated BLAST compatible local sequence aligner particularly used for protein alignment.
 
-![MultiQC - FastQC sequence counts plot](images/mqc_fastqc_counts.png)
+The `dmnd` file can be given to one of the DIAMOND alignment commands with `diamond blast<x/p> -d <your_database>.dmnd` etc.
 
-![MultiQC - FastQC mean quality scores plot](images/mqc_fastqc_quality.png)
+### Kaiju
 
-![MultiQC - FastQC adapter content plot](images/mqc_fastqc_adapter.png)
+<details markdown="1">
+<summary>Output files</summary>
 
-:::note
-The FastQC plots displayed in the MultiQC report shows _untrimmed_ reads. They may contain adapter sequence and potentially regions with low quality.
-:::
+- `kaiju/`
+  - `<database_name>.fmi`: Kaiju FMI index file
+
+</details>
+
+[Kaiju](https://bioinformatics-centre.github.io/kaiju/) is a fast and sensitive taxonomic classification for metagenomics utilising nucletoide to protein translations.
+
+The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi` etc.
 
 ### MultiQC
 
