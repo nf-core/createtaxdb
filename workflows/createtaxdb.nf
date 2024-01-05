@@ -86,7 +86,7 @@ workflow CREATETAXDB {
     // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
     // docs: https://github.com/nf-core/test-datasets/tree/taxprofiler#kaiju
     // idea: try just appending `_<tax_id_from_meta>` to end of each sequence header using a local sed module... it might be sufficient
-    if ( [params.build_kaiju].any() ) {
+    if ( [params.build_kaiju, params.build_diamond].any() ) {
 
         // Pull just AA sequences
         ch_refs_for_singleref = ch_input
