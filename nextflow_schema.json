@@ -70,6 +70,12 @@
                     "fa_icon": "fas fa-tag",
                     "description": "Path to NCBI-style taxonomy names dmp file.",
                     "help_text": "A tab/pipe/tab separated table file. See names.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure."
+                },
+                "malt_mapdb": {
+                    "type": "string",
+                    "description": "Path to MEGAN6/MALT mapping db file",
+                    "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.",
+                    "fa_icon": "fas fa-database"
                 }
             }
         },
@@ -88,6 +94,11 @@
                     "type": "boolean",
                     "description": "Turn on building of Kaiju database. Requires amino-acid FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
+                },
+                "build_malt": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
                 }
             },
             "fa_icon": "fas fa-database"

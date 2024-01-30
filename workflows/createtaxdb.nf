@@ -21,6 +21,7 @@ def checkPathParamList = [
     params.nuc2taxid,
     params.nodesdmp,
     params.namesdmp,
+    params.malt_mapdb,
 ]
 
 for (param in checkPathParamList) if (param) file(param, checkIfExists: true)
@@ -58,9 +59,12 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
+include { CAT_CAT as CAT_CAT_DNA      } from '../modules/nf-core/cat/cat/main'
 include { CAT_CAT as CAT_CAT_AA       } from '../modules/nf-core/cat/cat/main'
 include { KAIJU_MKFMI                 } from '../modules/nf-core/kaiju/mkfmi/main'
 include { DIAMOND_MAKEDB              } from '../modules/nf-core/diamond/makedb/main'
+include { MALT_BUILD                  } from '../modules/nf-core/malt/build/main'
+include { UNZIP                       } from '../modules/nf-core/unzip/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -81,7 +85,20 @@ workflow CREATETAXDB {
 
     // Prepare input for single file inputs modules
 
-    // TODO: Need to have a modification step to get header correct to actually run with kaiju...
+    if ( [params.build_malt].any() ) {  // Pull just DNA sequences
+        ch_dna_refs_for_singleref = ch_input
+                                        .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
+                                        .filter{meta, fasta_dna ->
+                                            fasta_dna
+                                        }
+                                        .groupTuple()
+
+        // Place in single file
+        ch_singleref_for_aa = CAT_CAT_DNA ( ch_dna_refs_for_singleref )
+        ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
+    }
+
+    // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
     // TEST first!
     // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
     // docs: https://github.com/nf-core/test-datasets/tree/taxprofiler#kaiju
@@ -89,16 +106,27 @@ workflow CREATETAXDB {
     if ( [params.build_kaiju, params.build_diamond].any() ) {
 
         // Pull just AA sequences
-        ch_refs_for_singleref = ch_input
+        ch_aa_refs_for_singleref = ch_input
                                     .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_aa]}
                                     .filter{meta, fasta_aa ->
                                         fasta_aa
                                     }
                                     .groupTuple()
 
-        // Place in single file
-        ch_singleref_for_aa = CAT_CAT_AA ( ch_refs_for_singleref )
+        // Place in single file - BROKEN -> CATS UNZIPPED AND ZIPPED FATSAS
+        ch_singleref_for_aa = CAT_CAT_AA ( ch_aa_refs_for_singleref )
         ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
+    }
+
+    //
+    // MODULE: Run DIAMOND/MAKEDB
+    //
+
+    // TODO
+    // - nf-test
+    if ( params.build_diamond  ) {
+        DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
+        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
     }
 
     //
@@ -110,11 +138,20 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
     }
 
-    // TODO
-    // - nf-test
-    if ( params.build_diamond  ) {
-        DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
-        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
+    //
+    // Module: Run MALT/BUILD
+    //
+
+    if ( params.build_malt ) {
+
+        // The map DB file comes zipped (for some reason) from MEGAN6 website
+        if ( file(params.malt_mapdb).extension == 'zip' ) {
+            ch_malt_mapdb = UNZIP( [ [], params.malt_mapdb ] ).unzipped_archive.map{ meta, file -> [ file ] }
+        } else {
+            ch_malt_mapdb = file(params.malt_mapdb)
+        }
+
+        MALT_BUILD (ch_dna_refs_for_singleref.map{ meta, file -> file }.dump(tag: 'dump'), [], ch_malt_mapdb)
     }
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
