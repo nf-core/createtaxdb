@@ -1,0 +1,29 @@
+nextflow_pipeline {
+
+    name "Test pipeline: NFCORE_CREATETAXDB"
+    script "main.nf"
+    tag "pipeline"
+    tag "nfcore_createtaxdb"
+    tag "test"
+
+    test("test_profile") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    path("$outputDir/diamond/database.dmnd"),
+                    path("$outputDir/kaiju/database.fmi"),
+                    ).match() },
+                { assert new File("$outputDir/pipeline_info/software_versions.yml").exists() },
+                { assert new File("$outputDir/multiqc/multiqc_report.html").exists() }
+            )
+        }
+    }
+}
