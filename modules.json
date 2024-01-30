@@ -27,7 +27,7 @@
                     },
                     "malt/build": {
                         "branch": "master",
-                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+                        "git_sha": "7d3bac628092d1aead36960c4b6ae41302a9f797",
                         "installed_by": ["modules"]
                     },
                     "multiqc": {
