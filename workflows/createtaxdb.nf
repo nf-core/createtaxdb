@@ -113,7 +113,7 @@ workflow CREATETAXDB {
                                     }
                                     .groupTuple()
 
-        // Place in single file - BROKEN -> CATS UNZIPPED AND ZIPPED FATSAS
+        // TODO: BROKEN -> CATS UNZIPPED AND ZIPPED FATSAS (Also for DNA) - Place in a single file
         ch_singleref_for_aa = CAT_CAT_AA ( ch_aa_refs_for_singleref )
         ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
     }
