@@ -64,6 +64,7 @@ include { CAT_CAT as CAT_CAT_AA       } from '../modules/nf-core/cat/cat/main'
 include { KAIJU_MKFMI                 } from '../modules/nf-core/kaiju/mkfmi/main'
 include { DIAMOND_MAKEDB              } from '../modules/nf-core/diamond/makedb/main'
 include { MALT_BUILD                  } from '../modules/nf-core/malt/build/main'
+include { PIGZ_COMPRESS               } from '../modules/nf-core/pigz/compress/main'
 include { UNZIP                       } from '../modules/nf-core/unzip/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,15 +87,26 @@ workflow CREATETAXDB {
     // Prepare input for single file inputs modules
 
     if ( [params.build_malt].any() ) {  // Pull just DNA sequences
+
         ch_dna_refs_for_singleref = ch_input
                                         .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
                                         .filter{meta, fasta_dna ->
                                             fasta_dna
                                         }
-                                        .groupTuple()
+
+        ch_dna_for_zipping = ch_dna_refs_for_singleref
+                                .branch {
+                                    meta, fasta ->
+                                        zipped: fasta.extension == 'gz'
+                                        unzipped: true
+                                }
+
+        PIGZ_COMPRESS ( ch_dna_for_zipping.unzipped )
+
+        ch_prepped_dna_fastas = PIGZ_COMPRESS.out.archive.mix(ch_dna_for_zipping.zipped).groupTuple()
 
         // Place in single file
-        ch_singleref_for_aa = CAT_CAT_DNA ( ch_dna_refs_for_singleref )
+        ch_singleref_for_dna = CAT_CAT_DNA ( ch_prepped_dna_fastas )
         ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
     }
 
@@ -112,6 +124,7 @@ workflow CREATETAXDB {
                                         fasta_aa
                                     }
                                     .groupTuple()
+
 
         // TODO: BROKEN -> CATS UNZIPPED AND ZIPPED FATSAS (Also for DNA) - Place in a single file
         ch_singleref_for_aa = CAT_CAT_AA ( ch_aa_refs_for_singleref )
@@ -151,7 +164,7 @@ workflow CREATETAXDB {
             ch_malt_mapdb = file(params.malt_mapdb)
         }
 
-        MALT_BUILD (ch_dna_refs_for_singleref.map{ meta, file -> file }.dump(tag: 'dump'), [], ch_malt_mapdb)
+        MALT_BUILD (ch_prepped_dna_fastas.map{ meta, file -> file }, [], ch_malt_mapdb)
     }
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
