@@ -110,6 +110,7 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
     }
 
+    // TODO: COPY COMPRESSION PROCEDURE ABOVE BUT FOR AA!
     // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
     // TEST first!
     // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
