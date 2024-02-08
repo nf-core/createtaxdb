@@ -24,6 +24,7 @@
                 "anyOf": [
                     {
                         "type": "string",
+                        "format": "file-path",
                         "pattern": "^\\S+\\.(fasta|fas|fa|fna)(\\.gz)?$"
                     },
                     {
@@ -40,6 +41,7 @@
                 "anyOf": [
                     {
                         "type": "string",
+                        "format": "file-path",
                         "pattern": "^\\S+\\.(fasta|fas|fa|faa)(\\.gz)?$"
                     },
                     {

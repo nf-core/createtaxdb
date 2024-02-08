@@ -11,6 +11,7 @@ Adds database building support for:
 
 - DIAMOND (added by @jfy133)
 - Kaiju (added by @jfy133)
+- MALT (added by @jfy133)
 
 ### `Added`
 

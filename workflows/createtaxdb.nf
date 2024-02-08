@@ -21,6 +21,7 @@ def checkPathParamList = [
     params.nuc2taxid,
     params.nodesdmp,
     params.namesdmp,
+    params.malt_mapdb,
 ]
 
 for (param in checkPathParamList) if (param) file(param, checkIfExists: true)
@@ -58,9 +59,14 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
-include { CAT_CAT as CAT_CAT_AA       } from '../modules/nf-core/cat/cat/main'
-include { KAIJU_MKFMI                 } from '../modules/nf-core/kaiju/mkfmi/main'
-include { DIAMOND_MAKEDB              } from '../modules/nf-core/diamond/makedb/main'
+include { CAT_CAT as CAT_CAT_DNA             } from '../modules/nf-core/cat/cat/main'
+include { CAT_CAT as CAT_CAT_AA              } from '../modules/nf-core/cat/cat/main'
+include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mkfmi/main'
+include { DIAMOND_MAKEDB                     } from '../modules/nf-core/diamond/makedb/main'
+include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
+include { PIGZ_COMPRESS as PIGZ_COMPRESS_DNA } from '../modules/nf-core/pigz/compress/main'
+include { PIGZ_COMPRESS as PIGZ_COMPRESS_AA  } from '../modules/nf-core/pigz/compress/main'
+include { UNZIP                              } from '../modules/nf-core/unzip/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -81,24 +87,65 @@ workflow CREATETAXDB {
 
     // Prepare input for single file inputs modules
 
-    // TODO: Need to have a modification step to get header correct to actually run with kaiju...
+    if ( [params.build_malt].any() ) {  // Pull just DNA sequences
+
+        ch_dna_refs_for_singleref = ch_input
+                                        .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
+                                        .filter{meta, fasta_dna ->
+                                            fasta_dna
+                                        }
+
+        ch_dna_for_zipping = ch_dna_refs_for_singleref
+                                .branch {
+                                    meta, fasta ->
+                                        zipped: fasta.extension == 'gz'
+                                        unzipped: true
+                                }
+
+        PIGZ_COMPRESS_DNA ( ch_dna_for_zipping.unzipped )
+
+        ch_prepped_dna_fastas = PIGZ_COMPRESS_DNA.out.archive.mix(ch_dna_for_zipping.zipped).groupTuple()
+
+        // Place in single file
+        ch_singleref_for_dna = CAT_CAT_DNA ( ch_prepped_dna_fastas )
+        ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
+    }
+
+    // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
     // TEST first!
     // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
     // docs: https://github.com/nf-core/test-datasets/tree/taxprofiler#kaiju
     // idea: try just appending `_<tax_id_from_meta>` to end of each sequence header using a local sed module... it might be sufficient
     if ( [params.build_kaiju, params.build_diamond].any() ) {
 
-        // Pull just AA sequences
-        ch_refs_for_singleref = ch_input
-                                    .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_aa]}
-                                    .filter{meta, fasta_aa ->
-                                        fasta_aa
-                                    }
-                                    .groupTuple()
+        ch_aa_refs_for_singleref = ch_input
+                                        .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_aa]}
+                                        .filter{meta, fasta_aa ->
+                                            fasta_aa
+                                        }
 
-        // Place in single file
-        ch_singleref_for_aa = CAT_CAT_AA ( ch_refs_for_singleref )
+        ch_aa_for_zipping = ch_aa_refs_for_singleref
+                                .branch {
+                                    meta, fasta ->
+                                        zipped: fasta.extension == 'gz'
+                                        unzipped: true
+                                }
+
+        PIGZ_COMPRESS_AA ( ch_aa_for_zipping.unzipped )
+
+        ch_prepped_aa_fastas = PIGZ_COMPRESS_AA.out.archive.mix(ch_aa_for_zipping.zipped).groupTuple()
+
+        ch_singleref_for_aa = CAT_CAT_AA ( ch_prepped_aa_fastas )
         ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
+    }
+
+    //
+    // MODULE: Run DIAMOND/MAKEDB
+    //
+
+    if ( params.build_diamond  ) {
+        DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
+        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
     }
 
     //
@@ -110,11 +157,26 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
     }
 
-    // TODO
-    // - nf-test
-    if ( params.build_diamond  ) {
-        DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
-        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
+    //
+    // Module: Run MALT/BUILD
+    //
+
+    if ( params.build_malt ) {
+
+        // The map DB file comes zipped (for some reason) from MEGAN6 website
+        if ( file(params.malt_mapdb).extension == 'zip' ) {
+            ch_malt_mapdb = UNZIP( [ [], params.malt_mapdb ] ).unzipped_archive.map{ meta, file -> [ file ] }
+        } else {
+            ch_malt_mapdb = file(params.malt_mapdb)
+        }
+
+        if ( params.malt_sequencetype == 'Protein') {
+            ch_input_for_malt = ch_prepped_aa_fastas.map{ meta, file -> file }
+        } else {
+            ch_input_for_malt = ch_prepped_dna_fastas.map{ meta, file -> file }
+        }
+
+        MALT_BUILD (ch_input_for_malt, [], ch_malt_mapdb)
     }
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
@@ -142,6 +204,15 @@ workflow CREATETAXDB {
         ch_multiqc_logo.toList()
     )
     multiqc_report = MULTIQC.out.report.toList()
+
+    emit:
+    versions            = CUSTOM_DUMPSOFTWAREVERSIONS.out.versions
+    multiqc_report_html = MULTIQC.out.report
+    diamond_database    = DIAMOND_MAKEDB.out.db
+    kaiju_database      = KAIJU_MKFMI.out.fmi
+    malt_database       = MALT_BUILD.out.index
+
+
 }
 
 /*

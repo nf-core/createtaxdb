@@ -47,3 +47,7 @@
 - [Kaiju](https://doi.org/10.1038/ncomms11257)
 
 > Menzel, P., Ng, K. L., & Krogh, A. (2016). Fast and sensitive taxonomic classification for metagenomics with Kaiju. Nature Communications, 7, 11257. https://doi.org/10.1038/ncomms11257
+
+- [MALT](https://doi.org/10.1038/s41559-017-0446-6)
+
+  > Vågene, Å. J., Herbig, A., Campana, M. G., Robles García, N. M., Warinner, C., Sabin, S., Spyrou, M. A., Andrades Valtueña, A., Huson, D., Tuross, N., Bos, K. I., & Krause, J. (2018). Salmonella enterica genomes from victims of a major sixteenth-century epidemic in Mexico. Nature Ecology & Evolution, 2(3), 520–528. https://doi.org/10.1038/s41559-017-0446-6
