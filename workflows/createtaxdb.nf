@@ -111,7 +111,6 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
     }
 
-    // TODO: COPY COMPRESSION PROCEDURE ABOVE BUT FOR AA!
     // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
     // TEST first!
     // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
@@ -144,8 +143,6 @@ workflow CREATETAXDB {
     // MODULE: Run DIAMOND/MAKEDB
     //
 
-    // TODO
-    // - nf-test
     if ( params.build_diamond  ) {
         DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
         ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
@@ -172,8 +169,6 @@ workflow CREATETAXDB {
         } else {
             ch_malt_mapdb = file(params.malt_mapdb)
         }
-
-        ch_input_for_malt
 
         if ( params.malt_sequencetype == 'Protein') {
             ch_input_for_malt = ch_prepped_aa_fastas.map{ meta, file -> file }
@@ -209,6 +204,15 @@ workflow CREATETAXDB {
         ch_multiqc_logo.toList()
     )
     multiqc_report = MULTIQC.out.report.toList()
+
+    emit:
+    versions            = CUSTOM_DUMPSOFTWAREVERSIONS.out.versions
+    multiqc_report_html = MULTIQC.out.report
+    diamond_database    = DIAMOND_MAKEDB.out.db
+    kaiju_database      = KAIJU_MKFMI.out.fmi
+    malt_database       = MALT_BUILD.out.index
+
+
 }
 
 /*

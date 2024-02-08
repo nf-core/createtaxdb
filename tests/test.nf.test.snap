@@ -2,8 +2,20 @@
     "test_profile": {
         "content": [
             "database.dmnd:md5,9d57aa88cd1766adfda8360876fc0e4f",
-            "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598"
+            "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
+            true,
+            "index0.idx:md5,876139dc930e68992cd2625e08bba48a",
+            "ref.db:md5,335d4c8c7367999d79bef51882809f5f",
+            "ref.idx:md5,a07f93cdce0154d3e05e8cacc5480a3a",
+            "ref.inf:md5,446275f4f879e2b115e983db7c9ced18",
+            "taxonomy.idx:md5,309f2a558c08f551fc939e749fd42fd8",
+            "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
+            "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e"
         ],
-        "timestamp": "2023-12-14T12:55:54.070245428"
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-02-08T10:59:42.922218767"
     }
 }
