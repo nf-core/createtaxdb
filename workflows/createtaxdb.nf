@@ -59,13 +59,14 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 
-include { CAT_CAT as CAT_CAT_DNA      } from '../modules/nf-core/cat/cat/main'
-include { CAT_CAT as CAT_CAT_AA       } from '../modules/nf-core/cat/cat/main'
-include { KAIJU_MKFMI                 } from '../modules/nf-core/kaiju/mkfmi/main'
-include { DIAMOND_MAKEDB              } from '../modules/nf-core/diamond/makedb/main'
-include { MALT_BUILD                  } from '../modules/nf-core/malt/build/main'
-include { PIGZ_COMPRESS               } from '../modules/nf-core/pigz/compress/main'
-include { UNZIP                       } from '../modules/nf-core/unzip/main'
+include { CAT_CAT as CAT_CAT_DNA             } from '../modules/nf-core/cat/cat/main'
+include { CAT_CAT as CAT_CAT_AA              } from '../modules/nf-core/cat/cat/main'
+include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mkfmi/main'
+include { DIAMOND_MAKEDB                     } from '../modules/nf-core/diamond/makedb/main'
+include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
+include { PIGZ_COMPRESS as PIGZ_COMPRESS_DNA } from '../modules/nf-core/pigz/compress/main'
+include { PIGZ_COMPRESS as PIGZ_COMPRESS_AA  } from '../modules/nf-core/pigz/compress/main'
+include { UNZIP                              } from '../modules/nf-core/unzip/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -101,9 +102,9 @@ workflow CREATETAXDB {
                                         unzipped: true
                                 }
 
-        PIGZ_COMPRESS ( ch_dna_for_zipping.unzipped )
+        PIGZ_COMPRESS_DNA ( ch_dna_for_zipping.unzipped )
 
-        ch_prepped_dna_fastas = PIGZ_COMPRESS.out.archive.mix(ch_dna_for_zipping.zipped).groupTuple()
+        ch_prepped_dna_fastas = PIGZ_COMPRESS_DNA.out.archive.mix(ch_dna_for_zipping.zipped).groupTuple()
 
         // Place in single file
         ch_singleref_for_dna = CAT_CAT_DNA ( ch_prepped_dna_fastas )
@@ -118,17 +119,24 @@ workflow CREATETAXDB {
     // idea: try just appending `_<tax_id_from_meta>` to end of each sequence header using a local sed module... it might be sufficient
     if ( [params.build_kaiju, params.build_diamond].any() ) {
 
-        // Pull just AA sequences
         ch_aa_refs_for_singleref = ch_input
-                                    .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_aa]}
-                                    .filter{meta, fasta_aa ->
-                                        fasta_aa
-                                    }
-                                    .groupTuple()
+                                        .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_aa]}
+                                        .filter{meta, fasta_aa ->
+                                            fasta_aa
+                                        }
 
+        ch_aa_for_zipping = ch_aa_refs_for_singleref
+                                .branch {
+                                    meta, fasta ->
+                                        zipped: fasta.extension == 'gz'
+                                        unzipped: true
+                                }
 
-        // TODO: BROKEN -> CATS UNZIPPED AND ZIPPED FATSAS (Also for DNA) - Place in a single file
-        ch_singleref_for_aa = CAT_CAT_AA ( ch_aa_refs_for_singleref )
+        PIGZ_COMPRESS_AA ( ch_aa_for_zipping.unzipped )
+
+        ch_prepped_aa_fastas = PIGZ_COMPRESS_AA.out.archive.mix(ch_aa_for_zipping.zipped).groupTuple()
+
+        ch_singleref_for_aa = CAT_CAT_AA ( ch_prepped_aa_fastas )
         ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
     }
 
@@ -165,7 +173,15 @@ workflow CREATETAXDB {
             ch_malt_mapdb = file(params.malt_mapdb)
         }
 
-        MALT_BUILD (ch_prepped_dna_fastas.map{ meta, file -> file }, [], ch_malt_mapdb)
+        ch_input_for_malt
+
+        if ( params.malt_sequencetype == 'Protein') {
+            ch_input_for_malt = ch_prepped_aa_fastas.map{ meta, file -> file }
+        } else {
+            ch_input_for_malt = ch_prepped_dna_fastas.map{ meta, file -> file }
+        }
+
+        MALT_BUILD (ch_input_for_malt, [], ch_malt_mapdb)
     }
 
     CUSTOM_DUMPSOFTWAREVERSIONS (

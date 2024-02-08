@@ -25,8 +25,16 @@
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
+<!--
 1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+-->
+
+1. Prepares input FASTA files for building
+2. Build's databases for:
+   - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
+   - [Kaiju](https://doi.org/10.1038/ncomms11257)
+   - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
 
 ## Usage
 
