@@ -12,7 +12,7 @@
                     },
                     "centrifuge/build": {
                         "branch": "master",
-                        "git_sha": "64163cd7ae556fc00664181b1ed520e827223034",
+                        "git_sha": "01f0dc3888a90fbbd6fac8e23112a5825762418e",
                         "installed_by": ["modules"]
                     },
                     "custom/dumpsoftwareversions": {

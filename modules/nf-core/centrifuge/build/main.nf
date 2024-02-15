@@ -51,7 +51,7 @@ process CENTRIFUGE_BUILD {
     touch ${prefix}.4.cf
 
     cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
+    "${task.process}":
         centrifuge: \$( centrifuge --version | sed -n 1p | sed 's/^.*centrifuge-class version //')
     END_VERSIONS
     """
