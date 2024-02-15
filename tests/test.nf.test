@@ -18,6 +18,7 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
+                        path("$outputDir/centrifuge/"),
                         path("$outputDir/diamond/database.dmnd"),
                         path("$outputDir/kaiju/database.fmi"),
                         path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory'),

@@ -1,7 +1,13 @@
 {
     "test_profile": {
         "content": [
-            "database.dmnd:md5,9d57aa88cd1766adfda8360876fc0e4f",
+            [
+                "database.1.cf:md5,4218d7b46893c4ecfbc6919b2f072a6b",
+                "database.2.cf:md5,5b9565dc528314e931de5c03a70f3409",
+                "database.3.cf:md5,51f6eb8c75aa64cc60cd733967278866",
+                "database.4.cf:md5,954c85fd4df6ea5d37906d5027f18688"
+            ],
+            "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
             "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
             true,
             "index0.idx:md5,876139dc930e68992cd2625e08bba48a",
@@ -16,6 +22,6 @@
             "nf-test": "0.8.4",
             "nextflow": "23.10.1"
         },
-        "timestamp": "2024-02-08T10:59:42.922218767"
+        "timestamp": "2024-02-15T11:47:20.945591503"
     }
 }

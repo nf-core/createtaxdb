@@ -18,7 +18,7 @@ WorkflowCreatetaxdb.initialise(params, log)
 // Validate input files parameters (from Sarek)
 def checkPathParamList = [
     params.prot2taxid,
-    params.nuc2taxid,
+    params.nucl2taxid,
     params.nodesdmp,
     params.namesdmp,
     params.malt_mapdb,
@@ -86,9 +86,9 @@ workflow CREATETAXDB {
     //
     ch_input = Channel.fromSamplesheet("input")
 
-    // Prepare input for single file inputs modules
+    // PREPARE: Prepare input for single file inputs modules
 
-    if ( [params.build_malt].any() ) {  // Pull just DNA sequences
+    if ( [params.build_malt, params.build_centrifuge].any() ) {  // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_input
                                         .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
@@ -147,6 +147,9 @@ workflow CREATETAXDB {
     if ( params.build_diamond  ) {
         DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, params.prot2taxid, params.nodesdmp, params.namesdmp )
         ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
+        ch_diamond_output = DIAMOND_MAKEDB.out.db
+    } else {
+        ch_diamond_output = Channel.empty()
     }
 
     //
@@ -156,13 +159,19 @@ workflow CREATETAXDB {
     if ( params.build_kaiju ) {
         KAIJU_MKFMI ( CAT_CAT_AA.out.file_out )
         ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
+        ch_kaiju_output = KAIJU_MKFMI.out.fmi
+    } else {
+        ch_kaiju_output = Channel.empty()
     }
 
     // Module: Run CENTRIFUGE/BUILD
 
     if ( params.build_centrifuge ) {
-        CENTRIFUGE_BUILD ( CAT_CAT_DNA.out.file_out, params.nuc2taxid, params.nodesdmp, params.namesdmp, [] )
+        CENTRIFUGE_BUILD ( CAT_CAT_DNA.out.file_out, params.nucl2taxid, params.nodesdmp, params.namesdmp, [] )
         ch_versions = ch_versions.mix(CENTRIFUGE_BUILD.out.versions.first())
+        ch_centrifuge_output = CENTRIFUGE_BUILD.out.cf
+    } else {
+        ch_centrifuge_output = Channel.empty()
     }
 
     //
@@ -185,6 +194,10 @@ workflow CREATETAXDB {
         }
 
         MALT_BUILD (ch_input_for_malt, [], ch_malt_mapdb)
+        ch_versions = ch_versions.mix(MALT_BUILD.out.versions.first())
+        ch_malt_output = MALT_BUILD.out.index
+    } else {
+        ch_malt_output = Channel.empty()
     }
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
@@ -216,9 +229,10 @@ workflow CREATETAXDB {
     emit:
     versions            = CUSTOM_DUMPSOFTWAREVERSIONS.out.versions
     multiqc_report_html = MULTIQC.out.report
-    diamond_database    = DIAMOND_MAKEDB.out.db
-    kaiju_database      = KAIJU_MKFMI.out.fmi
-    malt_database       = MALT_BUILD.out.index
+    centrifuge_database = ch_centrifuge_output
+    diamond_database    = ch_diamond_output
+    kaiju_database      = ch_kaiju_output
+    malt_database       = ch_malt_output
 }
 
 /*
