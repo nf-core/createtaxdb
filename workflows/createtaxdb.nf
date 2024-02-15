@@ -61,6 +61,7 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 
 include { CAT_CAT as CAT_CAT_DNA             } from '../modules/nf-core/cat/cat/main'
 include { CAT_CAT as CAT_CAT_AA              } from '../modules/nf-core/cat/cat/main'
+include { CENTRIFUGE_BUILD                   } from '../modules/nf-core/centrifuge/build/main'
 include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mkfmi/main'
 include { DIAMOND_MAKEDB                     } from '../modules/nf-core/diamond/makedb/main'
 include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
@@ -157,6 +158,13 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
     }
 
+    // Module: Run CENTRIFUGE/BUILD
+
+    if ( params.build_centrifuge ) {
+        CENTRIFUGE_BUILD ( CAT_CAT_DNA.out.file_out, params.nuc2taxid, params.nodesdmp, params.namesdmp, [] )
+        ch_versions = ch_versions.mix(CENTRIFUGE_BUILD.out.versions.first())
+    }
+
     //
     // Module: Run MALT/BUILD
     //
@@ -211,8 +219,6 @@ workflow CREATETAXDB {
     diamond_database    = DIAMOND_MAKEDB.out.db
     kaiju_database      = KAIJU_MKFMI.out.fmi
     malt_database       = MALT_BUILD.out.index
-
-
 }
 
 /*

@@ -76,6 +76,11 @@
                     "description": "Path to MEGAN6/MALT mapping db file",
                     "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.",
                     "fa_icon": "fas fa-database"
+                },
+                "save_concatenated_fastas": {
+                    "type": "boolean",
+                    "description": "Save concatenated input FASTAs",
+                    "help_text": "Some tools require a single input FASTA of all reference genomes. The pipeline will do this concatenation for you, and by supplying this flag you can save the resulting single fasta for you in the results directory under `cat/`. "
                 }
             }
         },
@@ -85,6 +90,11 @@
             "description": "",
             "default": "",
             "properties": {
+                "build_centrifuge": {
+                    "type": "boolean",
+                    "description": "Turn on building of Centrifuge database. Requires nucleotide FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
                 "build_diamond": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",

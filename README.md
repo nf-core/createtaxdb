@@ -35,7 +35,8 @@
 -->
 
 1. Prepares input FASTA files for building
-2. Build's databases for:
+2. Builds databases for:
+   - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
    - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
    - [Kaiju](https://doi.org/10.1038/ncomms11257)
    - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
