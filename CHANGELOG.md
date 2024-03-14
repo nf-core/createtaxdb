@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release of nf-core/createtaxdb, created with the [nf-core](https://nf-co.re/) template.
 
+Adds database building support for:
+
+- DIAMOND (added by @jfy133)
+- Kaiju (added by @jfy133)
+- MALT (added by @jfy133)
+
 ### `Added`
 
 ### `Fixed`

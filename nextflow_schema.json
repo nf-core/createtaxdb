@@ -20,8 +20,9 @@
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.csv$",
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/createtaxdb/usage#samplesheet-input).",
-                    "fa_icon": "fas fa-file-csv"
+                    "help_text": "You will need to create a design file with information about the reference genomes you wish to build into a metagenomic profiling database. Use this parameter to specify its location. It has to be a comma-separated file with 4 columns, and a header row. See [usage docs](https://nf-co.re/createtaxdb/usage#samplesheet-input).",
+                    "fa_icon": "fas fa-file-csv",
+                    "schema": "assets/schema_input.json"
                 },
                 "outdir": {
                     "type": "string",
@@ -40,8 +41,86 @@
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
+                },
+                "dbname": {
+                    "type": "string",
+                    "default": "database",
+                    "description": "Specify name that resulting databases will be prefixed with.",
+                    "fa_icon": "fas fa-id-badge"
+                },
+                "prot2taxid": {
+                    "type": "string",
+                    "fa_icon": "fas fa-address-card",
+                    "description": "Path to (NCBI-style) protein accession2taxid file.",
+                    "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`."
+                },
+                "nucl2taxid": {
+                    "type": "string",
+                    "fa_icon": "far fa-address-card",
+                    "description": "Path to (NCBI-style) nucleotide accession2taxid file.",
+                    "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`."
+                },
+                "nodesdmp": {
+                    "type": "string",
+                    "fa_icon": "fas fa-circle",
+                    "description": "Path to NCBI-style taxonomy node dmp file.",
+                    "help_text": "A tab/pipe/tab separated table file. See nodes.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure."
+                },
+                "namesdmp": {
+                    "type": "string",
+                    "fa_icon": "fas fa-tag",
+                    "description": "Path to NCBI-style taxonomy names dmp file.",
+                    "help_text": "A tab/pipe/tab separated table file. See names.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure."
+                },
+                "malt_mapdb": {
+                    "type": "string",
+                    "description": "Path to MEGAN6/MALT mapping db file",
+                    "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.",
+                    "fa_icon": "fas fa-database"
+                },
+                "save_concatenated_fastas": {
+                    "type": "boolean",
+                    "description": "Save concatenated input FASTAs",
+                    "help_text": "Some tools require a single input FASTA of all reference genomes. The pipeline will do this concatenation for you, and by supplying this flag you can save the resulting single fasta for you in the results directory under `cat/`. "
                 }
             }
+        },
+        "database_building_options": {
+            "title": "Database Building Options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "build_centrifuge": {
+                    "type": "boolean",
+                    "description": "Turn on building of Centrifuge database. Requires nucleotide FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
+                "build_diamond": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of DIAMOND database. Requires amino-acid FASTA file input."
+                },
+                "build_kaiju": {
+                    "type": "boolean",
+                    "description": "Turn on building of Kaiju database. Requires amino-acid FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
+                "build_malt": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
+                },
+                "malt_sequencetype": {
+                    "type": "string",
+                    "default": "DNA",
+                    "description": "Specify type of input sequence being given to MALT",
+                    "enum": ["DNA", "Protein"],
+                    "help_text": "Use to specify whether the reference sequences are DNA or Protein sequences. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\n> Modifies tool(s) parameter(s)\n> - malt-build: `--sequenceType` ",
+                    "fa_icon": "fas fa-dna"
+                }
+            },
+            "fa_icon": "fas fa-database"
         },
         "reference_genome_options": {
             "title": "Reference genome options",
@@ -53,7 +132,8 @@
                     "type": "string",
                     "description": "Name of iGenomes reference.",
                     "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
+                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details.",
+                    "hidden": true
                 },
                 "fasta": {
                     "type": "string",
@@ -63,7 +143,8 @@
                     "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
                     "description": "Path to FASTA genome file.",
                     "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code"
+                    "fa_icon": "far fa-file-code",
+                    "hidden": true
                 },
                 "igenomes_ignore": {
                     "type": "boolean",
@@ -272,6 +353,9 @@
     "allOf": [
         {
             "$ref": "#/definitions/input_output_options"
+        },
+        {
+            "$ref": "#/definitions/database_building_options"
         },
         {
             "$ref": "#/definitions/reference_genome_options"

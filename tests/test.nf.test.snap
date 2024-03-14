@@ -1,0 +1,27 @@
+{
+    "test_profile": {
+        "content": [
+            [
+                "database.1.cf:md5,4218d7b46893c4ecfbc6919b2f072a6b",
+                "database.2.cf:md5,5b9565dc528314e931de5c03a70f3409",
+                "database.3.cf:md5,51f6eb8c75aa64cc60cd733967278866",
+                "database.4.cf:md5,954c85fd4df6ea5d37906d5027f18688"
+            ],
+            "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
+            "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
+            true,
+            "index0.idx:md5,876139dc930e68992cd2625e08bba48a",
+            "ref.db:md5,335d4c8c7367999d79bef51882809f5f",
+            "ref.idx:md5,a07f93cdce0154d3e05e8cacc5480a3a",
+            "ref.inf:md5,446275f4f879e2b115e983db7c9ced18",
+            "taxonomy.idx:md5,309f2a558c08f551fc939e749fd42fd8",
+            "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
+            "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e"
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-02-15T11:47:20.945591503"
+    }
+}
