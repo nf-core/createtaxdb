@@ -19,7 +19,7 @@
 
 ## Introduction
 
-**nf-core/createtaxdb** is a bioinformatics pipeline that ...
+**nf-core/createtaxdb** is a bioinformatics pipeline that provides parallelised and automated construction of multiple metagenomic classifier databases from different tools.
 
 <!-- TODO nf-core:
    Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
@@ -29,12 +29,6 @@
 
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
-
-<!--
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
--->
 
 1. Prepares input FASTA files for building
 2. Builds databases for:
