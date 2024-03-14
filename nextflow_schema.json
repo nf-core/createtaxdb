@@ -49,30 +49,40 @@
                 },
                 "prot2taxid": {
                     "type": "string",
+                    "format": "file-path",
+                    "exists": true,
                     "fa_icon": "fas fa-address-card",
                     "description": "Path to (NCBI-style) protein accession2taxid file.",
                     "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`."
                 },
                 "nucl2taxid": {
                     "type": "string",
+                    "format": "file-path",
+                    "exists": true,
                     "fa_icon": "far fa-address-card",
                     "description": "Path to (NCBI-style) nucleotide accession2taxid file.",
                     "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`."
                 },
                 "nodesdmp": {
                     "type": "string",
+                    "format": "file-path",
+                    "exists": true,
                     "fa_icon": "fas fa-circle",
                     "description": "Path to NCBI-style taxonomy node dmp file.",
                     "help_text": "A tab/pipe/tab separated table file. See nodes.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure."
                 },
                 "namesdmp": {
                     "type": "string",
+                    "format": "file-path",
+                    "exists": true,
                     "fa_icon": "fas fa-tag",
                     "description": "Path to NCBI-style taxonomy names dmp file.",
                     "help_text": "A tab/pipe/tab separated table file. See names.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure."
                 },
                 "malt_mapdb": {
                     "type": "string",
+                    "format": "file-path",
+                    "exists": true,
                     "description": "Path to MEGAN6/MALT mapping db file",
                     "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.",
                     "fa_icon": "fas fa-database"

@@ -21,21 +21,6 @@ include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pi
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 include { fromSamplesheet        } from 'plugin/nf-validation'
 
-
-// Validate input files parameters (from Sarek)
-def checkPathParamList = [
-    params.prot2taxid,
-    params.nucl2taxid,
-    params.nodesdmp,
-    params.namesdmp,
-    params.malt_mapdb,
-]
-
-for (param in checkPathParamList) if (param) file(param, checkIfExists: true)
-
-// Validate parameter combinations
-if ( params.build_diamond && [!params.prot2taxid, !params.nodesdmp, !params.namesdmp,].any() ) { error('[nf-core/createtaxdb] Supplied --build_diamond, but missing at least one of: --prot2taxid, --nodesdmp, or --namesdmp (all are mandatory for DIAMOND)') }
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     CONFIG FILES
@@ -76,6 +61,7 @@ workflow CREATETAXDB {
     if ( [params.build_malt, params.build_centrifuge].any() ) {  // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_samplesheet
+                                        .dump(tag: 'ch_samplesheet')
                                         .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
                                         .filter{meta, fasta_dna ->
                                             fasta_dna
