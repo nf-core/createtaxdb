@@ -60,7 +60,6 @@ workflow CREATETAXDB {
     if ( [params.build_malt, params.build_centrifuge].any() ) {  // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_samplesheet
-                                        .dump(tag: 'ch_samplesheet')
                                         .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
                                         .filter{meta, fasta_dna ->
                                             fasta_dna
