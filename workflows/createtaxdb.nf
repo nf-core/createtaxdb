@@ -4,20 +4,23 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+include { MULTIQC                            } from '../modules/nf-core/multiqc/main'
+include { CAT_CAT as CAT_CAT_DNA             } from '../modules/nf-core/cat/cat/main'
+include { CAT_CAT as CAT_CAT_AA              } from '../modules/nf-core/cat/cat/main'
+include { CENTRIFUGE_BUILD                   } from '../modules/nf-core/centrifuge/build/main'
+include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mkfmi/main'
+include { DIAMOND_MAKEDB                     } from '../modules/nf-core/diamond/makedb/main'
+include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
+include { PIGZ_COMPRESS as PIGZ_COMPRESS_DNA } from '../modules/nf-core/pigz/compress/main'
+include { PIGZ_COMPRESS as PIGZ_COMPRESS_AA  } from '../modules/nf-core/pigz/compress/main'
+include { UNZIP                              } from '../modules/nf-core/unzip/main'
+
 include { paramsSummaryMap       } from 'plugin/nf-validation'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
-include { paramsSummaryLog; paramsSummaryMap; fromSamplesheet  } from 'plugin/nf-validation'
+include { fromSamplesheet        } from 'plugin/nf-validation'
 
-def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
-def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
-def summary_params = paramsSummaryMap(workflow)
-
-// Print parameter summary log to screen
-log.info logo + paramsSummaryLog(workflow) + citation
-
-WorkflowCreatetaxdb.initialise(params, log)
 
 // Validate input files parameters (from Sarek)
 def checkPathParamList = [
@@ -50,28 +53,8 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT NF-CORE MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
 
-//
-// MODULE: Installed directly from nf-core/modules
-//
 
-include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
-
-include { CAT_CAT as CAT_CAT_DNA             } from '../modules/nf-core/cat/cat/main'
-include { CAT_CAT as CAT_CAT_AA              } from '../modules/nf-core/cat/cat/main'
-include { CENTRIFUGE_BUILD                   } from '../modules/nf-core/centrifuge/build/main'
-include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mkfmi/main'
-include { DIAMOND_MAKEDB                     } from '../modules/nf-core/diamond/makedb/main'
-include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
-include { PIGZ_COMPRESS as PIGZ_COMPRESS_DNA } from '../modules/nf-core/pigz/compress/main'
-include { PIGZ_COMPRESS as PIGZ_COMPRESS_AA  } from '../modules/nf-core/pigz/compress/main'
-include { UNZIP                              } from '../modules/nf-core/unzip/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -232,8 +215,8 @@ workflow CREATETAXDB {
     multiqc_report = MULTIQC.out.report.toList()
 
     emit:
-    versions            = CUSTOM_DUMPSOFTWAREVERSIONS.out.versions
-    multiqc_report_html = MULTIQC.out.report
+    versions            = ch_collated_versions
+    multiqc_report      = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
     centrifuge_database = ch_centrifuge_output
     diamond_database    = ch_diamond_output
     kaiju_database      = ch_kaiju_output
