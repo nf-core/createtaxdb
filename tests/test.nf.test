@@ -31,7 +31,7 @@ nextflow_pipeline {
                         path("$outputDir/malt/malt_index/taxonomy.tre")
                     ).match()
                 },
-                { assert new File("$outputDir/pipeline_info/software_versions.yml").exists() },
+                { assert new File("$outputDir/pipeline_info/nf_core_pipeline_software_mqc_versions.yml").exists() },
                 { assert new File("$outputDir/multiqc/multiqc_report.html").exists() },
                 { assert path("$outputDir/malt/malt_index/table0.db").exists() },
                 { assert path("$outputDir/malt/malt_index/table0.idx").exists() },
