@@ -25,10 +25,25 @@
                         "git_sha": "b29f6beb86d1d24d680277fb1a3f4de7b8b8a92c",
                         "installed_by": ["modules"]
                     },
+                    "gunzip": {
+                        "branch": "master",
+                        "git_sha": "3a5fef109d113b4997c9822198664ca5f2716208",
+                        "installed_by": ["modules"]
+                    },
                     "kaiju/mkfmi": {
                         "branch": "master",
                         "git_sha": "7365564c402cbd01e9407810730efd10039997a3",
                         "installed_by": ["modules"]
+                    },
+                    "kraken2/add": {
+                        "branch": "master",
+                        "git_sha": "ca87ad032a62f025f0c373facacef2df0c5411b2",
+                        "installed_by": ["fasta_build_add_kraken2"]
+                    },
+                    "kraken2/build": {
+                        "branch": "master",
+                        "git_sha": "ca87ad032a62f025f0c373facacef2df0c5411b2",
+                        "installed_by": ["fasta_build_add_kraken2"]
                     },
                     "malt/build": {
                         "branch": "master",
@@ -54,6 +69,11 @@
             },
             "subworkflows": {
                 "nf-core": {
+                    "fasta_build_add_kraken2": {
+                        "branch": "master",
+                        "git_sha": "a4d1e13a2da05307deb65a87d501aa6520162dcd",
+                        "installed_by": ["subworkflows"]
+                    },
                     "utils_nextflow_pipeline": {
                         "branch": "master",
                         "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
