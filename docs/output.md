@@ -17,6 +17,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Centrifuge](#centrifuge) - Database files for Centrifuge
 - [DIAMOND](#diamond) - Database files for DIAMOND
 - [Kaiju](#kaiju) - Database files for Kaiju
+- [Kraken2](#kraken2) - Database files for Kraken2
 - [MALT](#malt) - Database files for MALT
 
 ### MultiQC
@@ -91,6 +92,23 @@ The `dmnd` file can be given to one of the DIAMOND alignment commands with `diam
 </details>
 
 The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi` etc.
+
+### Kraken2
+
+[Kraken2](https://ccb.jhu.edu/software/kraken2/) is a taxonomic classification system using exact k-mer matches to achieve high accuracy and fast classification speeds.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `kraken2/`
+  - `<db_name>/`
+    - `hash.k2d`: Kraken2 hash database file
+    - `opts.k2d`: Kraken2 opts database file
+    - `taxo.k2d`: Kraken2 taxo database file
+
+</details>
+
+The resulting `<db_name>/` directory can be given to Kraken2 itself with `kraken2 --db <your_database_name>` etc.
 
 ### MALT
 
