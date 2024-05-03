@@ -145,6 +145,11 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-save",
                     "description": "Retain intermediate Kraken2 build files for inspection."
+                },
+                "run_bracken": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-save",
+                    "description": "Generate Bracken files required for abundance estimation."
                 }
             },
             "fa_icon": "fas fa-database"
