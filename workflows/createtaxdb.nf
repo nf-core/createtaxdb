@@ -21,7 +21,7 @@ include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pi
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
-include { FASTA_BUILD_ADD_KRAKEN2 } from '../subworkflows/nf-core/fasta_build_add_kraken2/main'
+include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,10 +142,11 @@ workflow CREATETAXDB {
     }
 
     // SUBWORKFLOW: Kraken2
+    // Bracken requires intermediate files, if run_bracken=true then kraken2_keepintermediate=true, otherwise an error will be raised
     if ( params.build_kraken2 ) {
-        FASTA_BUILD_ADD_KRAKEN2 ( CAT_CAT_DNA.out.file_out, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, !params.kraken2_keepintermediate )
-        ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2.out.versions.first())
-        ch_kraken2_output = FASTA_BUILD_ADD_KRAKEN2.out.db
+        FASTA_BUILD_ADD_KRAKEN2_BRACKEN ( CAT_CAT_DNA.out.file_out, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, !params.kraken2_keepintermediate, params.run_bracken )
+        ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
+        ch_kraken2_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     } else {
         ch_kraken2_output = Channel.empty()
     }
