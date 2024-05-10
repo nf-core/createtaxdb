@@ -1,0 +1,44 @@
+nextflow_pipeline {
+
+    name "Test pipeline: NFCORE_CREATETAXDB"
+    script "main.nf"
+    tag "pipeline"
+    tag "nfcore_createtaxdb"
+    tag "test"
+
+    test("test_profile") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                        path("$outputDir/centrifuge/"),
+                        path("$outputDir/diamond/database.dmnd"),
+                        path("$outputDir/kaiju/database.fmi"),
+                        path("$outputDir/kraken2/db/hash.k2d"),
+                        file("$outputDir/kraken2/db/opts.k2d").name,
+                        path("$outputDir/kraken2/db/taxo.k2d"),
+                        path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory'),
+                        path("$outputDir/malt/malt_index/index0.idx"),
+                        path("$outputDir/malt/malt_index/ref.db"),
+                        path("$outputDir/malt/malt_index/ref.idx"),
+                        path("$outputDir/malt/malt_index/ref.inf"),
+                        path("$outputDir/malt/malt_index/taxonomy.idx"),
+                        path("$outputDir/malt/malt_index/taxonomy.map"),
+                        path("$outputDir/malt/malt_index/taxonomy.tre")
+                    ).match()
+                },
+                { assert new File("$outputDir/pipeline_info/nf_core_pipeline_software_mqc_versions.yml").exists() },
+                { assert new File("$outputDir/multiqc/multiqc_report.html").exists() },
+                { assert path("$outputDir/malt/malt_index/table0.db").exists() },
+                { assert path("$outputDir/malt/malt_index/table0.idx").exists() },
+            )
+        }
+    }
+}
