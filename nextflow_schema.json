@@ -145,6 +145,11 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-save",
                     "description": "Retain intermediate Kraken2 build files for inspection."
+                },
+                "build_krakenuniq": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of KrakenUniq database. Requires nucleotide FASTA file input."
                 }
             },
             "fa_icon": "fas fa-database"

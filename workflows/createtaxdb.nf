@@ -5,16 +5,21 @@
 */
 
 include { MULTIQC                            } from '../modules/nf-core/multiqc/main'
-include { CAT_CAT as CAT_CAT_DNA             } from '../modules/nf-core/cat/cat/main'
-include { CAT_CAT as CAT_CAT_AA              } from '../modules/nf-core/cat/cat/main'
-include { CENTRIFUGE_BUILD                   } from '../modules/nf-core/centrifuge/build/main'
-include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mkfmi/main'
-include { DIAMOND_MAKEDB                     } from '../modules/nf-core/diamond/makedb/main'
-include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
+
+// Preprocessing
 include { GUNZIP as GUNZIP_DNA               } from '../modules/nf-core/gunzip/main'
 include { PIGZ_COMPRESS as PIGZ_COMPRESS_DNA } from '../modules/nf-core/pigz/compress/main'
 include { PIGZ_COMPRESS as PIGZ_COMPRESS_AA  } from '../modules/nf-core/pigz/compress/main'
+include { CAT_CAT as CAT_CAT_DNA             } from '../modules/nf-core/cat/cat/main'
+include { CAT_CAT as CAT_CAT_AA              } from '../modules/nf-core/cat/cat/main'
+
+// Database building (with specific auxiliary modules)
+include { CENTRIFUGE_BUILD                   } from '../modules/nf-core/centrifuge/build/main'
+include { DIAMOND_MAKEDB                     } from '../modules/nf-core/diamond/makedb/main'
+include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mkfmi/main'
+include { KRAKENUNIQ_BUILD                   } from '../modules/nf-core/krakenuniq/build/main'
 include { UNZIP                              } from '../modules/nf-core/unzip/main'
+include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
 
 include { paramsSummaryMap       } from 'plugin/nf-validation'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -53,7 +58,7 @@ workflow CREATETAXDB {
 
     // PREPARE: Prepare input for single file inputs modules
 
-    if ( [params.build_malt, params.build_centrifuge, params.build_kraken2].any() ) {  // Pull just DNA sequences
+    if ( [params.build_malt, params.build_centrifuge, params.build_kraken2, params.build_krakenuniq].any() ) {  // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_samplesheet
                                         .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
@@ -69,12 +74,12 @@ workflow CREATETAXDB {
                                 }
 
         GUNZIP_DNA ( ch_dna_for_unzipping.zipped )
-        ch_prepped_dna_fastas = GUNZIP_DNA.out.gunzip.mix(ch_dna_for_unzipping.unzipped).groupTuple()
-        ch_versions = ch_versions.mix(GUNZIP_DNA.out.versions.first())
+        ch_prepped_dna_fastas = GUNZIP_DNA.out.gunzip.mix( ch_dna_for_unzipping.unzipped).groupTuple()
+        ch_versions = ch_versions.mix( GUNZIP_DNA.out.versions.first() )
 
         // Place in single file
         ch_singleref_for_dna = CAT_CAT_DNA ( ch_prepped_dna_fastas )
-        ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
+        ch_versions = ch_versions.mix( CAT_CAT_DNA.out.versions.first() )
     }
 
     // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
@@ -98,7 +103,7 @@ workflow CREATETAXDB {
                                 }
 
         PIGZ_COMPRESS_AA ( ch_aa_for_zipping.unzipped )
-        ch_prepped_aa_fastas = PIGZ_COMPRESS_AA.out.archive.mix(ch_aa_for_zipping.zipped).groupTuple()
+        ch_prepped_aa_fastas = PIGZ_COMPRESS_AA.out.archive.mix( ch_aa_for_zipping.zipped).groupTuple()
         //ch_versions = ch_versions.mix( PIGZ_COMPRESS_AA.versions.first() )
 
         ch_singleref_for_aa = CAT_CAT_AA ( ch_prepped_aa_fastas )
@@ -115,7 +120,7 @@ workflow CREATETAXDB {
 
     if ( params.build_centrifuge ) {
         CENTRIFUGE_BUILD ( CAT_CAT_DNA.out.file_out, ch_nucl2taxid, ch_taxonomy_nodesdmp, ch_taxonomy_namesdmp, [] )
-        ch_versions = ch_versions.mix(CENTRIFUGE_BUILD.out.versions.first())
+        ch_versions = ch_versions.mix( CENTRIFUGE_BUILD.out.versions.first() )
         ch_centrifuge_output = CENTRIFUGE_BUILD.out.cf
     } else {
         ch_centrifuge_output = Channel.empty()
@@ -125,7 +130,7 @@ workflow CREATETAXDB {
 
     if ( params.build_diamond  ) {
         DIAMOND_MAKEDB ( CAT_CAT_AA.out.file_out, ch_prot2taxid, ch_taxonomy_nodesdmp, ch_taxonomy_namesdmp )
-        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
+        ch_versions = ch_versions.mix( DIAMOND_MAKEDB.out.versions.first() )
         ch_diamond_output = DIAMOND_MAKEDB.out.db
     } else {
         ch_diamond_output = Channel.empty()
@@ -135,7 +140,7 @@ workflow CREATETAXDB {
 
     if ( params.build_kaiju ) {
         KAIJU_MKFMI ( CAT_CAT_AA.out.file_out )
-        ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
+        ch_versions = ch_versions.mix( KAIJU_MKFMI.out.versions.first() )
         ch_kaiju_output = KAIJU_MKFMI.out.fmi
     } else {
         ch_kaiju_output = Channel.empty()
@@ -144,10 +149,23 @@ workflow CREATETAXDB {
     // SUBWORKFLOW: Kraken2
     if ( params.build_kraken2 ) {
         FASTA_BUILD_ADD_KRAKEN2 ( CAT_CAT_DNA.out.file_out, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, !params.kraken2_keepintermediate )
-        ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2.out.versions.first())
+        ch_versions = ch_versions.mix( FASTA_BUILD_ADD_KRAKEN2.out.versions ) // don't .first() here as subworkflow!
         ch_kraken2_output = FASTA_BUILD_ADD_KRAKEN2.out.db
     } else {
         ch_kraken2_output = Channel.empty()
+    }
+
+    // SUBWORKFLOW: Run KRAKENUNIQ/BUILD
+    if ( params.build_krakenuniq ) {
+
+        ch_taxdmpfiles_for_krakenuniq = Channel.of(ch_taxonomy_namesdmp).combine(Channel.of(ch_taxonomy_nodesdmp)).map{[it]}
+        ch_input_for_krakenuniq = ch_prepped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map{ meta, reads, taxdump -> [ meta, reads, taxdump, ch_nucl2taxid ] }.dump(tag: 'input_to_ku')
+
+        KRAKENUNIQ_BUILD ( ch_input_for_krakenuniq )
+        ch_versions = ch_versions.mix( KRAKENUNIQ_BUILD.out.versions.first() )
+        ch_krakenuniq_output = KRAKENUNIQ_BUILD.out.db
+    } else {
+        ch_krakenuniq_output = Channel.empty()
     }
 
     // Module: Run MALT/BUILD
@@ -168,7 +186,7 @@ workflow CREATETAXDB {
         }
 
         MALT_BUILD (ch_input_for_malt, [], ch_malt_mapdb)
-        ch_versions = ch_versions.mix(MALT_BUILD.out.versions.first())
+        ch_versions = ch_versions.mix( MALT_BUILD.out.versions.first() )
         ch_malt_output = MALT_BUILD.out.index
     } else {
         ch_malt_output = Channel.empty()
@@ -210,6 +228,7 @@ workflow CREATETAXDB {
     diamond_database    = ch_diamond_output
     kaiju_database      = ch_kaiju_output
     kraken2_database    = ch_kraken2_output
+    krakenuniq_database = ch_krakenuniq_output
     malt_database       = ch_malt_output
 }
 
