@@ -1,7 +1,7 @@
 <h1>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-createtaxdb_logo_dark.png">
-    <img alt="nf-core/createtaxdb" src="docs/images/nf-core-createtaxdb_logo_light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-createtaxdb_logo_dark_tax.png">
+    <img alt="nf-core/createtaxdb" src="docs/images/nf-core-createtaxdb_logo_light_tax.png">
   </picture>
 </h1>
 
@@ -89,6 +89,8 @@ nf-core/createtaxdb was originally written by James A. Fellows Yates and the nf-
 We thank the following people for their extensive assistance in the development of this pipeline:
 
 <!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+
+- Zandra Fagernäs for logo design
 
 ## Contributions and Support
 
