@@ -53,7 +53,7 @@ workflow CREATETAXDB {
 
     // PREPARE: Prepare input for single file inputs modules
 
-    if ( [params.build_malt, params.build_centrifuge, params.build_kraken2].any() ) {  // Pull just DNA sequences
+    if ( [params.build_malt, params.build_centrifuge, params.build_kraken2, params.build_bracken].any() ) {  // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_samplesheet
                                         .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
@@ -141,10 +141,12 @@ workflow CREATETAXDB {
         ch_kaiju_output = Channel.empty()
     }
 
-    // SUBWORKFLOW: Kraken2
-    // Bracken requires intermediate files, if run_bracken=true then kraken2_keepintermediate=true, otherwise an error will be raised
-    if ( params.build_kraken2 ) {
-        FASTA_BUILD_ADD_KRAKEN2_BRACKEN ( CAT_CAT_DNA.out.file_out, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, !params.kraken2_keepintermediate, params.run_bracken )
+    // SUBWORKFLOW: Kraken2 and Bracken
+    // Bracken requires intermediate files, if build_bracken=true then kraken2_keepintermediate=true, otherwise an error will be raised
+    // Condition is inverted because subworkflow asks if you want to 'clean' (true) or not, but pipeline says to 'keep'
+    if ( params.build_kraken2 || params.build_bracken ) {
+        def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
+        FASTA_BUILD_ADD_KRAKEN2_BRACKEN ( CAT_CAT_DNA.out.file_out, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, k2_keepintermediates, params.build_bracken )
         ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
         ch_kraken2_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     } else {
