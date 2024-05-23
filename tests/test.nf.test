@@ -26,6 +26,7 @@ nextflow_pipeline {
                         path("$outputDir/kraken2/database/taxo.k2d"),
                         file("$outputDir/bracken/database/database100mers.kmer_distrib").name,
                         file("$outputDir/bracken/database/database100mers.kraken").name,
+                        file("$outputDir/bracken/database/database.kraken").name,
                         path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory'),
                         path("$outputDir/malt/malt_index/index0.idx"),
                         path("$outputDir/malt/malt_index/ref.db"),
