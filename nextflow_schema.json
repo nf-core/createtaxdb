@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["input", "outdir", "dbname"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -43,7 +43,6 @@
                 },
                 "dbname": {
                     "type": "string",
-                    "default": "database",
                     "description": "Specify name that resulting databases will be prefixed with.",
                     "fa_icon": "fas fa-id-badge"
                 },
@@ -149,7 +148,8 @@
                 "build_bracken": {
                     "type": "boolean",
                     "fa_icon": "fas fa-save",
-                    "description": "Generate Bracken files required for abundance estimation."
+                    "description": "Turn on extending of Kraken2 database to include Bracken files. Requires nucleotide FASTA File input.",
+                    "help_text": "Bracken2 databases are simply just a Kraken2 database with two additional files.\n\nNote however this requires a Kraken2 database _with_ intermediate files still in it, thus can result in large database directories."
                 }
             },
             "fa_icon": "fas fa-database"

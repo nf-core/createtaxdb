@@ -148,9 +148,9 @@ workflow CREATETAXDB {
         def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
         FASTA_BUILD_ADD_KRAKEN2_BRACKEN ( CAT_CAT_DNA.out.file_out, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, k2_keepintermediates, params.build_bracken )
         ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
-        ch_kraken2_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
+        ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     } else {
-        ch_kraken2_output = Channel.empty()
+        ch_kraken2_bracken_output = Channel.empty()
     }
 
     // Module: Run MALT/BUILD
@@ -229,13 +229,13 @@ workflow CREATETAXDB {
     multiqc_report = MULTIQC.out.report.toList()
 
     emit:
-    versions            = ch_collated_versions
-    multiqc_report      = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
-    centrifuge_database = ch_centrifuge_output
-    diamond_database    = ch_diamond_output
-    kaiju_database      = ch_kaiju_output
-    kraken2_database    = ch_kraken2_output
-    malt_database       = ch_malt_output
+    versions                    = ch_collated_versions
+    multiqc_report              = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
+    centrifuge_database         = ch_centrifuge_output
+    diamond_database            = ch_diamond_output
+    kaiju_database              = ch_kaiju_output
+    kraken2_bracken_database    = ch_kraken2_bracken_output
+    malt_database               = ch_malt_output
 }
 
 /*
