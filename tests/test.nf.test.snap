@@ -14,8 +14,8 @@
             "taxo.k2d:md5,cd8170a8c5a1b763a9ac1ffa2107cc88",
             true,
             "database.idx",
-            "database.kdb:md5,5b807ed9faead95a8893a52ec187bb7b",
-            "taxDB:md5,1aed1afa948daffc236deba1c5d635db",
+            "database.kdb:md5,a24fce43bedbc6c420f6e36d10c112a3",
+            "taxDB:md5,dad63877a3e5731d4fb5bff26bd1b8c4",
             true,
             "index0.idx:md5,876139dc930e68992cd2625e08bba48a",
             "ref.db:md5,377073f58a9f9b85acca59fcf21744a9",
@@ -29,6 +29,6 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.1"
         },
-        "timestamp": "2024-05-23T11:44:12.499883078"
+        "timestamp": "2024-05-23T12:52:21.949823939"
     }
 }
