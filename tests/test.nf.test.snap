@@ -12,6 +12,9 @@
             "hash.k2d:md5,01122a04dcef29ceb3baa68a9f6e6ef5",
             "opts.k2d",
             "taxo.k2d:md5,cd8170a8c5a1b763a9ac1ffa2107cc88",
+            "database100mers.kmer_distrib",
+            "database100mers.kraken",
+            "database.kraken",
             true,
             "index0.idx:md5,876139dc930e68992cd2625e08bba48a",
             "ref.db:md5,377073f58a9f9b85acca59fcf21744a9",
@@ -23,8 +26,8 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "24.02.0"
+            "nextflow": "24.04.1"
         },
-        "timestamp": "2024-04-11T10:59:28.687364796"
+        "timestamp": "2024-05-23T08:15:27.641419595"
     }
 }

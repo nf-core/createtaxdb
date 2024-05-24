@@ -21,7 +21,7 @@ include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pi
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
-include { FASTA_BUILD_ADD_KRAKEN2 } from '../subworkflows/nf-core/fasta_build_add_kraken2/main'
+include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,7 +53,7 @@ workflow CREATETAXDB {
 
     // PREPARE: Prepare input for single file inputs modules
 
-    if ( [params.build_malt, params.build_centrifuge, params.build_kraken2].any() ) {  // Pull just DNA sequences
+    if ( [params.build_malt, params.build_centrifuge, params.build_kraken2, params.build_bracken].any() ) {  // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_samplesheet
                                         .map{meta, fasta_dna, fasta_aa  -> [[id: params.dbname], fasta_dna]}
@@ -141,13 +141,16 @@ workflow CREATETAXDB {
         ch_kaiju_output = Channel.empty()
     }
 
-    // SUBWORKFLOW: Kraken2
-    if ( params.build_kraken2 ) {
-        FASTA_BUILD_ADD_KRAKEN2 ( CAT_CAT_DNA.out.file_out, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, !params.kraken2_keepintermediate )
-        ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2.out.versions.first())
-        ch_kraken2_output = FASTA_BUILD_ADD_KRAKEN2.out.db
+    // SUBWORKFLOW: Kraken2 and Bracken
+    // Bracken requires intermediate files, if build_bracken=true then kraken2_keepintermediate=true, otherwise an error will be raised
+    // Condition is inverted because subworkflow asks if you want to 'clean' (true) or not, but pipeline says to 'keep'
+    if ( params.build_kraken2 || params.build_bracken ) {
+        def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
+        FASTA_BUILD_ADD_KRAKEN2_BRACKEN ( CAT_CAT_DNA.out.file_out, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, k2_keepintermediates, params.build_bracken )
+        ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
+        ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     } else {
-        ch_kraken2_output = Channel.empty()
+        ch_kraken2_bracken_output = Channel.empty()
     }
 
     // Module: Run MALT/BUILD
@@ -226,13 +229,13 @@ workflow CREATETAXDB {
     multiqc_report = MULTIQC.out.report.toList()
 
     emit:
-    versions            = ch_collated_versions
-    multiqc_report      = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
-    centrifuge_database = ch_centrifuge_output
-    diamond_database    = ch_diamond_output
-    kaiju_database      = ch_kaiju_output
-    kraken2_database    = ch_kraken2_output
-    malt_database       = ch_malt_output
+    versions                    = ch_collated_versions
+    multiqc_report              = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
+    centrifuge_database         = ch_centrifuge_output
+    diamond_database            = ch_diamond_output
+    kaiju_database              = ch_kaiju_output
+    kraken2_bracken_database    = ch_kraken2_bracken_output
+    malt_database               = ch_malt_output
 }
 
 /*
