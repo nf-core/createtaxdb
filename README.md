@@ -32,6 +32,7 @@
 
 1. Prepares input FASTA files for building
 2. Builds databases for:
+   - [Bracken](https://doi.org/10.7717/peerj-cs.104)
    - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
    - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
    - [Kaiju](https://doi.org/10.1038/ncomms11257)
@@ -85,7 +86,7 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/createtaxdb was originally written by James A. Fellows Yates and the nf-core community.
+nf-core/createtaxdb was originally written by James A. Fellows Yates, Joon Klaps, Alexander Ramos Díaz and the nf-core community.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 

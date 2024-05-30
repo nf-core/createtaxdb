@@ -18,6 +18,10 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
+
+                        file("$outputDir/bracken/database/database100mers.kmer_distrib").name,
+                        file("$outputDir/bracken/database/database100mers.kraken").name,
+                        file("$outputDir/bracken/database/database.kraken").name,
                         path("$outputDir/centrifuge/"),
                         path("$outputDir/diamond/database.dmnd"),
                         path("$outputDir/kaiju/database.fmi"),
