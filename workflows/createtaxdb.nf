@@ -253,7 +253,7 @@ workflow CREATETAXDB {
     diamond_database            = ch_diamond_output
     kaiju_database              = ch_kaiju_output
     kraken2_bracken_database    = ch_kraken2_bracken_output
-    krakenuniq_database = ch_krakenuniq_output
+    krakenuniq_database    = ch_krakenuniq_output
     malt_database               = ch_malt_output
 }
 
