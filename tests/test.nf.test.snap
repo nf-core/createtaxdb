@@ -1,6 +1,9 @@
 {
     "test_profile": {
         "content": [
+            "database100mers.kmer_distrib",
+            "database100mers.kraken",
+            "database.kraken",
             [
                 "database.1.cf:md5,1481615ab90b5573f6d9e57f97890178",
                 "database.2.cf:md5,d50fa66e215e80284314ff6521dcd4a4",
@@ -12,13 +15,10 @@
             "hash.k2d:md5,01122a04dcef29ceb3baa68a9f6e6ef5",
             "opts.k2d",
             "taxo.k2d:md5,cd8170a8c5a1b763a9ac1ffa2107cc88",
-            "database100mers.kmer_distrib",
-            "database100mers.kraken",
-            "database.kraken",
             true,
             "database.idx",
             "database.kdb:md5,a24fce43bedbc6c420f6e36d10c112a3",
-            "taxDB:md5,dad63877a3e5731d4fb5bff26bd1b8c4",
+            "taxDB:md5,1aed1afa948daffc236deba1c5d635db",
             true,
             "index0.idx:md5,876139dc930e68992cd2625e08bba48a",
             "ref.db:md5,377073f58a9f9b85acca59fcf21744a9",
@@ -30,8 +30,8 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nextflow": "24.04.2"
         },
-        "timestamp": "2024-05-23T12:52:21.949823939"
+        "timestamp": "2024-05-30T10:54:40.551963562"
     }
 }
