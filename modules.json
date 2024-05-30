@@ -47,7 +47,7 @@
                     },
                     "krakenuniq/build": {
                         "branch": "master",
-                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+                        "git_sha": "e3857325a14ef6e50e33c104c0a3be0ccaabbeb1",
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/krakenuniq/build/krakenuniq-build.diff"
                     },
