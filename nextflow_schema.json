@@ -107,6 +107,12 @@
             "description": "",
             "default": "",
             "properties": {
+                "build_bracken": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-save",
+                    "description": "Turn on extending of Kraken2 database to include Bracken files. Requires nucleotide FASTA File input.",
+                    "help_text": "Bracken2 databases are simply just a Kraken2 database with two additional files.\n\nNote however this requires a Kraken2 database _with_ intermediate files still in it, thus can result in large database directories."
+                },
                 "build_centrifuge": {
                     "type": "boolean",
                     "description": "Turn on building of Centrifuge database. Requires nucleotide FASTA file input.",
@@ -145,11 +151,10 @@
                     "fa_icon": "fas fa-save",
                     "description": "Retain intermediate Kraken2 build files for inspection."
                 },
-                "build_bracken": {
+                "build_krakenuniq": {
                     "type": "boolean",
-                    "fa_icon": "fas fa-save",
-                    "description": "Turn on extending of Kraken2 database to include Bracken files. Requires nucleotide FASTA File input.",
-                    "help_text": "Bracken2 databases are simply just a Kraken2 database with two additional files.\n\nNote however this requires a Kraken2 database _with_ intermediate files still in it, thus can result in large database directories."
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of KrakenUniq database. Requires nucleotide FASTA file input."
                 }
             },
             "fa_icon": "fas fa-database"

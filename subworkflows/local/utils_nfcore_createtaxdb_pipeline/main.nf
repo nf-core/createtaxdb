@@ -199,6 +199,7 @@ def toolCitationText() {
             params.build_diamond    ? "DIAMOND (Buchfink et al. 2015)," : "",
             params.build_kaiju      ? "Kaiju (Menzel et al. 2016)," : "",
             params.build_kraken2    ? "Kraken2 (Wood et al. 2019)," : "",
+            params.build_krakenuniq ? "KrakenUniq (Breitwieser et al. 2018)," : "",
             params.build_malt       ? "MALT (Vågene et al. 2018)," : "",
             "and MultiQC (Ewels et al. 2016)",
             "."
@@ -217,7 +218,9 @@ def toolBibliographyText() {
             params.build_diamond    ? "<li>Buchfink, B., Xie, C., & Huson, D. H. (2015). Fast and sensitive protein alignment using DIAMOND. Nature Methods, 12(1), 59–60. <a href=\"https://doi.org/10.1038/nmeth.3176\">10.1038/nmeth.3176</a></li>" : "",
             params.build_kaiju      ? "<li>Menzel, P., Ng, K. L., & Krogh, A. (2016). Fast and sensitive taxonomic classification for metagenomics with Kaiju. Nature Communications, 7, 11257. <a href=\"https://doi.org/10.1038/ncomms11257\">10.1038/ncomms11257</a></li>" : "",
             params.build_kraken2    ? "<li>Wood, D. E., Lu, J., & Langmead, B. (2019). Improved metagenomic analysis with Kraken 2. Genome Biology, 20(1), 257.  <a href=\"https://doi.org/10.1186/s13059-019-1891-0\">10.1186/s13059-019-1891-0</a></li>" : "",
-            params.build_malt       ? "<li>Vågene, Å. J., Herbig, A., Campana, M. G., Robles García, N. M., Warinner, C., Sabin, S., Spyrou, M. A., Andrades Valtueña, A., Huson, D., Tuross, N., Bos, K. I., & Krause, J. (2018). Salmonella enterica genomes from victims of a major sixteenth-century epidemic in Mexico. Nature Ecology & Evolution, 2(3), 520–528.  <a href=\"https://doi.org/10.1038/s41559-017-0446-6\">10.1038/s41559-017-0446-6</a></li>" : "",                "<li>Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics , 32(19), 3047–3048. doi: /10.1093/bioinformatics/btw354</li>"
+            params.build_krakenuniq  ? "<li>Breitwieser, F. P., Baker, D. N., & Salzberg, S. L. (2018). KrakenUniq: confident and fast metagenomics classification using unique k-mer counts. Genome Biology, 19(1), 198.  <a href=\"https://doi.org/10.1186/s13059-018-1568-0\">10.1186/s13059-018-1568-0</a></li>" : "",
+            params.build_malt       ? "<li>Vågene, Å. J., Herbig, A., Campana, M. G., Robles García, N. M., Warinner, C., Sabin, S., Spyrou, M. A., Andrades Valtueña, A., Huson, D., Tuross, N., Bos, K. I., & Krause, J. (2018). Salmonella enterica genomes from victims of a major sixteenth-century epidemic in Mexico. Nature Ecology & Evolution, 2(3), 520–528.  <a href=\"https://doi.org/10.1038/s41559-017-0446-6\">10.1038/s41559-017-0446-6</a></li>" : "",
+            "<li>Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics , 32(19), 3047–3048. doi: /10.1093/bioinformatics/btw354</li>"
         ].join(' ').trim()
 
     return reference_text

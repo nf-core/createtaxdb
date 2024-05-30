@@ -19,6 +19,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [DIAMOND](#diamond) - Database files for DIAMOND
 - [Kaiju](#kaiju) - Database files for Kaiju
 - [Kraken2](#kraken2) - Database files for Kraken2
+- [KrakenUniq](#krakenuniq) - Database files for KrakenUniq
 - [MALT](#malt) - Database files for MALT
 
 ### MultiQC
@@ -138,6 +139,24 @@ The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi` 
 </details>
 
 The resulting `<db_name>/` directory can be given to Kraken2 itself with `kraken2 --db <your_database_name>` etc.
+
+### KrakenUniq
+
+[KrakenUniq](https://github.com/fbreitwieser/krakenuniq) Metagenomics classifier with unique k-mer counting for more specific results.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `kraken2/`
+  - `<db_name>/`
+  - `database-build.log`: KrakenUniq build process log
+  - `database.idx`: KrakenUniq index file
+  - `database.kdb`: KrakenUniq database file
+  - `taxDB`: KrakenUniq taxonomy information file
+
+</details>
+
+Note there may be additional files in this directory, however the ones listed above are the reportedly the required ones.
 
 ### MALT
 

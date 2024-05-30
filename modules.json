@@ -50,6 +50,12 @@
                         "git_sha": "ca87ad032a62f025f0c373facacef2df0c5411b2",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
+                    "krakenuniq/build": {
+                        "branch": "master",
+                        "git_sha": "e3857325a14ef6e50e33c104c0a3be0ccaabbeb1",
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/krakenuniq/build/krakenuniq-build.diff"
+                    },
                     "malt/build": {
                         "branch": "master",
                         "git_sha": "7d3bac628092d1aead36960c4b6ae41302a9f797",
