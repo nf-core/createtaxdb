@@ -2,4 +2,4 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - bioconda::malt=0.61
+  - bioconda::kaiju=1.10.0
