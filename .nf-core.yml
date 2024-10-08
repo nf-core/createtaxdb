@@ -13,6 +13,8 @@ template:
   name: createtaxdb
   org: nf-core
   outdir: .
-  skip_features: null
+  skip_features:
+    - fastqc
+    - igenomes
   version: 1.0dev
 update: null
