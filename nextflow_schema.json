@@ -304,7 +304,7 @@
             "$ref": "#/$defs/input_output_options"
         },
         {
-            "$ref": "#/definitions/database_building_options"
+            "$ref": "#/$defs/database_building_options"
         },
         {
             "$ref": "#/$defs/institutional_config_options"
