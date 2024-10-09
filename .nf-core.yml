@@ -1,7 +1,9 @@
 bump_version: null
 lint:
   actions_ci: false
-nf_core_version: 3.0.0
+  files_unchanged:
+    - .github/workflows/linting.yml
+nf_core_version: 3.0.1
 org_path: null
 repository_type: pipeline
 template:
@@ -13,6 +15,8 @@ template:
   name: createtaxdb
   org: nf-core
   outdir: .
-  skip_features: null
+  skip_features:
+    - fastqc
+    - igenomes
   version: 1.0dev
 update: null
