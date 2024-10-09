@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/nf-core/createtaxdb/master/assets/schema_input.json",
     "title": "nf-core/createtaxdb pipeline - params.input schema",
     "description": "Schema for the file provided with params.input",
@@ -10,13 +10,13 @@
             "id": {
                 "type": "string",
                 "pattern": "^\\S+$",
-                "unique": true,
+                "uniqueItems": true,
                 "errorMessage": "Sequence reference name must be provided and cannot contain spaces",
                 "meta": ["id"]
             },
             "taxid": {
                 "type": "integer",
-                "unique": true,
+                "uniqueItems": true,
                 "errorMessage": "Please provide a valid taxonomic ID in integer format",
                 "meta": ["taxid"]
             },
@@ -32,7 +32,7 @@
                         "maxLength": 0
                     }
                 ],
-                "unique": true,
+                "uniqueItems": true,
                 "errorMessage": "FASTA file for nucleotide sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas, faa), optionally gzipped",
                 "exists": true,
                 "format": "file-path"
@@ -49,7 +49,7 @@
                         "maxLength": 0
                     }
                 ],
-                "unique": true,
+                "uniqueItems": true,
                 "errorMessage": "FASTA file for amino acid reference sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas, faa), optionally gzipped",
                 "exists": true,
                 "format": "file-path"

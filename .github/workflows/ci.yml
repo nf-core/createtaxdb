@@ -9,8 +9,8 @@ on:
       - "dev"
       - "master"
   release:
-    types:
-      - "published"
+    types: [published]
+  workflow_dispatch:
 
 env:
   NXF_ANSI_LOG: false

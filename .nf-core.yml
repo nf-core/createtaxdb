@@ -1,6 +1,22 @@
-repository_type: pipeline
-nf_core_version: "2.14.1"
-
-## TODO: re-activate once nf-test ci.yml structure updated
+bump_version: null
 lint:
-  actions_ci: False
+  actions_ci: false
+  files_unchanged:
+    - .github/workflows/linting.yml
+nf_core_version: 3.0.0
+org_path: null
+repository_type: pipeline
+template:
+  author: James A. Fellows Yates and the nf-core community
+  description: Parallelised and automated creation of metagenomic classifier databases
+    of different tools
+  force: false
+  is_nfcore: true
+  name: createtaxdb
+  org: nf-core
+  outdir: .
+  skip_features:
+    - fastqc
+    - igenomes
+  version: 1.0dev
+update: null
