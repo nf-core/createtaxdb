@@ -212,7 +212,6 @@ workflow CREATETAXDB {
                                     ch_krakenuniq_output.map     {meta, db -> [ meta + [tool: "krakenuniq"]                                , db ]},
                                     ch_malt_output.map           {meta, db -> [ meta + [tool: "malt"]                                      , db ]}
                                 )
-                                .view()
 
     if ( params.generate_downstream_samplesheets ) {
         GENERATE_DOWNSTREAM_SAMPLESHEETS ( ch_input_for_samplesheet )
