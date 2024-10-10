@@ -24,7 +24,7 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
                                             def db_name   = meta.id + '-' + meta.tool
                                             def db_params = ""
                                             def db_type   = ""
-                                            def db_path   = file(params.outdir).getParent() + '/' + meta.tool + '/' + db.getName()
+                                            def db_path   = file(params.outdir).toString() + '/' + meta.tool + '/' + db.getName()
                                         [ tool: tool, db_name: db_name, db_params: db_params, db_type: db_type, db_path: db_path ]
                                     }
                                     .tap{ ch_header }
