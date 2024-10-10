@@ -35,7 +35,7 @@ jobs:
         with:
           repo-token: ${{ secrets.NF_CORE_BOT_AUTH_TOKEN }}
           allow-repeats: false
-          message: |            
+          message: |
             > [!WARNING]
             > Newer version of the nf-core template is available.
             >
