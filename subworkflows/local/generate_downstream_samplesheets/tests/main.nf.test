@@ -1,0 +1,53 @@
+nextflow_workflow {
+
+    name "Test Subworkflow GENERATE_DOWNSTREAM_SAMPLESHEETS"
+    script "../main.nf"
+    workflow "GENERATE_DOWNSTREAM_SAMPLESHEETS"
+
+    tag "subworkflows"
+    tag "subworkflows_local"
+    tag "subworkflows/generate_downstream_samplesheets"
+
+    test("databases - taxprofiler") {
+
+        when {
+            params {
+                outdir                          = "$outputDir"
+                generate_pipeline_samplesheets  = 'taxprofiler'
+            }
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [id:'database', tool:'krakenuniq'],
+                        file('/workspace/createtaxdb/work/af/59cb1f95d809c3de6520bb0c0d0f6c/database')
+                    ],
+                    [
+                        [id:'database', tool:'centrifuge'],
+                        file('/workspace/createtaxdb/work/59/3a1df5c9f4b84a4ec3c8014aa13774/database')
+                    ],
+                    [
+                        [id:'database', tool:'kaiju'],
+                        file('/workspace/createtaxdb/work/87/865072d7fce3bbf8c5dfd867d16064/database.fmi')
+                    ],
+                    [
+                        [id:'database', tool:'diamond'],
+                        file('/workspace/createtaxdb/work/1b/f20ef16fbc0f4708db40d76410be5c/database.dmnd')
+                    ],
+                    [
+                        [id:'database', tool:'malt'],
+                        file('/workspace/createtaxdb/work/4f/c630a9baab2c2f31f15fab1feec4f2/malt_index')
+                    ]
+                )
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot("${params.outdir}/downstream_samplesheet/${params.generate_pipeline_samplesheets}.csv").match() }
+            )
+        }
+    }
+}
