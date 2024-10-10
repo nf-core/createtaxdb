@@ -28,6 +28,9 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
                                         [ tool: tool, db_name: db_name, db_params: db_params, db_type: db_type, db_path: db_path ]
                                     }
                                     .tap{ ch_header }
+        if ( params.build_bracken && params.build_kraken2 ) {
+            log.warn("Generated nf-core/taxprofiler samplesheet will only have a row for bracken. If Kraken2 is wished to be executed separately, duplicate row and update tool column to Kraken2!")
+        }
     }
     // -- FINISH TODO
 
