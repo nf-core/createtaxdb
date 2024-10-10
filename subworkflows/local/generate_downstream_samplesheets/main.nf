@@ -7,7 +7,6 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
     ch_databases
 
     main:
-    ch_header  = Channel.empty()
     format     = 'csv' // most common format in nf-core
     format_sep = ','
 

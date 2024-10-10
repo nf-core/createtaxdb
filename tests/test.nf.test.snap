@@ -5,10 +5,12 @@
             "database100mers.kraken",
             "database.kraken",
             [
-                "database.1.cf:md5,1481615ab90b5573f6d9e57f97890178",
-                "database.2.cf:md5,d50fa66e215e80284314ff6521dcd4a4",
-                "database.3.cf:md5,beafa92166ba461f9bda1dac0b640f45",
-                "database.4.cf:md5,2902ec5df0db6da41a91b40d2f46b30d"
+                [
+                    "database.1.cf:md5,1481615ab90b5573f6d9e57f97890178",
+                    "database.2.cf:md5,d50fa66e215e80284314ff6521dcd4a4",
+                    "database.3.cf:md5,beafa92166ba461f9bda1dac0b640f45",
+                    "database.4.cf:md5,2902ec5df0db6da41a91b40d2f46b30d"
+                ]
             ],
             "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
             "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
@@ -32,6 +34,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2024-10-08T16:33:06.699148849"
+        "timestamp": "2024-10-10T20:51:34.422093856"
     }
 }

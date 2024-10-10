@@ -210,7 +210,7 @@ workflow CREATETAXDB {
                                     ch_kaiju_output.map          {meta, db -> [ meta + [tool: "kaiju"]                                     , db ]},
                                     ch_kraken2_bracken_output.map{meta, db -> [ meta + [tool: params.build_bracken ? "bracken" : "kraken2"], db ]},
                                     ch_krakenuniq_output.map     {meta, db -> [ meta + [tool: "krakenuniq"]                                , db ]},
-                                    ch_malt_output.map           {meta, db -> [ meta + [tool: "malt"]                                      , db ]}
+                                    ch_malt_output.map           {db       -> [        [id: params.dbname, tool: "malt"]                   , db ]}
                                 )
 
     if ( params.generate_downstream_samplesheets ) {
