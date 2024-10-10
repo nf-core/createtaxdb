@@ -214,7 +214,7 @@ workflow CREATETAXDB {
                                 )
                                 .view()
 
-    if ( params.generate_samplesheet ) {
+    if ( params.generate_downstream_samplesheet ) {
         GENERATE_DOWNSTREAM_SAMPLESHEETS ( ch_input_for_samplesheet )
     }
 

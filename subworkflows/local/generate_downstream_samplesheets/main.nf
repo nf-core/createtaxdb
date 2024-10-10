@@ -14,7 +14,7 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
     // TODO --
     // Make your samplesheet channel construct here depending on your downstream
     // pipelines
-    if ( params.downstream_pipeline == 'taxprofiler' ) {
+    if ( params.generate_pipeline_samplesheets == 'taxprofiler' ) {
         format = 'csv'
         format_sep = ','
         ch_list_for_samplesheet = ch_databases
@@ -38,7 +38,7 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
         .map{ it.keySet().join(format_sep) }
         .concat( ch_list_for_samplesheet.map{ it.values().join(format_sep) })
         .collectFile(
-            name:"${params.outdir}/downstream_samplesheet/${params.downstream_pipeline}.${format}",
+            name:"${params.outdir}/downstream_samplesheet/${params.generate_pipeline_samplesheets}.${format}",
             newLine: true,
             sort: false
         )
