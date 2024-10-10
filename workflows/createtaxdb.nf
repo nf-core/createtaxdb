@@ -26,6 +26,7 @@ include { UNZIP                              } from '../modules/nf-core/unzip/ma
 include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN    } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
+include { GENERATE_DOWNSTREAM_SAMPLESHEETS   } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -197,6 +198,26 @@ workflow CREATETAXDB {
     else {
         ch_malt_output = Channel.empty()
     }
+
+    //
+    // Samplesheet generation
+    //
+    ch_input_for_samplesheet = Channel
+                            .empty()
+                            .mix(
+                                    ch_centrifuge_output.map     {meta, db -> [ meta + [tool: "centrifuge"]     , db ]},
+                                    ch_diamond_output.map        {meta, db -> [ meta + [tool: "diamond"]        , db ]},
+                                    ch_kaiju_output.map          {meta, db -> [ meta + [tool: "kaiju"]          , db ]},
+                                    ch_kraken2_bracken_output.map{meta, db -> [ meta + [tool: "kraken2_bracken"], db ]},
+                                    ch_krakenuniq_output.map     {meta, db -> [ meta + [tool: "krakenuniq"]     , db ]},
+                                    ch_malt_output.map           {meta, db -> [ meta + [tool: "malt"]           , db ]}
+                                )
+                                .view()
+
+    if ( params.generate_samplesheet ) {
+        GENERATE_DOWNSTREAM_SAMPLESHEETS ( ch_input_for_samplesheet )
+    }
+
 
     //
     // Collate and save software versions
