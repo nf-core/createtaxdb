@@ -8,7 +8,7 @@
                     "bracken/build": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
-                        "installed_by": ["fasta_build_add_kraken2_bracken"]
+                        "installed_by": ["fasta_build_add_kraken2_bracken", "modules"]
                     },
                     "cat/cat": {
                         "branch": "master",
@@ -67,6 +67,11 @@
                         "installed_by": ["modules"]
                     },
                     "pigz/compress": {
+                        "branch": "master",
+                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "installed_by": ["modules"]
+                    },
+                    "untar": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
