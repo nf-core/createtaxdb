@@ -28,12 +28,13 @@
             "ref.inf:md5,446275f4f879e2b115e983db7c9ced18",
             "taxonomy.idx:md5,1e2e8fdc703a6d2707e7cbefd2b6d93f",
             "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
-            "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e"
+            "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e",
+            "taxprofiler.csv:md5,daaddcf0831256332194ec33cb91147c"
         ],
         "meta": {
             "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2024-10-10T20:51:34.422093856"
+        "timestamp": "2024-10-11T13:18:55.440852529"
     }
 }
