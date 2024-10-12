@@ -18,6 +18,7 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
+                        // Publish files
                         file("$outputDir/bracken/database/database100mers.kmer_distrib").name,
                         file("$outputDir/bracken/database/database100mers.kraken").name,
                         file("$outputDir/bracken/database/database.kraken").name,
@@ -39,7 +40,7 @@ nextflow_pipeline {
                         path("$outputDir/malt/malt_index/taxonomy.idx"),
                         path("$outputDir/malt/malt_index/taxonomy.map"),
                         path("$outputDir/malt/malt_index/taxonomy.tre"),
-                        path("$outputDir/downstream_samplesheets/taxprofiler.csv")
+                        path("$outputDir/downstream_samplesheets/taxprofiler.csv"),
                     ).match()
                 },
                 { assert new File("$outputDir/pipeline_info/nf_core_pipeline_software_mqc_versions.yml").exists() },
