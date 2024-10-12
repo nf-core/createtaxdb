@@ -29,12 +29,12 @@
             "taxonomy.idx:md5,1e2e8fdc703a6d2707e7cbefd2b6d93f",
             "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
             "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e",
-            "taxprofiler.csv:md5,e9ff87eddf75d939bb898130a9eeb783"
+            7
         ],
         "meta": {
             "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2024-10-12T14:24:03.49720011"
+        "timestamp": "2024-10-12T15:58:59.738949666"
     }
 }
