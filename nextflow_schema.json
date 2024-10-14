@@ -178,7 +178,6 @@
                 },
                 "generate_pipeline_samplesheets": {
                     "type": "string",
-                    "default": "taxprofiler",
                     "description": "Specify a comma separated string in quotes to specify which pipeline to generate a samplesheet for.",
                     "fa_icon": "fas fa-toolbox",
                     "pattern": "^(taxprofiler)(?:,(taxprofiler)){0,1}"
