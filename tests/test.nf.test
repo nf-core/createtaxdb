@@ -15,24 +15,33 @@ nextflow_pipeline {
         }
 
         then {
-            def samplesheetlines = path("$outputDir/downstream_samplesheets/taxprofiler.csv").readLines()
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
                         // Publish files
-                        file("$outputDir/bracken/database/database100mers.kmer_distrib").name,
-                        file("$outputDir/bracken/database/database100mers.kraken").name,
-                        file("$outputDir/bracken/database/database.kraken").name,
-                        path("$outputDir/centrifuge/"),
-                        path("$outputDir/diamond/database.dmnd"),
-                        path("$outputDir/kaiju/database.fmi"),
-                        path("$outputDir/kraken2/database/hash.k2d"),
-                        file("$outputDir/kraken2/database/opts.k2d").name,
-                        path("$outputDir/kraken2/database/taxo.k2d"),
-                        path("$outputDir/krakenuniq/database/database-build.log").readLines().last().contains('database.idx'),
-                        file("$outputDir/krakenuniq/database/database.idx").name,
-                        file("$outputDir/krakenuniq/database/database.kdb"),
-                        file("$outputDir/krakenuniq/database/taxDB"),
+                        file("$outputDir/bracken/database-bracken.tar.gz").name,
+                        file("$outputDir/bracken/database-kraken2/database100mers.kmer_distrib").name,
+                        file("$outputDir/bracken/database-kraken2/database100mers.kraken").name,
+                        file("$outputDir/bracken/database-kraken2/database.kraken").name,
+                        path("$outputDir/centrifuge/database-centrifuge/database-centrifuge.1.cf"),
+                        path("$outputDir/centrifuge/database-centrifuge/database-centrifuge.2.cf"),
+                        path("$outputDir/centrifuge/database-centrifuge/database-centrifuge.3.cf"),
+                        path("$outputDir/centrifuge/database-centrifuge/database-centrifuge.4.cf"),
+                        file("$outputDir/centrifuge/database-centrifuge.tar.gz").name,
+                        path("$outputDir/diamond/database-diamond.dmnd"),
+                        file("$outputDir/diamond/database-diamond.tar.gz").name,
+                        path("$outputDir/downstream_samplesheets/taxprofiler.csv").csv.rowCount == 6,
+                        path("$outputDir/kaiju/database-kaiju.fmi"),
+                        file("$outputDir/kaiju/database-kaiju.tar.gz").name,
+                        path("$outputDir/kraken2/database-kraken2/hash.k2d"),
+                        file("$outputDir/kraken2/database-kraken2/opts.k2d").name,
+                        path("$outputDir/kraken2/database-kraken2/taxo.k2d"),
+                        // file("$outputDir/kraken2/database-kraken2.tar.gz").name, // COVERED BY BRACKEN - see docs
+                        path("$outputDir/krakenuniq/database-krakenuniq/database-build.log").readLines().last().contains('database.idx'),
+                        file("$outputDir/krakenuniq/database-krakenuniq/database.idx").name,
+                        file("$outputDir/krakenuniq/database-krakenuniq/database.kdb"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/taxDB"),
+                        file("$outputDir/krakenuniq/database-krakenuniq.tar.gz").name,
                         path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory'),
                         path("$outputDir/malt/malt_index/index0.idx"),
                         path("$outputDir/malt/malt_index/ref.db"),
@@ -41,7 +50,7 @@ nextflow_pipeline {
                         path("$outputDir/malt/malt_index/taxonomy.idx"),
                         path("$outputDir/malt/malt_index/taxonomy.map"),
                         path("$outputDir/malt/malt_index/taxonomy.tre"),
-                        samplesheetlines.size()
+                        file("$outputDir/malt/database-malt.tar.gz").name
                     ).match()
                 },
                 { assert new File("$outputDir/pipeline_info/nf_core_pipeline_software_mqc_versions.yml").exists() },
