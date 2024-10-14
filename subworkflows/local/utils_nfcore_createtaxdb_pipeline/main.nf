@@ -141,11 +141,6 @@ def validateInputParameters() {
         error('[nf-core/createtaxdb] If supplying `--generate_downsteam_samplesheets`, you must also specify which pipeline to generate for with `--generate_pipeline_samplesheets! Check input.')
     }
 
-    def supported_samplesheets = ['taxprofiler']
-    if (params.generate_downstream_samplesheets && !params.generate_pipeline_samplesheets.split(",").every { it in supported_samplesheets }) {
-        error("[nf-core/createtaxdb] Unrecognised or unsupported pipeline selection for samplesheet generation. Options: ${supported_samplesheets.join(", ")}. Specified: --generate_pipeline_samplesheets ${params.generate_pipeline_samplesheets}")
-    }
-
     if (params.generate_downstream_samplesheets && !params.generate_tar_archive && params.generate_samplesheet_dbtype == 'tar') {
         error('[nf-core/createtaxdb] Supplied --generate_downstream_samplesheets with --generate_samplesheet_dbtype tar, but missing --generate_tar_archive (mandatory for tar archive output).')
     }
