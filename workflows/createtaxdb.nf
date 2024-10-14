@@ -301,7 +301,7 @@ workflow CREATETAXDB {
 
     emit:
     multiqc_report           = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
-    versions                 = ch_versions // channel: [ path(versions.yml) ]
+    versions                 = ch_versions                 // channel: [ path(versions.yml) ]
     centrifuge_database      = ch_centrifuge_output
     diamond_database         = ch_diamond_output
     kaiju_database           = ch_kaiju_output
