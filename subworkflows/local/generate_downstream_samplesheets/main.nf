@@ -24,7 +24,7 @@ workflow SAMPLESHEET_TAXPROFILER {
         log.warn("Generated nf-core/taxprofiler samplesheet will only have a row for bracken. If Kraken2 is wished to be executed separately, duplicate row and update tool column to Kraken2!")
     }
 
-    channelToSamplesheet(ch_colnames, ch_list_for_samplesheet, 'downstream_samplesheets', format, format_sep)
+    channelToSamplesheet(ch_colnames, ch_list_for_samplesheet, 'downstream_samplesheets', 'taxprofiler', format, format_sep)
 }
 
 workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
@@ -32,12 +32,14 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
     ch_databases
 
     main:
-    if (params.generate_pipeline_samplesheets == 'taxprofiler') {
+    def downstreampipeline_names = params.generate_pipeline_samplesheets.split(",")
+
+    if ( downstreampipeline_names.contains('taxprofiler')) {
         SAMPLESHEET_TAXPROFILER(ch_databases)
     }
 }
 
-def channelToSamplesheet(ch_header, ch_list_for_samplesheet, outdir_subdir, format, format_sep) {
+def channelToSamplesheet(ch_header, ch_list_for_samplesheet, outdir_subdir, pipeline, format, format_sep) {
     // Constructs the header string and then the strings of each row, and
     // finally concatenates for saving. Originally designed by @mahesh-panchal
     ch_header
@@ -45,7 +47,7 @@ def channelToSamplesheet(ch_header, ch_list_for_samplesheet, outdir_subdir, form
         .map { it.keySet().join(format_sep) }
         .concat(ch_list_for_samplesheet.map { it.values().join(format_sep) })
         .collectFile(
-            name: "${params.outdir}/${outdir_subdir}/${params.generate_pipeline_samplesheets}.${format}",
+            name: "${params.outdir}/${outdir_subdir}/${pipeline}.${format}",
             newLine: true,
             sort: false
         )
