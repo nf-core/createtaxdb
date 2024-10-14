@@ -133,11 +133,15 @@ def validateInputParameters() {
 
     // Validate DIAMOND parameter combinations
     if (params.build_diamond && [!params.prot2taxid, !params.nodesdmp, !params.namesdmp].any()) {
-        error('[nf-core/createtaxdb] Supplied --build_diamond, but missing at least one of: --prot2taxid, --nodesdmp, or --namesdmp (all are mandatory for DIAMOND)')
+        error('[nf-core/createtaxdb] Supplied --build_diamond, but missing at least one of: --prot2taxid, --nodesdmp, or --namesdmp (all are mandatory for DIAMOND).')
+    }
+
+    if (params.generate_downstream_samplesheets && !params.generate_pipeline_samplesheets) {
+        error('[nf-core/createtaxdb] If supplying `--generate_downsteam_samplesheets`, you must also specify which pipeline to generate for with `--generate_pipeline_samplesheets! Check input.')
     }
 
     if (params.generate_downstream_samplesheets && !params.generate_tar_archive && params.generate_samplesheet_dbtype == 'tar') {
-        error('[nf-core/createtaxdb] Supplied --generate_downstream_samplesheets with --generate_samplesheet_dbtype tar, but missing --generate_tar_archive (mandatory for tar archive output)')
+        error('[nf-core/createtaxdb] Supplied --generate_downstream_samplesheets with --generate_samplesheet_dbtype tar, but missing --generate_tar_archive (mandatory for tar archive output).')
     }
 }
 
