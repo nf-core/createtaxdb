@@ -165,6 +165,12 @@
             "fa_icon": "fas fa-align-justify",
             "description": "Options for generating input samplesheets for complementary downstream pipelines.",
             "properties": {
+                "generate_tar_archive": {
+                    "type": "boolean",
+                    "description": "Generate `.tar.gz` archived versions of all databases",
+                    "help_text": "Many of the tools create databases that consist of a directory with multiple files.\n\nThis option can be useful when you will be downloading taxonomic profiling tools that require remote downloading of files for staging (assuming the tool or pipeline supports decompression of `.tar.gz` files).\n\nA common use case is running taxonomic profilers in the cloud, and where staging tools do not support downloading of directories.\nAnother is if you have to long-term archive your database for reproducibility purposes.\n\nBy giving this flag, `.tar.gz` files of all the databases will be created in the output directory.",
+                    "fa_icon": "fas fa-file-archive"
+                },
                 "generate_downstream_samplesheets": {
                     "type": "boolean",
                     "description": "Turn on generation of samplesheets for downstream pipelines.",
@@ -175,6 +181,14 @@
                     "default": "taxprofiler",
                     "description": "Specify which pipeline to generate a samplesheet for.",
                     "fa_icon": "fas fa-toolbox"
+                },
+                "generate_samplesheet_dbtype": {
+                    "type": "string",
+                    "default": "raw",
+                    "fa_icon": "fas fa-file-code",
+                    "description": "Specify which type of database to list paths of in the generated pipeline samplesheet.",
+                    "enum": ["raw", "tar"],
+                    "help_text": "It is recommend to select `tar` if you plan to run the downstream pipeline in the cloud, or similar environments where you cannot easily download directories."
                 }
             }
         },

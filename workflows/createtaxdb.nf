@@ -3,12 +3,12 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+include { MULTIQC                            } from '../modules/nf-core/multiqc/main'
+include { paramsSummaryMap                   } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc               } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML             } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText             } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
-include { MULTIQC                } from '../modules/nf-core/multiqc/main'
-include { paramsSummaryMap       } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
 // Preprocessing
 include { GUNZIP as GUNZIP_DNA               } from '../modules/nf-core/gunzip/main'
@@ -24,6 +24,7 @@ include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mk
 include { KRAKENUNIQ_BUILD                   } from '../modules/nf-core/krakenuniq/build/main'
 include { UNZIP                              } from '../modules/nf-core/unzip/main'
 include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
+include { TAR                                } from '../modules/nf-core/tar/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN    } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS   } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
@@ -200,21 +201,40 @@ workflow CREATETAXDB {
     }
 
     //
+    // Aggregate all databases for downstream processes
+    //
+    ch_all_databases = Channel
+        .empty()
+        .mix(
+            ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge"], db] },
+            ch_diamond_output.map { meta, db -> [meta + [tool: "diamond"], db] },
+            ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju"], db] },
+            ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2"], db] },
+            ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq"], db] },
+            ch_malt_output.map { db -> [[id: params.dbname, tool: "malt"], db] }
+        )
+
+    //
+    // Package for portable databsae
+    //
+
+    if (params.generate_tar_archive) {
+        TAR(ch_all_databases, '.gz')
+    }
+
+    //
     // Samplesheet generation
     //
-    ch_input_for_samplesheet = Channel
-                            .empty()
-                            .mix(
-                                    ch_centrifuge_output.map     {meta, db -> [ meta + [tool: "centrifuge"]                                , db ]},
-                                    ch_diamond_output.map        {meta, db -> [ meta + [tool: "diamond"]                                   , db ]},
-                                    ch_kaiju_output.map          {meta, db -> [ meta + [tool: "kaiju"]                                     , db ]},
-                                    ch_kraken2_bracken_output.map{meta, db -> [ meta + [tool: params.build_bracken ? "bracken" : "kraken2"], db ]},
-                                    ch_krakenuniq_output.map     {meta, db -> [ meta + [tool: "krakenuniq"]                                , db ]},
-                                    ch_malt_output.map           {db       -> [        [id: params.dbname, tool: "malt"]                   , db ]}
-                                )
 
-    if ( params.generate_downstream_samplesheets ) {
-        GENERATE_DOWNSTREAM_SAMPLESHEETS ( ch_input_for_samplesheet )
+
+    if (params.generate_downstream_samplesheets) {
+        if (params.generate_samplesheet_dbtype == 'tar') {
+            ch_databases_for_samplesheets = TAR.out.archive
+        }
+        else if (params.generate_samplesheet_dbtype == 'raw') {
+            ch_databases_for_samplesheets = ch_all_databases
+        }
+        GENERATE_DOWNSTREAM_SAMPLESHEETS(ch_databases_for_samplesheets)
     }
 
 
@@ -234,25 +254,33 @@ workflow CREATETAXDB {
     //
     // MODULE: MultiQC
     //
-    ch_multiqc_config        = Channel.fromPath(
-        "$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-    ch_multiqc_custom_config = params.multiqc_config ?
-        Channel.fromPath(params.multiqc_config, checkIfExists: true) :
-        Channel.empty()
-    ch_multiqc_logo          = params.multiqc_logo ?
-        Channel.fromPath(params.multiqc_logo, checkIfExists: true) :
-        Channel.empty()
+    ch_multiqc_config = Channel.fromPath(
+        "${projectDir}/assets/multiqc_config.yml",
+        checkIfExists: true
+    )
+    ch_multiqc_custom_config = params.multiqc_config
+        ? Channel.fromPath(params.multiqc_config, checkIfExists: true)
+        : Channel.empty()
+    ch_multiqc_logo = params.multiqc_logo
+        ? Channel.fromPath(params.multiqc_logo, checkIfExists: true)
+        : Channel.fromPath("${workflow.projectDir}/docs/images/nf-core-createtaxdb_logo_light_tax.png", checkIfExists: true)
 
-    summary_params      = paramsSummaryMap(
-        workflow, parameters_schema: "nextflow_schema.json")
+
+    summary_params = paramsSummaryMap(
+        workflow,
+        parameters_schema: "nextflow_schema.json"
+    )
     ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
     ch_multiqc_files = ch_multiqc_files.mix(
-        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-    ch_multiqc_custom_methods_description = params.multiqc_methods_description ?
-        file(params.multiqc_methods_description, checkIfExists: true) :
-        file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
-    ch_methods_description                = Channel.value(
-        methodsDescriptionText(ch_multiqc_custom_methods_description))
+        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml')
+    )
+
+    ch_multiqc_custom_methods_description = params.multiqc_methods_description
+        ? file(params.multiqc_methods_description, checkIfExists: true)
+        : file("${projectDir}/assets/methods_description_template.yml", checkIfExists: true)
+    ch_methods_description = Channel.value(
+        methodsDescriptionText(ch_multiqc_custom_methods_description)
+    )
 
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
     ch_multiqc_files = ch_multiqc_files.mix(
@@ -270,11 +298,10 @@ workflow CREATETAXDB {
         [],
         []
     )
-    multiqc_report = MULTIQC.out.report.toList()
 
     emit:
-    versions                 = ch_versions // channel: [ path(versions.yml) ]
     multiqc_report           = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
+    versions                 = ch_versions // channel: [ path(versions.yml) ]
     centrifuge_database      = ch_centrifuge_output
     diamond_database         = ch_diamond_output
     kaiju_database           = ch_kaiju_output
