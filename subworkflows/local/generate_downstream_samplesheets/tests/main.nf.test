@@ -8,36 +8,25 @@ nextflow_workflow {
     tag "subworkflows_local"
     tag "subworkflows/generate_downstream_samplesheets"
 
-    test("databases - taxprofiler") {
+    test("generate_downstream_samplesheets - taxprofiler") {
 
         when {
             params {
-                outdir                          = "$outputDir"
+                modules_testdata_base_path      = "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/"
+                outdir                          = "."
                 generate_pipeline_samplesheets  = 'taxprofiler'
             }
             workflow {
                 """
                 input[0] = Channel.of(
                     [
+                        [id:'database', tool:'kraken2'],
+                        file(params.modules_testdata_base_path + "genomics/sarscov2/genome/db/kraken2.tar.gz", checkIfExists: true)
+                    ],
+                    [
                         [id:'database', tool:'krakenuniq'],
-                        file('/workspace/createtaxdb/work/af/59cb1f95d809c3de6520bb0c0d0f6c/database')
+                        file(params.modules_testdata_base_path + "genomics/sarscov2/genome/db/krakenuniq.tar.gz", checkIfExists: true)
                     ],
-                    [
-                        [id:'database', tool:'centrifuge'],
-                        file('/workspace/createtaxdb/work/59/3a1df5c9f4b84a4ec3c8014aa13774/database')
-                    ],
-                    [
-                        [id:'database', tool:'kaiju'],
-                        file('/workspace/createtaxdb/work/87/865072d7fce3bbf8c5dfd867d16064/database.fmi')
-                    ],
-                    [
-                        [id:'database', tool:'diamond'],
-                        file('/workspace/createtaxdb/work/1b/f20ef16fbc0f4708db40d76410be5c/database.dmnd')
-                    ],
-                    [
-                        [id:'database', tool:'malt'],
-                        file('/workspace/createtaxdb/work/4f/c630a9baab2c2f31f15fab1feec4f2/malt_index')
-                    ]
                 )
                 """
             }

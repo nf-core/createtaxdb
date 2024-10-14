@@ -1,12 +1,12 @@
 {
-    "databases - taxprofiler": {
+    "generate_downstream_samplesheets - taxprofiler": {
         "content": [
-            "taxprofiler.csv:md5,dc4cb1c64d2d48273eb2125266b315bf"
+            "./downstream_samplesheets/taxprofiler.csv"
         ],
         "meta": {
             "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2024-10-10T22:10:48.802711152"
+        "timestamp": "2024-10-14T14:19:50.381431215"
     }
 }
