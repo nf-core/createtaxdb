@@ -179,7 +179,7 @@
                 "generate_pipeline_samplesheets": {
                     "type": "string",
                     "default": "taxprofiler",
-                    "description": "Specify which pipeline to generate a samplesheet for.",
+                    "description": "Specify a comma separated string in quotes to specify which pipeline to generate a samplesheet for. Currently supported pipeline(s): taxprofiler",
                     "fa_icon": "fas fa-toolbox"
                 },
                 "generate_samplesheet_dbtype": {
