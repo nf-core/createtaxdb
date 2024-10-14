@@ -138,7 +138,7 @@ def validateInputParameters() {
 
     // Validate samplesheet generation parameters
     if (params.generate_downstream_samplesheets && !params.generate_pipeline_samplesheets) {
-        error('[nf-core/createtaxdb] If supplying `--generate_downsteam_samplesheets`, you must also specify which pipeline to generate for with `--generate_pipeline_samplesheets! Check input.')
+        error('[nf-core/createtaxdb] If supplying `--generate_downstream_samplesheets`, you must also specify which pipeline to generate for with `--generate_pipeline_samplesheets! Check input.')
     }
 
     if (params.generate_downstream_samplesheets && !params.generate_tar_archive && params.generate_samplesheet_dbtype == 'tar') {
