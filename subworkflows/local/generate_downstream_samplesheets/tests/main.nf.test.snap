@@ -1,7 +1,7 @@
 {
     "generate_downstream_samplesheets - taxprofiler": {
         "content": [
-            "./downstream_samplesheets/taxprofiler.csv"
+            "./downstream_samplesheets/databases-taxprofiler.csv"
         ],
         "meta": {
             "nf-test": "0.9.0",

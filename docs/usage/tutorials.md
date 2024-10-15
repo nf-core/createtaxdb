@@ -140,11 +140,11 @@ Now we have a better understanding of what the command is doing, we can execute 
 Once the run finishes, we can look in the specified `--outdir` directory, for a subdirectory called `downstream_samplesheets`.
 In this tutorial this is `createtaxdb_results/downstream_samplesheets`.
 
-This samplesheet, called `taxprofiler.csv`, can be used used as input to nf-core/taxprofiler!
+This samplesheet, called `databases-taxprofiler.csv`, can be used used as input to nf-core/taxprofiler!
 
 It should look something like this:
 
-```csv title="taxprofiler.csv"
+```csv title="databases-taxprofiler.csv"
 tool,db_name,db_params,db_path
 kraken2,tutorial-kraken2,,/<path>/<to>/createtaxdb_results/kraken2/tutorial-kraken2.tar.gz
 centrifuge,tutorial-centrifuge,,/<path>/<to>/createtaxdb_results/centrifuge/tutorial-centrifuge.tar.gz
@@ -180,7 +180,7 @@ nextflow run nf-core/taxprofiler \
   -profile docker \
   -c tutorial.conf \
   --input input.csv \
-  --databases results/createtaxdb_downstream_samplesheets/taxprofiler.csv \
+  --databases results/createtaxdb_downstream_samplesheets/databases-taxprofiler.csv \
   --outdir taxprofiler_results/ \
   --perform_shortread_qc \
   --run_centrifuge \
