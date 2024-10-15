@@ -6,7 +6,11 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+**nf-core/createtaxdb** is a bioinformatics pipeline that constructs custom metagenomic classifier databases from the same input reference genome set for multiple classifiers and profilers in a highly automated and parallelised manner.
+
+In addition to this page, you can find additional usage information on the following pages:
+
+- [Tutorials](usage/tutorials.md)
 
 ## Samplesheet input
 
