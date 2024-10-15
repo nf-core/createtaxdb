@@ -155,6 +155,41 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of KrakenUniq database. Requires nucleotide FASTA file input."
+                },
+                "bracken_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to bracken build",
+                    "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib)"
+                },
+                "kraken2_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kraken2 build",
+                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases)"
+                },
+                "krakenuniq_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to krakenuniq-build",
+                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq#database-building)"
+                },
+                "centrifuge_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to centrifuge-build",
+                    "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building)"
+                },
+                "diamond_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to diamond makedb",
+                    "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options)"
+                },
+                "kaiju_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kaiju-mkbwt",
+                    "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database)"
+                },
+                "malt_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to malt-build, exception: sequenceType",
+                    "help_text": "See [The MALT index builder, in the MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/welcome.html)"
                 }
             },
             "fa_icon": "fas fa-database"
