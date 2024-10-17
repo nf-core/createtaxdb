@@ -14,7 +14,7 @@ This tutorial will guide you step-by-step on how to setup a nf-core/createtaxdb 
 The datasets provided here _should_ be small enough to run on your laptop or desktop computer.
 It should not require a HPC or similar.
 
-If you wish to use a HPC cluster or cloud, and don’t wish to use an ‘interactive’ session submitted to your scheduler, please see the [nf-core documentation](https://nf-co.re/docs/usage/configuration#introduction) on how to make a relevant config file.
+If you wish to use a HPC cluster or cloud, and don't wish to use an 'interactive' session submitted to your scheduler, please see the [nf-core documentation](https://nf-co.re/docs/usage/configuration#introduction) on how to make a relevant config file.
 
 You will need internet access and at least X.X GB of hard-drive space.
 
@@ -48,9 +48,10 @@ We will also need some taxonomy files.
 We have prepared for you the relevant files with just the taxonomy and accession IDs of the species of interest (rather than the very large whole NCBI taxonomy)
 
 ```bash
+curl -O https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/createtaxdb/data/tutorials/taxonomy/names_reduced.dmp
+curl -O https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/createtaxdb/data/tutorials/taxonomy/nodes_reduced.dmp
 curl -O https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/createtaxdb/data/tutorials/taxonomy/nucl_gb.accession2taxid
-curl -O https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/createtaxdb/data/tutorials/names_reduced.dmp
-curl -O https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/createtaxdb/data/tutorials/nodes_reduced.dmp
+curl -O https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/createtaxdb/data/tutorials/taxonomy/nucl2taxid.map
 ```
 
 ##### nf-core/taxprofiler
@@ -71,7 +72,7 @@ For the purposes of this tutorial, we will tell the nf-core pipelines to a tiny 
 
 For this we will make a custom configuration file called `tutorial.conf` with the following contents:
 
-```
+```nextflow
 process {
     resourceLimits = [
         cpus: 4,
@@ -114,7 +115,7 @@ nextflow run ../main.nf \
   --nodesdmp nodes_reduced.dmp \
   --namesdmp names_reduced.dmp \
   --accession2taxid nucl_gb.accession2taxid \
-  --nucl2taxid nucl2taxid.txt \
+  --nucl2taxid nucl2taxid.map \
   --outdir createtaxdb_results \
   --dbname tutorial \
   --build_kraken2 \
@@ -198,7 +199,7 @@ rm -r createtaxdb-tutorial
 ```
 
 :::warning
-Don’t forget to change out of the directory above before trying to delete it!
+Don't forget to change out of the directory above before trying to delete it!
 :::
 
 ### Summary
