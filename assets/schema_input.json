@@ -8,15 +8,13 @@
         "type": "object",
         "properties": {
             "id": {
-                "type": "string",
+                "type": ["string", "integer"],
                 "pattern": "^\\S+$",
-                "uniqueItems": true,
                 "errorMessage": "Sequence reference name must be provided and cannot contain spaces",
                 "meta": ["id"]
             },
             "taxid": {
                 "type": "integer",
-                "uniqueItems": true,
                 "errorMessage": "Please provide a valid taxonomic ID in integer format",
                 "meta": ["taxid"]
             },
@@ -33,7 +31,6 @@
                     }
                 ],
                 "uniqueItems": true,
-                "errorMessage": "FASTA file for nucleotide sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas, faa), optionally gzipped",
                 "exists": true,
                 "format": "file-path"
             },
@@ -50,19 +47,12 @@
                     }
                 ],
                 "uniqueItems": true,
-                "errorMessage": "FASTA file for amino acid reference sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas, faa), optionally gzipped",
                 "exists": true,
                 "format": "file-path"
             }
         },
         "required": ["id", "taxid"],
-        "anyOf": [
-            {
-                "required": ["fasta_dna"]
-            },
-            {
-                "required": ["fasta_aa"]
-            }
-        ]
-    }
+        "anyOf": [{ "required": ["fasta_dna"] }, { "required": ["fasta_aa"] }]
+    },
+    "allOf": [{ "uniqueEntries": ["id"] }, { "uniqueEntries": ["fasta_dna"] }, { "uniqueEntries": ["fasta_aa"] }]
 }
