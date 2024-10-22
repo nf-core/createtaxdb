@@ -39,12 +39,12 @@ workflow NFCORE_CREATETAXDB {
     // WORKFLOW: Run pipeline
     //
     ch_samplesheet       = samplesheet
-    ch_taxonomy_namesdmp = file(params.namesdmp)
-    ch_taxonomy_nodesdmp = file(params.nodesdmp)
-    ch_accession2taxid   = file(params.accession2taxid)
-    ch_nucl2taxid        = file(params.nucl2taxid)
-    ch_prot2taxid        = file(params.prot2taxid)
-    ch_malt_mapdb        = file(params.malt_mapdb)
+    ch_taxonomy_namesdmp = params.namesdmp        ? file(params.namesdmp)        : Channel.empty()
+    ch_taxonomy_nodesdmp = params.nodesdmp        ? file(params.nodesdmp)        : Channel.empty()
+    ch_accession2taxid   = params.accession2taxid ? file(params.accession2taxid) : Channel.empty()
+    ch_nucl2taxid        = params.nucl2taxid      ? file(params.nucl2taxid)      : Channel.empty()
+    ch_prot2taxid        = params.prot2taxid      ? file(params.prot2taxid)      : Channel.empty()
+    ch_malt_mapdb        = params.malt_mapdb      ? file(params.malt_mapdb)      : Channel.empty()
 
 
     CREATETAXDB (
