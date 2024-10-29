@@ -30,6 +30,11 @@
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
                     },
+                    "ganon/buildcustom": {
+                        "branch": "master",
+                        "git_sha": "58b4d685b1c93429917fec530f5d656aca3f2ef6",
+                        "installed_by": ["modules"]
+                    },
                     "gunzip": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
