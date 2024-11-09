@@ -30,7 +30,7 @@ process GANON_BUILDCUSTOM {
     ganon \\
         build-custom \\
         --threads ${task.cpus} \\
-        --input ${input} \\
+        $input_cmd \\
         --db-prefix ${prefix} \\
         ${taxonomy_args} \\
         ${genome_size_args} \\

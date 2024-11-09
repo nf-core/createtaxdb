@@ -123,23 +123,15 @@
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of DIAMOND database. Requires amino-acid FASTA file input."
                 },
+                "build_ganon": {
+                    "type": "boolean",
+                    "description": "Turn on building of ganon database. Requires nucleotide FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
                 "build_kaiju": {
                     "type": "boolean",
                     "description": "Turn on building of Kaiju database. Requires amino-acid FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
-                },
-                "build_malt": {
-                    "type": "boolean",
-                    "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
-                },
-                "malt_sequencetype": {
-                    "type": "string",
-                    "default": "DNA",
-                    "description": "Specify type of input sequence being given to MALT",
-                    "enum": ["DNA", "Protein"],
-                    "help_text": "Use to specify whether the reference sequences are DNA or Protein sequences. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\n> Modifies tool(s) parameter(s)\n> - malt-build: `--sequenceType` ",
-                    "fa_icon": "fas fa-dna"
                 },
                 "build_kraken2": {
                     "type": "boolean",
@@ -155,6 +147,19 @@
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of KrakenUniq database. Requires nucleotide FASTA file input."
+                },
+                "build_malt": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
+                },
+                "malt_sequencetype": {
+                    "type": "string",
+                    "default": "DNA",
+                    "description": "Specify type of input sequence being given to MALT",
+                    "enum": ["DNA", "Protein"],
+                    "help_text": "Use to specify whether the reference sequences are DNA or Protein sequences. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\n> Modifies tool(s) parameter(s)\n> - malt-build: `--sequenceType` ",
+                    "fa_icon": "fas fa-dna"
                 }
             },
             "fa_icon": "fas fa-database"

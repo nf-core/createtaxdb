@@ -57,11 +57,11 @@ workflow CREATETAXDB {
 
     // PREPARE: Prepare input for single file inputs modules
 
-    if ([params.build_malt, params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq].any()) {
+    if ([params.build_malt, params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon].any()) {
         // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_samplesheet
-            .map { meta, fasta_dna, fasta_aa -> [[id: params.dbname], fasta_dna] }
+            .map { meta, fasta_dna, fasta_aa -> [meta, fasta_dna] }
             .filter { meta, fasta_dna ->
                 fasta_dna
             }
@@ -72,7 +72,7 @@ workflow CREATETAXDB {
         }
 
         GUNZIP_DNA(ch_dna_for_unzipping.zipped)
-        ch_prepped_dna_fastas = GUNZIP_DNA.out.gunzip.mix(ch_dna_for_unzipping.unzipped).groupTuple()
+        ch_prepped_dna_fastas = GUNZIP_DNA.out.gunzip.mix(ch_dna_for_unzipping.unzipped).tap { ch_prepped_dna_fastas_ungrouped }.map { meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
         ch_versions = ch_versions.mix(GUNZIP_DNA.out.versions.first())
 
         // Place in single file
@@ -137,18 +137,26 @@ workflow CREATETAXDB {
     }
 
     if (params.build_ganon) {
-        ch_ganon_input_tsv = ch_prepped_dna_fastas
-            .map { meta, file ->
-                [meta, file]
-                [file.name(), meta.id, meta.taxid]
+        ch_ganon_input_tsv = ch_prepped_dna_fastas_ungrouped
+            .map { meta, fasta ->
+                // I tried with .name() but it kept giving error of `Unknown method invocation `name` on XPath type... not sure why
+                def fasta_name = fasta.toString().split('/').last()
+                [fasta_name, meta.id, meta.taxid]
             }
-            .map { it.values().join("\t") }
-            .collectFile {
-                name: "ganon_input.tsv"
+            .map { it.join("\t") }
+            .collectFile (
+                name: "ganon_fasta_input.tsv",
                 newLine: true
+            )
+            .map{
+                [[id: params.dbname], it]
             }
 
-        GANON_BUILDCUSTOM(ch_ganon_input_tsv, 'tsv', tax_file, [])
+        // Nodes must come first
+        ch_ganon_tax_files = Channel.fromPath(ch_taxonomy_nodesdmp).combine(Channel.fromPath(ch_taxonomy_namesdmp))
+
+        // TODO Fix module so `input_cmd` is used and add test!
+        GANON_BUILDCUSTOM(ch_ganon_input_tsv, 'tsv', ch_ganon_tax_files, [])
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
     }
