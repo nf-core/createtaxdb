@@ -123,20 +123,20 @@
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of DIAMOND database. Requires amino-acid FASTA file input."
                 },
-                "build_kaiju": {
-                    "type": "boolean",
-                    "description": "Turn on building of Kaiju database. Requires amino-acid FASTA file input.",
-                    "fa_icon": "fas fa-toggle-on"
-                },
                 "build_malt": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
                 },
-                "malt_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters for malt-build",
-                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\n> Modifies tool(s) parameter(s)\n> - malt-build: `--sequenceType` "
+                "build_ganon": {
+                    "type": "boolean",
+                    "description": "Turn on building of ganon database. Requires nucleotide FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
+                "build_kaiju": {
+                    "type": "boolean",
+                    "description": "Turn on building of Kaiju database. Requires amino-acid FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
                 },
                 "build_kraken2": {
                     "type": "boolean",
@@ -177,6 +177,11 @@
                     "type": "string",
                     "description": "Specify parameters being given to kaiju-mkbwt",
                     "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database)"
+                },
+                "malt_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters for malt-build",
+                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\n> Modifies tool(s) parameter(s)\n> - malt-build: `--sequenceType` "
                 }
             },
             "fa_icon": "fas fa-database"
