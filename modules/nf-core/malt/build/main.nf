@@ -2,11 +2,11 @@ process MALT_BUILD {
     label 'process_high'
     conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'https://depot.galaxyproject.org/singularity/malt:0.61--hdfd78af_0'
-        : 'biocontainers/malt:0.61--hdfd78af_0'}"
+        ? 'https://depot.galaxyproject.org/singularity/malt:0.62--hdfd78af_0'
+        : 'biocontainers/malt:0.62--hdfd78af_0'}"
 
     input:
-    path fastas
+    path fastas, stageAs: 'fa_folder/'
     path gff
     path mapping_db
 
@@ -24,12 +24,12 @@ process MALT_BUILD {
 
     """
     malt-build \\
+        ${args} \\
         -v \\
-        --input ${fastas.join(' ')} \\
+        --input fa_folder \\
         ${igff} \\
         -d 'malt_index/' \\
         -t ${task.cpus} \\
-        ${args} \\
         -mdb ${mapping_db}/*.db |&tee malt-build.log
 
     cat <<-END_VERSIONS > versions.yml
