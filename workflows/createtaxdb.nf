@@ -61,8 +61,8 @@ workflow CREATETAXDB {
         // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_samplesheet
-            .map { meta, fasta_dna, fasta_aa -> [meta, fasta_dna] }
-            .filter { meta, fasta_dna ->
+            .map { meta, fasta_dna, _fasta_aa -> [meta, fasta_dna] }
+            .filter { _meta, fasta_dna ->
                 fasta_dna
             }
 
@@ -72,7 +72,8 @@ workflow CREATETAXDB {
         }
 
         GUNZIP_DNA(ch_dna_for_unzipping.zipped)
-        ch_prepped_dna_fastas = GUNZIP_DNA.out.gunzip.mix(ch_dna_for_unzipping.unzipped).tap { ch_prepped_dna_fastas_ungrouped }.map { meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
+        ch_prepped_dna_fastas_ungrouped = GUNZIP_DNA.out.gunzip.mix(ch_dna_for_unzipping.unzipped)
+        ch_prepped_dna_fastas = ch_prepped_dna_fastas_ungrouped.map { meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
         ch_versions = ch_versions.mix(GUNZIP_DNA.out.versions.first())
 
         // Place in single file
@@ -137,6 +138,9 @@ workflow CREATETAXDB {
     }
 
     if (params.build_ganon) {
+
+        ch_ganon_input_fastas = ch_prepped_dna_fastas_ungrouped.collect()
+
         ch_ganon_input_tsv = ch_prepped_dna_fastas_ungrouped
             .map { meta, fasta ->
                 // I tried with .name() but it kept giving error of `Unknown method invocation `name` on XPath type... not sure why
@@ -144,19 +148,18 @@ workflow CREATETAXDB {
                 [fasta_name, meta.id, meta.taxid]
             }
             .map { it.join("\t") }
-            .collectFile (
+            .collectFile(
                 name: "ganon_fasta_input.tsv",
                 newLine: true
             )
-            .map{
+            .map {
                 [[id: params.dbname], it]
             }
 
         // Nodes must come first
         ch_ganon_tax_files = Channel.fromPath(ch_taxonomy_nodesdmp).combine(Channel.fromPath(ch_taxonomy_namesdmp))
 
-        // TODO Fix module so `input_cmd` is used and add test!
-        GANON_BUILDCUSTOM(ch_ganon_input_tsv, 'tsv', ch_ganon_tax_files, [])
+        GANON_BUILDCUSTOM(ch_prepped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, [])
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
     }
