@@ -139,8 +139,6 @@ workflow CREATETAXDB {
 
     if (params.build_ganon) {
 
-        ch_ganon_input_fastas = ch_prepped_dna_fastas_ungrouped.collect()
-
         ch_ganon_input_tsv = ch_prepped_dna_fastas_ungrouped
             .map { meta, fasta ->
                 // I tried with .name() but it kept giving error of `Unknown method invocation `name` on XPath type... not sure why
@@ -192,7 +190,7 @@ workflow CREATETAXDB {
     if (params.build_krakenuniq) {
 
         ch_taxdmpfiles_for_krakenuniq = Channel.of(ch_taxonomy_namesdmp).combine(Channel.of(ch_taxonomy_nodesdmp)).map { [it] }
-        ch_input_for_krakenuniq = ch_prepped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, reads, taxdump -> [meta, reads, taxdump, ch_nucl2taxid] }
+        ch_input_for_krakenuniq = ch_prepped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, ch_nucl2taxid] }
 
         KRAKENUNIQ_BUILD(ch_input_for_krakenuniq)
         ch_versions = ch_versions.mix(KRAKENUNIQ_BUILD.out.versions.first())
