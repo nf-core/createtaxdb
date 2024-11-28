@@ -40,6 +40,10 @@
 
   > Lu, J., Breitwieser, F. P., Thielen, P., & Salzberg, S. L. (2017). Bracken: estimating species abundance in metagenomics data. PeerJ. Computer Science, 3(e104), e104. https://doi.org/10.7717/peerj-cs.104
 
+- [ganon](https://doi.org/10.1093/bioinformatics/btaa458)
+
+  > Piro, V. C., Dadi, T. H., Seiler, E., Reinert, K., & Renard, B. Y. (2020). Ganon: Precise metagenomics classification against large and up-to-date sets of reference sequences. Bioinformatics (Oxford, England), 36(Suppl_1), i12–i20. https://doi.org/10.1093/bioinformatics/btaa458
+
 - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
 
   > Kim, D., Song, L., Breitwieser, F. P., & Salzberg, S. L. (2016). Centrifuge: rapid and sensitive classification of metagenomic sequences. Genome Research, 26(12), 1721–1729. https://doi.org/10.1101/gr.210641.116

@@ -14,7 +14,8 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 - [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipeline
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
-- [Bracken](#bracken) - Database files for Brakcen
+- [Bracken](#bracken) - Database files for Bracken
+- [ganon](#ganon) - Database files for ganon
 - [Centrifuge](#centrifuge) - Database files for Centrifuge
 - [DIAMOND](#diamond) - Database files for DIAMOND
 - [Kaiju](#kaiju) - Database files for Kaiju
@@ -91,6 +92,20 @@ The resulting `<db_name>/` directory can be given to Bracken itself with `bracke
 </details>
 
 A directory and `cf` files can be given to the Centrifuge command with `centrifuge -x /<path>/<to>/<cf_files_basename>` etc.
+
+### Ganon
+
+[ganon](https://github.com/pirovc/ganon/) classifies genomic sequences against large sets of references efficiently, with integrated download and update of databases (refseq/genbank), taxonomic profiling (ncbi/gtdb), binning and hierarchical classification, customized reporting and more.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `diamond/`
+  - `<database>.hibf`: main bloom filter index file
+  - `<database>.tax`: taxonomy tree used for taxonomy assignment
+  </details>
+
+The directory containing these two files can be given to ganon itself with using the name as a prefix, e.g., `ganon classify -d /<path>/<to>/<database name without extensions>`.
 
 ### Diamond
 

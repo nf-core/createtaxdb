@@ -34,6 +34,7 @@
 2. Builds databases for:
    - [Bracken](https://doi.org/10.7717/peerj-cs.104)
    - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
+   - [ganon](https://doi.org/10.1093/bioinformatics/btaa458)
    - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
    - [Kaiju](https://doi.org/10.1038/ncomms11257)
    - [Kraken2](https://doi.org/10.1186/s13059-019-1891-0)
