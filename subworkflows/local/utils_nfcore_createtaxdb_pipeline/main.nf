@@ -130,9 +130,34 @@ workflow PIPELINE_COMPLETION {
 //
 def validateInputParameters() {
 
-    // Validate DIAMOND parameter combinations
+    // Validate CENTRIFUGE auxiliary file combinations
+    if (params.build_centrifuge && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_centrifuge, but missing at least one of: --nucl2taxid, --nodesdmp, or --namesdmp (all are mandatory for CENTRIFUGE)')
+    }
+
+    // Validate DIAMOND auxiliary file combinations
     if (params.build_diamond && [!params.prot2taxid, !params.nodesdmp, !params.namesdmp].any()) {
         error('[nf-core/createtaxdb] Supplied --build_diamond, but missing at least one of: --prot2taxid, --nodesdmp, or --namesdmp (all are mandatory for DIAMOND)')
+    }
+
+    // Validate GANON parameter combinations
+    if (params.build_ganon && [!params.nodesdmp, !params.namesdmp].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_ganon, but missing at least one of: --nodesdmp, or --namesdmp (all are mandatory for GANON)')
+    }
+
+    // Validate BRACKEN/KRAKEN parameter combinations
+    if ((params.build_bracken || params.build_kraken2) && [!params.accession2taxid, !params.nodesdmp, !params.namesdmp].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_kraken2 or --bracken, but missing at least one of: --accession2taxid, --nodesdmp, or --namesdmp (all are mandatory for BRACKEN/KRAKEN2)')
+    }
+
+    // Validate KRAKENUNIQ auxiliary file combinations
+    if (params.build_krakenuniq && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_krakenuniq, but missing at least one of: --nucl2taxid, --nodesdmp, or --namesdmp (all are mandatory for KRAKENUNIQ)')
+    }
+
+    // Validate MALT auxiliary file combinations
+    if (params.build_krakenuniq && [!params.malt_mapdb].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_malt, but missing: --malt_mapdb (all are mandatory for MALT)')
     }
 }
 
