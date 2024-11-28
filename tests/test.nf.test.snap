@@ -11,6 +11,8 @@
                 "database.4.cf:md5,2902ec5df0db6da41a91b40d2f46b30d"
             ],
             "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
+            "database.hibf:md5,af913cecda744b02751e2f5320c35c7c",
+            "database.tax:md5,30f327fbe453aa1a981363fd9f4df21b",
             "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
             "hash.k2d:md5,941118164b4bcc010593f7a7c7b30029",
             "opts.k2d",
@@ -30,8 +32,8 @@
         ],
         "meta": {
             "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
+            "nextflow": "24.10.2"
         },
-        "timestamp": "2024-10-08T16:33:06.699148849"
+        "timestamp": "2024-11-28T13:27:57.851046024"
     }
 }
