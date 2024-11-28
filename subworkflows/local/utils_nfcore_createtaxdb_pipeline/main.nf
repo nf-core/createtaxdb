@@ -245,7 +245,7 @@ def methodsDescriptionText(mqc_methods_yaml) {
     meta["tool_citations"] = ""
     meta["tool_bibliography"] = ""
 
-    meta["tool_citations"] = toolCitationText().replaceAll(', .', ".").replaceAll('. .', ' .').replaceAll(', .', '.')
+    meta["tool_citations"] = toolCitationText().replaceAll(', \\.', ".").replaceAll('. \\.', ' .').replaceAll(', \\.', '.')
     meta["tool_bibliography"] = toolBibliographyText()
 
 
