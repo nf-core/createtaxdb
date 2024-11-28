@@ -23,6 +23,8 @@ nextflow_pipeline {
                         file("$outputDir/bracken/database/database.kraken").name,
                         path("$outputDir/centrifuge/"),
                         path("$outputDir/diamond/database.dmnd"),
+                        path("$outputDir/ganon/database.hibf"),
+                        path("$outputDir/ganon/database.tax"),
                         path("$outputDir/kaiju/database.fmi"),
                         path("$outputDir/kraken2/database/hash.k2d"),
                         file("$outputDir/kraken2/database/opts.k2d").name,
