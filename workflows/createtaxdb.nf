@@ -79,7 +79,7 @@ workflow CREATETAXDB {
         // Place in single file
         CAT_CAT_DNA(ch_prepped_dna_fastas)
         ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
-        ch_singleref_for_dna = CAT_CAT_DNA.out
+        ch_singleref_for_dna = CAT_CAT_DNA.out.file_out
     }
 
     // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
@@ -105,7 +105,7 @@ workflow CREATETAXDB {
         //ch_versions = ch_versions.mix( PIGZ_COMPRESS_AA.versions.first() )
 
         CAT_CAT_AA(ch_prepped_aa_fastas)
-        ch_singleref_for_aa = CAT_CAT_AA.out_file
+        ch_singleref_for_aa = CAT_CAT_AA.out.file_out
         ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
     }
 
@@ -160,6 +160,9 @@ workflow CREATETAXDB {
         GANON_BUILDCUSTOM(ch_prepped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, [])
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
+    }
+    else {
+        ch_ganon_output = Channel.empty()
     }
 
     // MODULE: Run KAIJU/MKFMI
