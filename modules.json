@@ -32,7 +32,7 @@
                     },
                     "ganon/buildcustom": {
                         "branch": "master",
-                        "git_sha": "58b4d685b1c93429917fec530f5d656aca3f2ef6",
+                        "git_sha": "4265ef4b3b9af8877671715b081f102041c64cfd",
                         "installed_by": ["modules"]
                     },
                     "gunzip": {
