@@ -178,7 +178,7 @@
                     "description": "Specify parameters being given to kaiju-mkbwt",
                     "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database)"
                 },
-                  "malt_build_params": {
+                "malt_build_params": {
                     "type": "string",
                     "description": "Specify parameters for malt-build",
                     "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\n> Modifies tool(s) parameter(s)\n> - malt-build: `--sequenceType` "
