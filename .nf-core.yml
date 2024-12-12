@@ -1,10 +1,8 @@
-bump_version: null
 lint:
   actions_ci: false
   files_unchanged:
     - .github/workflows/linting.yml
-nf_core_version: 3.0.2
-org_path: null
+nf_core_version: 3.1.0
 repository_type: pipeline
 template:
   author: James A. Fellows Yates and the nf-core community
@@ -19,4 +17,3 @@ template:
     - fastqc
     - igenomes
   version: 1.0dev
-update: null
