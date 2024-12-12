@@ -183,7 +183,7 @@ workflow CREATETAXDB {
             ch_malt_mapdb = file(params.malt_mapdb)
         }
 
-        if (params.malt_sequencetype == 'Protein') {
+        if (params.malt_build_params.contains('--sequenceType Protein')) {
             ch_input_for_malt = ch_prepped_aa_fastas.map { meta, file -> file }
         }
         else {
