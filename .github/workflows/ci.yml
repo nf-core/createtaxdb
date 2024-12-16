@@ -1,30 +1,49 @@
-name: nf-core CI
 # This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
+name: nf-core CI
 on:
   push:
     branches:
-      - dev
+      - "dev"
   pull_request:
+    branches:
+      - "dev"
+      - "master"
   release:
     types: [published]
   workflow_dispatch:
 
 env:
   NXF_ANSI_LOG: false
+  NFTEST_VER: "0.7.3"
   NXF_SINGULARITY_CACHEDIR: ${{ github.workspace }}/.singularity
   NXF_SINGULARITY_LIBRARYDIR: ${{ github.workspace }}/.singularity
 
 concurrency:
-  group: "${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
+  define_nxf_versions:
+    name: Choose nextflow versions to test against depending on target branch
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.nxf_versions.outputs.matrix }}
+    steps:
+      - id: nxf_versions
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.base_ref }}" == "dev" && "${{ matrix.NXF_VER }}" != "latest-everything" ]]; then
+            echo matrix='["latest-everything"]' | tee -a $GITHUB_OUTPUT
+          else
+            echo matrix='["latest-everything", "23.10.0"]' | tee -a $GITHUB_OUTPUT
+          fi
+
   test:
-    name: "Run pipeline with test data (${{ matrix.NXF_VER }} | ${{ matrix.test_name }} | ${{ matrix.profile }})"
-    # Only run on push if this is the nf-core dev branch (merged PRs)
+    name: nf-test
+    needs: define_nxf_versions
     if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'nf-core/createtaxdb') }}"
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         NXF_VER:
           - "24.04.2"
@@ -43,6 +62,7 @@ jobs:
             profile: "conda"
           - isMaster: false
             profile: "singularity"
+
     steps:
       - name: Check out pipeline code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -55,6 +75,14 @@ jobs:
       - name: Set up Apptainer
         if: matrix.profile == 'singularity'
         uses: eWaterCycle/setup-apptainer@main
+
+      - name: Check out test data
+        uses: actions/checkout@v3
+        with:
+          repository: nf-core/test-datasets
+          ref: createtaxdb
+          path: test-datasets/
+          fetch-depth: 1
 
       - name: Set up Singularity
         if: matrix.profile == 'singularity'
@@ -80,6 +108,23 @@ jobs:
       - name: Clean up Disk space
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
 
-      - name: "Run pipeline with test data ${{ matrix.NXF_VER }} | ${{ matrix.test_name }} | ${{ matrix.profile }}"
+      - name: Install nf-test
         run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile ${{ matrix.test_name }},${{ matrix.profile }} --outdir ./results
+          wget -qO- https://code.askimed.com/install/nf-test | bash -s $NFTEST_VER
+          sudo mv nf-test /usr/local/bin/
+
+      - name: Run nf-test
+        run: |
+          nf-test test --tag ${{ matrix.test_name }} --profile ${{ matrix.test_name }},${{ matrix.profile }} --junitxml=test.xml
+
+      - name: Output log on failure
+        if: failure()
+        run: |
+          sudo apt install bat > /dev/null
+          batcat --decorations=always --color=always ${{ github.workspace }}/.nf-test/tests/*/output/pipeline_info/software_versions.yml
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always() # always run even if the previous step fails
+        with:
+          report_paths: "*.xml"

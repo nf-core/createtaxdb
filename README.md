@@ -1,7 +1,7 @@
 <h1>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-createtaxdb_logo_dark.png">
-    <img alt="nf-core/createtaxdb" src="docs/images/nf-core-createtaxdb_logo_light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-createtaxdb_logo_dark_tax.png">
+    <img alt="nf-core/createtaxdb" src="docs/images/nf-core-createtaxdb_logo_light_tax.png">
   </picture>
 </h1>
 
@@ -19,7 +19,7 @@
 
 ## Introduction
 
-**nf-core/createtaxdb** is a bioinformatics pipeline that ...
+**nf-core/createtaxdb** is a bioinformatics pipeline that constructs custom metagenomic classifier databases from the same input reference genome set for multiple classifiers and profilers in a highly automated and parallelised manner.
 
 <!-- TODO nf-core:
    Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
@@ -29,9 +29,17 @@
 
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+1. Prepares input FASTA files for building
+2. Builds databases for:
+   - [Bracken](https://doi.org/10.7717/peerj-cs.104)
+   - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
+   - [ganon](https://doi.org/10.1093/bioinformatics/btaa458)
+   - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
+   - [Kaiju](https://doi.org/10.1038/ncomms11257)
+   - [Kraken2](https://doi.org/10.1186/s13059-019-1891-0)
+   - [KrakenUniq](https://doi.org/10.1186/s13059-018-1568-0)
+   - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
 
 ## Usage
 
@@ -78,11 +86,13 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/createtaxdb was originally written by James A. Fellows Yates and the nf-core community.
+nf-core/createtaxdb was originally written by James A. Fellows Yates, Joon Klaps, Alexander Ramos Díaz and the nf-core community.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
 <!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+
+- Zandra Fagernäs for logo design
 
 ## Contributions and Support
 
