@@ -62,6 +62,9 @@ workflow PIPELINE_INITIALISATION {
         nextflow_cli_args
     )
 
+    // IMPORTANT: DO NOT REMOVE VALIDATEINPUTPARAMETERS() FUNCTION EVEN IF TEMPLATE SYNC TRIES TO DO IT!
+    // Context: it gets removed as we skip `igenomes` , but we need to keep it for custom validation
+
     //
     // Custom validation for pipeline parameters
     //
