@@ -135,8 +135,6 @@ workflow PIPELINE_COMPLETION {
 //
 def validateInputParameters() {
 
-    println('CHECKING INPUT')
-
     // Validate CENTRIFUGE auxiliary file combinations
     if (params.build_centrifuge && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
         error('[nf-core/createtaxdb] Supplied --build_centrifuge, but missing at least one of: --nucl2taxid, --nodesdmp, or --namesdmp (all are mandatory for CENTRIFUGE)')
