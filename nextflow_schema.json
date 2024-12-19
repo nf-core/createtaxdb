@@ -123,11 +123,6 @@
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of DIAMOND database. Requires amino-acid FASTA file input."
                 },
-                "build_malt": {
-                    "type": "boolean",
-                    "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
-                },
                 "build_ganon": {
                     "type": "boolean",
                     "description": "Turn on building of ganon database. Requires nucleotide FASTA file input.",
@@ -153,15 +148,15 @@
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of KrakenUniq database. Requires nucleotide FASTA file input."
                 },
+                "build_malt": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
+                },
                 "bracken_build_params": {
                     "type": "string",
                     "description": "Specify parameters being given to bracken build",
                     "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib)"
-                },
-                "kraken2_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters being given to kraken2 build",
-                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases)"
                 },
                 "centrifuge_build_params": {
                     "type": "string",
@@ -173,15 +168,30 @@
                     "description": "Specify parameters being given to diamond makedb",
                     "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options)"
                 },
+                "ganon_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to ganon buildcustom",
+                    "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/)"
+                },
                 "kaiju_build_params": {
                     "type": "string",
                     "description": "Specify parameters being given to kaiju-mkbwt",
                     "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database)"
                 },
+                "kraken2_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kraken2 build",
+                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases)"
+                },
+                "krakenuniq_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to krakenuniq build",
+                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building)"
+                },
                 "malt_build_params": {
                     "type": "string",
-                    "description": "Specify parameters for malt-build",
-                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\n> Modifies tool(s) parameter(s)\n> - malt-build: `--sequenceType` "
+                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein.",
+                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/)."
                 }
             },
             "fa_icon": "fas fa-database"
