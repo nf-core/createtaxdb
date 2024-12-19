@@ -12,7 +12,7 @@
             ],
             "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
             "database.hibf:md5,af913cecda744b02751e2f5320c35c7c",
-            "database.tax:md5,30f327fbe453aa1a981363fd9f4df21b",
+            "database.tax:md5,e041b05ce29813656f529560dc8a19ae",
             "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
             "hash.k2d:md5,941118164b4bcc010593f7a7c7b30029",
             "opts.k2d",
@@ -34,6 +34,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.2"
         },
-        "timestamp": "2024-11-28T13:27:57.851046024"
+        "timestamp": "2024-12-19T09:42:03.969984742"
     }
 }
