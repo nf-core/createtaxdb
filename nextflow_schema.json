@@ -113,30 +113,66 @@
                     "description": "Turn on extending of Kraken2 database to include Bracken files. Requires nucleotide FASTA File input.",
                     "help_text": "Bracken2 databases are simply just a Kraken2 database with two additional files.\n\nNote however this requires a Kraken2 database _with_ intermediate files still in it, thus can result in large database directories."
                 },
+                "bracken_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to bracken build. Must be wrapped in double and single quotes: --bracken_build_params \"'--your_param'\"",
+                    "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib)",
+                    "fa_icon": "fas fa-users-cog"
+                },
                 "build_centrifuge": {
                     "type": "boolean",
                     "description": "Turn on building of Centrifuge database. Requires nucleotide FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
+                },
+                "centrifuge_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to centrifuge-build. Must be wrapped in double and single quotes: --centrifuge_build_params \"'--your_param'\"",
+                    "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building)",
+                    "fa_icon": "fas fa-users-cog"
                 },
                 "build_diamond": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of DIAMOND database. Requires amino-acid FASTA file input."
                 },
+                "diamond_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to diamond makedb. Must be wrapped in double and single quotes: --diamond_build_params \"'--your_param'\"",
+                    "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options)",
+                    "fa_icon": "fas fa-users-cog"
+                },
                 "build_ganon": {
                     "type": "boolean",
                     "description": "Turn on building of ganon database. Requires nucleotide FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
+                },
+                "ganon_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to ganon buildcustom. Must be wrapped in double and single quotes: --ganon_build_params \"'--your_param'\"",
+                    "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/)",
+                    "fa_icon": "fas fa-users-cog"
                 },
                 "build_kaiju": {
                     "type": "boolean",
                     "description": "Turn on building of Kaiju database. Requires amino-acid FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
                 },
+                "kaiju_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kaiju-mkbwt. Must be wrapped in double and single quotes: --kaiju_build_params \"'--your_param'\"",
+                    "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database)",
+                    "fa_icon": "fas fa-users-cog"
+                },
                 "build_kraken2": {
                     "type": "boolean",
                     "description": "Turn on building of Kraken2 database. Requires nucleotide FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
+                },
+                "kraken2_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kraken2 build. Must be wrapped in double and single quotes: --kraken2_build_params \"'--your_param'\"",
+                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases)",
+                    "fa_icon": "fas fa-users-cog"
                 },
                 "kraken2_keepintermediate": {
                     "type": "boolean",
@@ -148,50 +184,23 @@
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of KrakenUniq database. Requires nucleotide FASTA file input."
                 },
+                "krakenuniq_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to krakenuniq build. Must be wrapped in double and single quotes: --krakenuniq_build_params \"'--your_param'\"",
+                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building)",
+                    "fa_icon": "fas fa-users-cog"
+                },
                 "build_malt": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
                 },
-                "bracken_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters being given to bracken build",
-                    "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib)"
-                },
-                "centrifuge_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters being given to centrifuge-build",
-                    "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building)"
-                },
-                "diamond_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters being given to diamond makedb",
-                    "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options)"
-                },
-                "ganon_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters being given to ganon buildcustom",
-                    "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/)"
-                },
-                "kaiju_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters being given to kaiju-mkbwt",
-                    "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database)"
-                },
-                "kraken2_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters being given to kraken2 build",
-                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases)"
-                },
-                "krakenuniq_build_params": {
-                    "type": "string",
-                    "description": "Specify parameters being given to krakenuniq build",
-                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building)"
-                },
                 "malt_build_params": {
                     "type": "string",
-                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein.",
-                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/)."
+                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein and be wrapped in double and single quotes: --malt_build_params \"'--sequenceType DNA --your_param'\"",
+                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).",
+                    "default": "--sequenceType DNA",
+                    "fa_icon": "fas fa-users-cog"
                 }
             },
             "fa_icon": "fas fa-database"
