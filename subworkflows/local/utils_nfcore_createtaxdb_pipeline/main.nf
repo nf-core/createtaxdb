@@ -43,7 +43,7 @@ workflow PIPELINE_INITIALISATION {
         version,
         true,
         outdir,
-        workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1
+        workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1,
     )
 
     //
@@ -52,7 +52,7 @@ workflow PIPELINE_INITIALISATION {
     UTILS_NFSCHEMA_PLUGIN(
         workflow,
         validate_params,
-        null
+        null,
     )
 
     //
@@ -61,6 +61,11 @@ workflow PIPELINE_INITIALISATION {
     UTILS_NFCORE_PIPELINE(
         nextflow_cli_args
     )
+
+    //
+    // Custom validation for pipeline parameters
+    //
+    validateInputParameters()
 
     //
     // Create channel from input file provided through params.input
@@ -104,7 +109,7 @@ workflow PIPELINE_COMPLETION {
                 plaintext_email,
                 outdir,
                 monochrome_logs,
-                multiqc_report.toList()
+                multiqc_report.toList(),
             )
         }
 
@@ -129,6 +134,8 @@ workflow PIPELINE_COMPLETION {
 // Check and validate pipeline parameters
 //
 def validateInputParameters() {
+
+    println('CHECKING INPUT')
 
     // Validate CENTRIFUGE auxiliary file combinations
     if (params.build_centrifuge && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
@@ -158,6 +165,10 @@ def validateInputParameters() {
     // Validate MALT auxiliary file combinations
     if (params.build_krakenuniq && [!params.malt_mapdb].any()) {
         error('[nf-core/createtaxdb] Supplied --build_malt, but missing: --malt_mapdb (all are mandatory for MALT)')
+    }
+
+    if (params.build_malt && !(params.malt_build_params.contains('--sequenceType DNA') || params.malt_build_params.contains('--sequenceType Protein'))) {
+        error('[nf-core/createtaxdb] Supplied --build_malt, but --malt_build_params must contain at a minimum malt-build parameters --sequenceType DNA or --sequenceType Protein')
     }
 }
 
@@ -193,7 +204,7 @@ def toolCitationText() {
         params.build_krakenuniq ? "KrakenUniq (Breitwieser et al. 2018)," : "",
         params.build_malt ? "MALT (Vågene et al. 2018)," : "",
         "and MultiQC (Ewels et al. 2016)",
-        "."
+        ".",
     ].join(' ').trim()
 
     return citation_text
@@ -212,7 +223,7 @@ def toolBibliographyText() {
         params.build_kraken2 ? '<li>Wood, D. E., Lu, J., & Langmead, B. (2019). Improved metagenomic analysis with Kraken 2. Genome Biology, 20(1), 257.  <a href="https://doi.org/10.1186/s13059-019-1891-0">10.1186/s13059-019-1891-0</a></li>' : "",
         params.build_krakenuniq ? '<li>Breitwieser, F. P., Baker, D. N., & Salzberg, S. L. (2018). KrakenUniq: confident and fast metagenomics classification using unique k-mer counts. Genome Biology, 19(1), 198.  <a href="https://doi.org/10.1186/s13059-018-1568-0">10.1186/s13059-018-1568-0</a></li>' : "",
         params.build_malt ? '<li>Vågene, Å. J., Herbig, A., Campana, M. G., Robles García, N. M., Warinner, C., Sabin, S., Spyrou, M. A., Andrades Valtueña, A., Huson, D., Tuross, N., Bos, K. I., & Krause, J. (2018). Salmonella enterica genomes from victims of a major sixteenth-century epidemic in Mexico. Nature Ecology & Evolution, 2(3), 520–528.  <a href="https://doi.org/10.1038/s41559-017-0446-6">10.1038/s41559-017-0446-6</a></li>' : "",
-        '<li>Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics , 32(19), 3047–3048. doi: /10.1093/bioinformatics/btw354</li>'
+        '<li>Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics , 32(19), 3047–3048. doi: /10.1093/bioinformatics/btw354</li>',
     ].join(' ').trim()
 
     return reference_text
