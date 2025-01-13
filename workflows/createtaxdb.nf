@@ -4,29 +4,28 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { MULTIQC                            } from '../modules/nf-core/multiqc/main'
-include { paramsSummaryMap                   } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc               } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML             } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText             } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
+include { MULTIQC                         } from '../modules/nf-core/multiqc/main'
+include { paramsSummaryMap                } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML          } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText          } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
 // Preprocessing
-include { GUNZIP as GUNZIP_DNA               } from '../modules/nf-core/gunzip/main'
-include { PIGZ_COMPRESS as PIGZ_COMPRESS_DNA } from '../modules/nf-core/pigz/compress/main'
-include { PIGZ_COMPRESS as PIGZ_COMPRESS_AA  } from '../modules/nf-core/pigz/compress/main'
-include { CAT_CAT as CAT_CAT_DNA             } from '../modules/nf-core/cat/cat/main'
-include { CAT_CAT as CAT_CAT_AA              } from '../modules/nf-core/cat/cat/main'
+include { GUNZIP as GUNZIP_DNA            } from '../modules/nf-core/gunzip/main'
+include { GUNZIP as GUNZIP_AA             } from '../modules/nf-core/gunzip/main'
+include { CAT_CAT as CAT_CAT_DNA          } from '../modules/nf-core/cat/cat/main'
+include { CAT_CAT as CAT_CAT_AA           } from '../modules/nf-core/cat/cat/main'
 
 // Database building (with specific auxiliary modules)
-include { CENTRIFUGE_BUILD                   } from '../modules/nf-core/centrifuge/build/main'
-include { DIAMOND_MAKEDB                     } from '../modules/nf-core/diamond/makedb/main'
-include { GANON_BUILDCUSTOM                  } from '../modules/nf-core/ganon/buildcustom/main'
-include { KAIJU_MKFMI                        } from '../modules/nf-core/kaiju/mkfmi/main'
-include { KRAKENUNIQ_BUILD                   } from '../modules/nf-core/krakenuniq/build/main'
-include { UNZIP                              } from '../modules/nf-core/unzip/main'
-include { MALT_BUILD                         } from '../modules/nf-core/malt/build/main'
+include { CENTRIFUGE_BUILD                } from '../modules/nf-core/centrifuge/build/main'
+include { DIAMOND_MAKEDB                  } from '../modules/nf-core/diamond/makedb/main'
+include { GANON_BUILDCUSTOM               } from '../modules/nf-core/ganon/buildcustom/main'
+include { KAIJU_MKFMI                     } from '../modules/nf-core/kaiju/mkfmi/main'
+include { KRAKENUNIQ_BUILD                } from '../modules/nf-core/krakenuniq/build/main'
+include { UNZIP                           } from '../modules/nf-core/unzip/main'
+include { MALT_BUILD                      } from '../modules/nf-core/malt/build/main'
 
-include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN    } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
+include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,10 +53,13 @@ workflow CREATETAXDB {
     DATA PREPARATION
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-
     // PREPARE: Prepare input for single file inputs modules
+    def malt_build_mode = null
+    if (params.build_malt) {
+        malt_build_mode = params.malt_build_params.contains('--sequenceType Protein') ? 'protein' : 'nucleotide'
+    }
 
-    if ([params.build_malt, params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon].any()) {
+    if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon].any()) {
         // Pull just DNA sequences
 
         ch_dna_refs_for_singleref = ch_samplesheet
@@ -66,14 +68,14 @@ workflow CREATETAXDB {
                 fasta_dna
             }
 
-        ch_dna_for_unzipping = ch_dna_refs_for_singleref.branch { meta, fasta ->
+        ch_dna_for_unzipping = ch_dna_refs_for_singleref.branch { _meta, fasta ->
             zipped: fasta.extension == 'gz'
             unzipped: true
         }
 
         GUNZIP_DNA(ch_dna_for_unzipping.zipped)
         ch_prepped_dna_fastas_ungrouped = GUNZIP_DNA.out.gunzip.mix(ch_dna_for_unzipping.unzipped)
-        ch_prepped_dna_fastas = ch_prepped_dna_fastas_ungrouped.map { meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
+        ch_prepped_dna_fastas = ch_prepped_dna_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
         ch_versions = ch_versions.mix(GUNZIP_DNA.out.versions.first())
 
         // Place in single file
@@ -87,22 +89,23 @@ workflow CREATETAXDB {
     // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
     // docs: https://github.com/nf-core/test-datasets/tree/taxprofiler#kaiju
     // idea: try just appending `_<tax_id_from_meta>` to end of each sequence header using a local sed module... it might be sufficient
-    if ([params.build_kaiju, params.build_diamond].any()) {
+    if ([(params.build_malt && malt_build_mode == 'protein'), params.build_kaiju, params.build_diamond].any()) {
 
         ch_aa_refs_for_singleref = ch_samplesheet
-            .map { meta, fasta_dna, fasta_aa -> [[id: params.dbname], fasta_aa] }
-            .filter { meta, fasta_aa ->
+            .map { _meta, _fasta_dna, fasta_aa -> [[id: params.dbname], fasta_aa] }
+            .filter { _meta, fasta_aa ->
                 fasta_aa
             }
 
-        ch_aa_for_zipping = ch_aa_refs_for_singleref.branch { meta, fasta ->
+        ch_aa_for_unzipping = ch_aa_refs_for_singleref.branch { _meta, fasta ->
             zipped: fasta.extension == 'gz'
             unzipped: true
         }
 
-        PIGZ_COMPRESS_AA(ch_aa_for_zipping.unzipped)
-        ch_prepped_aa_fastas = PIGZ_COMPRESS_AA.out.archive.mix(ch_aa_for_zipping.zipped).groupTuple()
-        //ch_versions = ch_versions.mix( PIGZ_COMPRESS_AA.versions.first() )
+        GUNZIP_AA(ch_aa_for_unzipping.zipped)
+        ch_prepped_aa_fastas_ungrouped = GUNZIP_AA.out.gunzip.mix(ch_aa_for_unzipping.unzipped)
+        ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
+        ch_versions = ch_versions.mix(GUNZIP_AA.out.versions.first())
 
         CAT_CAT_AA(ch_prepped_aa_fastas)
         ch_singleref_for_aa = CAT_CAT_AA.out.file_out
@@ -148,7 +151,7 @@ workflow CREATETAXDB {
             .map { it.join("\t") }
             .collectFile(
                 name: "ganon_fasta_input.tsv",
-                newLine: true
+                newLine: true,
             )
             .map {
                 [[id: params.dbname], it]
@@ -209,17 +212,17 @@ workflow CREATETAXDB {
 
         // The map DB file comes zipped (for some reason) from MEGAN6 website
         if (file(params.malt_mapdb).extension == 'zip') {
-            ch_malt_mapdb = UNZIP([[], params.malt_mapdb]).unzipped_archive.map { meta, file -> [file] }
+            ch_malt_mapdb = UNZIP([[], params.malt_mapdb]).unzipped_archive.map { _meta, file -> [file] }
         }
         else {
             ch_malt_mapdb = file(params.malt_mapdb)
         }
 
-        if (params.malt_build_params.contains('--sequenceType Protein')) {
-            ch_input_for_malt = ch_prepped_aa_fastas.map { meta, file -> file }
+        if (malt_build_mode == 'protein') {
+            ch_input_for_malt = ch_prepped_aa_fastas.map { _meta, file -> file }
         }
         else {
-            ch_input_for_malt = ch_prepped_dna_fastas.map { meta, file -> file }
+            ch_input_for_malt = ch_prepped_dna_fastas.map { _meta, file -> file }
         }
 
         MALT_BUILD(ch_input_for_malt, [], ch_malt_mapdb)
@@ -236,11 +239,9 @@ workflow CREATETAXDB {
     softwareVersionsToYAML(ch_versions)
         .collectFile(
             storeDir: "${params.outdir}/pipeline_info",
-
-            name: 'nf_core_'  +  'createtaxdb_software_'  + 'mqc_'  + 'versions.yml',
-
+            name: 'nf_core_' + 'createtaxdb_software_' + 'mqc_' + 'versions.yml',
             sort: true,
-            newLine: true
+            newLine: true,
         )
         .set { ch_collated_versions }
 
@@ -278,7 +279,7 @@ workflow CREATETAXDB {
     ch_multiqc_files = ch_multiqc_files.mix(
         ch_methods_description.collectFile(
             name: 'methods_description_mqc.yaml',
-            sort: true
+            sort: true,
         )
     )
 
@@ -288,7 +289,7 @@ workflow CREATETAXDB {
         ch_multiqc_custom_config.toList(),
         ch_multiqc_logo.toList(),
         [],
-        []
+        [],
     )
 
     emit:

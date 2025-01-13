@@ -1,0 +1,19 @@
+{
+    "test_alternatives_profile": {
+        "content": [
+            true,
+            "index0.idx:md5,ef349ebc456d6446b75570b8a0e57c0d",
+            "ref.db:md5,9372b49e5990fb4b29ed986a1fc737c4",
+            "ref.idx:md5,b99c3dc612948a7e4e490c3c74498c80",
+            "ref.inf:md5,e7ae0e08f730a851abba085e6cc7b4ec",
+            "taxonomy.idx:md5,f6c520613e1154909658f976498dd4a8",
+            "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
+            "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e"
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.10.2"
+        },
+        "timestamp": "2025-01-09T16:49:09.883808608"
+    }
+}
