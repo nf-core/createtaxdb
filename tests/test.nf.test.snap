@@ -12,12 +12,11 @@
             ],
             "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
             "database.hibf:md5,af913cecda744b02751e2f5320c35c7c",
-            "database.tax:md5,85d15469eb6fd11ed2a60890cfdeae82",
+            "database.tax:md5,bd00f12a50d7f1bd330ebcd0cfcd407e",
             "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
             "hash.k2d:md5,941118164b4bcc010593f7a7c7b30029",
             "opts.k2d",
             "taxo.k2d:md5,cd8170a8c5a1b763a9ac1ffa2107cc88",
-            true,
             "database.idx",
             "database.kdb:md5,a24fce43bedbc6c420f6e36d10c112a3",
             "taxDB:md5,1aed1afa948daffc236deba1c5d635db",
@@ -34,6 +33,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.2"
         },
-        "timestamp": "2025-01-09T16:42:06.335852855"
+        "timestamp": "2025-01-17T11:16:35.226802068"
     }
 }

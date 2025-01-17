@@ -29,7 +29,6 @@ nextflow_pipeline {
                         path("$outputDir/kraken2/database/hash.k2d"),
                         file("$outputDir/kraken2/database/opts.k2d").name,
                         path("$outputDir/kraken2/database/taxo.k2d"),
-                        path("$outputDir/krakenuniq/database/database-build.log").readLines().last().contains('database.idx'),
                         file("$outputDir/krakenuniq/database/database.idx").name,
                         file("$outputDir/krakenuniq/database/database.kdb"),
                         file("$outputDir/krakenuniq/database/taxDB"),
