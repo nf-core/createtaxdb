@@ -42,7 +42,7 @@
                     },
                     "kaiju/mkfmi": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "f1304d447983034fe9892953796b484f85bcb999",
                         "installed_by": ["modules"]
                     },
                     "kraken2/add": {
@@ -57,7 +57,7 @@
                     },
                     "krakenuniq/build": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "f1304d447983034fe9892953796b484f85bcb999",
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/krakenuniq/build/krakenuniq-build.diff"
                     },
@@ -68,7 +68,7 @@
                     },
                     "multiqc": {
                         "branch": "master",
-                        "git_sha": "cf17ca47590cc578dfb47db1c2a44ef86f89976d",
+                        "git_sha": "f80914f78fb7fa1c00b14cfeb29575ee12240d9c",
                         "installed_by": ["modules"]
                     },
                     "pigz/compress": {

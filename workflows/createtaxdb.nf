@@ -171,7 +171,7 @@ workflow CREATETAXDB {
     // MODULE: Run KAIJU/MKFMI
 
     if (params.build_kaiju) {
-        KAIJU_MKFMI(ch_singleref_for_aa)
+        KAIJU_MKFMI(ch_singleref_for_aa, params.kaiju_keepintermediate)
         ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
         ch_kaiju_output = KAIJU_MKFMI.out.fmi
     }
@@ -198,7 +198,7 @@ workflow CREATETAXDB {
         ch_taxdmpfiles_for_krakenuniq = Channel.of(ch_taxonomy_namesdmp).combine(Channel.of(ch_taxonomy_nodesdmp)).map { [it] }
         ch_input_for_krakenuniq = ch_prepped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, ch_nucl2taxid] }
 
-        KRAKENUNIQ_BUILD(ch_input_for_krakenuniq)
+        KRAKENUNIQ_BUILD(ch_input_for_krakenuniq, params.krakenuniq_keepintermediate)
         ch_versions = ch_versions.mix(KRAKENUNIQ_BUILD.out.versions.first())
         ch_krakenuniq_output = KRAKENUNIQ_BUILD.out.db
     }
