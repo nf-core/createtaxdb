@@ -15,34 +15,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CREATETAXDB  } from './workflows/createtaxdb'
+include { CREATETAXDB             } from './workflows/createtaxdb'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_createtaxdb_pipeline'
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOWS FOR PIPELINE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-//
-// WORKFLOW: Run main analysis pipeline depending on type of input
-//
-workflow NFCORE_CREATETAXDB {
-
-    take:
-    samplesheet // channel: samplesheet read in from --input
-
-    main:
-
-    //
-    // WORKFLOW: Run pipeline
-    //
-    CREATETAXDB (
-        samplesheet
-    )
-    emit:
-    multiqc_report = CREATETAXDB.out.multiqc_report // channel: /path/to/multiqc_report.html
-}
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -50,12 +25,10 @@ workflow NFCORE_CREATETAXDB {
 */
 
 workflow {
-
-    main:
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
-    PIPELINE_INITIALISATION (
+    PIPELINE_INITIALISATION(
         params.version,
         params.validate_params,
         params.monochrome_logs,
@@ -67,13 +40,13 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    NFCORE_CREATETAXDB (
+    NFCORE_CREATETAXDB(
         PIPELINE_INITIALISATION.out.samplesheet
     )
     //
     // SUBWORKFLOW: Run completion tasks
     //
-    PIPELINE_COMPLETION (
+    PIPELINE_COMPLETION(
         params.email,
         params.email_on_fail,
         params.plaintext_email,
@@ -86,6 +59,41 @@ workflow {
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    THE END
+    NAMED WORKFLOWS FOR PIPELINE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+
+//
+// WORKFLOW: Run main analysis pipeline depending on type of input
+//
+workflow NFCORE_CREATETAXDB {
+    take:
+    samplesheet // channel: samplesheet read in from --input
+
+    main:
+
+    //
+    // WORKFLOW: Run pipeline
+    //
+    ch_samplesheet = samplesheet
+    ch_taxonomy_namesdmp = file(params.namesdmp, checkIfExists: true)
+    ch_taxonomy_nodesdmp = file(params.nodesdmp, checkIfExists: true)
+    ch_accession2taxid = file(params.accession2taxid, checkIfExists: true)
+    ch_nucl2taxid = file(params.nucl2taxid, checkIfExists: true)
+    ch_prot2taxid = file(params.prot2taxid, checkIfExists: true)
+    ch_malt_mapdb = file(params.malt_mapdb, checkIfExists: true)
+
+
+    CREATETAXDB(
+        ch_samplesheet,
+        ch_taxonomy_namesdmp,
+        ch_taxonomy_nodesdmp,
+        ch_accession2taxid,
+        ch_nucl2taxid,
+        ch_prot2taxid,
+        ch_malt_mapdb
+    )
+
+    emit:
+    multiqc_report = CREATETAXDB.out.multiqc_report // channel: /path/to/multiqc_report.html
+}

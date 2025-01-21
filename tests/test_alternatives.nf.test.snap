@@ -1,0 +1,41 @@
+{
+    "test_alternatives_profile": {
+        "content": [
+            "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
+            "database.bwt:md5,fe639339371f5b4352017522f54d0c99",
+            "database.sa:md5,7d4a6481ad5ffdc2058bb35331a64d4d",
+            "database.idx",
+            "database.kdb:md5,a24fce43bedbc6c420f6e36d10c112a3",
+            "taxDB:md5,1aed1afa948daffc236deba1c5d635db",
+            "database0.kdb:md5,a24fce43bedbc6c420f6e36d10c112a3",
+            "database-build.log",
+            "database.idx:md5,60b87374f00c4661fe1c9d3448eb2d97",
+            "database.jdb:md5,807994585f56c0633e9d0418ae967434",
+            "database.kdb:md5,a24fce43bedbc6c420f6e36d10c112a3",
+            "database.kdb.counts:md5,33e5bec37e0e1cab9844ebf65642285f",
+            "database.kraken.tsv:md5,364c1ee780bc0952a59d0d00734cc000",
+            "database.report.tsv",
+            "haemophilus_influenzae.fna:md5,f9f0fbb922adaf3968f8edbfbafe0bd8",
+            "sarscov2.fasta:md5,6e9fe4042a72f2345f644f239272b7e6",
+            "library-files.txt:md5,e99416d72b5fc9ff2c3a3c6fed3c8be3",
+            "nucl2tax.map:md5,f8963dc677beaecd50743bb9133547da",
+            "seqid2taxid.map:md5,d41d8cd98f00b204e9800998ecf8427e",
+            "taxDB:md5,1aed1afa948daffc236deba1c5d635db",
+            "names.dmp:md5,7636e19ba77a6b41a8be70f6dcf278e4",
+            "nodes.dmp:md5,05a9d260c11234889f7378845efbd951",
+            true,
+            "index0.idx:md5,ef349ebc456d6446b75570b8a0e57c0d",
+            "ref.db:md5,9372b49e5990fb4b29ed986a1fc737c4",
+            "ref.idx:md5,b99c3dc612948a7e4e490c3c74498c80",
+            "ref.inf:md5,e7ae0e08f730a851abba085e6cc7b4ec",
+            "taxonomy.idx:md5,f6c520613e1154909658f976498dd4a8",
+            "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
+            "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e"
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.10.2"
+        },
+        "timestamp": "2025-01-17T11:33:20.372559338"
+    }
+}
