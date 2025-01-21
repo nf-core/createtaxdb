@@ -44,9 +44,7 @@
                     {
                         "type": "string",
                         "format": "file-path",
-                        "pattern": "^\\S+\\.(fasta|fas|fa|faa)(\\.gz)?$"
-                    },
-                    {
+                        "pattern": "^\\S+\\.(fasta|fas|fa|faa)(\\.gz)?$",
                         "exists": true
                     },
                     {
