@@ -28,13 +28,15 @@
                         "pattern": "^\\S+\\.(fasta|fas|fa|fna)(\\.gz)?$"
                     },
                     {
+                        "exists": true
+                    },
+                    {
                         "type": "string",
                         "maxLength": 0
                     }
                 ],
                 "uniqueItems": true,
                 "errorMessage": "FASTA file for nucleotide sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas, faa), optionally gzipped",
-                "exists": true,
                 "format": "file-path"
             },
             "fasta_aa": {
@@ -45,13 +47,15 @@
                         "pattern": "^\\S+\\.(fasta|fas|fa|faa)(\\.gz)?$"
                     },
                     {
+                        "exists": true
+                    },
+                    {
                         "type": "string",
                         "maxLength": 0
                     }
                 ],
                 "uniqueItems": true,
                 "errorMessage": "FASTA file for amino acid reference sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas, faa), optionally gzipped",
-                "exists": true,
                 "format": "file-path"
             }
         },
