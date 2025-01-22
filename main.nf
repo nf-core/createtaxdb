@@ -80,11 +80,7 @@ workflow NFCORE_CREATETAXDB {
     ch_taxonomy_namesdmp = file(params.namesdmp, checkIfExists: true)
     ch_taxonomy_nodesdmp = file(params.nodesdmp, checkIfExists: true)
 
-    if (params.nucl2taxid) {
-        ch_nucl2taxid = file(params.nucl2taxid, checkIfExists: true)
-    } else {
-        ch_nucl2taxid = null
-    }
+    ch_nucl2taxid = params.nucl2taxid ? file(params.nucl2taxid, checkIfExists: true) : []
 
     if (params.accession2taxid) {
         ch_accession2taxid = file(params.accession2taxid, checkIfExists: true)
