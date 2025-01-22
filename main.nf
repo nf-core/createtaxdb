@@ -100,15 +100,6 @@ workflow NFCORE_CREATETAXDB {
         ch_malt_mapdb = null
     }
 
-    CREATETAXDB(
-        ch_samplesheet,
-        ch_taxonomy_namesdmp,
-        ch_taxonomy_nodesdmp,
-        ch_accession2taxid,
-        ch_nucl2taxid,
-        ch_prot2taxid,
-        ch_malt_mapdb,
-    )
 
 
     CREATETAXDB(
