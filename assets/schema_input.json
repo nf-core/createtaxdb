@@ -43,6 +43,10 @@
             {
                 "required": ["fasta_aa"]
             }
+        ],
+        "allOf": [
+          { "uniqueEntries":["fasta_dna"] },
+          { "uniqueEntries":["fasta_aa"] }
         ]
     }
 }
