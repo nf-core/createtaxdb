@@ -93,6 +93,7 @@ We thank the following people for their extensive assistance in the development 
 <!-- TODO nf-core: If applicable, make list of people who have also contributed -->
 
 - Zandra Fagernäs for logo design
+- Sam Wilkinson
 
 ## Contributions and Support
 
