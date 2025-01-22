@@ -21,38 +21,18 @@
                 "meta": ["taxid"]
             },
             "fasta_dna": {
-                "anyOf": [
-                    {
-                        "type": "string",
-                        "format": "file-path",
-                        "pattern": "^\\S+\\.(fasta|fas|fa|fna)(\\.gz)?$"
-                    },
-                    {
-                        "type": "string",
-                        "maxLength": 0
-                    }
-                ],
-                "uniqueItems": true,
-                "errorMessage": "FASTA file for nucleotide sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas, faa), optionally gzipped",
+                "type": "string",
+                "format": "file-path",
+                "pattern": "^\\S+\\.(fasta|fas|fa|fna)(\\.gz)?$",
                 "exists": true,
-                "format": "file-path"
+                "errorMessage": "FASTA file for nucleotide sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas), optionally gzipped"
             },
             "fasta_aa": {
-                "anyOf": [
-                    {
-                        "type": "string",
-                        "format": "file-path",
-                        "pattern": "^\\S+\\.(fasta|fas|fa|faa)(\\.gz)?$"
-                    },
-                    {
-                        "type": "string",
-                        "maxLength": 0
-                    }
-                ],
-                "uniqueItems": true,
-                "errorMessage": "FASTA file for amino acid reference sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas, faa), optionally gzipped",
+                "type": "string",
+                "format": "file-path",
+                "pattern": "^\\S+\\.(fasta|fas|fa|faa)(\\.gz)?$",
                 "exists": true,
-                "format": "file-path"
+                "errorMessage": "FASTA file for amino acid reference sequence cannot contain spaces and must have a valid FASTA extension (fasta, faa, fa, fas), optionally gzipped"
             }
         },
         "required": ["id", "taxid"],
@@ -64,5 +44,6 @@
                 "required": ["fasta_aa"]
             }
         ]
-    }
+    },
+    "allOf": [{ "uniqueEntries": ["taxid"] }, { "uniqueEntries": ["fasta_dna"] }, { "uniqueEntries": ["fasta_aa"] }]
 }
