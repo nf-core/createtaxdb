@@ -76,6 +76,12 @@
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
                     },
+                    "seqkit/replace": {
+                        "branch": "master",
+                        "git_sha": "60645c2b45e56579de0a0c89416805cae44c1f46",
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/seqkit/replace/seqkit-replace.diff"
+                    },
                     "unzip": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",

@@ -15,6 +15,8 @@ include { GUNZIP as GUNZIP_DNA            } from '../modules/nf-core/gunzip/main
 include { GUNZIP as GUNZIP_AA             } from '../modules/nf-core/gunzip/main'
 include { CAT_CAT as CAT_CAT_DNA          } from '../modules/nf-core/cat/cat/main'
 include { CAT_CAT as CAT_CAT_AA           } from '../modules/nf-core/cat/cat/main'
+include { CAT_CAT as CAT_CAT_AA_KAIJU     } from '../modules/nf-core/cat/cat/main'
+include { SEQKIT_REPLACE                  } from '../modules/nf-core/seqkit/replace/main'
 
 // Database building (with specific auxiliary modules)
 include { CENTRIFUGE_BUILD                } from '../modules/nf-core/centrifuge/build/main'
@@ -84,15 +86,10 @@ workflow CREATETAXDB {
         ch_singleref_for_dna = CAT_CAT_DNA.out.file_out
     }
 
-    // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
-    // TEST first!
-    // docs: https://github.com/bioinformatics-centre/kaiju#custom-database
-    // docs: https://github.com/nf-core/test-datasets/tree/taxprofiler#kaiju
-    // idea: try just appending `_<tax_id_from_meta>` to end of each sequence header using a local sed module... it might be sufficient
     if ([(params.build_malt && malt_build_mode == 'protein'), params.build_kaiju, params.build_diamond].any()) {
 
         ch_aa_refs_for_singleref = ch_samplesheet
-            .map { _meta, _fasta_dna, fasta_aa -> [[id: params.dbname], fasta_aa] }
+            .map { meta, _fasta_dna, fasta_aa -> [meta, fasta_aa] }
             .filter { _meta, fasta_aa ->
                 fasta_aa
             }
@@ -107,10 +104,20 @@ workflow CREATETAXDB {
         ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
         ch_versions = ch_versions.mix(GUNZIP_AA.out.versions.first())
 
-        CAT_CAT_AA(ch_prepped_aa_fastas)
-        ch_singleref_for_aa = CAT_CAT_AA.out.file_out
-        ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
+        if ([(params.build_malt && malt_build_mode == 'protein'), params.build_diamond].any()) {
+            CAT_CAT_AA(ch_prepped_aa_fastas)
+            ch_singleref_for_aa = CAT_CAT_AA.out.file_out
+            ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
+        }
+        if ([(params.build_malt && malt_build_mode == 'protein'), params.build_kaiju].any()) {
+            SEQKIT_REPLACE(ch_prepped_aa_fastas_ungrouped.dump(tag: 'ungrouped'))
+            ch_versions = ch_versions.mix(SEQKIT_REPLACE.out.versions.first())
+            ch_prepped_aa_fastas_kaiju = SEQKIT_REPLACE.out.fastx.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
+            CAT_CAT_AA_KAIJU(ch_prepped_aa_fastas_kaiju)
+            ch_versions = ch_versions.mix(CAT_CAT_AA_KAIJU.out.versions.first())
+        }
     }
+
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -171,7 +178,7 @@ workflow CREATETAXDB {
     // MODULE: Run KAIJU/MKFMI
 
     if (params.build_kaiju) {
-        KAIJU_MKFMI(ch_singleref_for_aa, params.kaiju_keepintermediate)
+        KAIJU_MKFMI(CAT_CAT_AA_KAIJU.out.file_out, params.kaiju_keepintermediate)
         ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
         ch_kaiju_output = KAIJU_MKFMI.out.fmi
     }
