@@ -11,7 +11,7 @@ process SEQKIT_REPLACE {
     tuple val(meta), path(fastx)
 
     output:
-    tuple val(meta), path("${prefix}"), emit: fastx
+    tuple val(meta), path("*.fast*"), emit: fastx
     path "versions.yml", emit: versions
 
     when:
@@ -19,18 +19,24 @@ process SEQKIT_REPLACE {
 
     script:
     def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
     def extension = "fastq"
-    if ("${fastx}" ==~ /.+\.fasta|.+\.fasta.gz|.+\.fa|.+\.fa.gz|.+\.fas|.+\.fas.gz|.+\.fna|.+\.fna.gz|.+\.faa.gz|.+\.faa/) {
+    if ("${fastx}" ==~ /.+\.fasta|.+\.fasta.gz|.+\.fa|.+\.fa.gz|.+\.fas|.+\.fas.gz|.+\.fna|.+\.fna.gz|.+\.faa|.+\.faa.gz/) {
         extension = "fasta"
     }
-    prefix = task.ext.prefix ?: "${meta.id}.${extension}"
+    def isgz = ""
+    if ("${fastx}" ==~ /.+\.gz/) {
+        isgz = ".gz"
+    }
+    def endswith = task.ext.suffix ?: "${extension}${isgz}"
     """
     seqkit \\
         replace \\
         ${args} \\
         --threads ${task.cpus} \\
         -i ${fastx} \\
-        -o ${prefix}
+        -o ${prefix}.${endswith}
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         seqkit: \$( seqkit version | sed 's/seqkit v//' )
@@ -38,14 +44,15 @@ process SEQKIT_REPLACE {
     """
 
     stub:
-    prefix = task.ext.prefix ?: "${meta.id}"
+    def prefix = task.ext.prefix ?: "${meta.id}"
     def extension = "fastq"
-    if ("${fastx}" ==~ /.+\.fasta|.+\.fasta.gz|.+\.fa|.+\.fa.gz|.+\.fas|.+\.fas.gz|.+\.fna|.+\.fna.gz|.+\.faa.gz|.+\.faa/) {
+    if ("${fastx}" ==~ /.+\.fasta|.+\.fasta.gz|.+\.fa|.+\.fa.gz|.+\.fas|.+\.fas.gz|.+\.fna|.+\.fna.gz/) {
         extension = "fasta"
     }
-    prefix = task.ext.prefix ?: "${meta.id}.${extension}"
+    def endswith = task.ext.suffix ?: "${extension}.gz"
+
     """
-    echo "" | gzip > ${prefix}
+    echo "" | gzip > ${prefix}.${endswith}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
