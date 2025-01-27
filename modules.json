@@ -10,11 +10,6 @@
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
-                    "cat/cat": {
-                        "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
-                        "installed_by": ["modules"]
-                    },
                     "centrifuge/build": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
@@ -28,6 +23,11 @@
                     "diamond/makedb": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "installed_by": ["modules"]
+                    },
+                    "find/concatenate": {
+                        "branch": "master",
+                        "git_sha": "326bde891db0956f0148ed7e21938360678d3e75",
                         "installed_by": ["modules"]
                     },
                     "ganon/buildcustom": {

@@ -4,28 +4,28 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { MULTIQC                         } from '../modules/nf-core/multiqc/main'
-include { paramsSummaryMap                } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML          } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText          } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
+include { MULTIQC                                  } from '../modules/nf-core/multiqc/main'
+include { paramsSummaryMap                         } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc                     } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML                   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText                   } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
 // Preprocessing
-include { GUNZIP as GUNZIP_DNA            } from '../modules/nf-core/gunzip/main'
-include { GUNZIP as GUNZIP_AA             } from '../modules/nf-core/gunzip/main'
-include { CAT_CAT as CAT_CAT_DNA          } from '../modules/nf-core/cat/cat/main'
-include { CAT_CAT as CAT_CAT_AA           } from '../modules/nf-core/cat/cat/main'
+include { GUNZIP as GUNZIP_DNA                     } from '../modules/nf-core/gunzip/main'
+include { GUNZIP as GUNZIP_AA                      } from '../modules/nf-core/gunzip/main'
+include { FIND_CONCATENATE as FIND_CONCATENATE_DNA } from '../modules/nf-core/find/concatenate/main'
+include { FIND_CONCATENATE as FIND_CONCATENATE_AA  } from '../modules/nf-core/find/concatenate/main'
 
 // Database building (with specific auxiliary modules)
-include { CENTRIFUGE_BUILD                } from '../modules/nf-core/centrifuge/build/main'
-include { DIAMOND_MAKEDB                  } from '../modules/nf-core/diamond/makedb/main'
-include { GANON_BUILDCUSTOM               } from '../modules/nf-core/ganon/buildcustom/main'
-include { KAIJU_MKFMI                     } from '../modules/nf-core/kaiju/mkfmi/main'
-include { KRAKENUNIQ_BUILD                } from '../modules/nf-core/krakenuniq/build/main'
-include { UNZIP                           } from '../modules/nf-core/unzip/main'
-include { MALT_BUILD                      } from '../modules/nf-core/malt/build/main'
+include { CENTRIFUGE_BUILD                         } from '../modules/nf-core/centrifuge/build/main'
+include { DIAMOND_MAKEDB                           } from '../modules/nf-core/diamond/makedb/main'
+include { GANON_BUILDCUSTOM                        } from '../modules/nf-core/ganon/buildcustom/main'
+include { KAIJU_MKFMI                              } from '../modules/nf-core/kaiju/mkfmi/main'
+include { KRAKENUNIQ_BUILD                         } from '../modules/nf-core/krakenuniq/build/main'
+include { UNZIP                                    } from '../modules/nf-core/unzip/main'
+include { MALT_BUILD                               } from '../modules/nf-core/malt/build/main'
 
-include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
+include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN          } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,9 +79,9 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(GUNZIP_DNA.out.versions.first())
 
         // Place in single file
-        CAT_CAT_DNA(ch_prepped_dna_fastas)
-        ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
-        ch_singleref_for_dna = CAT_CAT_DNA.out.file_out
+        FIND_CONCATENATE_DNA(ch_prepped_dna_fastas)
+        ch_versions = ch_versions.mix(FIND_CONCATENATE_DNA.out.versions.first())
+        ch_singleref_for_dna = FIND_CONCATENATE_DNA.out.file_out
     }
 
     // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
@@ -107,9 +107,9 @@ workflow CREATETAXDB {
         ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
         ch_versions = ch_versions.mix(GUNZIP_AA.out.versions.first())
 
-        CAT_CAT_AA(ch_prepped_aa_fastas)
-        ch_singleref_for_aa = CAT_CAT_AA.out.file_out
-        ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
+        FIND_CONCATENATE_AA(ch_prepped_aa_fastas)
+        ch_singleref_for_aa = FIND_CONCATENATE_AA.out.file_out
+        ch_versions = ch_versions.mix(FIND_CONCATENATE_AA.out.versions.first())
     }
 
     /*

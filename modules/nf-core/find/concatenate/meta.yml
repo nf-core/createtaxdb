@@ -1,15 +1,25 @@
-name: cat_cat
-description: A module for concatenation of gzipped or uncompressed files
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "find_concatenate"
+description: A module for concatenation of gzipped or uncompressed files getting around UNIX terminal argument size  
 keywords:
   - concatenate
   - gzip
   - cat
+  - find
+  - pigz
 tools:
-  - cat:
-      description: Just concatenation
-      documentation: https://man7.org/linux/man-pages/man1/cat.1.html
+  - find:
+      description: GNU find searches the directory tree rooted at each given starting-point by evaluating the given expression
+      documentation: https://man7.org/linux/man-pages/man1/find.1.html
       licence: ["GPL-3.0-or-later"]
       identifier: ""
+  - pigz:
+      description: pigz, which stands for Parallel Implementation of GZip, is a fully functional replacement for gzip that exploits multiple processors and multiple cores to the hilt when compressing data.
+      documentation: https://man7.org/linux/man-pages/man1/find.1.html
+      licence: ["other"]
+      identifier: ""
+      
 input:
   - - meta:
         type: map
@@ -35,9 +45,8 @@ output:
           type: file
           description: File containing software versions
           pattern: "versions.yml"
+
 authors:
-  - "@erikrikarddaniel"
-  - "@FriederikeHanssen"
+  - "@BioWilko"
 maintainers:
-  - "@erikrikarddaniel"
-  - "@FriederikeHanssen"
+  - "@BioWilko"
