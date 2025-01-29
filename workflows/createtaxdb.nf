@@ -11,8 +11,8 @@ include { softwareVersionsToYAML                   } from '../subworkflows/nf-co
 include { methodsDescriptionText                   } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
 // Preprocessing
-include { GUNZIP as GUNZIP_DNA                     } from '../modules/nf-core/gunzip/main'
-include { GUNZIP as GUNZIP_AA                      } from '../modules/nf-core/gunzip/main'
+include { FIND_UNPIGZ as UNPIGZ_DNA                } from '../modules/nf-core/find/unpigz/main'
+include { FIND_UNPIGZ as UNPIGZ_AA                 } from '../modules/nf-core/find/unpigz/main'
 include { FIND_CONCATENATE as FIND_CONCATENATE_DNA } from '../modules/nf-core/find/concatenate/main'
 include { FIND_CONCATENATE as FIND_CONCATENATE_AA  } from '../modules/nf-core/find/concatenate/main'
 
@@ -72,11 +72,17 @@ workflow CREATETAXDB {
             zipped: fasta.extension == 'gz'
             unzipped: true
         }
+        ch_dna_for_unzipping.zipped
+            .map { _meta, fasta -> fasta }
+            .collate(params.unzip_batch_size, true)
+            .map { batch -> [[id: params.dbname], batch] }
+            .set { ch_dna_batches_for_unzipping }
 
-        GUNZIP_DNA(ch_dna_for_unzipping.zipped)
-        ch_prepped_dna_fastas_ungrouped = GUNZIP_DNA.out.gunzip.mix(ch_dna_for_unzipping.unzipped)
+        UNPIGZ_DNA(ch_dna_batches_for_unzipping)
+        ch_prepped_dna_fastas_ungrouped = UNPIGZ_DNA.out.file_out.mix(ch_dna_for_unzipping.unzipped)
+
         ch_prepped_dna_fastas = ch_prepped_dna_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
-        ch_versions = ch_versions.mix(GUNZIP_DNA.out.versions.first())
+        ch_versions = ch_versions.mix(UNPIGZ_DNA.out.versions.first())
 
         // Place in single file
         FIND_CONCATENATE_DNA(ch_prepped_dna_fastas)
@@ -102,10 +108,15 @@ workflow CREATETAXDB {
             unzipped: true
         }
 
-        GUNZIP_AA(ch_aa_for_unzipping.zipped)
-        ch_prepped_aa_fastas_ungrouped = GUNZIP_AA.out.gunzip.mix(ch_aa_for_unzipping.unzipped)
+        ch_aa_for_unzipping.zipped
+            .collate(params.unzip_batch_size, true)
+            .set { ch_aa_batches_for_unzipping }
+
+        UNPIGZ_AA(ch_aa_batches_for_unzipping)
+        ch_prepped_aa_fastas_ungrouped = UNPIGZ_AA.out.file_out.mix(ch_aa_for_unzipping.unzipped)
+
         ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
-        ch_versions = ch_versions.mix(GUNZIP_AA.out.versions.first())
+        ch_versions = ch_versions.mix(UNPIGZ_AA.out.versions.first())
 
         FIND_CONCATENATE_AA(ch_prepped_aa_fastas)
         ch_singleref_for_aa = FIND_CONCATENATE_AA.out.file_out

@@ -30,14 +30,14 @@
                         "git_sha": "326bde891db0956f0148ed7e21938360678d3e75",
                         "installed_by": ["modules"]
                     },
+                    "find/unpigz": {
+                        "branch": "master",
+                        "git_sha": "2d199bd110661360cf5db8b02d6873e3a53156ef",
+                        "installed_by": ["modules"]
+                    },
                     "ganon/buildcustom": {
                         "branch": "master",
                         "git_sha": "4265ef4b3b9af8877671715b081f102041c64cfd",
-                        "installed_by": ["modules"]
-                    },
-                    "gunzip": {
-                        "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
                     },
                     "kaiju/mkfmi": {
