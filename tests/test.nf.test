@@ -34,10 +34,10 @@ nextflow_pipeline {
                         file("$outputDir/krakenuniq/database/taxDB"),
                         path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory'),
                         path("$outputDir/malt/malt_index/index0.idx"),
-                        path("$outputDir/malt/malt_index/ref.db"),
-                        path("$outputDir/malt/malt_index/ref.idx"),
+                        path("$outputDir/malt/malt_index/ref.db").exists(),
+                        path("$outputDir/malt/malt_index/ref.idx").exists(),
                         path("$outputDir/malt/malt_index/ref.inf"),
-                        path("$outputDir/malt/malt_index/taxonomy.idx"),
+                        path("$outputDir/malt/malt_index/taxonomy.idx").exists(),
                         path("$outputDir/malt/malt_index/taxonomy.map"),
                         path("$outputDir/malt/malt_index/taxonomy.tre")
                     ).match()

@@ -10,11 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": [
-                "input",
-                "outdir",
-                "dbname"
-            ],
+            "required": ["input", "outdir", "dbname"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -117,9 +113,9 @@
                     "description": "Turn on extending of Kraken2 database to include Bracken files. Requires nucleotide FASTA File input.",
                     "help_text": "Bracken2 databases are simply just a Kraken2 database with two additional files.\n\nNote however this requires a Kraken2 database _with_ intermediate files still in it, thus can result in large database directories."
                 },
-                "bracken_build_params": {
+                "bracken_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to bracken build. Must be wrapped in single and double quotes: --bracken_build_params \"'--your_param'\"",
+                    "description": "Specify parameters being given to bracken build. Must be wrapped in single and double quotes: --bracken_build_options \"'--your_param'\"",
                     "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -128,9 +124,9 @@
                     "description": "Turn on building of Centrifuge database. Requires nucleotide FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
                 },
-                "centrifuge_build_params": {
+                "centrifuge_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to centrifuge-build. Must be wrapped in single and double quotes: --centrifuge_build_params \"'--your_param'\"",
+                    "description": "Specify parameters being given to centrifuge-build. Must be wrapped in single and double quotes: --centrifuge_build_options \"'--your_param'\"",
                     "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -139,9 +135,9 @@
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of DIAMOND database. Requires amino-acid FASTA file input."
                 },
-                "diamond_build_params": {
+                "diamond_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to diamond makedb. Must be wrapped in single and double quotes: --diamond_build_params \"'--your_param'\"",
+                    "description": "Specify parameters being given to diamond makedb. Must be wrapped in single and double quotes: --diamond_build_options \"'--your_param'\"",
                     "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -150,9 +146,9 @@
                     "description": "Turn on building of ganon database. Requires nucleotide FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
                 },
-                "ganon_build_params": {
+                "ganon_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to ganon buildcustom. Must be wrapped in single and double quotes: --ganon_build_params \"'--your_param'\"",
+                    "description": "Specify parameters being given to ganon buildcustom. Must be wrapped in single and double quotes: --ganon_build_options \"'--your_param'\"",
                     "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -161,9 +157,9 @@
                     "description": "Turn on building of Kaiju database. Requires amino-acid FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
                 },
-                "kaiju_build_params": {
+                "kaiju_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kaiju-mkbwt. Must be wrapped in single and double quotes: --kaiju_build_params \"'--your_param'\"",
+                    "description": "Specify parameters being given to kaiju-mkbwt. Must be wrapped in single and double quotes: --kaiju_build_options \"'--your_param'\"",
                     "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -177,9 +173,9 @@
                     "description": "Turn on building of Kraken2 database. Requires nucleotide FASTA file input.",
                     "fa_icon": "fas fa-toggle-on"
                 },
-                "kraken2_build_params": {
+                "kraken2_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kraken2 build. Must be wrapped in single and double quotes: --kraken2_build_params \"'--your_param'\"",
+                    "description": "Specify parameters being given to kraken2 build. Must be wrapped in single and double quotes: --kraken2_build_options \"'--your_param'\"",
                     "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -193,9 +189,9 @@
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of KrakenUniq database. Requires nucleotide FASTA file input."
                 },
-                "krakenuniq_build_params": {
+                "krakenuniq_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to krakenuniq build. Must be wrapped in single and double quotes: --krakenuniq_build_params \"'--your_param'\"",
+                    "description": "Specify parameters being given to krakenuniq build. Must be wrapped in single and double quotes: --krakenuniq_build_options \"'--your_param'\"",
                     "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -209,9 +205,9 @@
                     "fa_icon": "fas fa-toggle-on",
                     "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
                 },
-                "malt_build_params": {
+                "malt_build_options": {
                     "type": "string",
-                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein and be wrapped in double and single quotes: --malt_build_params \"'--sequenceType DNA --your_param'\"",
+                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein and be wrapped in double and single quotes: --malt_build_options \"'--sequenceType DNA --your_param'\"",
                     "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "default": "--sequenceType DNA",
                     "fa_icon": "fas fa-users-cog"
@@ -286,14 +282,7 @@
                     "description": "Method used to save pipeline results to output directory.",
                     "help_text": "The Nextflow `publishDir` option specifies which intermediate files should be saved to the output directory. This option tells the pipeline what method should be used to move these files. See [Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details.",
                     "fa_icon": "fas fa-copy",
-                    "enum": [
-                        "symlink",
-                        "rellink",
-                        "link",
-                        "copy",
-                        "copyNoFollow",
-                        "move"
-                    ],
+                    "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
                     "hidden": true
                 },
                 "email_on_fail": {

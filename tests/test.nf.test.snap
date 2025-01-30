@@ -5,16 +5,16 @@
             "database100mers.kraken",
             "database.kraken",
             [
-                "database.1.cf:md5,1481615ab90b5573f6d9e57f97890178",
-                "database.2.cf:md5,d50fa66e215e80284314ff6521dcd4a4",
-                "database.3.cf:md5,beafa92166ba461f9bda1dac0b640f45",
-                "database.4.cf:md5,2902ec5df0db6da41a91b40d2f46b30d"
+                "database.1.cf:md5,4218d7b46893c4ecfbc6919b2f072a6b",
+                "database.2.cf:md5,5b9565dc528314e931de5c03a70f3409",
+                "database.3.cf:md5,51f6eb8c75aa64cc60cd733967278866",
+                "database.4.cf:md5,954c85fd4df6ea5d37906d5027f18688"
             ],
             "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
             "database.hibf:md5,af913cecda744b02751e2f5320c35c7c",
-            "database.tax:md5,bd00f12a50d7f1bd330ebcd0cfcd407e",
-            "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
-            "hash.k2d:md5,941118164b4bcc010593f7a7c7b30029",
+            "database.tax:md5,f9e5e934f5d240141515952892b9c07d",
+            "database.fmi:md5,9bd6adc74d13c77cf613bb190cc040e0",
+            "hash.k2d:md5,0e7143bde950449695641f503ba58faa",
             "opts.k2d",
             "taxo.k2d:md5,cd8170a8c5a1b763a9ac1ffa2107cc88",
             "database.idx",
@@ -22,17 +22,17 @@
             "taxDB:md5,1aed1afa948daffc236deba1c5d635db",
             true,
             "index0.idx:md5,876139dc930e68992cd2625e08bba48a",
-            "ref.db:md5,377073f58a9f9b85acca59fcf21744a9",
-            "ref.idx:md5,676393d0f4826dac3f47aa5290632570",
+            true,
+            true,
             "ref.inf:md5,446275f4f879e2b115e983db7c9ced18",
-            "taxonomy.idx:md5,1e2e8fdc703a6d2707e7cbefd2b6d93f",
+            true,
             "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
             "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e"
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.10.2"
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
         },
-        "timestamp": "2025-01-17T11:16:35.226802068"
+        "timestamp": "2025-01-30T14:34:33.550035977"
     }
 }

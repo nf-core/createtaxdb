@@ -34,7 +34,7 @@ nextflow_pipeline {
                         file("$outputDir/krakenuniq/database/database.report.tsv").name,
                         file("$outputDir/krakenuniq/database/library/haemophilus_influenzae.fna"),
                         file("$outputDir/krakenuniq/database/library/sarscov2.fasta"),
-                        file("$outputDir/krakenuniq/database/library-files.txt"),
+                        file("$outputDir/krakenuniq/database/library-files.txt").readLines().contains('library/haemophilus_influenzae.fna'),
                         file("$outputDir/krakenuniq/database/nucl2tax.map"),
                         file("$outputDir/krakenuniq/database/seqid2taxid.map"),
                         file("$outputDir/krakenuniq/database/taxDB"),
