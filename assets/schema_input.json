@@ -18,6 +18,7 @@
             },
             "taxid": {
                 "type": "integer",
+                "uniqueItems": false,
                 "errorMessage": "Please provide a valid taxonomic ID in integer format",
                 "meta": [
                     "taxid"
