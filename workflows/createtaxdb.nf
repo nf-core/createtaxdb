@@ -79,13 +79,15 @@ workflow CREATETAXDB {
             .set { ch_dna_batches_for_unzipping }
 
         UNPIGZ_DNA(ch_dna_batches_for_unzipping)
-        ch_prepped_dna_fastas = UNPIGZ_DNA.out.file_out.mix(ch_dna_for_unzipping.unzipped)
+        ch_prepped_dna_batches = UNPIGZ_DNA.out.file_out.mix(ch_dna_for_unzipping.unzipped)
+
+        ch_prepped_dna_fastas = ch_prepped_dna_batches.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
         ch_versions = ch_versions.mix(UNPIGZ_DNA.out.versions.first())
 
         // Place in single file
         FIND_CONCATENATE_DNA(ch_prepped_dna_fastas)
         ch_versions = ch_versions.mix(FIND_CONCATENATE_DNA.out.versions.first())
-        ch_singleref_for_dna = FIND_CONCATENATE_DNA.out.file_out.collect()
+        ch_singleref_for_dna = FIND_CONCATENATE_DNA.out.file_out
     }
 
     // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
