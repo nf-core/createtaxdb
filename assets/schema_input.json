@@ -7,27 +7,43 @@
     "items": {
         "type": "object",
         "properties": {
-            "sample": {
+            "id": {
                 "type": "string",
                 "pattern": "^\\S+$",
-                "errorMessage": "Sample name must be provided and cannot contain spaces",
+                "uniqueItems": true,
+                "errorMessage": "Sequence reference name must be provided and cannot contain spaces",
                 "meta": ["id"]
             },
-            "fastq_1": {
-                "type": "string",
-                "format": "file-path",
-                "exists": true,
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+            "taxid": {
+                "type": "integer",
+                "uniqueItems": true,
+                "errorMessage": "Please provide a valid taxonomic ID in integer format",
+                "meta": ["taxid"]
             },
-            "fastq_2": {
+            "fasta_dna": {
                 "type": "string",
                 "format": "file-path",
+                "pattern": "^\\S+\\.(fasta|fas|fa|fna)(\\.gz)?$",
                 "exists": true,
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+                "errorMessage": "FASTA file for nucleotide sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas), optionally gzipped"
+            },
+            "fasta_aa": {
+                "type": "string",
+                "format": "file-path",
+                "pattern": "^\\S+\\.(fasta|fas|fa|faa)(\\.gz)?$",
+                "exists": true,
+                "errorMessage": "FASTA file for amino acid reference sequence cannot contain spaces and must have a valid FASTA extension (fasta, faa, fa, fas), optionally gzipped"
             }
         },
-        "required": ["sample", "fastq_1"]
-    }
+        "required": ["id", "taxid"],
+        "anyOf": [
+            {
+                "required": ["fasta_dna"]
+            },
+            {
+                "required": ["fasta_aa"]
+            }
+        ]
+    },
+    "allOf": [{ "uniqueEntries": ["taxid"] }, { "uniqueEntries": ["fasta_dna"] }, { "uniqueEntries": ["fasta_aa"] }]
 }

@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["input", "outdir", "dbname"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -20,7 +20,7 @@
                     "mimetype": "text/csv",
                     "pattern": "^\\S+\\.csv$",
                     "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/createtaxdb/usage#samplesheet-input).",
+                    "help_text": "You will need to create a design file with information about the reference genomes you wish to build into a metagenomic profiling database. Use this parameter to specify its location. It has to be a comma-separated file with 4 columns, and a header row. See [usage docs](https://nf-co.re/createtaxdb/usage#samplesheet-input).",
                     "fa_icon": "fas fa-file-csv"
                 },
                 "outdir": {
@@ -40,8 +40,180 @@
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
+                },
+                "dbname": {
+                    "type": "string",
+                    "description": "Specify name that resulting databases will be prefixed with.",
+                    "fa_icon": "fas fa-id-badge"
+                },
+                "accession2taxid": {
+                    "type": "string",
+                    "description": "NCBI-style four-column accession to taxonomy ID map file",
+                    "help_text": "\nAn NCBI four column file tab-separated file with `accession`, `accession.version`, `taxid` and `gi` number. The first refers to an accession ID in each FASTA entry header. The second refers to the accession ID but with the accession version number appended to the end (e.g. `.1`). The third refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`. The fourth refers to the old-style NCBI gi number of the sequence.\n\nIf building with typical NCBI data, the most typical file is the `nucl_gb.accession2taxid` file from the [NCBI taxonomy FTP server](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/.",
+                    "fa_icon": "fas fa-address-book",
+                    "format": "file-path"
+                },
+                "prot2taxid": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "fa_icon": "fas fa-address-card",
+                    "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`.",
+                    "description": "Two column protein sequence accession ID to taxonomy map file."
+                },
+                "nucl2taxid": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "fa_icon": "far fa-address-card",
+                    "description": "Two column nucleotide sequence accession ID to taxonomy map file.",
+                    "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`."
+                },
+                "nodesdmp": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "fa_icon": "fas fa-circle",
+                    "description": "Path to NCBI-style taxonomy node dmp file.",
+                    "help_text": "A tab/pipe/tab separated table file. See nodes.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure."
+                },
+                "namesdmp": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "fa_icon": "fas fa-tag",
+                    "description": "Path to NCBI-style taxonomy names dmp file.",
+                    "help_text": "A tab/pipe/tab separated table file. See names.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure."
+                },
+                "malt_mapdb": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "description": "Path to MEGAN6/MALT mapping db file",
+                    "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.",
+                    "fa_icon": "fas fa-database"
+                },
+                "save_concatenated_fastas": {
+                    "type": "boolean",
+                    "description": "Save concatenated input FASTAs",
+                    "help_text": "Some tools require a single input FASTA of all reference genomes. The pipeline will do this concatenation for you, and by supplying this flag you can save the resulting single fasta for you in the results directory under `cat/`. ",
+                    "fa_icon": "fas fa-save"
                 }
             }
+        },
+        "database_building_options": {
+            "title": "Database Building Options",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "build_bracken": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-save",
+                    "description": "Turn on extending of Kraken2 database to include Bracken files. Requires nucleotide FASTA File input.",
+                    "help_text": "Bracken2 databases are simply just a Kraken2 database with two additional files.\n\nNote however this requires a Kraken2 database _with_ intermediate files still in it, thus can result in large database directories."
+                },
+                "bracken_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to bracken build. Must be wrapped in single and double quotes: --bracken_build_params \"'--your_param'\"",
+                    "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "build_centrifuge": {
+                    "type": "boolean",
+                    "description": "Turn on building of Centrifuge database. Requires nucleotide FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
+                "centrifuge_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to centrifuge-build. Must be wrapped in single and double quotes: --centrifuge_build_params \"'--your_param'\"",
+                    "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "build_diamond": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of DIAMOND database. Requires amino-acid FASTA file input."
+                },
+                "diamond_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to diamond makedb. Must be wrapped in single and double quotes: --diamond_build_params \"'--your_param'\"",
+                    "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "build_ganon": {
+                    "type": "boolean",
+                    "description": "Turn on building of ganon database. Requires nucleotide FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
+                "ganon_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to ganon buildcustom. Must be wrapped in single and double quotes: --ganon_build_params \"'--your_param'\"",
+                    "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "build_kaiju": {
+                    "type": "boolean",
+                    "description": "Turn on building of Kaiju database. Requires amino-acid FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
+                "kaiju_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kaiju-mkbwt. Must be wrapped in single and double quotes: --kaiju_build_params \"'--your_param'\"",
+                    "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "kaiju_keepintermediate": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-save",
+                    "description": "Save intermediate files otherwise not required for downstream classification."
+                },
+                "build_kraken2": {
+                    "type": "boolean",
+                    "description": "Turn on building of Kraken2 database. Requires nucleotide FASTA file input.",
+                    "fa_icon": "fas fa-toggle-on"
+                },
+                "kraken2_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kraken2 build. Must be wrapped in single and double quotes: --kraken2_build_params \"'--your_param'\"",
+                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "kraken2_keepintermediate": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-save",
+                    "description": "Retain intermediate Kraken2 build files for inspection."
+                },
+                "build_krakenuniq": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of KrakenUniq database. Requires nucleotide FASTA file input."
+                },
+                "krakenuniq_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters being given to krakenuniq build. Must be wrapped in single and double quotes: --krakenuniq_build_params \"'--your_param'\"",
+                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "krakenuniq_keepintermediate": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-save",
+                    "description": "Save intermediate files otherwise not required for downstream classification."
+                },
+                "build_malt": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of MALT database. Requires nucleotide FASTA file input."
+                },
+                "malt_build_params": {
+                    "type": "string",
+                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein and be wrapped in double and single quotes: --malt_build_params \"'--sequenceType DNA --your_param'\"",
+                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "default": "--sequenceType DNA",
+                    "fa_icon": "fas fa-users-cog"
+                }
+            },
+            "fa_icon": "fas fa-database"
         },
         "institutional_config_options": {
             "title": "Institutional config options",
@@ -192,6 +364,9 @@
     "allOf": [
         {
             "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/database_building_options"
         },
         {
             "$ref": "#/$defs/institutional_config_options"
