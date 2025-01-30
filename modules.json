@@ -76,6 +76,11 @@
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
                     },
+                    "seqkit/replace": {
+                        "branch": "master",
+                        "git_sha": "c898ced56d6572cbfa4b19560f6d5f92cb7bd27b",
+                        "installed_by": ["modules"]
+                    },
                     "unzip": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",

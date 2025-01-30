@@ -13,7 +13,7 @@
             "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
             "database.hibf:md5,af913cecda744b02751e2f5320c35c7c",
             "database.tax:md5,7a72295c6f4dae6efb16ee3423cce10d",
-            "database.fmi:md5,54fd89f5e4eab61af30175e8aa389598",
+            "database.fmi:md5,9bd6adc74d13c77cf613bb190cc040e0",
             "hash.k2d:md5,941118164b4bcc010593f7a7c7b30029",
             "opts.k2d",
             "taxo.k2d:md5,cd8170a8c5a1b763a9ac1ffa2107cc88",
@@ -33,6 +33,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-01-30T10:28:24.526988773"
+        "timestamp": "2025-01-30T10:09:57.532131085"
     }
 }
