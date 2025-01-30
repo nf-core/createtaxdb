@@ -17,7 +17,7 @@
             "database.report.tsv",
             "haemophilus_influenzae.fna:md5,f9f0fbb922adaf3968f8edbfbafe0bd8",
             "sarscov2.fasta:md5,6e9fe4042a72f2345f644f239272b7e6",
-            "library-files.txt:md5,e99416d72b5fc9ff2c3a3c6fed3c8be3",
+            true,
             "nucl2tax.map:md5,f8963dc677beaecd50743bb9133547da",
             "seqid2taxid.map:md5,d41d8cd98f00b204e9800998ecf8427e",
             "taxDB:md5,1aed1afa948daffc236deba1c5d635db",
