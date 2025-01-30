@@ -59,11 +59,6 @@
     "allOf": [
         {
             "uniqueEntries": [
-                "taxid"
-            ]
-        },
-        {
-            "uniqueEntries": [
                 "fasta_dna"
             ]
         },
