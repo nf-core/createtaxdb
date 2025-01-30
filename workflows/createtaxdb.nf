@@ -68,6 +68,8 @@ workflow CREATETAXDB {
                 fasta_dna
             }
 
+        ch_dna_refs_for_rematching = ch_samplesheet.map { meta, fasta_dna, _fasta_aa -> [meta, fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0)] }
+
         ch_dna_for_unzipping = ch_dna_refs_for_singleref.branch { _meta, fasta ->
             zipped: fasta.extension == 'gz'
             unzipped: true
@@ -79,14 +81,23 @@ workflow CREATETAXDB {
             .set { ch_dna_batches_for_unzipping }
 
         UNPIGZ_DNA(ch_dna_batches_for_unzipping)
+        ch_versions = ch_versions.mix(UNPIGZ_DNA.out.versions.first())
+
         ch_prepped_dna_batches = UNPIGZ_DNA.out.file_out.mix(ch_dna_for_unzipping.unzipped)
 
-        ch_prepped_dna_fastas = ch_prepped_dna_batches.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
-        ch_versions = ch_versions.mix(UNPIGZ_DNA.out.versions.first())
+        // Unbatch the unzipped files for rematching with metadata
+        ch_prepped_dna_fastas_flat = ch_prepped_dna_batches.flatMap { _meta, fasta -> fasta }
+        ch_prepped_dna_fastas = ch_prepped_dna_fastas_flat.map { fasta -> [[id: params.dbname], fasta] }.groupTuple()
+
+        // Match metadata back to the prepped DNA fastas with an inner join
+        ch_prepped_dna_fastas_ungrouped = ch_prepped_dna_fastas_flat
+            .map { fasta -> [fasta.getName() - (params.dbname + "."), fasta] }
+            .join(ch_dna_refs_for_rematching.map { it -> it.swap(1, 0) }, failOnMismatch: true, failOnDuplicate: true)
+            .map { _fasta_name, fasta, meta -> [meta, fasta] }
 
         // Place in single file
         FIND_CONCATENATE_DNA(ch_prepped_dna_fastas)
-        ch_versions = ch_versions.mix(FIND_CONCATENATE_DNA.out.versions.first())
+        ch_versions = ch_versions.mix(FIND_CONCATENATE_DNA.out.versions)
         ch_singleref_for_dna = FIND_CONCATENATE_DNA.out.file_out
     }
 
