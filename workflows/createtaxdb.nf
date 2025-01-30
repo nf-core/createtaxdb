@@ -79,9 +79,7 @@ workflow CREATETAXDB {
             .set { ch_dna_batches_for_unzipping }
 
         UNPIGZ_DNA(ch_dna_batches_for_unzipping)
-        ch_prepped_dna_fastas_ungrouped = UNPIGZ_DNA.out.file_out.mix(ch_dna_for_unzipping.unzipped)
-
-        ch_prepped_dna_fastas = ch_prepped_dna_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
+        ch_prepped_dna_fastas = UNPIGZ_DNA.out.file_out.mix(ch_dna_for_unzipping.unzipped)
         ch_versions = ch_versions.mix(UNPIGZ_DNA.out.versions.first())
 
         // Place in single file
