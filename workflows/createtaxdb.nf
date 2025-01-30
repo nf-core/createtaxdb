@@ -85,7 +85,7 @@ workflow CREATETAXDB {
         // Place in single file
         FIND_CONCATENATE_DNA(ch_prepped_dna_fastas)
         ch_versions = ch_versions.mix(FIND_CONCATENATE_DNA.out.versions.first())
-        ch_singleref_for_dna = FIND_CONCATENATE_DNA.out.file_out
+        ch_singleref_for_dna = FIND_CONCATENATE_DNA.out.file_out.collect()
     }
 
     // TODO: Possibly need to have a modification step to get header correct to actually run with kaiju...
