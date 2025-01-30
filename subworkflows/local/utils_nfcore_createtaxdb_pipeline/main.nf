@@ -169,8 +169,8 @@ def validateInputParameters() {
         error('[nf-core/createtaxdb] Supplied --build_malt, but missing: --malt_mapdb (all are mandatory for MALT)')
     }
 
-    if (params.build_malt && !(params.malt_build_params.contains('--sequenceType DNA') || params.malt_build_params.contains('--sequenceType Protein'))) {
-        error('[nf-core/createtaxdb] Supplied --build_malt, but --malt_build_params must contain at a minimum malt-build parameters --sequenceType DNA or --sequenceType Protein')
+    if (params.build_malt && !(params.malt_build_options.contains('--sequenceType DNA') || params.malt_build_options.contains('--sequenceType Protein'))) {
+        error('[nf-core/createtaxdb] Supplied --build_malt, but --malt_build_options must contain at a minimum malt-build parameters --sequenceType DNA or --sequenceType Protein')
     }
 }
 

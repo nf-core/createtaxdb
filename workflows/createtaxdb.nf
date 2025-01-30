@@ -58,7 +58,7 @@ workflow CREATETAXDB {
     // PREPARE: Prepare input for single file inputs modules
     def malt_build_mode = null
     if (params.build_malt) {
-        malt_build_mode = params.malt_build_params.contains('--sequenceType Protein') ? 'protein' : 'nucleotide'
+        malt_build_mode = params.malt_build_options.contains('--sequenceType Protein') ? 'protein' : 'nucleotide'
     }
 
     if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon].any()) {
