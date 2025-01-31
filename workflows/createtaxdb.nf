@@ -98,10 +98,7 @@ workflow CREATETAXDB {
         ch_prepped_dna_batches = UNPIGZ_DNA.out.file_out.mix(ch_dna_for_unzipping.unzipped)
 
         // Unbatch the unzipped files for rematching with metadata
-        ch_prepped_dna_fastas_gunzipped = ch_prepped_dna_batches
-            .transpose()
-            .map { _meta, file -> [[tempid: file.getName() - 'database.'], file] }
-        // TODO: This final map is a workaround until FIND_UNPIGZ doesn't append prefix
+        ch_prepped_dna_fastas_gunzipped = ch_prepped_dna_batches.transpose()
 
         // Match metadata back to the prepped DNA fastas with an inner join
         ch_prepped_dna_fastas_ungrouped = ch_prepped_dna_fastas_gunzipped

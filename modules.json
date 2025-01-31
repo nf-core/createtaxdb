@@ -32,7 +32,7 @@
                     },
                     "find/unpigz": {
                         "branch": "master",
-                        "git_sha": "2d199bd110661360cf5db8b02d6873e3a53156ef",
+                        "git_sha": "546b811afd9b1597611a0aed2f0a28f6f7832c54",
                         "installed_by": ["modules"]
                     },
                     "ganon/buildcustom": {
