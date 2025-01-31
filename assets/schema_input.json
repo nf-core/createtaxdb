@@ -12,12 +12,16 @@
                 "pattern": "^\\S+$",
                 "uniqueItems": true,
                 "errorMessage": "Sequence reference name must be provided and cannot contain spaces",
-                "meta": ["id"]
+                "meta": [
+                    "id"
+                ]
             },
             "taxid": {
                 "type": "integer",
                 "errorMessage": "Please provide a valid taxonomic ID in integer format",
-                "meta": ["taxid"]
+                "meta": [
+                    "taxid"
+                ]
             },
             "fasta_dna": {
                 "type": "string",
@@ -34,22 +38,38 @@
                 "errorMessage": "FASTA file for amino acid reference sequence cannot contain spaces and must have a valid FASTA extension (fasta, faa, fa, fas), optionally gzipped"
             }
         },
-        "required": ["id", "taxid"],
+        "required": [
+            "id",
+            "taxid"
+        ],
         "anyOf": [
             {
-                "required": ["fasta_dna"]
+                "required": [
+                    "fasta_dna"
+                ]
             },
             {
-                "required": ["fasta_aa"]
+                "required": [
+                    "fasta_aa"
+                ]
             }
         ]
     },
     "allOf": [
         {
-            "uniqueEntries": ["fasta_dna"]
+            "uniqueEntries": [
+                "id"
+            ]
         },
         {
-            "uniqueEntries": ["fasta_aa"]
+            "uniqueEntries": [
+                "fasta_dna"
+            ]
+        },
+        {
+            "uniqueEntries": [
+                "fasta_aa"
+            ]
         }
     ]
 }
