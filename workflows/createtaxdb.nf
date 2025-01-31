@@ -37,13 +37,13 @@ include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN               } from '../subworkflows/
 
 workflow CREATETAXDB {
     take:
-    ch_samplesheet       // channel: samplesheet read in from --input
-    ch_taxonomy_namesdmp // channel: taxonomy names file
-    ch_taxonomy_nodesdmp // channel: taxonomy nodes file
-    ch_accession2taxid   // channel: accession2taxid file
-    ch_nucl2taxid        // channel: nucl2taxid file
-    ch_prot2taxid        // channel: prot2taxid file
-    ch_malt_mapdb        // channel: maltmap file
+    ch_samplesheet         // channel: samplesheet read in from --input
+    file_taxonomy_namesdmp // file: taxonomy names file
+    file_taxonomy_nodesdmp // file: taxonomy nodes file
+    file_accession2taxid   // file: accession2taxid file
+    file_nucl2taxid        // fle: nucl2taxid file
+    file_prot2taxid        // file: prot2taxid file
+    file_malt_mapdb        // file: maltmap file
 
     main:
 
@@ -145,6 +145,7 @@ workflow CREATETAXDB {
             ch_singleref_for_aa = FIND_CONCATENATE_AA.out.file_out
             ch_versions = ch_versions.mix(FIND_CONCATENATE_AA.out.versions.first())
         }
+
         if ([params.build_kaiju].any()) {
             SEQKIT_REPLACE(ch_prepped_aa_fastas_ungrouped)
             ch_versions = ch_versions.mix(SEQKIT_REPLACE.out.versions.first())
@@ -164,7 +165,7 @@ workflow CREATETAXDB {
     // Module: Run CENTRIFUGE/BUILD
 
     if (params.build_centrifuge) {
-        CENTRIFUGE_BUILD(ch_singleref_for_dna, ch_nucl2taxid, ch_taxonomy_nodesdmp, ch_taxonomy_namesdmp, [])
+        CENTRIFUGE_BUILD(ch_singleref_for_dna, file_nucl2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, [])
         ch_versions = ch_versions.mix(CENTRIFUGE_BUILD.out.versions.first())
         ch_centrifuge_output = CENTRIFUGE_BUILD.out.cf
     }
@@ -175,7 +176,7 @@ workflow CREATETAXDB {
     // MODULE: Run DIAMOND/MAKEDB
 
     if (params.build_diamond) {
-        DIAMOND_MAKEDB(ch_singleref_for_aa, ch_prot2taxid, ch_taxonomy_nodesdmp, ch_taxonomy_namesdmp)
+        DIAMOND_MAKEDB(ch_singleref_for_aa, file_prot2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
         ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
         ch_diamond_output = DIAMOND_MAKEDB.out.db
     }
@@ -201,7 +202,7 @@ workflow CREATETAXDB {
             }
 
         // Nodes must come first
-        ch_ganon_tax_files = Channel.fromPath(ch_taxonomy_nodesdmp).combine(Channel.fromPath(ch_taxonomy_namesdmp))
+        ch_ganon_tax_files = Channel.fromPath(file_taxonomy_nodesdmp).combine(Channel.fromPath(file_taxonomy_namesdmp))
 
         GANON_BUILDCUSTOM(ch_prepped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, [])
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
@@ -227,7 +228,7 @@ workflow CREATETAXDB {
     // Condition is inverted because subworkflow asks if you want to 'clean' (true) or not, but pipeline says to 'keep'
     if (params.build_kraken2 || params.build_bracken) {
         def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
-        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(ch_singleref_for_dna, ch_taxonomy_namesdmp, ch_taxonomy_nodesdmp, ch_accession2taxid, k2_keepintermediates, params.build_bracken)
+        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(ch_singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, params.build_bracken)
         ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
         ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     }
@@ -238,8 +239,13 @@ workflow CREATETAXDB {
     // SUBWORKFLOW: Run KRAKENUNIQ/BUILD
     if (params.build_krakenuniq) {
 
-        ch_taxdmpfiles_for_krakenuniq = Channel.of(ch_taxonomy_namesdmp).combine(Channel.of(ch_taxonomy_nodesdmp)).map { [it] }
-        ch_input_for_krakenuniq = ch_prepped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, ch_nucl2taxid] }
+        ch_taxdmpfiles_for_krakenuniq = Channel
+            .of(file_taxonomy_namesdmp)
+            .combine(Channel.of(file_taxonomy_nodesdmp))
+            .map { [it] }
+
+        Channel.of(file_nucl2taxid)
+        ch_input_for_krakenuniq = ch_prepped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, file_nucl2taxid] }
 
         KRAKENUNIQ_BUILD(ch_input_for_krakenuniq, params.krakenuniq_keepintermediate)
         ch_versions = ch_versions.mix(KRAKENUNIQ_BUILD.out.versions.first())
@@ -254,11 +260,11 @@ workflow CREATETAXDB {
     if (params.build_malt) {
 
         // The map DB file comes zipped (for some reason) from MEGAN6 website
-        if (file(params.malt_mapdb).extension == 'zip') {
-            ch_malt_mapdb = UNZIP([[], params.malt_mapdb]).unzipped_archive.map { _meta, file -> [file] }
+        if (file_malt_mapdb.extension == 'zip') {
+            ch_malt_mapdb = UNZIP([[], file_malt_mapdb]).unzipped_archive.map { _meta, file -> [file] }
         }
         else {
-            ch_malt_mapdb = file(params.malt_mapdb)
+            ch_malt_mapdb = file(file_malt_mapdb)
         }
 
         if (malt_build_mode == 'protein') {
