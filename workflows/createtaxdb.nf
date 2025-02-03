@@ -73,7 +73,7 @@ workflow CREATETAXDB {
         // Make channel to preserve meta for decompress/compression
         ch_dna_refs_for_rematching = ch_samplesheet.map { meta, fasta_dna, _fasta_aa ->
             [
-                [tempid: fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0)],
+                fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0),
                 meta,
             ]
         }
@@ -98,7 +98,9 @@ workflow CREATETAXDB {
         ch_prepped_dna_batches = UNPIGZ_DNA.out.file_out.mix(ch_dna_for_unzipping.unzipped)
 
         // Unbatch the unzipped files for rematching with metadata
-        ch_prepped_dna_fastas_gunzipped = ch_prepped_dna_batches.transpose()
+        ch_prepped_dna_fastas_gunzipped = ch_prepped_dna_batches
+            .flatMap { _meta, batch -> batch }
+            .map { fasta -> [fasta.getName(), fasta] }
 
         // Match metadata back to the prepped DNA fastas with an inner join
         ch_prepped_dna_fastas_ungrouped = ch_prepped_dna_fastas_gunzipped
