@@ -76,6 +76,21 @@ workflow PIPELINE_INITIALISATION {
 
     ch_samplesheet = Channel.fromList(samplesheetToList(params.input, "assets/schema_input.json"))
 
+    // Validate we have unique file names for DNA FASTAs
+    ch_samplesheet
+        .filter { meta, fasta_dna, fasta_aa -> fasta_dna }
+        .map { meta, fasta_dna, fasta_aa ->
+            fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0)
+        }
+        .collect()
+        .dump(tag: 'post_collect')
+        .map { fasta_dna ->
+            if (fasta_dna.size() > fasta_dna.sort().unique().size()) {
+                def notunique = fasta_dna.toList().any { !fasta_dna.toList().sort().unique().contains(it) }
+                error("[nf-core/createtaxdb] ERROR: All filenames after decompressing must be unique! Check ${notunique}")
+            }
+        }
+
     emit:
     samplesheet = ch_samplesheet
     versions    = ch_versions
