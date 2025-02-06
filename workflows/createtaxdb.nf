@@ -76,11 +76,11 @@ workflow CREATETAXDB {
                 fasta_dna
             }
             .map { meta, fasta_dna, _fasta_aa ->
-            [
-                fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0),
-                meta,
-            ]
-        }
+                [
+                    fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0),
+                    meta,
+                ]
+            }
 
         // Separate files for zipping and unzipping
         ch_dna_for_unzipping = ch_dna_refs_for_singleref.branch { _meta, fasta ->
@@ -137,9 +137,10 @@ workflow CREATETAXDB {
             unzipped: true
         }
 
-        ch_aa_for_unzipping.zipped
+        ch_aa_batches_for_unzipping = ch_aa_for_unzipping.zipped
+            .map { _meta, aa_fasta -> aa_fasta }
             .collate(params.unzip_batch_size, true)
-            .set { ch_aa_batches_for_unzipping }
+            .map { batch -> [[id: params.dbname], batch] }
 
         UNPIGZ_AA(ch_aa_batches_for_unzipping)
         ch_prepped_aa_fastas_ungrouped = UNPIGZ_AA.out.file_out.mix(ch_aa_for_unzipping.unzipped)
