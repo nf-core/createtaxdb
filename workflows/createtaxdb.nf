@@ -71,7 +71,11 @@ workflow CREATETAXDB {
             }
 
         // Make channel to preserve meta for decompress/compression
-        ch_dna_refs_for_rematching = ch_samplesheet.map { meta, fasta_dna, _fasta_aa ->
+        ch_dna_refs_for_rematching = ch_samplesheet
+            .filter { _meta, fasta_dna, _fasta_aa ->
+                fasta_dna
+            }
+            .map { meta, fasta_dna, _fasta_aa ->
             [
                 fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0),
                 meta,
