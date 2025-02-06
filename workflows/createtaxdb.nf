@@ -82,6 +82,17 @@ workflow CREATETAXDB {
                 ]
             }
 
+        ch_aa_refs_for_rematching = ch_samplesheet
+            .filter { _meta, _fasta_dna, fasta_aa ->
+                fasta_aa
+            }
+            .map { meta, _fasta_dna, fasta_aa ->
+                [
+                    fasta_aa.getBaseName(fasta_aa.name.endsWith('.gz') ? 1 : 0),
+                    meta,
+                ]
+            }
+
         // Separate files for zipping and unzipping
         ch_dna_for_unzipping = ch_dna_refs_for_singleref.branch { _meta, fasta ->
             zipped: fasta.extension == 'gz'
@@ -142,9 +153,26 @@ workflow CREATETAXDB {
             .collate(params.unzip_batch_size, true)
             .map { batch -> [[id: params.dbname], batch] }
 
+        // Run the batch unzipping
         UNPIGZ_AA(ch_aa_batches_for_unzipping)
-        ch_prepped_aa_fastas_ungrouped = UNPIGZ_AA.out.file_out.mix(ch_aa_for_unzipping.unzipped)
-        ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
+
+        // Mix back in the originally unzipped files
+        ch_prepped_aa_batches = UNPIGZ_AA.out.file_out.mix(ch_aa_for_unzipping.unzipped)
+
+        // Unbatch the unzipped files for rematching with metadata
+        ch_prepped_aa_fastas_gunzipped = ch_prepped_aa_batches
+            .flatMap { _meta, batch -> batch }
+            .map { fasta -> [fasta.getName(), fasta] }
+
+        // Match metadata back to the prepped DNA fastas with an inner join
+        ch_prepped_aa_fastas_ungrouped = ch_prepped_aa_fastas_gunzipped
+            .join(ch_aa_refs_for_rematching, failOnMismatch: true, failOnDuplicate: true)
+            .map { _fasta_name, fasta, meta -> [meta, fasta] }
+
+        ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped
+            .map { _meta, fasta -> [[id: params.dbname], fasta] }
+            .groupTuple()
+
         ch_versions = ch_versions.mix(UNPIGZ_AA.out.versions.first())
 
         if ([(params.build_malt && malt_build_mode == 'protein'), params.build_diamond].any()) {
