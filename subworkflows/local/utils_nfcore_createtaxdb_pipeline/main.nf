@@ -86,10 +86,14 @@ workflow PIPELINE_INITIALISATION {
         .dump(tag: 'post_collect')
         .map { fasta_dna ->
             if (fasta_dna.size() > fasta_dna.sort().unique().size()) {
+                // NOT WORKING - rREPORTING FALSE
                 def notunique = fasta_dna.toList().any { !fasta_dna.toList().sort().unique().contains(it) }
                 error("[nf-core/createtaxdb] ERROR: All filenames after decompressing must be unique! Check ${notunique}")
             }
         }
+
+    // Validate we have unique file names for AA FASTAs
+    println('TODO')
 
     emit:
     samplesheet = ch_samplesheet
