@@ -15,6 +15,16 @@ workflow PREPROCESSING {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
+
+    // Initialise channels which may or may not get set depending on parameters
+    ch_singleref_for_dna = Channel.empty()
+    ch_singleref_for_aa = Channel.empty()
+    ch_prepped_dna_fastas = Channel.empty()
+    ch_prepped_aa_fastas = Channel.empty()
+    ch_prepped_dna_fastas_ungrouped = Channel.empty()
+    ch_prepped_aa_fastas_ungrouped = Channel.empty()
+    ch_kaiju_aa = Channel.empty()
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     DATA PREPARATION
@@ -149,14 +159,6 @@ workflow PREPROCESSING {
             ch_versions = ch_versions.mix(FIND_CONCATENATE_AA_KAIJU.out.versions.first())
         }
     }
-
-    ch_singleref_for_dna = ch_singleref_for_dna ?: []
-    ch_singleref_for_aa = ch_singleref_for_aa ?: []
-    ch_prepped_dna_fastas = ch_prepped_dna_fastas ?: []
-    ch_prepped_aa_fastas = ch_prepped_aa_fastas ?: []
-    ch_prepped_dna_fastas_ungrouped = ch_prepped_dna_fastas_ungrouped ?: []
-    ch_prepped_aa_fastas_ungrouped = ch_prepped_aa_fastas_ungrouped ?: []
-    ch_kaiju_aa = FIND_CONCATENATE_AA_KAIJU.out.file_out ?: []
 
     emit:
     singleref_for_dna  = ch_singleref_for_dna
