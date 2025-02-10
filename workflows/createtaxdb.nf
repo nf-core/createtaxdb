@@ -111,7 +111,7 @@ workflow CREATETAXDB {
         // Nodes must come first
         ch_ganon_tax_files = Channel.fromPath(file_taxonomy_nodesdmp).combine(Channel.fromPath(file_taxonomy_namesdmp))
 
-        GANON_BUILDCUSTOM(PREPROCESSING.out.singleref_for_dna, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, [])
+        GANON_BUILDCUSTOM(PREPROCESSING.out.ungrouped_dna, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, [])
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
     }
