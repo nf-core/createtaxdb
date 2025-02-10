@@ -7,7 +7,8 @@ include { SEQKIT_REPLACE                                } from '../../../modules
 
 workflow PREPROCESSING {
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    ch_samplesheet  // channel: samplesheet read in from --input
+    malt_build_mode // string: 'nucleotide' or 'protein'
 
     main:
 
@@ -20,11 +21,6 @@ workflow PREPROCESSING {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     // PREPARE: Prepare input for single file inputs modules
-    def malt_build_mode = null
-    if (params.build_malt) {
-        malt_build_mode = params.malt_build_options.contains('--sequenceType Protein') ? 'protein' : 'nucleotide'
-    }
-
     if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon].any()) {
         // Pull just DNA sequences
 
@@ -154,24 +150,22 @@ workflow PREPROCESSING {
         }
     }
 
-    ch_singleref_for_dna = ch_singleref_for_dna ?: Channel.empty()
-    ch_singleref_for_aa = ch_singleref_for_aa ?: Channel.empty()
-    ch_grouped_dna_fastas = ch_prepped_dna_fastas ?: Channel.empty()
-    ch_grouped_aa_fastas = ch_prepped_aa_fastas ?: Channel.empty()
-    ch_prepped_dna_fastas_ungrouped = ch_prepped_dna_fastas_ungrouped ?: Channel.empty()
-    ch_prepped_aa_fastas_ungrouped = ch_prepped_aa_fastas_ungrouped ?: Channel.empty()
-    ch_kaiju_aa = FIND_CONCATENATE_AA_KAIJU.out.file_out ?: Channel.empty()
-    malt_build_mode = malt_build_mode ?: ""
+    ch_singleref_for_dna = ch_singleref_for_dna ?: []
+    ch_singleref_for_aa = ch_singleref_for_aa ?: []
+    ch_prepped_dna_fastas = ch_prepped_dna_fastas ?: []
+    ch_prepped_aa_fastas = ch_prepped_aa_fastas ?: []
+    ch_prepped_dna_fastas_ungrouped = ch_prepped_dna_fastas_ungrouped ?: []
+    ch_prepped_aa_fastas_ungrouped = ch_prepped_aa_fastas_ungrouped ?: []
+    ch_kaiju_aa = FIND_CONCATENATE_AA_KAIJU.out.file_out ?: []
 
     emit:
     singleref_for_dna  = ch_singleref_for_dna
     singleref_for_aa   = ch_singleref_for_aa
-    grouped_dna_fastas = ch_grouped_dna_fastas
-    grouped_aa_fastas  = ch_grouped_aa_fastas
+    grouped_dna_fastas = ch_prepped_dna_fastas
+    grouped_aa_fastas  = ch_prepped_aa_fastas
     ungrouped_dna      = ch_prepped_dna_fastas_ungrouped
     ungrouped_aa       = ch_prepped_aa_fastas_ungrouped
     kaiju_aa           = ch_kaiju_aa
-    malt_build_mode    = malt_build_mode
     versions           = ch_versions
     multiqc_files      = ch_multiqc_files
 }
