@@ -23,7 +23,7 @@ workflow PREPROCESSING {
     ch_prepped_aa_fastas = Channel.empty()
     ch_prepped_dna_fastas_ungrouped = Channel.empty()
     ch_prepped_aa_fastas_ungrouped = Channel.empty()
-    ch_kaiju_aa = Channel.empty()
+    ch_prepped_aa_fastas_kaiju = Channel.empty()
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -167,7 +167,7 @@ workflow PREPROCESSING {
     grouped_aa_fastas  = ch_prepped_aa_fastas
     ungrouped_dna      = ch_prepped_dna_fastas_ungrouped
     ungrouped_aa       = ch_prepped_aa_fastas_ungrouped
-    kaiju_aa           = ch_kaiju_aa
+    kaiju_aa           = ch_prepped_aa_fastas_kaiju
     versions           = ch_versions
     multiqc_files      = ch_multiqc_files
 }
