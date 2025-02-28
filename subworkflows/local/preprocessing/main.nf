@@ -154,8 +154,8 @@ workflow PREPROCESSING {
         if ([params.build_kaiju].any()) {
             SEQKIT_REPLACE(ch_prepped_aa_fastas_ungrouped)
             ch_versions = ch_versions.mix(SEQKIT_REPLACE.out.versions.first())
-            ch_prepped_aa_fastas_kaiju = SEQKIT_REPLACE.out.fastx.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
-            FIND_CONCATENATE_AA_KAIJU(ch_prepped_aa_fastas_kaiju)
+            FIND_CONCATENATE_AA_KAIJU(SEQKIT_REPLACE.out.fastx.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple())
+            ch_prepped_aa_fastas_kaiju = FIND_CONCATENATE_AA_KAIJU.out.file_out
             ch_versions = ch_versions.mix(FIND_CONCATENATE_AA_KAIJU.out.versions.first())
         }
     }
