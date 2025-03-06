@@ -5,26 +5,26 @@
             "database100mers.kraken",
             "database.kraken",
             [
-                "database.1.cf:md5,1481615ab90b5573f6d9e57f97890178",
-                "database.2.cf:md5,d50fa66e215e80284314ff6521dcd4a4",
-                "database.3.cf:md5,beafa92166ba461f9bda1dac0b640f45",
-                "database.4.cf:md5,2902ec5df0db6da41a91b40d2f46b30d"
+                "database.1.cf:md5,c28bcb90521c8615d105a87a9678eaf2",
+                "database.2.cf:md5,38e1352dc915b22fd9f0c8c2f7b3b076",
+                "database.3.cf:md5,fb0fdd34a27fa29dc21ceb665ba08b0b",
+                "database.4.cf:md5,c5139756103e57ac29009f33894cb269"
             ],
-            "database.dmnd:md5,b2ea49ef5490c526e2c56cae19bcb462",
-            "database.hibf:md5,af913cecda744b02751e2f5320c35c7c",
+            "database.dmnd:md5,ae66c79773ebc3a509288209a4f9cc1a",
+            "database.hibf:md5,6459b0502321f96ec8009c633b09fc82",
             true,
-            "database.fmi:md5,9bd6adc74d13c77cf613bb190cc040e0",
-            "hash.k2d:md5,941118164b4bcc010593f7a7c7b30029",
+            "database.fmi:md5,7f1c80d410feb3c6ac1bb79f83517186",
+            "hash.k2d:md5,358ea3a801eb4af29ee61bcbe3bd3512",
             "opts.k2d",
-            "taxo.k2d:md5,cd8170a8c5a1b763a9ac1ffa2107cc88",
+            "taxo.k2d:md5,90712649e8b02fcb8c27a24eabd6af37",
             "database.idx",
-            "database.kdb:md5,a24fce43bedbc6c420f6e36d10c112a3",
-            "taxDB:md5,1aed1afa948daffc236deba1c5d635db",
+            "database.kdb:md5,a3b3d0f109173d8c9b06a9dba7c47152",
+            "taxDB:md5,a844cdf3103490c19748e7e4c2b65d74",
             true,
-            "index0.idx:md5,876139dc930e68992cd2625e08bba48a",
+            "index0.idx:md5,52aa8ac52a46de99ed72ecf9304626e0",
             true,
             true,
-            "ref.inf:md5,446275f4f879e2b115e983db7c9ced18",
+            "ref.inf:md5,e758ca682a53159afce4fc87c71e2cd1",
             true,
             "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
             "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e"
@@ -33,6 +33,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-01-31T12:21:11.452810452"
+        "timestamp": "2025-03-06T11:40:32.915718578"
     }
 }
