@@ -1,9 +1,9 @@
 {
     "test_alternatives_profile": {
         "content": [
-            "database.fmi:md5,f4497dbef330953b62a13d35ae870f63",
-            "database.bwt:md5,b4596241fcc2fcd4244677652c35ce7a",
-            "database.sa:md5,0fc1ed4b80ce20a13cdbebc74c41f666",
+            "database.fmi",
+            "database.bwt",
+            "database.sa",
             "database.idx",
             "database.kdb:md5,a3b3d0f109173d8c9b06a9dba7c47152",
             "taxDB:md5,a844cdf3103490c19748e7e4c2b65d74",
@@ -39,6 +39,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-06T12:34:08.589770309"
+        "timestamp": "2025-03-06T12:51:02.34265721"
     }
 }

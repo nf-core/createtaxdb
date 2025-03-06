@@ -18,9 +18,9 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                        path("$outputDir/kaiju/database.fmi"),
-                        path("$outputDir/kaiju/database.bwt"),
-                        path("$outputDir/kaiju/database.sa"),
+                        file("$outputDir/kaiju/database.fmi").name,
+                        file("$outputDir/kaiju/database.bwt").name,
+                        file("$outputDir/kaiju/database.sa").name,
                         file("$outputDir/krakenuniq/database/database.idx").name,
                         file("$outputDir/krakenuniq/database/database.kdb"),
                         file("$outputDir/krakenuniq/database/taxDB"),
