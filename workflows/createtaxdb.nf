@@ -13,12 +13,6 @@ include { methodsDescriptionText          } from '../subworkflows/local/utils_nf
 
 // Preprocessing
 include { PREPROCESSING                   } from '../subworkflows/local/preprocessing/main'
-// include { FIND_UNPIGZ as UNPIGZ_DNA                     } from '../modules/nf-core/find/unpigz/main'
-// include { FIND_UNPIGZ as UNPIGZ_AA                      } from '../modules/nf-core/find/unpigz/main'
-// include { FIND_CONCATENATE as FIND_CONCATENATE_DNA      } from '../modules/nf-core/find/concatenate/main'
-// include { FIND_CONCATENATE as FIND_CONCATENATE_AA       } from '../modules/nf-core/find/concatenate/main'
-// include { FIND_CONCATENATE as FIND_CONCATENATE_AA_KAIJU } from '../modules/nf-core/find/concatenate/main'
-// include { SEQKIT_REPLACE                                } from '../modules/nf-core/seqkit/replace/main'
 
 // Database building (with specific auxiliary modules)
 include { CENTRIFUGE_BUILD                } from '../modules/nf-core/centrifuge/build/main'
