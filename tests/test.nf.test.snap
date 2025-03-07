@@ -4,17 +4,15 @@
             "bracken/database/database100mers.kmer_distrib - contains string: true}",
             "bracken/database/database100mers.kraken - contains string: true",
             "bracken/database/database.kraken - contains string: true",
-            [
-                "database.1.cf:md5,c28bcb90521c8615d105a87a9678eaf2",
-                "database.2.cf:md5,38e1352dc915b22fd9f0c8c2f7b3b076",
-                "database.3.cf:md5,fb0fdd34a27fa29dc21ceb665ba08b0b",
-                "database.4.cf:md5,c5139756103e57ac29009f33894cb269"
-            ],
+            "centrifuge/database.1.cf - minimum file size: true",
+            "centrifuge/database.2.cf - minimum file size: true",
+            "centrifuge/database.3.cf - minimum file size: true",
+            "centrifuge/database.4.cf - minimum file size: true",
             "database.dmnd:md5,ae66c79773ebc3a509288209a4f9cc1a",
             "database.hibf:md5,6459b0502321f96ec8009c633b09fc82",
             "ganon/database.tax - contains string: true",
             "kaiju/database.fmi - minimum file size: true",
-            "hash.k2d:md5,358ea3a801eb4af29ee61bcbe3bd3512",
+            "kraken2/database/hash.k2d - minimum file size: true",
             "kraken2/database/opts.k2d - minimum file size: true",
             "taxo.k2d:md5,90712649e8b02fcb8c27a24eabd6af37",
             "database.idx:md5,57b7f061092bffaabc4974ee3e436a26",
@@ -33,6 +31,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-07T10:44:49.68939341"
+        "timestamp": "2025-03-07T11:20:38.019084758"
     }
 }
