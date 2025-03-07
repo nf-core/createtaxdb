@@ -28,8 +28,8 @@
             "nodes.dmp:md5,8930afd1adeb8f5bbf9f308714495d42",
             "malt/malt-build.log - contains string: true",
             "index0.idx:md5,e3c8adef9bbef32318614d07b90d2cd4",
-            "malt/malt-build.log - minimum file size: true",
-            "malt/malt-build.log - minimum file size: true",
+            "malt/malt_index/ref.db - minimum file size: true",
+            "malt/malt_index/ref.idx- minimum file size: true",
             "ref.inf:md5,6326bf8add85ac5f9249a535fddc9152",
             "taxonomy.idx:md5,113f65da8d2da1b89d47c90161edf148",
             "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
@@ -39,6 +39,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-07T09:53:17.025631088"
+        "timestamp": "2025-03-07T10:35:07.583741082"
     }
 }
