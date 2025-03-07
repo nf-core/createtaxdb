@@ -93,6 +93,7 @@ workflow NFCORE_CREATETAXDB {
         ch_nucl2taxid,
         ch_prot2taxid,
         ch_malt_mapdb,
+        ch_customseqid2taxid,
     )
 
     emit:
