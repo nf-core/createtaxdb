@@ -7,7 +7,7 @@
                 "nf-core": {
                     "bracken/build": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "cat/cat": {
@@ -47,12 +47,12 @@
                     },
                     "kraken2/add": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "9bbd9d56668d176cc4e9885a151d29c4cc05329d",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "kraken2/build": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "9bbd9d56668d176cc4e9885a151d29c4cc05329d",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "krakenuniq/build": {
@@ -92,7 +92,7 @@
                 "nf-core": {
                     "fasta_build_add_kraken2_bracken": {
                         "branch": "master",
-                        "git_sha": "c60c14b285b89bdd0607e371417dadb80385ad6e",
+                        "git_sha": "9bbd9d56668d176cc4e9885a151d29c4cc05329d",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nextflow_pipeline": {
