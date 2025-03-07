@@ -34,7 +34,7 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        params.input
+        params.input,
     )
 
     //
@@ -53,7 +53,7 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        NFCORE_CREATETAXDB.out.multiqc_report
+        NFCORE_CREATETAXDB.out.multiqc_report,
     )
 }
 
@@ -83,6 +83,7 @@ workflow NFCORE_CREATETAXDB {
     ch_nucl2taxid = params.nucl2taxid ? file(params.nucl2taxid, checkIfExists: true) : []
     ch_prot2taxid = params.prot2taxid ? file(params.prot2taxid, checkIfExists: true) : []
     ch_malt_mapdb = params.malt_mapdb ? file(params.malt_mapdb, checkIfExists: true) : []
+    ch_customseqid2taxid = params.seqid2taxid ? file(params.customseqid2taxid, checkIfExists: true) : []
 
     CREATETAXDB(
         ch_samplesheet,
@@ -91,7 +92,7 @@ workflow NFCORE_CREATETAXDB {
         ch_accession2taxid,
         ch_nucl2taxid,
         ch_prot2taxid,
-        ch_malt_mapdb
+        ch_malt_mapdb,
     )
 
     emit:

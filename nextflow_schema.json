@@ -93,6 +93,13 @@
                     "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.",
                     "fa_icon": "fas fa-database"
                 },
+                "seqid2taxid": {
+                    "type": "string",
+                    "description": "Path to custom Kraken2 seqid2taxid.map file",
+                    "help_text": "Kraken2 will normally produce it's own `seqid2taxid.map` file based on the taxonomy files you provide.\n\nHowever you can skip this step and by providing your own `seqid2taxid.map` to this parameter, which will then tell Kraken2 to skip this step of database building.",
+                    "format": "file-path",
+                    "fa_icon": "fas fa-map"
+                },
                 "save_concatenated_fastas": {
                     "type": "boolean",
                     "description": "Save concatenated input FASTAs",

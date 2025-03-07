@@ -92,7 +92,7 @@
                 "nf-core": {
                     "fasta_build_add_kraken2_bracken": {
                         "branch": "master",
-                        "git_sha": "9bbd9d56668d176cc4e9885a151d29c4cc05329d",
+                        "git_sha": "b3e9e42fd368c7c33a53e6d858773589b0cd05b9",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nextflow_pipeline": {

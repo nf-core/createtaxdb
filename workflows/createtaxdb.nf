@@ -44,6 +44,7 @@ workflow CREATETAXDB {
     file_nucl2taxid        // fle: nucl2taxid file
     file_prot2taxid        // file: prot2taxid file
     file_malt_mapdb        // file: maltmap file
+    file_customseqid2taxid // file: seqid2taxid.map
 
     main:
 
@@ -191,7 +192,7 @@ workflow CREATETAXDB {
     // Condition is inverted because subworkflow asks if you want to 'clean' (true) or not, but pipeline says to 'keep'
     if (params.build_kraken2 || params.build_bracken) {
         def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
-        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(ch_singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, params.build_bracken)
+        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(ch_singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, file_customseqid2taxid, params.build_bracken)
         ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
         ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     }
