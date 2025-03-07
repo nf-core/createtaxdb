@@ -25,7 +25,7 @@ nextflow_pipeline {
                         "centrifuge/database.2.cf - minimum file size: ${file("$outputDir/centrifuge/database.2.cf").length() >= 943010}",
                         "centrifuge/database.3.cf - minimum file size: ${file("$outputDir/centrifuge/database.3.cf").length() >= 2799}",
                         "centrifuge/database.4.cf - minimum file size: ${file("$outputDir/centrifuge/database.4.cf").length() >= 84}",
-                        path("$outputDir/diamond/database.dmnd"),
+                        "diamond/database.dmnd - minimum file size: ${file("$outputDir/diamond/database.dmnd").length() >= 21901808}",
                         path("$outputDir/ganon/database.hibf"),
                         "ganon/database.tax - contains string: ${path("$outputDir/ganon/database.tax").readLines().any{ it.contains('SARS-CoV-2_genome')}}",
                         "kaiju/database.fmi - minimum file size: ${file("$outputDir/kaiju/database.fmi").length() >= 3519604}",
