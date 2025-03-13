@@ -125,6 +125,7 @@ workflow PREPROCESSING {
 
         // Run the batch unzipping
         UNPIGZ_AA(ch_aa_batches_for_unzipping)
+        ch_versions = ch_versions.mix(UNPIGZ_AA.out.versions.first())
 
         // Mix back in the originally unzipped files
         ch_prepped_aa_batches = UNPIGZ_AA.out.file_out.mix(ch_aa_for_unzipping.unzipped)
