@@ -31,7 +31,7 @@ workflow PREPROCESSING {
     */
     // PREPARE: Prepare input for single file inputs modules
     if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon].any()) {
-        
+
         // Pull just DNA sequences
         ch_dna_refs_for_singleref = ch_samplesheet
             .map { meta, fasta_dna, _fasta_aa -> [meta, fasta_dna] }
