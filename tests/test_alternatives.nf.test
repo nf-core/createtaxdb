@@ -43,6 +43,7 @@ nextflow_pipeline {
                         file("$outputDir/krakenuniq/database/taxDB"),
                         file("$outputDir/krakenuniq/database/taxonomy/names.dmp"),
                         file("$outputDir/krakenuniq/database/taxonomy/nodes.dmp"),
+                        "malt/malt-build.log - contains string: ${path("$outputDir/malt/malt-build.log").readLines().any{ it.contains('--mapDB')}}",
                         "malt/malt-build.log - contains string: ${path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory')}",
                         path("$outputDir/malt/malt_index/index0.idx"),
                         "malt/malt_index/ref.db - minimum file size: ${file("$outputDir/malt/malt_index/ref.db").length() >= 3241218}",
