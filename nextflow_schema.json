@@ -85,6 +85,13 @@
                     "description": "Path to NCBI-style taxonomy names dmp file.",
                     "help_text": "A tab/pipe/tab separated table file. See names.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure."
                 },
+                "seqid2taxid": {
+                    "type": "string",
+                    "description": "Path to custom Kraken2 seqid2taxid.map file",
+                    "help_text": "Kraken2 will normally produce it's own `seqid2taxid.map` file based on the taxonomy files you provide.\n\nHowever you can skip this step and by providing your own `seqid2taxid.map` to this parameter, which will then tell Kraken2 to skip this step of database building.",
+                    "format": "file-path",
+                    "fa_icon": "fas fa-map"
+                },
                 "malt_mapdb": {
                     "type": "string",
                     "format": "file-path",
@@ -93,12 +100,37 @@
                     "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.",
                     "fa_icon": "fas fa-database"
                 },
-                "seqid2taxid": {
+                "malt_mapdb_format": {
                     "type": "string",
-                    "description": "Path to custom Kraken2 seqid2taxid.map file",
-                    "help_text": "Kraken2 will normally produce it's own `seqid2taxid.map` file based on the taxonomy files you provide.\n\nHowever you can skip this step and by providing your own `seqid2taxid.map` to this parameter, which will then tell Kraken2 to skip this step of database building.",
-                    "format": "file-path",
-                    "fa_icon": "fas fa-map"
+                    "fa_icon": "fas fa-cog",
+                    "description": "Specify the type of MALT mapdb provided, based on the corresponding MALT flag.",
+                    "enum": [
+                        "mdb",
+                        "a2t",
+                        "s2t",
+                        "a2ec",
+                        "s2ec",
+                        "t4ec",
+                        "a2eggnog",
+                        "s2eggnog",
+                        "t4eggnog",
+                        "a2gtdb",
+                        "s2gtdb",
+                        "t4gtdb",
+                        "a2interpro2go",
+                        "s2interpro2go",
+                        "t4interprotogo",
+                        "a2kegg",
+                        "s2kegg",
+                        "t4kegg",
+                        "a2pgpt",
+                        "s2pgpt",
+                        "t4pgpt",
+                        "a2seed",
+                        "s2seed",
+                        "t4seed"
+                    ],
+                    "help_text": "While MALT now theoretically supports only a single type of MEGAN mapping file (`*.db`), in some cases this does not appear to work.\n\nYou can however still currently use [technically 'deprecated' MEGAN mapping files](https://software-ab.cs.uni-tuebingen.de/download/megan6/old.html) that end in `.abin`.\n\nFor nf-core/createtaxdb, when specifying the MALT mapping file you therefore also need to specify which format this file is, based on the corresponding (short) MALT flags for malt-build. For example for the new type of mapping file, you can give just `mdb`. For a nucleotide accession to taxonomy file you give `a2t`. For a accession to SEED category mapping file, you specify `a2seed`. "
                 },
                 "save_concatenated_fastas": {
                     "type": "boolean",

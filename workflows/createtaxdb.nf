@@ -238,7 +238,7 @@ workflow CREATETAXDB {
             ch_input_for_malt = ch_prepped_dna_fastas.map { _meta, file -> file }
         }
 
-        MALT_BUILD(ch_input_for_malt, [], ch_malt_mapdb)
+        MALT_BUILD(ch_input_for_malt, [], ch_malt_mapdb, params.malt_mapdb_format)
         ch_versions = ch_versions.mix(MALT_BUILD.out.versions.first())
         ch_malt_output = MALT_BUILD.out.index
     }
