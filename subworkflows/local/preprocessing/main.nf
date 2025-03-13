@@ -15,7 +15,6 @@ workflow PREPROCESSING {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
-
     // Initialise channels which may or may not get set depending on parameters
     ch_singleref_for_dna = Channel.empty()
     ch_singleref_for_aa = Channel.empty()
@@ -32,8 +31,8 @@ workflow PREPROCESSING {
     */
     // PREPARE: Prepare input for single file inputs modules
     if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon].any()) {
+        
         // Pull just DNA sequences
-
         ch_dna_refs_for_singleref = ch_samplesheet
             .map { meta, fasta_dna, _fasta_aa -> [meta, fasta_dna] }
             .filter { _meta, fasta_dna ->
@@ -52,16 +51,6 @@ workflow PREPROCESSING {
                 ]
             }
 
-        ch_aa_refs_for_rematching = ch_samplesheet
-            .filter { _meta, _fasta_dna, fasta_aa ->
-                fasta_aa
-            }
-            .map { meta, _fasta_dna, fasta_aa ->
-                [
-                    fasta_aa.getBaseName(fasta_aa.name.endsWith('.gz') ? 1 : 0),
-                    meta,
-                ]
-            }
 
         // Separate files for zipping and unzipping
         ch_dna_for_unzipping = ch_dna_refs_for_singleref.branch { _meta, fasta ->
@@ -111,6 +100,17 @@ workflow PREPROCESSING {
             .map { meta, _fasta_dna, fasta_aa -> [meta, fasta_aa] }
             .filter { _meta, fasta_aa ->
                 fasta_aa
+            }
+
+        ch_aa_refs_for_rematching = ch_samplesheet
+            .filter { _meta, _fasta_dna, fasta_aa ->
+                fasta_aa
+            }
+            .map { meta, _fasta_dna, fasta_aa ->
+                [
+                    fasta_aa.getBaseName(fasta_aa.name.endsWith('.gz') ? 1 : 0),
+                    meta,
+                ]
             }
 
         ch_aa_for_unzipping = ch_aa_refs_for_singleref.branch { _meta, fasta ->

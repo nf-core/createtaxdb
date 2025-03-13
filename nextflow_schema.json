@@ -361,7 +361,8 @@
                 "unzip_batch_size": {
                     "type": "integer",
                     "fa_icon": "fas fa-file-archive",
-                    "description": "How many files to unzip in parallel.",
+                    "description": "How many files to unzip in parallel in a single job.",
+                    "help_text": "To reduce the load on scheduling systems, nf-core/createtaxdb batches all compressed input FASTA files into this number, and will decompress them in parallel within a single scheduling job (rather than one job per decompression).\n\nThis is because decompression jobs are often very short and require few resources."
                     "default": 10000
                 }
             }
