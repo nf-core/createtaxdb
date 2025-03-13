@@ -35,6 +35,7 @@ nextflow_pipeline {
                         file("$outputDir/krakenuniq/database/database.idx"),
                         file("$outputDir/krakenuniq/database/database.kdb"),
                         file("$outputDir/krakenuniq/database/taxDB"),
+                        "malt/malt-build.log - contains string: ${path("$outputDir/malt/malt-build.log").readLines().any{ it.contains('--acc2taxa')}}",
                         "malt/malt-build.log - contains string: ${path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory')}",
                         path("$outputDir/malt/malt_index/index0.idx"),
                         path("$outputDir/malt/malt_index/ref.db").exists(),
