@@ -10,11 +10,6 @@
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
-                    "cat/cat": {
-                        "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
-                        "installed_by": ["modules"]
-                    },
                     "centrifuge/build": {
                         "branch": "master",
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
@@ -30,14 +25,19 @@
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
                     },
+                    "find/concatenate": {
+                        "branch": "master",
+                        "git_sha": "326bde891db0956f0148ed7e21938360678d3e75",
+                        "installed_by": ["modules"]
+                    },
+                    "find/unpigz": {
+                        "branch": "master",
+                        "git_sha": "9b74dcad06abf4905524411c72efada0e5e189d9",
+                        "installed_by": ["modules"]
+                    },
                     "ganon/buildcustom": {
                         "branch": "master",
                         "git_sha": "4265ef4b3b9af8877671715b081f102041c64cfd",
-                        "installed_by": ["modules"]
-                    },
-                    "gunzip": {
-                        "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
                     },
                     "kaiju/mkfmi": {
