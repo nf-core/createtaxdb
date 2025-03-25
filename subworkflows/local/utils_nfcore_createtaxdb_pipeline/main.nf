@@ -172,6 +172,15 @@ def validateInputParameters() {
     if (params.build_malt && !(params.malt_build_options.contains('--sequenceType DNA') || params.malt_build_options.contains('--sequenceType Protein'))) {
         error('[nf-core/createtaxdb] Supplied --build_malt, but --malt_build_options must contain at a minimum malt-build parameters --sequenceType DNA or --sequenceType Protein')
     }
+
+    // Validate samplesheet generation parameters
+    if (params.generate_downstream_samplesheets && !params.generate_pipeline_samplesheets) {
+        error('[nf-core/createtaxdb] If supplying `--generate_downstream_samplesheets`, you must also specify which pipeline to generate for with `--generate_pipeline_samplesheets! Check input.')
+    }
+
+    if (params.generate_downstream_samplesheets && !params.generate_tar_archive && params.generate_samplesheet_dbtype == 'tar') {
+        error('[nf-core/createtaxdb] Supplied --generate_downstream_samplesheets with --generate_samplesheet_dbtype tar, but missing --generate_tar_archive (mandatory for tar archive output).')
+    }
 }
 
 //
