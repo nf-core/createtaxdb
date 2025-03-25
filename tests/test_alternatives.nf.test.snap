@@ -35,12 +35,12 @@
             "taxonomy.idx:md5,113f65da8d2da1b89d47c90161edf148",
             "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
             "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e",
-            "databases-taxprofiler.csv:md5,9193287bf2c3ed9e4c50ec1323172a82"
+            "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true"
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-03-25T15:12:32.063939636"
+        "timestamp": "2025-03-25T20:44:44.660328628"
     }
 }
