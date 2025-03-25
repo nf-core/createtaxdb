@@ -43,7 +43,8 @@ nextflow_pipeline {
                         path("$outputDir/malt/malt_index/ref.inf"),
                         path("$outputDir/malt/malt_index/taxonomy.idx").exists(),
                         path("$outputDir/malt/malt_index/taxonomy.map"),
-                        path("$outputDir/malt/malt_index/taxonomy.tre")
+                        path("$outputDir/malt/malt_index/taxonomy.tre"),
+                        path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv"),
                     ).match()
                 },
                 { assert new File("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists() },

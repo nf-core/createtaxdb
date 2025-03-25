@@ -22,10 +22,8 @@ nextflow_process {
         then {
             def stablefiles = []
             file(process.out.output.get(0)).eachFileRecurse{ file -> if (!file.isDirectory() && !["timestamp", "taxdump.tar.gz"].find {file.toString().endsWith(it)}) {stablefiles.add(file)} }
-            println(stablefiles)
             def unstablefiles = []
             file(process.out.output.get(0)).eachFileRecurse{ file -> if (["timestamp", "taxdump.tar.gz"].find {file.toString().endsWith(it)}) {unstablefiles.add(file.getName().toString())} }
-            println(unstablefiles)
             assertAll(
                 { assert process.success },
                 { assert snapshot(

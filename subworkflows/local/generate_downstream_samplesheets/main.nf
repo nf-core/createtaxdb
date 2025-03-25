@@ -57,7 +57,6 @@ def channelToSamplesheet(ch_list_for_samplesheet, path, format) {
             newLine: true,
             sort: false,
         )
-        .view()
 
     return ch_samplesheet
 }
