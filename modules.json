@@ -40,11 +40,6 @@
                         "git_sha": "4265ef4b3b9af8877671715b081f102041c64cfd",
                         "installed_by": ["modules"]
                     },
-                    "gunzip": {
-                        "branch": "master",
-                        "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
-                        "installed_by": ["modules"]
-                    },
                     "kaiju/mkfmi": {
                         "branch": "master",
                         "git_sha": "f1304d447983034fe9892953796b484f85bcb999",
@@ -65,11 +60,6 @@
                         "git_sha": "448938c2c945c2e73b3a15ff9ce0eb0f2b428374",
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/krakenuniq/build/krakenuniq-build.diff"
-                    },
-                    "krakenuniq/download": {
-                        "branch": "master",
-                        "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
-                        "installed_by": ["modules"]
                     },
                     "malt/build": {
                         "branch": "master",
@@ -92,11 +82,6 @@
                         "installed_by": ["modules"]
                     },
                     "tar": {
-                        "branch": "master",
-                        "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
-                        "installed_by": ["modules"]
-                    },
-                    "untar": {
                         "branch": "master",
                         "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
                         "installed_by": ["modules"]
