@@ -36,7 +36,7 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success},
-                { assert snapshot("${params.outdir}/downstream_samplesheets/${params.generate_pipeline_samplesheets}.csv").match() }
+                { assert snapshot(workflow.out).match() }
             )
         }
     }

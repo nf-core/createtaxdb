@@ -19,10 +19,13 @@ workflow SAMPLESHEET_TAXPROFILER {
     }
 
     if (params.build_bracken && params.build_kraken2) {
-        log.warn("Generated nf-core/taxprofiler samplesheet will only have a row for bracken. If Kraken2 is wished to be executed separately, duplicate row and update tool column to Kraken2!")
+        log.warn("Generated nf-core/taxprofiler samplesheet will only have a row for bracken. If Kraken2 is wished to be executed separately, duplicate the bracken row yourself and update tool column to Kraken2!")
     }
 
-    channelToSamplesheet(ch_list_for_samplesheet, "${params.outdir}/downstream_samplesheets/databases-taxprofiler", format)
+    ch_final_samplesheet = channelToSamplesheet(ch_list_for_samplesheet, "${params.outdir}/downstream_samplesheets/databases-taxprofiler", format)
+
+    emit:
+    samplesheet = ch_final_samplesheet
 }
 
 workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
@@ -33,8 +36,11 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
     def downstreampipeline_names = params.generate_pipeline_samplesheets.split(",")
 
     if (downstreampipeline_names.contains('taxprofiler')) {
-        SAMPLESHEET_TAXPROFILER(ch_databases)
+        ch_final_samplesheet = SAMPLESHEET_TAXPROFILER(ch_databases)
     }
+
+    emit:
+    samplesheet = ch_final_samplesheet
 }
 
 def channelToSamplesheet(ch_list_for_samplesheet, path, format) {
@@ -42,7 +48,7 @@ def channelToSamplesheet(ch_list_for_samplesheet, path, format) {
 
     def ch_header = ch_list_for_samplesheet
 
-    ch_header
+    def ch_samplesheet = ch_header
         .first()
         .map { it.keySet().join(format_sep) }
         .concat(ch_list_for_samplesheet.map { it.values().join(format_sep) })
@@ -51,4 +57,7 @@ def channelToSamplesheet(ch_list_for_samplesheet, path, format) {
             newLine: true,
             sort: false,
         )
+        .view()
+
+    return ch_samplesheet
 }
