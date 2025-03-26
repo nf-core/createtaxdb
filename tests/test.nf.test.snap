@@ -1,11 +1,11 @@
 {
     "test_profile": {
         "content": [
-            "bracken/database-bracken.tar.gz - minimum file size: false",
+            "bracken/database-bracken.tar.gz - minimum file size: true",
             "bracken/database-kraken2/database100mers.kmer_distrib - contains string: true}",
             "bracken/database-kraken2/database100mers.kraken - contains string: true",
             "bracken/database-kraken2/database.kraken - contains string: true",
-            "centrifuge/database-centrifuge.tar.gz - minimum file size: false",
+            "centrifuge/database-centrifuge.tar.gz - minimum file size: true",
             "centrifuge/database-centrifuge.1.cf - minimum file size: true",
             "centrifuge/database-centrifuge.2.cf - minimum file size: true",
             "centrifuge/database-centrifuge.3.cf - minimum file size: true",
@@ -15,7 +15,7 @@
             "ganon/database-ganon.tar.gz - minimum file size: true",
             "database.hibf:md5,6459b0502321f96ec8009c633b09fc82",
             "ganon/database.tax - contains string: true",
-            "kaiju/database-kaiju.tar.gz - minimum file size: false",
+            "kaiju/database-kaiju.tar.gz - minimum file size: true",
             "kaiju/database-kaiju.fmi - minimum file size: true",
             "kraken2/database-kraken2/hash.k2d - minimum file size: true",
             "kraken2/database-kraken2/opts.k2d - minimum file size: true",
@@ -42,6 +42,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-03-25T20:29:30.242261657"
+        "timestamp": "2025-03-26T08:04:41.5519948"
     }
 }
