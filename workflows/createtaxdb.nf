@@ -4,27 +4,28 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { MULTIQC                         } from '../modules/nf-core/multiqc/main'
-include { paramsSummaryMap                } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML          } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText          } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
+include { MULTIQC                          } from '../modules/nf-core/multiqc/main'
+include { paramsSummaryMap                 } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc             } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML           } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText           } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
 
 // Preprocessing
-include { PREPROCESSING                   } from '../subworkflows/local/preprocessing/main'
+include { PREPROCESSING                    } from '../subworkflows/local/preprocessing/main'
 
 // Database building (with specific auxiliary modules)
-include { CENTRIFUGE_BUILD                } from '../modules/nf-core/centrifuge/build/main'
-include { DIAMOND_MAKEDB                  } from '../modules/nf-core/diamond/makedb/main'
-include { GANON_BUILDCUSTOM               } from '../modules/nf-core/ganon/buildcustom/main'
-include { KAIJU_MKFMI                     } from '../modules/nf-core/kaiju/mkfmi/main'
-include { KRAKENUNIQ_BUILD                } from '../modules/nf-core/krakenuniq/build/main'
-include { UNZIP                           } from '../modules/nf-core/unzip/main'
-include { MALT_BUILD                      } from '../modules/nf-core/malt/build/main'
+include { CENTRIFUGE_BUILD                 } from '../modules/nf-core/centrifuge/build/main'
+include { DIAMOND_MAKEDB                   } from '../modules/nf-core/diamond/makedb/main'
+include { GANON_BUILDCUSTOM                } from '../modules/nf-core/ganon/buildcustom/main'
+include { KAIJU_MKFMI                      } from '../modules/nf-core/kaiju/mkfmi/main'
+include { KRAKENUNIQ_BUILD                 } from '../modules/nf-core/krakenuniq/build/main'
+include { UNZIP                            } from '../modules/nf-core/unzip/main'
+include { MALT_BUILD                       } from '../modules/nf-core/malt/build/main'
+include { TAR                              } from '../modules/nf-core/tar/main'
 
-include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
-
+include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN  } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
+include { GENERATE_DOWNSTREAM_SAMPLESHEETS } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -182,6 +183,46 @@ workflow CREATETAXDB {
     else {
         ch_malt_output = Channel.empty()
     }
+
+    //
+    // Aggregate all databases for downstream processes
+    //
+    ch_all_databases = Channel
+        .empty()
+        .mix(
+            ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge"], db] },
+            ch_diamond_output.map { meta, db -> [meta + [tool: "diamond"], db] },
+            ch_ganon_output.map { meta, db -> [meta + [tool: "ganon"], db] },
+            ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju"], db] },
+            ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2"], db] },
+            ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq"], db] },
+            ch_malt_output.map { db -> [[id: params.dbname, tool: "malt"], db] },
+        )
+
+    //
+    // Package for portable databsae
+    //
+
+    if (params.generate_tar_archive) {
+        TAR(ch_all_databases, '.gz')
+    }
+
+    //
+    // Samplesheet generation
+    //
+
+
+    if (params.generate_downstream_samplesheets) {
+        if (params.generate_samplesheet_dbtype == 'tar') {
+            ch_databases_for_samplesheets = TAR.out.archive
+        }
+        else if (params.generate_samplesheet_dbtype == 'raw') {
+            ch_databases_for_samplesheets = ch_all_databases
+        }
+        GENERATE_DOWNSTREAM_SAMPLESHEETS(ch_databases_for_samplesheets)
+    }
+
+
 
     //
     // Collate and save software versions

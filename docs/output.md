@@ -23,6 +23,9 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [KrakenUniq](#krakenuniq) - Database files for KrakenUniq
 - [MALT](#malt) - Database files for MALT
 
+The pipeline can also generate downstream pipeline input samplesheets.
+These are stored in `<outdir>/downstream_samplesheets`.
+
 ### MultiQC
 
 <details markdown="1">
@@ -186,3 +189,23 @@ Note there may be additional files in this directory, however the ones listed ab
 </details>
 
 The `malt_index` directory can be given to MALT itself with `malt-run --index <your_database>/` etc.
+
+### Downstream samplesheets
+
+The pipeline can also generate input files for the following downstream
+pipelines:
+
+- [nf-core/taxprofiler](https://nf-co.re/taxprofiler)
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `downstream_samplesheets/`
+  - `taxprofiler.csv`: Partially filled out nf-core/taxprofiler `--databases` csv with paths to database directories or `tar.gz` relative to the results directory
+
+</details>
+
+:::warning
+Any generated downstream samplesheet is provided as 'best effort' and are not guaranteed to work straight out of the box!
+They may not be complete (e.g. some columns may need to be manually filled in).
+:::
