@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "kmcp_create"
+description: Builds custom KMCP database
+keywords:
+  - metagenomics
+  - kmcp
+  - database
+  - build
+  - custom
+components:
+  - kmcp/compute
+  - kmcp/index
+input:
+  - ch_fasta:
+      type: file
+      description: |
+        Channel containing a meta with a single FASTA or a directory containing multiple FASTAs to be built
+        Structure: [ val(meta), [ fasta ] ]
+      pattern: "*.{fasta,fa,fna}"
+output:
+  - db:
+      type: directory
+      description: |
+        Channel containing KMCP database directory files.
+        Use `ext.prefix` in a modules.conf file to change default name
+        Structure: [ val(meta), path(db) ]
+      pattern: "*/"
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+authors:
+  - "@alxndrdiaz"
+maintainers:
+  - "@alxndrdiaz"
