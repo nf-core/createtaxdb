@@ -53,7 +53,7 @@ nextflow_pipeline {
                         path("$outputDir/malt/malt_index/taxonomy.tre"),
                         "malt_index/table0.db - exists: ${path("$outputDir/malt/malt_index/table0.db").exists()}",
                         "malt_index/table0.idx - exists: ${path("$outputDir/malt/malt_index/table0.idx").exists()}",
-                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 8}",
+                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 9}",
                     ).match()
                 },
                 { assert new File("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists() },
