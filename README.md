@@ -40,6 +40,7 @@
    - [Kraken2](https://doi.org/10.1186/s13059-019-1891-0)
    - [KrakenUniq](https://doi.org/10.1186/s13059-018-1568-0)
    - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
+   - [KMCP](https://doi.org/10.1093/bioinformatics/btac845)
 
 ## Usage
 

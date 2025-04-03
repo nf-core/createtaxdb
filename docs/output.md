@@ -22,6 +22,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Kraken2](#kraken2) - Database files for Kraken2
 - [KrakenUniq](#krakenuniq) - Database files for KrakenUniq
 - [MALT](#malt) - Database files for MALT
+- [KMCP](#kmcp) - Database files for KMCP
 
 The pipeline can also generate downstream pipeline input samplesheets.
 These are stored in `<outdir>/downstream_samplesheets`.
@@ -189,6 +190,20 @@ Note there may be additional files in this directory, however the ones listed ab
 </details>
 
 The `malt_index` directory can be given to MALT itself with `malt-run --index <your_database>/` etc.
+
+### KMCP
+
+[KMCP](https://bioinf.shenwei.me/kmcp/) is a metagenomic profiling tool focused on prokaryotic and viral sequences.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `kmcp/`
+  - `database-kmcp-index/`: directory containing KMCP index files
+
+</details>
+
+The `database-kmcp-index/` directory can be given to KMCP itself with `kmcp search --db-dir <your_database>/` etc, see [kmcp search documentation](https://bioinf.shenwei.me/kmcp/usage/#search).
 
 ### Downstream samplesheets
 
