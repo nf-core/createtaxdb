@@ -53,6 +53,12 @@ nextflow_pipeline {
                         path("$outputDir/malt/malt_index/taxonomy.tre"),
                         "malt_index/table0.db - exists: ${path("$outputDir/malt/malt_index/table0.db").exists()}",
                         "malt_index/table0.idx - exists: ${path("$outputDir/malt/malt_index/table0.idx").exists()}",
+                        path("$outputDir/kmcp/database-kmcp-index/R001/_block001.uniki").exists(),
+                        path("$outputDir/kmcp/database-kmcp-index/R001/__db.yml").exists(),
+                        path("$outputDir/kmcp/database-kmcp-index/R001/__name_mapping.tsv").exists(),
+                        path("$outputDir/kmcp/database-kmcp-index.log").exists(),
+                        "kmcp/database-kmcp-index.log - contains string: ${path("$outputDir/kmcp/database-kmcp-index.log").readLines().any{ it.contains('k-mers saved to database-kmcp-index')}}",
+                        "kmcp/database-kmcp.tar.gz - minimum file size: ${file("$outputDir/kmcp/database-kmcp.tar.gz").length() >= 3222336}",
                         "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 9}",
                     ).match()
                 },
