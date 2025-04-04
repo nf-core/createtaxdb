@@ -37,8 +37,11 @@
             "malt_index/table0.db - exists: true",
             "malt_index/table0.idx - exists: true",
             true,
+            "kmcp index file- minimum file size: true",
             true,
+            "kmcp yml file - contains string: true",
             true,
+            "kmcp tsv file - contains string: true",
             true,
             "kmcp/database-kmcp-index.log - contains string: true",
             "kmcp/database-kmcp.tar.gz - minimum file size: false",
@@ -48,6 +51,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-04-03T20:59:19.914728336"
+        "timestamp": "2025-04-04T10:46:26.5975804"
     }
 }
