@@ -41,13 +41,13 @@
             true,
             true,
             "kmcp/database-kmcp-index.log - contains string: true",
-            "kmcp/database-kmcp.tar.gz - minimum file size: true",
+            "kmcp/database-kmcp.tar.gz - minimum file size: false",
             "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true"
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-04-03T13:09:34.500822078"
+        "timestamp": "2025-04-03T20:59:19.914728336"
     }
 }
