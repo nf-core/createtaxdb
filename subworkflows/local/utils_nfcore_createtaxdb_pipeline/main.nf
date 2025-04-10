@@ -83,17 +83,28 @@ workflow PIPELINE_INITIALISATION {
             fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0)
         }
         .collect()
-        .dump(tag: 'post_collect')
         .map { fasta_dna ->
-            if (fasta_dna.size() > fasta_dna.sort().unique().size()) {
-                // NOT WORKING - rREPORTING FALSE
-                def notunique = fasta_dna.toList().any { !fasta_dna.toList().sort().unique().contains(it) }
-                error("[nf-core/createtaxdb] ERROR: All filenames after decompressing must be unique! Check ${notunique}")
+            if (fasta_dna.size() > fasta_dna.sort().unique(false).size()) {
+                // duplicate detection from https://stackoverflow.com/a/35922565
+                def not_unique_dna = fasta_dna.countBy { it }.grep { it.value > 1 }.collect { it.key }
+                error("[nf-core/createtaxdb] ERROR: All DNA FASTA filenames (also after decompressing!) must be unique! Check for filename(s) starting with: ${not_unique_dna.join(', ')}")
             }
         }
 
     // Validate we have unique file names for AA FASTAs
-    println('TODO')
+    ch_samplesheet
+        .filter { meta, fasta_dna, fasta_aa -> fasta_aa }
+        .map { meta, fasta_dna, fasta_aa ->
+            fasta_aa.getBaseName(fasta_aa.name.endsWith('.gz') ? 1 : 0)
+        }
+        .collect()
+        .map { fasta_aa ->
+            if (fasta_aa.size() > fasta_aa.sort().unique(false).size()) {
+                // duplicate detection from https://stackoverflow.com/a/35922565
+                def not_unique_aa = fasta_aa.countBy { it }.grep { it.value > 1 }.collect { it.key }
+                error("[nf-core/createtaxdb] ERROR: All AA FASTA filenames (also after decompressing!) must be unique! Check for filename(s) starting with: ${not_unique_aa.join(', ')}")
+            }
+        }
 
     emit:
     samplesheet = ch_samplesheet
