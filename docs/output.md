@@ -204,7 +204,7 @@ The `malt_index` directory can be given to MALT itself with `malt-run --index <y
 </details>
 
 The `database-kmcp-index/` directory can be given to KMCP itself with `kmcp search --db-dir <your_database>/` etc, see [kmcp search documentation](https://bioinf.shenwei.me/kmcp/usage/#search).
-Note that the pipeline does not output files from `kmcp-compute` as these are not used in downstream tools. 
+Note that the pipeline does not output files from `kmcp-compute` as these are not used in downstream tools.
 
 ### Downstream samplesheets
 
