@@ -1,0 +1,49 @@
+nextflow_workflow {
+
+    name "Test Subworkflow KMCP_CREATE"
+    script "../main.nf"
+    workflow "KMCP_CREATE"
+
+    tag "subworkflows"
+    tag "subworkflows_local"
+    tag "subworkflows/kmcp_create"
+    tag "gunzip"
+    tag "kmcp"
+    tag "kmcp/compute"
+    tag "kmcp/index"
+
+    test("metagenome - kmcp - fasta") {
+
+        setup {
+            run("GUNZIP") {
+                script "modules/nf-core/gunzip/main.nf"
+                process {
+                    """
+                    input[0] = Channel.of([
+                                [id:'db'],
+                                file(params.modules_testdata_base_path + '/genomics/prokaryotes/metagenome/fasta/haemophilus_influenzae.fna.gz', checkIfExists: true)
+                            ]
+                    )
+                    """
+                }
+            }
+        }
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([[id:'db'], file(params.modules_testdata_base_path + '/genomics/prokaryotes/metagenome/fasta/sarscov2.fasta', checkIfExists: true)]).mix(GUNZIP.out.gunzip).groupTuple()
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert workflow.out.db.get(0).get(1) ==~ ".*/db" },
+                { assert path("${workflow.out.db[0][1]}/R001/").exists() },
+                { assert snapshot(workflow.out.versions).match() }
+            )
+        }
+    }
+}
