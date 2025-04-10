@@ -4,4 +4,4 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - bioconda::krakenuniq=1.0.4
+  - pigz==2.3.4

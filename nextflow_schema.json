@@ -93,6 +93,38 @@
                     "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.",
                     "fa_icon": "fas fa-database"
                 },
+                "malt_mapdb_format": {
+                    "type": "string",
+                    "fa_icon": "fas fa-cog",
+                    "description": "Specify the type of MALT mapdb provided, based on the corresponding MALT flag.",
+                    "enum": [
+                        "mdb",
+                        "a2t",
+                        "s2t",
+                        "a2ec",
+                        "s2ec",
+                        "t4ec",
+                        "a2eggnog",
+                        "s2eggnog",
+                        "t4eggnog",
+                        "a2gtdb",
+                        "s2gtdb",
+                        "t4gtdb",
+                        "a2interpro2go",
+                        "s2interpro2go",
+                        "t4interprotogo",
+                        "a2kegg",
+                        "s2kegg",
+                        "t4kegg",
+                        "a2pgpt",
+                        "s2pgpt",
+                        "t4pgpt",
+                        "a2seed",
+                        "s2seed",
+                        "t4seed"
+                    ],
+                    "help_text": "While MALT now theoretically supports only a single type of MEGAN mapping file (`*.db`), in some cases this does not appear to work.\n\nYou can however still currently use [technically 'deprecated' MEGAN mapping files](https://software-ab.cs.uni-tuebingen.de/download/megan6/old.html) that end in `.abin`.\n\nFor nf-core/createtaxdb, when specifying the MALT mapping file you therefore also need to specify which format this file is, based on the corresponding (short) MALT flags for malt-build. For example for the new type of mapping file, you can give just `mdb`. For a nucleotide accession to taxonomy file you give `a2t`. For a accession to SEED category mapping file, you specify `a2seed`. "
+                },
                 "save_concatenated_fastas": {
                     "type": "boolean",
                     "description": "Save concatenated input FASTAs",
@@ -285,6 +317,13 @@
                     "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
                     "hidden": true
                 },
+                "unzip_batch_size": {
+                    "type": "integer",
+                    "fa_icon": "fas fa-file-archive",
+                    "description": "How many files to unzip in parallel in a single job.",
+                    "help_text": "To reduce the load on scheduling systems, nf-core/createtaxdb batches all compressed input FASTA files into this number, and will decompress them in parallel within a single scheduling job (rather than one job per decompression).\n\nThis is because decompression jobs are often very short and require few resources.",
+                    "default": 10000
+                },
                 "email_on_fail": {
                     "type": "string",
                     "description": "Email address for completion summary, only when pipeline fails.",
@@ -358,7 +397,8 @@
                     "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
                     "hidden": true
                 }
-            }
+            },
+            "required": ["unzip_batch_size"]
         }
     },
     "allOf": [

@@ -16,7 +16,6 @@
             },
             "taxid": {
                 "type": "integer",
-                "uniqueItems": true,
                 "errorMessage": "Please provide a valid taxonomic ID in integer format",
                 "meta": ["taxid"]
             },
@@ -45,5 +44,15 @@
             }
         ]
     },
-    "allOf": [{ "uniqueEntries": ["taxid"] }, { "uniqueEntries": ["fasta_dna"] }, { "uniqueEntries": ["fasta_aa"] }]
+    "allOf": [
+        {
+            "uniqueEntries": ["id"]
+        },
+        {
+            "uniqueEntries": ["fasta_dna"]
+        },
+        {
+            "uniqueEntries": ["fasta_aa"]
+        }
+    ]
 }

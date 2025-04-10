@@ -10,13 +10,9 @@ include { paramsSummaryMultiqc            } from '../subworkflows/nf-core/utils_
 include { softwareVersionsToYAML          } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText          } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
+
 // Preprocessing
-include { GUNZIP as GUNZIP_DNA            } from '../modules/nf-core/gunzip/main'
-include { GUNZIP as GUNZIP_AA             } from '../modules/nf-core/gunzip/main'
-include { CAT_CAT as CAT_CAT_DNA          } from '../modules/nf-core/cat/cat/main'
-include { CAT_CAT as CAT_CAT_AA           } from '../modules/nf-core/cat/cat/main'
-include { CAT_CAT as CAT_CAT_AA_KAIJU     } from '../modules/nf-core/cat/cat/main'
-include { SEQKIT_REPLACE                  } from '../modules/nf-core/seqkit/replace/main'
+include { PREPROCESSING                   } from '../subworkflows/local/preprocessing/main'
 
 // Database building (with specific auxiliary modules)
 include { CENTRIFUGE_BUILD                } from '../modules/nf-core/centrifuge/build/main'
@@ -50,73 +46,15 @@ workflow CREATETAXDB {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
-    /*
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    DATA PREPARATION
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */
-    // PREPARE: Prepare input for single file inputs modules
     def malt_build_mode = null
     if (params.build_malt) {
         malt_build_mode = params.malt_build_options.contains('--sequenceType Protein') ? 'protein' : 'nucleotide'
     }
 
-    if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon].any()) {
-        // Pull just DNA sequences
+    PREPROCESSING(ch_samplesheet, malt_build_mode)
 
-        ch_dna_refs_for_singleref = ch_samplesheet
-            .map { meta, fasta_dna, _fasta_aa -> [meta, fasta_dna] }
-            .filter { _meta, fasta_dna ->
-                fasta_dna
-            }
-
-        ch_dna_for_unzipping = ch_dna_refs_for_singleref.branch { _meta, fasta ->
-            zipped: fasta.extension == 'gz'
-            unzipped: true
-        }
-
-        GUNZIP_DNA(ch_dna_for_unzipping.zipped)
-        ch_prepped_dna_fastas_ungrouped = GUNZIP_DNA.out.gunzip.mix(ch_dna_for_unzipping.unzipped)
-        ch_prepped_dna_fastas = ch_prepped_dna_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
-        ch_versions = ch_versions.mix(GUNZIP_DNA.out.versions.first())
-
-        // Place in single file
-        CAT_CAT_DNA(ch_prepped_dna_fastas)
-        ch_versions = ch_versions.mix(CAT_CAT_DNA.out.versions.first())
-        ch_singleref_for_dna = CAT_CAT_DNA.out.file_out
-    }
-
-    if ([(params.build_malt && malt_build_mode == 'protein'), params.build_kaiju, params.build_diamond].any()) {
-
-        ch_aa_refs_for_singleref = ch_samplesheet
-            .map { meta, _fasta_dna, fasta_aa -> [meta, fasta_aa] }
-            .filter { _meta, fasta_aa ->
-                fasta_aa
-            }
-
-        ch_aa_for_unzipping = ch_aa_refs_for_singleref.branch { _meta, fasta ->
-            zipped: fasta.extension == 'gz'
-            unzipped: true
-        }
-
-        GUNZIP_AA(ch_aa_for_unzipping.zipped)
-        ch_prepped_aa_fastas_ungrouped = GUNZIP_AA.out.gunzip.mix(ch_aa_for_unzipping.unzipped)
-        ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
-        ch_versions = ch_versions.mix(GUNZIP_AA.out.versions.first())
-
-        if ([(params.build_malt && malt_build_mode == 'protein'), params.build_diamond].any()) {
-            CAT_CAT_AA(ch_prepped_aa_fastas)
-            ch_singleref_for_aa = CAT_CAT_AA.out.file_out
-            ch_versions = ch_versions.mix(CAT_CAT_AA.out.versions.first())
-        }
-        if ([(params.build_malt && malt_build_mode == 'protein'), params.build_kaiju].any()) {
-            SEQKIT_REPLACE(ch_prepped_aa_fastas_ungrouped)
-            ch_versions = ch_versions.mix(SEQKIT_REPLACE.out.versions.first())
-            ch_prepped_aa_fastas_kaiju = SEQKIT_REPLACE.out.fastx.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple()
-            CAT_CAT_AA_KAIJU(ch_prepped_aa_fastas_kaiju)
-            ch_versions = ch_versions.mix(CAT_CAT_AA_KAIJU.out.versions.first())
-        }
-    }
+    ch_versions = ch_versions.mix(PREPROCESSING.out.versions)
+    ch_multiqc_files = ch_multiqc_files.mix(PREPROCESSING.out.multiqc_files)
 
 
     /*
@@ -128,7 +66,7 @@ workflow CREATETAXDB {
     // Module: Run CENTRIFUGE/BUILD
 
     if (params.build_centrifuge) {
-        CENTRIFUGE_BUILD(ch_singleref_for_dna, file_nucl2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, [])
+        CENTRIFUGE_BUILD(PREPROCESSING.out.singleref_for_dna, file_nucl2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, [])
         ch_versions = ch_versions.mix(CENTRIFUGE_BUILD.out.versions.first())
         ch_centrifuge_output = CENTRIFUGE_BUILD.out.cf
     }
@@ -139,7 +77,7 @@ workflow CREATETAXDB {
     // MODULE: Run DIAMOND/MAKEDB
 
     if (params.build_diamond) {
-        DIAMOND_MAKEDB(ch_singleref_for_aa, file_prot2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
+        DIAMOND_MAKEDB(PREPROCESSING.out.singleref_for_aa, file_prot2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
         ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
         ch_diamond_output = DIAMOND_MAKEDB.out.db
     }
@@ -149,7 +87,7 @@ workflow CREATETAXDB {
 
     if (params.build_ganon) {
 
-        ch_ganon_input_tsv = ch_prepped_dna_fastas_ungrouped
+        ch_ganon_input_tsv = PREPROCESSING.out.ungrouped_dna
             .map { meta, fasta ->
                 // I tried with .name() but it kept giving error of `Unknown method invocation `name` on XPath type... not sure why
                 def fasta_name = fasta.toString().split('/').last()
@@ -167,7 +105,7 @@ workflow CREATETAXDB {
         // Nodes must come first
         ch_ganon_tax_files = Channel.fromPath(file_taxonomy_nodesdmp).combine(Channel.fromPath(file_taxonomy_namesdmp))
 
-        GANON_BUILDCUSTOM(ch_prepped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, [])
+        GANON_BUILDCUSTOM(PREPROCESSING.out.grouped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, [])
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
     }
@@ -178,7 +116,7 @@ workflow CREATETAXDB {
     // MODULE: Run KAIJU/MKFMI
 
     if (params.build_kaiju) {
-        KAIJU_MKFMI(CAT_CAT_AA_KAIJU.out.file_out, params.kaiju_keepintermediate)
+        KAIJU_MKFMI(PREPROCESSING.out.kaiju_aa, params.kaiju_keepintermediate)
         ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
         ch_kaiju_output = KAIJU_MKFMI.out.fmi
     }
@@ -191,7 +129,7 @@ workflow CREATETAXDB {
     // Condition is inverted because subworkflow asks if you want to 'clean' (true) or not, but pipeline says to 'keep'
     if (params.build_kraken2 || params.build_bracken) {
         def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
-        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(ch_singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, params.build_bracken)
+        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(PREPROCESSING.out.singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, params.build_bracken)
         ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
         ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     }
@@ -208,7 +146,7 @@ workflow CREATETAXDB {
             .map { [it] }
 
         Channel.of(file_nucl2taxid)
-        ch_input_for_krakenuniq = ch_prepped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, file_nucl2taxid] }
+        ch_input_for_krakenuniq = PREPROCESSING.out.grouped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, file_nucl2taxid] }
 
         KRAKENUNIQ_BUILD(ch_input_for_krakenuniq, params.krakenuniq_keepintermediate)
         ch_versions = ch_versions.mix(KRAKENUNIQ_BUILD.out.versions.first())
@@ -231,13 +169,13 @@ workflow CREATETAXDB {
         }
 
         if (malt_build_mode == 'protein') {
-            ch_input_for_malt = ch_prepped_aa_fastas.map { _meta, file -> file }
+            ch_input_for_malt = PREPROCESSING.out.grouped_aa_fastas.map { _meta, file -> file }
         }
         else {
-            ch_input_for_malt = ch_prepped_dna_fastas.map { _meta, file -> file }
+            ch_input_for_malt = PREPROCESSING.out.grouped_dna_fastas.map { _meta, file -> file }
         }
 
-        MALT_BUILD(ch_input_for_malt, [], ch_malt_mapdb)
+        MALT_BUILD(ch_input_for_malt, [], ch_malt_mapdb, params.malt_mapdb_format)
         ch_versions = ch_versions.mix(MALT_BUILD.out.versions.first())
         ch_malt_output = MALT_BUILD.out.index
     }
