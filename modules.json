@@ -47,7 +47,7 @@
                     },
                     "kraken2/add": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "739c726cb5a4be2a2bb985dca594c74fa7240761",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "kraken2/build": {
