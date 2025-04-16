@@ -250,7 +250,7 @@ We provide a list of required or recommended files, and which pipeline parameter
 
 ### I want to supply a custom seqid2taxid file to kraken2
 
-While not official supported by Kraken2, you can speed up the Kraken2 build process by providing the pipeline a premade `seqid2taxid.map` file.
+While not officially supported by Kraken2, you can speed up the Kraken2 build process by providing the pipeline a premade `seqid2taxid.map` file.
 
 This file should be a tab-separated file with two columns:
 
