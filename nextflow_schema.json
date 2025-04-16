@@ -243,6 +243,23 @@
                     "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "default": "--sequenceType DNA",
                     "fa_icon": "fas fa-users-cog"
+                },
+                "build_kmcp": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of KMCP database. Requires nucleotide FASTA file input."
+                },
+                "kmcp_compute_options": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kmcp compute. Must be wrapped in single and double quotes: --kmcp_compute_options \"'--your_param'\"",
+                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "kmcp_index_options": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kmcp index. Must be wrapped in single and double quotes: --kmcp_index_options \"'--your_param'\"",
+                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#index).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
                 }
             },
             "fa_icon": "fas fa-database"

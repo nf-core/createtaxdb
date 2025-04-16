@@ -53,7 +53,12 @@ nextflow_pipeline {
                         path("$outputDir/malt/malt_index/taxonomy.tre"),
                         "malt_index/table0.db - exists: ${path("$outputDir/malt/malt_index/table0.db").exists()}",
                         "malt_index/table0.idx - exists: ${path("$outputDir/malt/malt_index/table0.idx").exists()}",
-                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 8}",
+                        "kmcp index file- minimum file size: ${file("$outputDir/kmcp/database-kmcp-index/R001/_block001.uniki").length() >= 20810000}",
+                        "kmcp yml file - contains string: ${path("$outputDir/kmcp/database-kmcp-index/R001/__db.yml").readLines().any{ it.contains('alias: database-kmcp-index')}}",
+                        path("$outputDir/kmcp/database-kmcp-index/R001/__name_mapping.tsv").exists(),
+                        "kmcp/database-kmcp-index.log - contains string: ${path("$outputDir/kmcp/database-kmcp-index.log").readLines().any{ it.contains('k-mers saved to database-kmcp-index')}}",
+                        "kmcp/database-kmcp.tar.gz - minimum file size: ${file("$outputDir/kmcp/database-kmcp.tar.gz").length() >= 3200000}",
+                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 9}",
                     ).match()
                 },
                 { assert new File("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists() },

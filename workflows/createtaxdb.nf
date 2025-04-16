@@ -26,6 +26,7 @@ include { TAR                              } from '../modules/nf-core/tar/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN  } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
+include { KMCP_CREATE                      } from '../subworkflows/local/kmcp_create/main.nf'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -183,6 +184,17 @@ workflow CREATETAXDB {
         ch_malt_output = Channel.empty()
     }
 
+
+    // SUBWORKFLOW: Run KMCP_CREATE
+    if (params.build_kmcp) {
+        KMCP_CREATE(PREPROCESSING.out.singleref_for_dna)
+        ch_kmcp_output = KMCP_CREATE.out.db
+        ch_versions = ch_versions.mix(KMCP_CREATE.out.versions.first())
+    }
+    else {
+        ch_kmcp_output = Channel.empty()
+    }
+
     //
     // Aggregate all databases for downstream processes
     //
@@ -195,6 +207,7 @@ workflow CREATETAXDB {
             ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2"], db] },
             ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq"], db] },
             ch_malt_output.map { db -> [[id: params.dbname, tool: "malt"], db] },
+            ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp"], db] },
         )
 
     //
@@ -291,4 +304,5 @@ workflow CREATETAXDB {
     kraken2_bracken_database = ch_kraken2_bracken_output
     krakenuniq_database      = ch_krakenuniq_output
     malt_database            = ch_malt_output
+    kmcp_databae             = ch_kmcp_output
 }

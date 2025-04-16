@@ -76,6 +76,36 @@ workflow PIPELINE_INITIALISATION {
 
     ch_samplesheet = Channel.fromList(samplesheetToList(params.input, "assets/schema_input.json"))
 
+    // Validate we have unique file names for DNA FASTAs
+    ch_samplesheet
+        .filter { meta, fasta_dna, fasta_aa -> fasta_dna }
+        .map { meta, fasta_dna, fasta_aa ->
+            fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0)
+        }
+        .collect()
+        .map { fasta_dna ->
+            if (fasta_dna.size() > fasta_dna.sort().unique(false).size()) {
+                // duplicate detection from https://stackoverflow.com/a/35922565
+                def not_unique_dna = fasta_dna.countBy { it }.grep { it.value > 1 }.collect { it.key }
+                error("[nf-core/createtaxdb] ERROR: All DNA FASTA filenames (also after decompressing!) must be unique! Check for filename(s) starting with: ${not_unique_dna.join(', ')}")
+            }
+        }
+
+    // Validate we have unique file names for AA FASTAs
+    ch_samplesheet
+        .filter { meta, fasta_dna, fasta_aa -> fasta_aa }
+        .map { meta, fasta_dna, fasta_aa ->
+            fasta_aa.getBaseName(fasta_aa.name.endsWith('.gz') ? 1 : 0)
+        }
+        .collect()
+        .map { fasta_aa ->
+            if (fasta_aa.size() > fasta_aa.sort().unique(false).size()) {
+                // duplicate detection from https://stackoverflow.com/a/35922565
+                def not_unique_aa = fasta_aa.countBy { it }.grep { it.value > 1 }.collect { it.key }
+                error("[nf-core/createtaxdb] ERROR: All AA FASTA filenames (also after decompressing!) must be unique! Check for filename(s) starting with: ${not_unique_aa.join(', ')}")
+            }
+        }
+
     emit:
     samplesheet = ch_samplesheet
     versions    = ch_versions
