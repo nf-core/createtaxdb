@@ -19,7 +19,7 @@
             "kaiju/database-kaiju.fmi - minimum file size: true",
             "kraken2/database-kraken2/hash.k2d - minimum file size: true",
             "kraken2/database-kraken2/opts.k2d - minimum file size: true",
-            "taxo.k2d:md5,90712649e8b02fcb8c27a24eabd6af37",
+            "taxo.k2d:md5,9eb6380ebcdd3dac42ccf3df3bbd9589",
             "krakenuniq/database-krakenuniq.tar.gz - minimum file size: false",
             "database.idx:md5,57b7f061092bffaabc4974ee3e436a26",
             "database.kdb:md5,a3b3d0f109173d8c9b06a9dba7c47152",
@@ -42,6 +42,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-03-26T08:04:41.5519948"
+        "timestamp": "2025-04-16T11:38:18.706680415"
     }
 }
