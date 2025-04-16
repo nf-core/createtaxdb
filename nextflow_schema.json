@@ -88,7 +88,7 @@
                 "seqid2taxid": {
                     "type": "string",
                     "description": "Path to custom Kraken2 seqid2taxid.map file",
-                    "help_text": "Kraken2 will normally produce it's own `seqid2taxid.map` file based on the taxonomy files you provide.\n\nHowever you can skip this step and by providing your own `seqid2taxid.map` to this parameter, which will then tell Kraken2 to skip this step of database building.",
+                    "help_text": "Kraken2 will normally produce it's own `seqid2taxid.map` file based on the taxonomy files you provide.\n\nHowever you can skip this step and by providing your own `seqid2taxid.map` to this parameter, which will then tell Kraken2 to skip this step of database building.\n\nThis should consist of a tab separated file with no header; the first column containing of the accession number at the beginning of each entry entry in a given FASTA file, and the second column the taxid as represented in the taxdump node/names files.",
                     "format": "file-path",
                     "fa_icon": "fas fa-map"
                 },
