@@ -67,7 +67,7 @@
                     "exists": true,
                     "fa_icon": "far fa-address-card",
                     "description": "Two column nucleotide sequence accession ID to taxonomy map file.",
-                    "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`."
+                    "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID used at the beginning of each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`. Required for Centrifuge, and optional for Kraken2."
                 },
                 "nodesdmp": {
                     "type": "string",
