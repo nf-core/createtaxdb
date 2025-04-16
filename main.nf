@@ -34,7 +34,7 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        params.input
+        params.input,
     )
 
     //
@@ -53,7 +53,7 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        NFCORE_CREATETAXDB.out.multiqc_report
+        NFCORE_CREATETAXDB.out.multiqc_report,
     )
 }
 
@@ -91,7 +91,7 @@ workflow NFCORE_CREATETAXDB {
         ch_accession2taxid,
         ch_nucl2taxid,
         ch_prot2taxid,
-        ch_malt_mapdb
+        ch_malt_mapdb,
     )
 
     emit:

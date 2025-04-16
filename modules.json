@@ -7,7 +7,7 @@
                 "nf-core": {
                     "bracken/build": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "centrifuge/build": {
@@ -57,12 +57,12 @@
                     },
                     "kraken2/add": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "739c726cb5a4be2a2bb985dca594c74fa7240761",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "kraken2/build": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "krakenuniq/build": {
@@ -107,17 +107,17 @@
                 "nf-core": {
                     "fasta_build_add_kraken2_bracken": {
                         "branch": "master",
-                        "git_sha": "c60c14b285b89bdd0607e371417dadb80385ad6e",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nextflow_pipeline": {
                         "branch": "master",
-                        "git_sha": "c2b22d85f30a706a3073387f30380704fcae013b",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nfcore_pipeline": {
                         "branch": "master",
-                        "git_sha": "51ae5406a030d4da1e49e4dab49756844fdd6c7a",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nfschema_plugin": {

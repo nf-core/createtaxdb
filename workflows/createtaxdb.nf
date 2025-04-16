@@ -131,7 +131,7 @@ workflow CREATETAXDB {
     // Condition is inverted because subworkflow asks if you want to 'clean' (true) or not, but pipeline says to 'keep'
     if (params.build_kraken2 || params.build_bracken) {
         def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
-        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(PREPROCESSING.out.singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, params.build_bracken)
+        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(PREPROCESSING.out.singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, file_nucl2taxid, params.build_bracken)
         ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
         ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     }
@@ -142,8 +142,7 @@ workflow CREATETAXDB {
     // SUBWORKFLOW: Run KRAKENUNIQ/BUILD
     if (params.build_krakenuniq) {
 
-        ch_taxdmpfiles_for_krakenuniq = Channel
-            .of(file_taxonomy_namesdmp)
+        ch_taxdmpfiles_for_krakenuniq = Channel.of(file_taxonomy_namesdmp)
             .combine(Channel.of(file_taxonomy_nodesdmp))
             .map { [it] }
 
@@ -199,8 +198,7 @@ workflow CREATETAXDB {
     //
     // Aggregate all databases for downstream processes
     //
-    ch_all_databases = Channel
-        .empty()
+    ch_all_databases = Channel.empty()
         .mix(
             ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge"], db] },
             ch_diamond_output.map { meta, db -> [meta + [tool: "diamond"], db] },

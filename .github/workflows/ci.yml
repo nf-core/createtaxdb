@@ -119,7 +119,7 @@ jobs:
 
       - name: Run nf-test
         run: |
-          nf-test test --tag ${{ matrix.test_name }} --profile ${{ matrix.test_name }},${{ matrix.profile }} --junitxml=test.xml
+          nf-test test --tag ${{ matrix.test_name }} --profile ${{ matrix.test_name }},${{ matrix.profile }} --verbose --junitxml=test.xml
 
       - name: Output log on failure
         if: failure()

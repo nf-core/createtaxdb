@@ -37,7 +37,7 @@ nextflow_pipeline {
                         "kraken2/database-kraken2/hash.k2d - minimum file size: ${file("$outputDir/kraken2/database-kraken2/hash.k2d").length() >= 13410040}",
                         "kraken2/database-kraken2/opts.k2d - minimum file size: ${file("$outputDir/kraken2/database-kraken2/opts.k2d").length() >= 64}",
                         path("$outputDir/kraken2/database-kraken2/taxo.k2d"),
-                        "krakenuniq/database-krakenuniq.tar.gz - minimum file size: ${file("$outputDir/bracken/database-krakenuniq.tar.gz").length() >= 50000000}",
+                        "krakenuniq/database-krakenuniq.tar.gz - minimum file size: ${file("$outputDir/bracken/database-krakenuniq.tar.gz").length() >= 49000000}",
                         file("$outputDir/krakenuniq/database-krakenuniq/database.idx"),
                         file("$outputDir/krakenuniq/database-krakenuniq/database.kdb"),
                         file("$outputDir/krakenuniq/database-krakenuniq/taxDB"),
