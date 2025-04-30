@@ -66,7 +66,7 @@ work                # Directory containing the nextflow working files
 # Other nextflow hidden files, eg. history of pipeline runs and old logs.
 ```
 
-> [!DANGER]
+> [!CAUTION]
 > Many of the building tools require uncompressed FASTA files and/or a single combined FASTA.
 > The pipeline will automatically decompress and/or combine these where necessary.
 > These preprocessing steps can use large amounts of hard drive space!
