@@ -231,14 +231,11 @@ def validateInputSamplesheet(input) {
 // Generate methods description for MultiQC
 //
 def toolCitationText() {
-    // TODO nf-core: Optionally add in-text citation tools to this list.
-    // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "Tool (Foo et al. 2023)" : "",
-    // Uncomment function in methodsDescriptionText to render in MultiQC report
     def citation_text = [
         "Tools used in the workflow included:",
         params.build_bracken ? "Bracken (Lu et al. 2017)," : "",
         params.build_centrifuge ? "Centrifuge (Kim et al. 2016)," : "",
-        params.build_ganon ? "ganon (Piro et al. 2020)" : "",
+        params.build_ganon ? "ganon (Piro et al. 2020)," : "",
         params.build_diamond ? "DIAMOND (Buchfink et al. 2015)," : "",
         params.build_kaiju ? "SeqKit (Shen et al. 2024) and Kaiju (Menzel et al. 2016)," : "",
         params.build_kmcp ? "KMCP (Shen et al. 2023)," : "",
@@ -253,9 +250,6 @@ def toolCitationText() {
 }
 
 def toolBibliographyText() {
-    // TODO nf-core: Optionally add bibliographic entries to this list.
-    // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "<li>Author (2023) Pub name, Journal, DOI</li>" : "",
-    // Uncomment function in methodsDescriptionText to render in MultiQC report
     def reference_text = [
         params.build_bracken ? '<li>Lu, J., Breitwieser, F. P., Thielen, P., & Salzberg, S. L. (2017). Bracken: estimating species abundance in metagenomics data. PeerJ. Computer Science, 3(e104), e104. <a href="https://doi.org/10.7717/peerj-cs.104">10.7717/peerj-cs.104</a></li>' : "",
         params.build_centrifuge ? '<li>Kim, D., Song, L., Breitwieser, F. P., & Salzberg, S. L. (2016). Centrifuge: rapid and sensitive classification of metagenomic sequences. Genome Research, 26(12), 1721–1729.  <a href="https://doi.org/10.1101/gr.210641.116">10.1101/gr.210641.116</a></li>' : "",
@@ -263,11 +257,11 @@ def toolBibliographyText() {
         params.build_diamond ? '<li>Buchfink, B., Xie, C., & Huson, D. H. (2015). Fast and sensitive protein alignment using DIAMOND. Nature Methods, 12(1), 59–60. <a href="https://doi.org/10.1038/nmeth.3176">10.1038/nmeth.3176</a></li>' : "",
         params.build_kaiju ? '<li>Shen, W., Sipos, B., & Zhao, L. (2024). SeqKit2: A Swiss army knife for sequence and alignment processing. iMeta, e191. <a href=\"https://doi.org/10.1002/imt2.191\">https://doi.org/10.1002/imt2.191</a></li>' : "",
         params.build_kaiju ? '<li>Menzel, P., Ng, K. L., & Krogh, A. (2016). Fast and sensitive taxonomic classification for metagenomics with Kaiju. Nature Communications, 7, 11257. <a href="https://doi.org/10.1038/ncomms11257">10.1038/ncomms11257</a></li>' : "",
-        params.build_kmcp ? '<li>Shen, W., Xiang, H., Huang, T., Tang, H., Peng, M., Cai, D., Hu, P., & Ren, H. (2023). KMCP: accurate metagenomic profiling of both prokaryotic and viral populations by pseudo-mapping. Bioinformatics (Oxford, England), 39(1). <a href=\"https://doi.org/10.1093/bioinformatics/btac845\">https://doi.org/10.1093/bioinformatics/btac845</a></li>' : "",
+        params.build_kmcp ? '<li>Shen, W., Xiang, H., Huang, T., Tang, H., Peng, M., Cai, D., Hu, P., & Ren, H. (2023). KMCP: accurate metagenomic profiling of both prokaryotic and viral populations by pseudo-mapping. Bioinformatics (Oxford, England), 39(1). <a href=\"https://doi.org/10.1093/bioinformatics/btac845\">10.1093/bioinformatics/btac845</a></li>' : "",
         params.build_kraken2 ? '<li>Wood, D. E., Lu, J., & Langmead, B. (2019). Improved metagenomic analysis with Kraken 2. Genome Biology, 20(1), 257.  <a href="https://doi.org/10.1186/s13059-019-1891-0">10.1186/s13059-019-1891-0</a></li>' : "",
         params.build_krakenuniq ? '<li>Breitwieser, F. P., Baker, D. N., & Salzberg, S. L. (2018). KrakenUniq: confident and fast metagenomics classification using unique k-mer counts. Genome Biology, 19(1), 198.  <a href="https://doi.org/10.1186/s13059-018-1568-0">10.1186/s13059-018-1568-0</a></li>' : "",
         params.build_malt ? '<li>Vågene, Å. J., Herbig, A., Campana, M. G., Robles García, N. M., Warinner, C., Sabin, S., Spyrou, M. A., Andrades Valtueña, A., Huson, D., Tuross, N., Bos, K. I., & Krause, J. (2018). Salmonella enterica genomes from victims of a major sixteenth-century epidemic in Mexico. Nature Ecology & Evolution, 2(3), 520–528.  <a href="https://doi.org/10.1038/s41559-017-0446-6">10.1038/s41559-017-0446-6</a></li>' : "",
-        '<li>Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics , 32(19), 3047–3048. doi: /10.1093/bioinformatics/btw354</li>',
+        '<li>Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics , 32(19), 3047–3048. doi: <a href="https://doi.org/10.1093/bioinformatics/btw354">10.1093/bioinformatics/btw354</li>',
     ].join(' ').trim()
 
     return reference_text
