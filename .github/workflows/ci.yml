@@ -117,7 +117,8 @@ jobs:
         with:
           install-pdiff: true
 
-      - name: Run nf-test
+      - name: "Run nf-test ${{ matrix.test_name }}"
+        continue-on-error: ${{ matrix.NXF_VER == 'latest-everything' }}
         run: |
           nf-test test --tag ${{ matrix.test_name }} --profile ${{ matrix.test_name }},${{ matrix.profile }} --verbose --junitxml=test.xml
 
