@@ -78,8 +78,8 @@ workflow PIPELINE_INITIALISATION {
 
     // Validate we have unique file names for DNA FASTAs
     ch_samplesheet
-        .filter { meta, fasta_dna, fasta_aa -> fasta_dna }
-        .map { meta, fasta_dna, fasta_aa ->
+        .filter { _meta, fasta_dna, _fasta_aa -> fasta_dna }
+        .map { _meta, fasta_dna, _fasta_aa ->
             fasta_dna.getBaseName(fasta_dna.name.endsWith('.gz') ? 1 : 0)
         }
         .collect()
@@ -93,8 +93,8 @@ workflow PIPELINE_INITIALISATION {
 
     // Validate we have unique file names for AA FASTAs
     ch_samplesheet
-        .filter { meta, fasta_dna, fasta_aa -> fasta_aa }
-        .map { meta, fasta_dna, fasta_aa ->
+        .filter { _meta, _fasta_dna, fasta_aa -> fasta_aa }
+        .map { _meta, _fasta_dna, fasta_aa ->
             fasta_aa.getBaseName(fasta_aa.name.endsWith('.gz') ? 1 : 0)
         }
         .collect()
