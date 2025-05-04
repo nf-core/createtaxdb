@@ -6,49 +6,33 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
-
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+You will need to create a samplesheet with information about the reference sequences you would like to build into a database before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
 
 ```bash
 --input '[path to samplesheet file]'
 ```
 
-### Multiple runs of the same sample
-
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
-```
-
 ### Full samplesheet
 
-The pipeline will auto-detect whether a sample is single- or paired-end using the information provided in the samplesheet. The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below.
+A samplesheet for nf-core/createtaxdb should have a minimum of 3 columns.
 
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 6 samples, where `TREATMENT_REP3` has been sequenced twice.
+The first two columns are mandatory for meta information about the reference sequences (a reference name and a taxon ID), and you must include one a minimum of one column specifying paths to a reference sequence in fasta format.
+You can also supply two path columns for both DNA and amino acid sequences, if you wish to build databases for both nucleotide and amino acid-based taxonomic profiling tools.
 
 ```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP2,AEG588A2_S2_L002_R1_001.fastq.gz,AEG588A2_S2_L002_R2_001.fastq.gz
-CONTROL_REP3,AEG588A3_S3_L002_R1_001.fastq.gz,AEG588A3_S3_L002_R2_001.fastq.gz
-TREATMENT_REP1,AEG588A4_S4_L003_R1_001.fastq.gz,
-TREATMENT_REP2,AEG588A5_S5_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
+id,taxid,fasta_dna,fasta_aa
+Severe_acute_respiratory_syndrome_coronavirus_2,2697049,/path/to/fna/sarscov2.fasta,/path/to/faa/sarscov2.faa
+Haemophilus_influenzae,727,/path/to/fnahaemophilus_influenzae.fna.gz,
 ```
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+| Column      | Description                                                                                                                                    |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`        | Custom reference sequence name.                                                                                                                |
+| `taxid`     | A numeric taxonomy ID of the reference that corresponds to species the reference sequence is from, as specified in the supplied taxonomy       |
+| `fasta_dna` | Full path to FastA file with nucleotide sequences. File may be uncompressed or gzipped and have the extension `.fasta`, `.fna`, `.fas`, `.fa`. |
+| `fasta_aa`  | Full path to FastA file with amino acid sequences. File may be uncompressed or gzipped and have the extension `.fasta`, `.faa`, `.fas`, `.fa`. |
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
 
@@ -57,8 +41,19 @@ An [example samplesheet](../assets/samplesheet.csv) has been provided with the p
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-core/createtaxdb --input ./samplesheet.csv --outdir ./results  -profile docker
+nextflow run nf-core/createtaxdb --input ./samplesheet.csv --outdir ./results  -profile docker --dbname '<your database name>' --build_<supported tool name> --<supported tool name>_build_params '"-v"' <...>
 ```
+
+Where you activate the building of a particular database with `--build_<supported tool name>` and optionally customise the given tool's build parameters wth `--<supported tool_name>_build_parameters` .
+
+> [!WARNING]
+> There is not a default tool the pipeline will build a database for.
+> You must specify the tool you would like to build a database for using the `--build_<supported tool name>` flag.
+
+For all parameter options, see the [parameters page](https://nf-co.re/createtaxdb/parameters).
+
+> [!WARNING]
+> Some tools may require or recommend additional files - such as taxonomy files - to execute. Please refer to [this section](#recommended-auxiliary-files) for guidance.
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
 
@@ -70,6 +65,11 @@ work                # Directory containing the nextflow working files
 .nextflow_log       # Log file from Nextflow
 # Other nextflow hidden files, eg. history of pipeline runs and old logs.
 ```
+
+> [!DANGER]
+> Many of the building tools require uncompressed FASTA files and/or a single combined FASTA.
+> The pipeline will automatically decompress and/or combine these where necessary.
+> These preprocessing steps can use large amounts of hard drive space!
 
 If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file.
 
@@ -211,3 +211,50 @@ We recommend adding the following line to your environment to limit this (typica
 ```bash
 NXF_OPTS='-Xms1g -Xmx4g'
 ```
+
+## Frequently Asked Questions
+
+### Recommended auxiliary files
+
+Some tools may require or recommend additional files to the reference sequence files - such as taxonomy files - to execute.
+
+We provide a list of required or recommended files, and which pipeline parameters to give them to here:
+
+- bracken
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - (nucleotide) accession2taxid file (`--accession2taxid`)
+- centrifuge
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - nucl2taxid file (`--nucl2taxid`)
+- diamond
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - prot2taxid file (`--prot2taxid`)
+- ganon
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+- kaiju (no additional files required)
+- kraken2
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - (nucleotide) accession2taxid file
+  - (optional) custom seqid2taxid file (`--nucl2taxid`)
+- krakenuniq
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - (nucleotide) accession2taxid file (`--accession2taxid`)
+- malt
+  - a MEGAN 'mapDB' mapping file (`--malt_mapdb`)
+
+### I want to supply a custom seqid2taxid file to kraken2
+
+While not officially supported by Kraken2, you can speed up the Kraken2 build process by providing the pipeline a premade `seqid2taxid.map` file.
+
+This file should be a tab-separated file with two columns:
+
+- the sequence ID as represented by the first part of each `>` entry of a FASTA file
+- the taxon ID
+
+To supply this to the pipeline, you can give this to the `--nucl2taxid` parameter, as the Kraken2 `seqid2taxid.map` file is the same as Centrifuge's `--conversion-table` file.
