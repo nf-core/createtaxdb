@@ -73,6 +73,12 @@ work                # Directory containing the nextflow working files
 
 If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file.
 
+> [!TIP]
+> Once the pipeline has run to completion, we highly recommend moving the resulting directories or tar files to a centralised 'cache' location.
+> This prevents databases being overwritten by future runs of the pipeline, or by clean up of old Nextflow run results directories
+>
+> If you do so, ensure to update the paths in any downstream samplesheets you create with the `--generate_downstream_samplesheets` parameter.
+
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
 > [!WARNING]
@@ -239,7 +245,7 @@ We provide a list of required or recommended files, and which pipeline parameter
 - kraken2
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
-  - (nucleotide) accession2taxid file
+  - (nucleotide) accession2taxid file (`--accession2taxid`)
   - (optional) custom seqid2taxid file (`--nucl2taxid`)
 - krakenuniq
   - taxonomy name dump file (`--namesdmp`)
@@ -247,6 +253,115 @@ We provide a list of required or recommended files, and which pipeline parameter
   - (nucleotide) accession2taxid file (`--accession2taxid`)
 - malt
   - a MEGAN 'mapDB' mapping file (`--malt_mapdb`)
+
+### What should an X auxiliary file look like?
+
+Some database building tools require additional files to be supplied to the pipeline.
+These are typically taxonomy files, and each are formatted in different ways.
+
+#### names dump
+
+This is a NCBI taxdump-style taxonomy file, that associates taxon IDs with human-readable names.
+
+Always refer to the [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump_readme.txt) for the most up-to-date information.
+
+It is formatted as a tab-pipe (`\t|\t`)-separated file with four columns but no header row.
+
+| Column | Column Name\* | Description                                                              |
+| ------ | ------------- | ------------------------------------------------------------------------ |
+| 1      | tax_id        | The taxon ID                                                             |
+| 2      | name_txt      | The human-readable name of the taxon                                     |
+| 3      | unique name   | The unique variant of the name if not unique                             |
+| 4      | name class    | The type or category of the name (e.g. scientific, common name, synonym) |
+
+\* Column names as defined in the taxdump README, however not used in the file itself
+
+Example:
+
+```txt
+1	|	all	|		|	synonym	|
+1	|	root	|		|	scientific name	|
+2	|	Bacteria	|	Bacteria <bacteria>	|	scientific name	|
+2	|	bacteria	|		|	blast name	|
+2	|	eubacteria	|		|	genbank common name	|
+2	|	Monera	|	Monera <bacteria>	|	in-part	|
+2	|	Procaryotae	|	Procaryotae <bacteria>	|	in-part	|
+2	|	Prokaryotae	|	Prokaryotae <bacteria>	|	in-part	|
+2	|	Prokaryota	|	Prokaryota <bacteria>	|	in-part	|
+2	|	prokaryote	|	prokaryote <bacteria>	|	in-part	|
+2	|	prokaryotes	|	prokaryotes <bacteria>	|	in-part	|
+712	|	Pasteurellaceae Pohl 1981	|		|	authority	|
+712	|	Pasteurellaceae	|		|	scientific name	|
+724	|	Haemophilus	|		|	scientific name	|
+724	|	Haemophilus Winslow et al. 1917	|		|	authority	|
+```
+
+#### nodes dump
+
+This is a NCBI taxdump-style taxonomy file, that associates taxon IDs their taxonomic parent within the taxonomic hierarchy.
+
+Always refer to the [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump_readme.txt) for the most up-to-date information.
+
+It is formatted as a tab-pipe (`\t|\t`)-separated file with fourteen columns but no header row.
+
+| Column | Column Name\*                 | Description                                                                                                                    |
+| ------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 1      | tax_id                        | The taxon ID                                                                                                                   |
+| 2      | parent tax_id                 | The taxon ID of the parent taxon                                                                                               |
+| 3      | rank                          | The NCBI taxonomic rank of the taxon                                                                                           |
+| 4      | embl code                     | The EMBL code for the taxon                                                                                                    |
+| 5      | division id                   | The NCBI division ID for the taxon (referring to `diversion.dmp` NCBI taxdump file not used in nf-core/createtaxdb)            |
+| 6      | inherited div flag            | 1 (true) or 0 flag if taxon entry inherits division ID from taxonomic parent                                                   |
+| 7      | genetic code id               | The genetic code ID for the taxon (referring to `gencode.dmp` NCBI taxdump file not used in nf-core/createtaxdb)               |
+| 8      | inherited gc flag             | 1 (true) or 0 flag if taxon entry inherits genetic code ID from taxonomic parent                                               |
+| 9      | mitochondrial genetic code    | The mitochondrial genetic code ID for the taxon (referring to `gencode.dmp` NCBI taxdump file not used in nf-core/createtaxdb) |
+| 10     | inherited mgc flag            | 1 (true) or 0 flag if taxonomic entry inherits mitocondrial gencode from parent taxon                                          |
+| 11     | genbank hidden flag           | 1 (true) or 0 flag indicating if name is suppressed in NCBI GenBank database                                                   |
+| 13     | hidden subtree root flag node | 1 (true) or 0 flag indicating if there is any sequence data                                                                    |
+| 14     | comments                      | Comments about the taxon                                                                                                       |
+
+\* Column names as defined in the taxdump README, however not used in the file itself
+
+Example:
+
+```txt
+1	|	1	|	no rank	|		|	8	|	0	|	1	|	0	|	0	|	0	|	0	|	0	|		|
+2	|	131567	|	superkingdom	|		|	0	|	0	|	11	|	0	|	0	|	0	|	0	|	0	|		|
+712	|	135625	|	family	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|	code compliant	|
+724	|	712	|	genus	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|	code compliant	|
+727	|	724	|	species	|	HI	|	0	|	1	|	11	|	1	|	0	|	1	|	1	|	0	|	code compliant; specified	|
+815	|	171549	|	family	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|	code compliant	|
+816	|	815	|	genus	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|	code compliant	|
+817	|	816	|	species	|	BF	|	0	|	1	|	11	|	1	|	0	|	1	|	1	|	0	|	code compliant; specified	|
+976	|	68336	|	phylum	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|		|
+1224	|	2	|	phylum	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|		|
+1236	|	1224	|	class	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|	code compliant	|
+1239	|	1783272	|	phylum	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|		|
+1300	|	186826	|	family	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|	code compliant	|
+1301	|	1300	|	genus	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	|	code compliant	|
+1311	|	1301	|	species	|	SA	|	0	|	1	|	11	|	1	|	0	|	1	|	1	|	0	|	code compliant; specified	|
+```
+
+#### accession2taxid
+
+<!-- TODO : finish this section-->
+
+An accession2taxid file is a file that maps database sequence accession IDs (e.g. NCBI GenBank) to their corresponding taxon IDs.
+
+It is formatted as a four column tab-separated file with with a header row.
+
+| Column | Column Name      | Description                                                                                                                                                                                     |
+| ------ | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1      | accession        | The accession ID of the sequence - typically embedded as first part of a FASTA header entry (e.g. for `>NC_012920 Homo sapiens mitochondrion, complete genome)` the accession is `NC_012829.1`) |
+| 2      | accesion.version | The version of the accession                                                                                                                                                                    |
+| 3      | taxid            | The taxon ID corresponding to the names/nodes.dmp                                                                                                                                               |
+| 4      | gi               | The old-style (now deprecated) NCBI `gi`                                                                                                                                                        |
+
+#### nucl2taxid
+
+#### prot2taxid
+
+#### malt mapDB
 
 ### I want to supply a custom seqid2taxid file to kraken2
 
@@ -258,3 +373,7 @@ This file should be a tab-separated file with two columns:
 - the taxon ID
 
 To supply this to the pipeline, you can give this to the `--nucl2taxid` parameter, as the Kraken2 `seqid2taxid.map` file is the same as Centrifuge's `--conversion-table` file.
+
+```
+
+```
