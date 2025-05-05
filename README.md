@@ -21,8 +21,12 @@
 
 **nf-core/createtaxdb** is a bioinformatics pipeline that constructs custom metagenomic classifier databases for multiple classifiers and profilers from the same input reference genome set in a highly automated and parallelised manner. It supports both nucleotide and protein based classifiers and profilers.
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/createtaxdb-metromap-diagram-dark.png">
+    <img alt="nf-core/createtaxdb" src="assets/createtaxdb-metromap-diagram-light.png">
+  </picture>
+</h1>
 
 1. Prepares input FASTA files for building
 2. Builds databases for:
