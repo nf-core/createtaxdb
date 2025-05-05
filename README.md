@@ -97,7 +97,7 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/createtaxdb was originally written by James A. Fellows Yates, Sam Wilkinson, Alexander Ramos Díaz, Lily Andersson-Li and the nf-core community.
+nf-core/createtaxdb was originally written by James A. Fellows Yates, Sam Wilkinson, Alexander Ramos Díaz, Lili Andersson-Li and the nf-core community.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
