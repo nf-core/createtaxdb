@@ -45,11 +45,9 @@
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-     Explain what rows and columns represent. For instance (please edit as appropriate):
-
 First, prepare an input CSV table with your input reference genomes that looks as follows:
 
-```csv title="samplesheet.csv
+```csv
 id,taxid,fasta_dna,fasta_aa
 Human_Mitochondrial_genome,9606,chrMT.fna,
 SARS-CoV-2_genome,694009,GCA_011545545.1_ASM1154554v1_genomic.fna.gz,GCA_011545545.1_ASM1154554v1_genomic.faa.gz
@@ -80,6 +78,9 @@ nextflow run nf-core/createtaxdb \
    --diamond_build_options='--no-parse-seqids' \
    --outdir <OUTDIR>
 ```
+
+The output directory will contain directories containing the database files for each of the profilers you selected to build.
+Optionally you can also package these as `tar.gz` archives.
 
 You can also generate pre-prepared input sheets for database specifications of pipelines such as [nf-core/taxprofiler](https://nf-co.re/taxprofiler) using `--generate_downstream_samplesheets`.
 
