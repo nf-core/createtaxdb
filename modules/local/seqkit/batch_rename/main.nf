@@ -8,7 +8,8 @@ process SEQKIT_BATCH_RENAME {
         : 'biocontainers/seqkit:2.9.0--h9ee0642_0'}"
 
     input:
-    tuple val(meta), path(fastx), path(replace_tsv)
+    tuple val(meta), path(fastx)
+    path replace_tsv
 
     output:
     tuple val(meta), path("renamed_files/*"), emit: fastx
@@ -21,14 +22,16 @@ process SEQKIT_BATCH_RENAME {
     def args = task.ext.args ?: ''
 
     """
-    while IFS=\$'\\t' read -r fasta_name replace_str out_fname ; do
+    mkdir -p renamed_files
+    while IFS=\$'\\t' read -r fasta_name pattern_str replace_str out_fname; do
         seqkit \\
             replace \\
             ${args} \\
             --threads ${task.cpus} \\
             -i \$fasta_name \\
+            -p \$pattern_str \\
             -r \$replace_str \\
-            -o renamed_files/\$out_fname \\
+            -o renamed_files/\$out_fname
     done < ${replace_tsv}
 
     cat <<-END_VERSIONS > versions.yml
