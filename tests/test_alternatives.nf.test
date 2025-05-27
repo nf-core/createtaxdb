@@ -52,7 +52,7 @@ nextflow_pipeline {
                         path("$outputDir/malt/malt_index/taxonomy.idx"),
                         path("$outputDir/malt/malt_index/taxonomy.map"),
                         path("$outputDir/malt/malt_index/taxonomy.tre"),
-                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 4}",
+                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 5}",
                     ).match()
                 },
                 { assert new File("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists() },

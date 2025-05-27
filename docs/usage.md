@@ -218,7 +218,7 @@ NXF_OPTS='-Xms1g -Xmx4g'
 
 Some tools may require or recommend additional files to the reference sequence files - such as taxonomy files - to execute.
 
-We provide a list of required or recommended files here:
+We provide a list of required or recommended files, and which pipeline parameters to give them to here:
 
 - bracken
   - taxonomy name dump file (`--namesdmp`)
@@ -240,9 +240,21 @@ We provide a list of required or recommended files here:
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
   - (nucleotide) accession2taxid file
+  - (optional) custom seqid2taxid file (`--nucl2taxid`)
 - krakenuniq
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
   - (nucleotide) accession2taxid file (`--accession2taxid`)
 - malt
   - a MEGAN 'mapDB' mapping file (`--malt_mapdb`)
+
+### I want to supply a custom seqid2taxid file to kraken2
+
+While not officially supported by Kraken2, you can speed up the Kraken2 build process by providing the pipeline a premade `seqid2taxid.map` file.
+
+This file should be a tab-separated file with two columns:
+
+- the sequence ID as represented by the first part of each `>` entry of a FASTA file
+- the taxon ID
+
+To supply this to the pipeline, you can give this to the `--nucl2taxid` parameter, as the Kraken2 `seqid2taxid.map` file is the same as Centrifuge's `--conversion-table` file.

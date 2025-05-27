@@ -26,6 +26,7 @@ include { TAR                              } from '../modules/nf-core/tar/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN  } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
+include { KMCP_CREATE                      } from '../subworkflows/local/kmcp_create/main.nf'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -130,7 +131,7 @@ workflow CREATETAXDB {
     // Condition is inverted because subworkflow asks if you want to 'clean' (true) or not, but pipeline says to 'keep'
     if (params.build_kraken2 || params.build_bracken) {
         def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
-        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(PREPROCESSING.out.singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, params.build_bracken)
+        FASTA_BUILD_ADD_KRAKEN2_BRACKEN(PREPROCESSING.out.singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, file_nucl2taxid, params.build_bracken)
         ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions.first())
         ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     }
@@ -141,8 +142,7 @@ workflow CREATETAXDB {
     // SUBWORKFLOW: Run KRAKENUNIQ/BUILD
     if (params.build_krakenuniq) {
 
-        ch_taxdmpfiles_for_krakenuniq = Channel
-            .of(file_taxonomy_namesdmp)
+        ch_taxdmpfiles_for_krakenuniq = Channel.of(file_taxonomy_namesdmp)
             .combine(Channel.of(file_taxonomy_nodesdmp))
             .map { [it] }
 
@@ -184,11 +184,21 @@ workflow CREATETAXDB {
         ch_malt_output = Channel.empty()
     }
 
+
+    // SUBWORKFLOW: Run KMCP_CREATE
+    if (params.build_kmcp) {
+        KMCP_CREATE(PREPROCESSING.out.singleref_for_dna)
+        ch_kmcp_output = KMCP_CREATE.out.db
+        ch_versions = ch_versions.mix(KMCP_CREATE.out.versions.first())
+    }
+    else {
+        ch_kmcp_output = Channel.empty()
+    }
+
     //
     // Aggregate all databases for downstream processes
     //
-    ch_all_databases = Channel
-        .empty()
+    ch_all_databases = Channel.empty()
         .mix(
             ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge"], db] },
             ch_diamond_output.map { meta, db -> [meta + [tool: "diamond"], db] },
@@ -197,6 +207,7 @@ workflow CREATETAXDB {
             ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2"], db] },
             ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq"], db] },
             ch_malt_output.map { db -> [[id: params.dbname, tool: "malt"], db] },
+            ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp"], db] },
         )
 
     //
@@ -293,4 +304,5 @@ workflow CREATETAXDB {
     kraken2_bracken_database = ch_kraken2_bracken_output
     krakenuniq_database      = ch_krakenuniq_output
     malt_database            = ch_malt_output
+    kmcp_databae             = ch_kmcp_output
 }
