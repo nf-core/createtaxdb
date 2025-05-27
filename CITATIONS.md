@@ -40,10 +40,6 @@
 
   > Lu, J., Breitwieser, F. P., Thielen, P., & Salzberg, S. L. (2017). Bracken: estimating species abundance in metagenomics data. PeerJ. Computer Science, 3(e104), e104. https://doi.org/10.7717/peerj-cs.104
 
-- [ganon](https://doi.org/10.1093/bioinformatics/btaa458)
-
-  > Piro, V. C., Dadi, T. H., Seiler, E., Reinert, K., & Renard, B. Y. (2020). Ganon: Precise metagenomics classification against large and up-to-date sets of reference sequences. Bioinformatics (Oxford, England), 36(Suppl_1), i12–i20. https://doi.org/10.1093/bioinformatics/btaa458
-
 - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
 
   > Kim, D., Song, L., Breitwieser, F. P., & Salzberg, S. L. (2016). Centrifuge: rapid and sensitive classification of metagenomic sequences. Genome Research, 26(12), 1721–1729. https://doi.org/10.1101/gr.210641.116
@@ -52,9 +48,17 @@
 
   > Buchfink, B., Xie, C., & Huson, D. H. (2015). Fast and sensitive protein alignment using DIAMOND. Nature Methods, 12(1), 59–60. https://doi.org/10.1038/nmeth.3176
 
+- [ganon](https://doi.org/10.1093/bioinformatics/btaa458)
+
+  > Piro, V. C., Dadi, T. H., Seiler, E., Reinert, K., & Renard, B. Y. (2020). Ganon: Precise metagenomics classification against large and up-to-date sets of reference sequences. Bioinformatics (Oxford, England), 36(Suppl_1), i12–i20. https://doi.org/10.1093/bioinformatics/btaa458
+
 - [Kaiju](https://doi.org/10.1038/ncomms11257)
 
 > Menzel, P., Ng, K. L., & Krogh, A. (2016). Fast and sensitive taxonomic classification for metagenomics with Kaiju. Nature Communications, 7, 11257. https://doi.org/10.1038/ncomms11257
+
+- [KMCP](https://doi.org/10.1093/bioinformatics/btac845)
+
+  > Shen, W., Xiang, H., Huang, T., Tang, H., Peng, M., Cai, D., Hu, P., & Ren, H. (2023). KMCP: accurate metagenomic profiling of both prokaryotic and viral populations by pseudo-mapping. Bioinformatics (Oxford, England), 39(1). https://doi.org/10.1093/bioinformatics/btac845
 
 - [Kraken2](https://doi.org/10.1186/s13059-019-1891-0)
 
@@ -67,3 +71,7 @@
 - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
 
   > Vågene, Å. J., Herbig, A., Campana, M. G., Robles García, N. M., Warinner, C., Sabin, S., Spyrou, M. A., Andrades Valtueña, A., Huson, D., Tuross, N., Bos, K. I., & Krause, J. (2018). Salmonella enterica genomes from victims of a major sixteenth-century epidemic in Mexico. Nature Ecology & Evolution, 2(3), 520–528. https://doi.org/10.1038/s41559-017-0446-6
+
+- [SeqKit2](https://doi.org/10.1002/imt2.191)
+
+> Shen, W., Sipos, B., & Zhao, L. (2024). SeqKit2: A Swiss army knife for sequence and alignment processing. iMeta, e191. https://doi.org/10.1002/imt2.191

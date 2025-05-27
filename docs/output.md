@@ -6,23 +6,21 @@ This document describes the output produced by the pipeline. Most of the plots a
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
-<!-- TODO nf-core: Write this documentation describing your workflow's output -->
-
 ## Pipeline overview
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
-- [MultiQC](#multiqc) - Aggregate report describing results and QC from the whole pipeline
+- [MultiQC](#multiqc) - Aggregate report describing versions and methods text for your pipeline run
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
 - [Bracken](#bracken) - Database files for Bracken
 - [ganon](#ganon) - Database files for ganon
 - [Centrifuge](#centrifuge) - Database files for Centrifuge
 - [DIAMOND](#diamond) - Database files for DIAMOND
 - [Kaiju](#kaiju) - Database files for Kaiju
+- [KMCP](#kmcp) - Database files for KMCP
 - [Kraken2](#kraken2) - Database files for Kraken2
 - [KrakenUniq](#krakenuniq) - Database files for KrakenUniq
 - [MALT](#malt) - Database files for MALT
-- [KMCP](#kmcp) - Database files for KMCP
 
 The pipeline can also generate downstream pipeline input samplesheets.
 These are stored in `<outdir>/downstream_samplesheets`.
@@ -139,6 +137,21 @@ The `dmnd` file can be given to one of the DIAMOND alignment commands with `diam
 
 The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi` etc.
 
+### KMCP
+
+[KMCP](https://bioinf.shenwei.me/kmcp/) is a metagenomic profiling tool focused on prokaryotic and viral sequences.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `kmcp/`
+  - `database-kmcp-index/`: directory containing KMCP index files
+
+</details>
+
+The `database-kmcp-index/` directory can be given to KMCP itself with `kmcp search --db-dir <your_database>/` etc, see [kmcp search documentation](https://bioinf.shenwei.me/kmcp/usage/#search).
+Note that the pipeline does not output files from `kmcp-compute` as these are not used in downstream tools.
+
 ### Kraken2
 
 [Kraken2](https://ccb.jhu.edu/software/kraken2/) is a taxonomic classification system using exact k-mer matches to achieve high accuracy and fast classification speeds.
@@ -191,21 +204,6 @@ Note there may be additional files in this directory, however the ones listed ab
 
 The `malt_index` directory can be given to MALT itself with `malt-run --index <your_database>/` etc.
 
-### KMCP
-
-[KMCP](https://bioinf.shenwei.me/kmcp/) is a metagenomic profiling tool focused on prokaryotic and viral sequences.
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `kmcp/`
-  - `database-kmcp-index/`: directory containing KMCP index files
-
-</details>
-
-The `database-kmcp-index/` directory can be given to KMCP itself with `kmcp search --db-dir <your_database>/` etc, see [kmcp search documentation](https://bioinf.shenwei.me/kmcp/usage/#search).
-Note that the pipeline does not output files from `kmcp-compute` as these are not used in downstream tools.
-
 ### Downstream samplesheets
 
 The pipeline can also generate input files for the following downstream
@@ -217,11 +215,17 @@ pipelines:
 <summary>Output files</summary>
 
 - `downstream_samplesheets/`
-  - `taxprofiler.csv`: Partially filled out nf-core/taxprofiler `--databases` csv with paths to database directories or `tar.gz` relative to the results directory
-
-</details>
+  - `taxprofiler.csv`: Partially filled out nf-core/taxprofiler `--databases` csv with paths to database directories or `tar.gz` relative to the results directory. e.g. `nextflow run nf-core/taxprofiler -profile docker --input samplesheet.csv --databases <createtaxdb_outdir>/downstream_samplesheets/<database_name>.csv>`
+  </details>
 
 :::warning
 Any generated downstream samplesheet is provided as 'best effort' and are not guaranteed to work straight out of the box!
 They may not be complete (e.g. some columns may need to be manually filled in).
+:::
+
+:::tip
+We highly recommend moving all created database directories to a central 'cache' location before running downstream pipelines.
+This ensures that the database files are not lost if the pipeline is re-run, and also allows you to share the database files with other users.
+
+If you do so, make sure to update the paths in the corresponding downstream samplesheet files accordingly.
 :::
