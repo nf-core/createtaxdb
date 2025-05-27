@@ -46,15 +46,16 @@ process SEQKIT_BATCH_RENAME {
     """
 
     stub:
-    def prefix = task.ext.prefix ?: "${meta.id}"
-    def extension = "fastq"
-    if ("${fastx}" ==~ /.+\.fasta|.+\.fasta.gz|.+\.fa|.+\.fa.gz|.+\.fas|.+\.fas.gz|.+\.fna|.+\.fna.gz/) {
-        extension = "fasta"
-    }
-    def endswith = task.ext.suffix ?: "${extension}.gz"
+
+    def replace_string = replace_expression.join(' ')
 
     """
-    echo "" | gzip > ${prefix}.${endswith}
+    mkdir -p renamed_files
+    echo "${replace_string}" | tr ' ' '\\n' > replace.tsv
+
+    while IFS=\$'\\t' read -r fasta_name pattern_str replace_str out_fname; do
+        touch renamed_files/\$out_fname
+    done < replace.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

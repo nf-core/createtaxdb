@@ -23,6 +23,33 @@ nextflow_process {
                 """
             }
         }
+//
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("sarscov2 - fasta - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                    input[0] = [
+                        [ id:'test' ],   // meta map
+                        [ file('https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/proteome.fasta.gz'), file('https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz') ],
+                    ]
+                    input[1] = Channel.of('proteome.fasta.gz\t^.*\$\t1234\tproteome.fasta', 'genome.fna.gz\t^.*\$\t1234\tgenome.fna').toList()
+
+                """
+            }
+        }
 
         then {
             assertAll(
@@ -33,74 +60,3 @@ nextflow_process {
 
     }
 }
-
-
-    // test("sarscov2 - fasta - replace - uncompressed") {
-
-    //     config "./replace.config"
-
-    //     when {
-    //         process {
-    //             """
-    //                 input[0] = [ [ id:'test' ],   // meta map
-    //                              [ file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true) ]
-    //                 ]
-    //             """
-    //         }
-    //     }
-
-    //     then {
-    //         assertAll(
-    //             { assert process.success },
-    //             { assert snapshot(process.out).match() }
-    //         )
-    //     }
-
-    // }
-
-    // test("sarscov2 - fasta - uncomp - custom") {
-
-    //     config "./uncomp.config"
-
-    //     when {
-    //         process {
-    //             """
-    //                 input[0] = [ [ id:'test' ],   // meta map
-    //                              [ file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true) ]
-    //                 ]
-    //             """
-    //         }
-    //     }
-
-    //     then {
-    //         assertAll(
-    //             { assert process.success },
-    //             { assert snapshot(process.out).match() }
-    //         )
-    //     }
-
-    // }
-
-    // test("sarscov2 - fasta - stub") {
-
-    //     options "-stub"
-
-    //     when {
-    //         process {
-    //             """
-    //                 input[0] = [ [ id:'test' ],   // meta map
-    //                              [ file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true) ]
-    //                 ]
-    //             """
-    //         }
-    //     }
-
-    //     then {
-    //         assertAll(
-    //             { assert process.success },
-    //             { assert snapshot(process.out).match() }
-    //         )
-    //     }
-
-    // }
-
