@@ -18,7 +18,7 @@ nextflow_process {
                         [ id:'test' ],   // meta map
                         [ file('https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/proteome.fasta.gz'), file('https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz') ],
                     ]
-                    input[1] = Channel.of('proteome.fasta.gz\t^.*\$\t1234\tproteome.fasta', 'genome.fna.gz\t^.*\$\t1234\tgenome.fna').collectFile(name:"to_replace.tsv", newLine: true)
+                    input[1] = Channel.of('proteome.fasta.gz\t^.*\$\t1234\tproteome.fasta', 'genome.fna.gz\t^.*\$\t1234\tgenome.fna').toList()
 
                 """
             }

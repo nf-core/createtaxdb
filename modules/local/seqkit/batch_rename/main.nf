@@ -9,7 +9,7 @@ process SEQKIT_BATCH_RENAME {
 
     input:
     tuple val(meta), path(fastx)
-    path replace_tsv
+    val replace_expression
 
     output:
     tuple val(meta), path("renamed_files/*"), emit: fastx
@@ -21,8 +21,13 @@ process SEQKIT_BATCH_RENAME {
     script:
     def args = task.ext.args ?: ''
 
+    def replace_string = replace_expression.join(' ')
+
     """
     mkdir -p renamed_files
+
+    echo "${replace_string}" | tr ' ' '\\n' > replace.tsv
+
     while IFS=\$'\\t' read -r fasta_name pattern_str replace_str out_fname; do
         seqkit \\
             replace \\
@@ -32,7 +37,7 @@ process SEQKIT_BATCH_RENAME {
             -p \$pattern_str \\
             -r \$replace_str \\
             -o renamed_files/\$out_fname
-    done < ${replace_tsv}
+    done < replace.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

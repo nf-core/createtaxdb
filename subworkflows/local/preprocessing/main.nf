@@ -140,17 +140,16 @@ workflow PREPROCESSING {
             .join(ch_aa_refs_for_rematching, failOnMismatch: true, failOnDuplicate: true)
             .map { _fasta_name, fasta, meta -> [meta, fasta] }
 
-        ch_prepped_aa_fastas_ungrouped
-            .map { meta, fasta -> "${fasta.name}\t^.*\$\t${meta.taxid}\t${fasta.getBaseName(fasta.name.endsWith('.gz') ? 1 : 0)}" }
-            .collectFile(name: "to_replace.tsv", newLine: true)
-            .set { ch_rename_tsv }
-
-
-        // .collate(params.unzip_batch_size, true)
-        // .multiMap { fasta_batch, replace_tsv_lines ->
-        //     fasta: [[id: params.dbname], fasta_batch]
-        //     replace_tsv: Channel.fromList(replace_tsv_lines).collectFile(name: "to_replace.tsv", newLine: true)
-        // }
+        ch_aa_fastas_to_rename = ch_prepped_aa_fastas_ungrouped
+            .map { meta, fasta -> [fasta, "${fasta.name}\t^.*\$\t${meta.taxid}\t${fasta.getBaseName(fasta.name.endsWith('.gz') ? 1 : 0)}"] }
+            .collate(params.unzip_batch_size, true)
+            .map { fasta_batch ->
+                fasta_batch.transpose()
+            }
+            .multiMap { fasta_batch, replace_tsv_lines ->
+                fasta: [[id: params.dbname], fasta_batch]
+                replace_tsv: replace_tsv_lines
+            }
 
         ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped
             .map { _meta, fasta -> [[id: params.dbname], fasta] }
@@ -165,7 +164,7 @@ workflow PREPROCESSING {
         }
 
         if ([params.build_kaiju].any()) {
-            SEQKIT_BATCH_RENAME(ch_prepped_aa_fastas, ch_rename_tsv)
+            SEQKIT_BATCH_RENAME(ch_aa_fastas_to_rename.fasta, ch_aa_fastas_to_rename.replace_tsv)
             ch_versions = ch_versions.mix(SEQKIT_BATCH_RENAME.out.versions.first())
 
             FIND_CONCATENATE_AA_KAIJU(SEQKIT_BATCH_RENAME.out.fastx)
