@@ -140,23 +140,9 @@ workflow PREPROCESSING {
             .join(ch_aa_refs_for_rematching, failOnMismatch: true, failOnDuplicate: true)
             .map { _fasta_name, fasta, meta -> [meta, fasta] }
 
-        // Put together batches of fastas and rename strings for seqkit batch rename
-        ch_aa_fastas_to_rename = ch_prepped_aa_fastas_ungrouped
-            .map { meta, fasta -> [fasta, "${fasta.name}\t^.*\$\t${meta.taxid}\t${fasta.getBaseName(fasta.name.endsWith('.gz') ? 1 : 0)}"] }
-            .collate(params.unzip_batch_size, true)
-            .map { fasta_batch ->
-                fasta_batch.transpose()
-            }
-            .multiMap { fasta_batch, replace_tsv_lines ->
-                fasta: [[id: params.dbname], fasta_batch]
-                replace_tsv: replace_tsv_lines
-            }
-
         ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped
             .map { _meta, fasta -> [[id: params.dbname], fasta] }
             .groupTuple()
-
-        ch_versions = ch_versions.mix(UNPIGZ_AA.out.versions.first())
 
         if ([(params.build_malt && malt_build_mode == 'protein'), params.build_diamond].any()) {
             FIND_CONCATENATE_AA(ch_prepped_aa_fastas)
@@ -165,6 +151,18 @@ workflow PREPROCESSING {
         }
 
         if ([params.build_kaiju].any()) {
+            // Put together batches of fastas and rename strings for seqkit batch rename
+            ch_aa_fastas_to_rename = ch_prepped_aa_fastas_ungrouped
+                .map { meta, fasta -> [fasta, "${fasta.name}\t^.*\$\t${meta.taxid}\t${fasta.getBaseName(fasta.name.endsWith('.gz') ? 1 : 0)}"] }
+                .collate(params.unzip_batch_size, true)
+                .map { fasta_batch ->
+                    fasta_batch.transpose()
+                }
+                .multiMap { fasta_batch, replace_tsv_lines ->
+                    fasta: [[id: params.dbname], fasta_batch]
+                    replace_tsv: replace_tsv_lines
+                }
+
             SEQKIT_BATCH_RENAME(ch_aa_fastas_to_rename.fasta, ch_aa_fastas_to_rename.replace_tsv)
             ch_versions = ch_versions.mix(SEQKIT_BATCH_RENAME.out.versions.first())
 
