@@ -171,6 +171,9 @@ workflow PREPROCESSING {
             ch_prepped_aa_fastas_renamed = SEQKIT_BATCH_RENAME.out.fastx
                 .map { _meta, fasta -> [[id: params.dbname], fasta] }
                 .groupTuple()
+                .map { meta, fasta ->
+                    [meta, fasta.flatten()]
+                }
 
             FIND_CONCATENATE_AA_KAIJU(ch_prepped_aa_fastas_renamed)
             ch_prepped_aa_fastas_kaiju = FIND_CONCATENATE_AA_KAIJU.out.file_out
