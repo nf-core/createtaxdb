@@ -3,7 +3,7 @@ include { FIND_UNPIGZ as UNPIGZ_AA                      } from '../../../modules
 include { FIND_CONCATENATE as FIND_CONCATENATE_DNA      } from '../../../modules/nf-core/find/concatenate/main'
 include { FIND_CONCATENATE as FIND_CONCATENATE_AA       } from '../../../modules/nf-core/find/concatenate/main'
 include { FIND_CONCATENATE as FIND_CONCATENATE_AA_KAIJU } from '../../../modules/nf-core/find/concatenate/main'
-include { SEQKIT_REPLACE                                } from '../../../modules/nf-core/seqkit/replace/main'
+include { SEQKIT_BATCH_RENAME                           } from '../../../modules/local/seqkit/batch_rename/main'
 
 workflow PREPROCESSING {
     take:
@@ -144,8 +144,6 @@ workflow PREPROCESSING {
             .map { _meta, fasta -> [[id: params.dbname], fasta] }
             .groupTuple()
 
-        ch_versions = ch_versions.mix(UNPIGZ_AA.out.versions.first())
-
         if ([(params.build_malt && malt_build_mode == 'protein'), params.build_diamond].any()) {
             FIND_CONCATENATE_AA(ch_prepped_aa_fastas)
             ch_singleref_for_aa = FIND_CONCATENATE_AA.out.file_out
@@ -153,9 +151,29 @@ workflow PREPROCESSING {
         }
 
         if ([params.build_kaiju].any()) {
-            SEQKIT_REPLACE(ch_prepped_aa_fastas_ungrouped)
-            ch_versions = ch_versions.mix(SEQKIT_REPLACE.out.versions.first())
-            FIND_CONCATENATE_AA_KAIJU(SEQKIT_REPLACE.out.fastx.map { _meta, fasta -> [[id: params.dbname], fasta] }.groupTuple())
+            // Put together batches of fastas and rename strings for seqkit batch rename
+            ch_aa_fastas_to_rename = ch_prepped_aa_fastas_ungrouped
+                .map { meta, fasta -> [fasta, "${fasta.name}\t^.*\$\t${meta.taxid}\t${fasta.getBaseName(fasta.name.endsWith('.gz') ? 1 : 0)}"] }
+                .collate(params.unzip_batch_size, true)
+                .map { fasta_batch ->
+                    fasta_batch.transpose()
+                }
+                .multiMap { fasta_batch, replace_tsv_lines ->
+                    fasta: [[id: params.dbname], fasta_batch]
+                    replace_tsv: replace_tsv_lines
+                }
+
+            SEQKIT_BATCH_RENAME(ch_aa_fastas_to_rename.fasta, ch_aa_fastas_to_rename.replace_tsv)
+            ch_versions = ch_versions.mix(SEQKIT_BATCH_RENAME.out.versions.first())
+
+            ch_prepped_aa_fastas_renamed = SEQKIT_BATCH_RENAME.out.fastx
+                .map { _meta, fasta -> [[id: params.dbname], fasta] }
+                .groupTuple()
+                .map { meta, fasta ->
+                    [meta, fasta.flatten()]
+                }
+
+            FIND_CONCATENATE_AA_KAIJU(ch_prepped_aa_fastas_renamed)
             ch_prepped_aa_fastas_kaiju = FIND_CONCATENATE_AA_KAIJU.out.file_out
             ch_versions = ch_versions.mix(FIND_CONCATENATE_AA_KAIJU.out.versions.first())
         }
