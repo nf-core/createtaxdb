@@ -168,7 +168,11 @@ workflow PREPROCESSING {
             SEQKIT_BATCH_RENAME(ch_aa_fastas_to_rename.fasta, ch_aa_fastas_to_rename.replace_tsv)
             ch_versions = ch_versions.mix(SEQKIT_BATCH_RENAME.out.versions.first())
 
-            FIND_CONCATENATE_AA_KAIJU(SEQKIT_BATCH_RENAME.out.fastx)
+            ch_prepped_aa_fastas_renamed = SEQKIT_BATCH_RENAME.out.fastx
+                .map { _meta, fasta -> [[id: params.dbname], fasta] }
+                .groupTuple()
+
+            FIND_CONCATENATE_AA_KAIJU(ch_prepped_aa_fastas_renamed)
             ch_prepped_aa_fastas_kaiju = FIND_CONCATENATE_AA_KAIJU.out.file_out
             ch_versions = ch_versions.mix(FIND_CONCATENATE_AA_KAIJU.out.versions.first())
         }
