@@ -49,7 +49,7 @@
                 "accession2taxid": {
                     "type": "string",
                     "description": "NCBI-style four-column accession to taxonomy ID map file",
-                    "help_text": "\nAn NCBI four column file tab-separated file with `accession`, `accession.version`, `taxid` and `gi` number. The first refers to an accession ID in each FASTA entry header. The second refers to the accession ID but with the accession version number appended to the end (e.g. `.1`). The third refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`. The fourth refers to the old-style NCBI gi number of the sequence.\n\nIf building with typical NCBI data, the most typical file is the `nucl_gb.accession2taxid` file from the [NCBI taxonomy FTP server](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/).\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/#what-should-an-x-auxiliary-file-look-like).",
+                    "help_text": "\nAn NCBI four column file tab-separated file with `accession`, `accession.version`, `taxid` and `gi` number. The first refers to an accession ID in each FASTA entry header. The second refers to the accession ID but with the accession version number appended to the end (e.g. `.1`). The third refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`. The fourth refers to the old-style NCBI gi number of the sequence.\n\nIf building with typical NCBI data, the most typical file is the `nucl_gb.accession2taxid` file from the [NCBI taxonomy FTP server](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/).\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/usage/faq).",
                     "fa_icon": "fas fa-address-book",
                     "format": "file-path"
                 },
@@ -58,7 +58,7 @@
                     "format": "path",
                     "exists": true,
                     "fa_icon": "fas fa-address-card",
-                    "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`.\n\nIf building with typical NCBI data, the most typical file is the `prot.accession2taxid.gz` file from the [NCBI taxonomy FTP server](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/).\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/#what-should-an-x-auxiliary-file-look-like).",
+                    "help_text": "A two column file tab-separated file with `accession.version` and `taxid`. The first refers to an accession ID in each FASTA entry header. The second refers to the taxonomy ID of the organism the sequence belongs to, as listed in `nodes.dmp`.\n\nIf building with typical NCBI data, the most typical file is the `prot.accession2taxid.gz` file from the [NCBI taxonomy FTP server](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/).\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/usage/faq).",
                     "description": "Two column protein sequence accession ID to taxonomy map file."
                 },
                 "nucl2taxid": {
@@ -75,7 +75,7 @@
                     "exists": true,
                     "fa_icon": "fas fa-circle",
                     "description": "Path to NCBI-style taxonomy node dmp file.",
-                    "help_text": "A tab/pipe/tab separated table file. See nodes.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure.\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/#what-should-an-x-auxiliary-file-look-like)."
+                    "help_text": "A tab/pipe/tab separated table file. See nodes.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure.\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/usage/faq)."
                 },
                 "namesdmp": {
                     "type": "string",
@@ -83,14 +83,14 @@
                     "exists": true,
                     "fa_icon": "fas fa-tag",
                     "description": "Path to NCBI-style taxonomy names dmp file.",
-                    "help_text": "A tab/pipe/tab separated table file. See names.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure.\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/#what-should-an-x-auxiliary-file-look-like)."
+                    "help_text": "A tab/pipe/tab separated table file. See names.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure.\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/usage/faq)."
                 },
                 "malt_mapdb": {
                     "type": "string",
                     "format": "file-path",
                     "exists": true,
                     "description": "Path to MEGAN6/MALT mapping db file",
-                    "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/#what-should-an-x-auxiliary-file-look-like).",
+                    "help_text": "A mapping DB file containing taxonomy information for building MALT databases. This file can be downloaded from the [MEGAN6 website](https://software-ab.cs.uni-tuebingen.de/download/megan6/welcome.html). Can be zipped (the pipeline will unzip this for you if necessary). Typically the `megan-nucl-Feb2022.db.zip` is used with MALT.\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/usage/faq).",
                     "fa_icon": "fas fa-database"
                 },
                 "malt_mapdb_format": {
