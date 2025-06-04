@@ -263,6 +263,7 @@ These are typically taxonomy files, and each are formatted in different ways.
 
 This is a NCBI taxdump-style taxonomy file, that associates taxon IDs with human-readable names.
 
+From NCBI, these would correspond to `taxdmp.tar.gz` from the [NCBI Taxonomy FTP server](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/).
 Always refer to the [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump_readme.txt) for the most up-to-date information.
 
 It is formatted as a tab-pipe (`\t|\t`)-separated file with four columns but no header row.
@@ -300,6 +301,7 @@ Example:
 
 This is a NCBI taxdump-style taxonomy file, that associates taxon IDs their taxonomic parent within the taxonomic hierarchy.
 
+From NCBI, these would correspond to `taxdmp.tar.gz` from the [NCBI Taxonomy FTP server](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/).
 Always refer to the [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump_readme.txt) for the most up-to-date information.
 
 It is formatted as a tab-pipe (`\t|\t`)-separated file with fourteen columns but no header row.
@@ -345,6 +347,8 @@ Example:
 #### accession2taxid
 
 An accession2taxid file is a file that maps database sequence accession IDs (e.g. NCBI GenBank) to their corresponding taxon IDs.
+
+From NCBI, these would correspond to `nucl_gb.accession2taxid.gz` and `prot.accession2taxid.gz` from the [NCBI taxonomy FTP server](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/).
 
 It is formatted as a four column tab-separated file **with** a header row.
 
@@ -441,7 +445,7 @@ This file must be unzipped before use, and is an SQLlite database consisting of 
   - A two column table: `Accession`, `Taxonomy`
   - The `Accession` column contains the accession ID of the sequence with version (e.g. `NC_012920.1`)
 
-### I want to supply a custom seqid2taxid file to kraken2
+### I want to supply a custom seqid2taxid file to Kraken2
 
 While not officially supported by Kraken2, you can speed up the Kraken2 build process by providing the pipeline a premade `seqid2taxid.map` file.
 
