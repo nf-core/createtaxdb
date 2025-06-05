@@ -1,0 +1,29 @@
+nextflow_pipeline {
+
+    name "Test pipeline: NFCORE_CREATETAXDB"
+    script "main.nf"
+    tag "pipeline"
+    tag "nfcore_createtaxdb"
+    tag "test_minimal"
+
+    test("test_minimal_profile") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot (
+                        file("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists(),
+                        file("$outputDir/multiqc/multiqc_data/multiqc.log").readLines().any {it.contains('Found 1 sample')},
+                        file("$outputDir/multiqc/multiqc_report.html").exists()
+                    )
+                },
+            )
+        }
+    }
+}
