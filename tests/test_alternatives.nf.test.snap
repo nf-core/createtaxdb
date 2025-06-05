@@ -1,5 +1,5 @@
 {
-    "test_alternatives_profile": {
+    "-profile test_alternatives": {
         "content": [
             "kaiju/database.fmi - minimum file size: true",
             "kaiju/database.bwt - minimum file size: true",

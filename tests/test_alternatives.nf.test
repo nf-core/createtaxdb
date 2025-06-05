@@ -7,7 +7,7 @@ nextflow_pipeline {
     tag "test_alternatives"
     profile "test_alternatives"
 
-    test("test_alternatives_profile") {
+    test("-profile test_alternatives") {
 
         when {
             params {

@@ -8,7 +8,7 @@ nextflow_pipeline {
     profile "test_minimal"
 
 
-    test("test_minimal_profile") {
+    test("-profile test_minimal") {
 
         when {
             params {
