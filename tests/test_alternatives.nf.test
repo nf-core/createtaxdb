@@ -5,6 +5,7 @@ nextflow_pipeline {
     tag "pipeline"
     tag "nfcore_createtaxdb"
     tag "test_alternatives"
+    profile "test_alternatives"
 
     test("test_alternatives_profile") {
 
