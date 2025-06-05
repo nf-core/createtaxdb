@@ -200,6 +200,23 @@
                     "fa_icon": "fas fa-save",
                     "description": "Save intermediate files otherwise not required for downstream classification."
                 },
+                "build_kmcp": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of KMCP database. Requires nucleotide FASTA file input."
+                },
+                "kmcp_compute_options": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kmcp compute. Must be wrapped in single and double quotes: --kmcp_compute_options \"'--your_param'\"",
+                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
+                "kmcp_index_options": {
+                    "type": "string",
+                    "description": "Specify parameters being given to kmcp index. Must be wrapped in single and double quotes: --kmcp_index_options \"'--your_param'\"",
+                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#index).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "fa_icon": "fas fa-users-cog"
+                },
                 "build_kraken2": {
                     "type": "boolean",
                     "description": "Turn on building of Kraken2 database. Requires nucleotide FASTA file input.",
@@ -242,23 +259,6 @@
                     "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein and be wrapped in double and single quotes: --malt_build_options \"'--sequenceType DNA --your_param'\"",
                     "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "default": "--sequenceType DNA",
-                    "fa_icon": "fas fa-users-cog"
-                },
-                "build_kmcp": {
-                    "type": "boolean",
-                    "fa_icon": "fas fa-toggle-on",
-                    "description": "Turn on building of KMCP database. Requires nucleotide FASTA file input."
-                },
-                "kmcp_compute_options": {
-                    "type": "string",
-                    "description": "Specify parameters being given to kmcp compute. Must be wrapped in single and double quotes: --kmcp_compute_options \"'--your_param'\"",
-                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
-                    "fa_icon": "fas fa-users-cog"
-                },
-                "kmcp_index_options": {
-                    "type": "string",
-                    "description": "Specify parameters being given to kmcp index. Must be wrapped in single and double quotes: --kmcp_index_options \"'--your_param'\"",
-                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#index).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "fa_icon": "fas fa-users-cog"
                 }
             },
@@ -439,6 +439,12 @@
                     "fa_icon": "far fa-check-circle",
                     "description": "Base URL or local path to location of pipeline test dataset files",
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
+                    "hidden": true
+                },
+                "modules_testdata_base_path": {
+                    "type": "string",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/",
+                    "description": "Base URL or local path to location of module test dataset files",
                     "hidden": true
                 },
                 "trace_report_suffix": {

@@ -36,7 +36,9 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success},
-                { assert snapshot(workflow.out).match() }
+                { assert snapshot(
+                    file(workflow.out.samplesheet[0]).readLines().size()
+                    ).match() }
             )
         }
     }

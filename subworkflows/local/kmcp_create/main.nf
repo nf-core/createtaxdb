@@ -20,5 +20,3 @@ workflow KMCP_CREATE {
     db       = KMCP_INDEX.out.kmcp // channel: [ val(meta), [ db ] ]
     versions = ch_versions         // channel: [ versions.yml ]
 }
-
-

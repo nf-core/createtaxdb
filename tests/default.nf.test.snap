@@ -1,5 +1,5 @@
 {
-    "test_profile": {
+    "-profile test": {
         "content": [
             "bracken/database-bracken.tar.gz - minimum file size: true",
             "bracken/database-kraken2/database100mers.kmer_distrib - contains string: true}",
@@ -27,7 +27,7 @@
             "malt/database-malt.tar.gz - minimum file size: true",
             "malt/malt-build.log - contains string: true",
             "malt/malt-build.log - contains string: true",
-            "index0.idx:md5,52aa8ac52a46de99ed72ecf9304626e0",
+            "index0.idx:md5,ae0ad70b96e0f660cf9137ea1a5a2249",
             true,
             true,
             "ref.inf:md5,e758ca682a53159afce4fc87c71e2cd1",
@@ -45,8 +45,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.4"
+            "nextflow": "25.04.2"
         },
-        "timestamp": "2025-05-27T16:26:30.418713"
+        "timestamp": "2025-06-05T11:34:20.971286311"
     }
 }

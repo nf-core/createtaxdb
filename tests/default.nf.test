@@ -1,12 +1,10 @@
 nextflow_pipeline {
 
-    name "Test pipeline: NFCORE_CREATETAXDB"
-    script "main.nf"
+    name "Test pipeline"
+    script "../main.nf"
     tag "pipeline"
-    tag "nfcore_createtaxdb"
-    tag "test"
 
-    test("test_profile") {
+    test("-profile test") {
 
         when {
             params {
