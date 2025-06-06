@@ -216,6 +216,7 @@ workflow CREATETAXDB {
 
     if (params.generate_tar_archive) {
         TAR(ch_all_databases, '.gz')
+        TAR.out.archive
     }
 
     //

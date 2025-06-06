@@ -1,4 +1,4 @@
-process SEQKIT_BATCH_RENAME {
+process SEQKIT_BATCHRENAME {
     tag "${meta.id}"
     label 'process_low'
 

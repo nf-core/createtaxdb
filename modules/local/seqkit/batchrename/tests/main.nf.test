@@ -1,13 +1,13 @@
 nextflow_process {
 
-    name "Test Process SEQKIT_BATCH_RENAME"
+    name "Test Process SEQKIT_BATCHRENAME"
     script "../main.nf"
-    process "SEQKIT_BATCH_RENAME"
+    process "SEQKIT_BATCHRENAME"
 
     tag "modules"
     tag "modules_nfcore"
     tag "seqkit"
-    tag "seqkit/batch_rename"
+    tag "seqkit/batchrename"
 
     test("sarscov2 - fasta - replace") {
 

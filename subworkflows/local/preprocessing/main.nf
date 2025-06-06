@@ -3,7 +3,7 @@ include { FIND_UNPIGZ as UNPIGZ_AA                      } from '../../../modules
 include { FIND_CONCATENATE as FIND_CONCATENATE_DNA      } from '../../../modules/nf-core/find/concatenate/main'
 include { FIND_CONCATENATE as FIND_CONCATENATE_AA       } from '../../../modules/nf-core/find/concatenate/main'
 include { FIND_CONCATENATE as FIND_CONCATENATE_AA_KAIJU } from '../../../modules/nf-core/find/concatenate/main'
-include { SEQKIT_BATCH_RENAME                           } from '../../../modules/local/seqkit/batch_rename/main'
+include { SEQKIT_BATCHRENAME                            } from '../../../modules/local/seqkit/batchrename/main'
 
 workflow PREPROCESSING {
     take:
@@ -163,10 +163,10 @@ workflow PREPROCESSING {
                     replace_tsv: replace_tsv_lines
                 }
 
-            SEQKIT_BATCH_RENAME(ch_aa_fastas_to_rename.fasta, ch_aa_fastas_to_rename.replace_tsv)
-            ch_versions = ch_versions.mix(SEQKIT_BATCH_RENAME.out.versions.first())
+            SEQKIT_BATCHRENAME(ch_aa_fastas_to_rename.fasta, ch_aa_fastas_to_rename.replace_tsv)
+            ch_versions = ch_versions.mix(SEQKIT_BATCHRENAME.out.versions.first())
 
-            ch_prepped_aa_fastas_renamed = SEQKIT_BATCH_RENAME.out.fastx
+            ch_prepped_aa_fastas_renamed = SEQKIT_BATCHRENAME.out.fastx
                 .map { _meta, fasta -> [[id: params.dbname], fasta] }
                 .groupTuple()
                 .map { meta, fasta ->

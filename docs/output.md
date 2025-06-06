@@ -88,8 +88,9 @@ The resulting `<db_name>/` directory can be given to Bracken itself with `bracke
 <details markdown="1">
 <summary>Output files</summary>
 
-- `diamond/`
-  - `<database>.*.cf`: Centrifuge database files
+- `centrifuge/`
+  - `database-centrifuge/`
+    - <database>.\*.cf`: Centrifuge database files
 
 </details>
 
@@ -102,7 +103,7 @@ A directory and `cf` files can be given to the Centrifuge command with `centrifu
 <details markdown="1">
 <summary>Output files</summary>
 
-- `diamond/`
+- `ganon/`
   - `<database>.hibf`: main bloom filter index file
   - `<database>.tax`: taxonomy tree used for taxonomy assignment
   </details>

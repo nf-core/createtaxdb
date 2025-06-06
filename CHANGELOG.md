@@ -27,19 +27,20 @@ Additional optimisation when running with very large number of genomes by @BioWi
 
 | Tool       | Old Version | New Version |
 | ---------- | ----------- | ----------- |
-| Bracken    |             | 2.9         |
-| Centrifuge |             | 1.0.4.1     |
+| Bracken    |             | 3.1         |
+| Centrifuge |             | 1.0.4.2     |
 | DIAMOND    |             | 2.1.12      |
 | find       |             | 4.6.0       |
 | ganon      |             | 2.1.0       |
 | kaiju      |             | 1.10.0      |
 | KMCP       |             | 0.9.4       |
-| Kraken2    |             | 2.1.3       |
+| Kraken2    |             | 2.1.5       |
 | KrakenUniq |             | 1.0.4       |
 | MALT       |             | 0.6.2       |
 | pigz       |             | 2.8         |
 | seqkit     |             | 2.9.0       |
 | tar        |             | 1.34        |
+| MultiQC    |             | 1.29        |
 
 ### `Fixed`
 

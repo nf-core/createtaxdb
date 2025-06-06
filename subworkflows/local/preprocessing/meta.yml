@@ -9,7 +9,7 @@ keywords:
 components:
   - find/unpigz
   - find/concatenate
-  - kmcpseqkit/batch_rename
+  - seqkit/batchrename
 input:
   - ch_samplesheet:
       type: file
