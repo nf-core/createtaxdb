@@ -44,6 +44,9 @@
                     "@id": "modules/"
                 },
                 {
+                    "@id": "modules/local/"
+                },
+                {
                     "@id": "modules/nf-core/"
                 },
                 {
@@ -99,7 +102,7 @@
             },
             "mentions": [
                 {
-                    "@id": "#fd1a2585-fe0f-4b4e-a2d3-68a719f1649a"
+                    "@id": "#955d4e77-efb8-466a-ac83-009106142043"
                 }
             ],
             "name": "nf-core/createtaxdb"
@@ -129,10 +132,16 @@
             "creator": [
                 {
                     "@id": "#jfy133@gmail.com"
+                },
+                {
+                    "@id": "#jfy133@gmail.com"
+                },
+                {
+                    "@id": "#s.a.j.wilkinson@bham.ac.uk"
                 }
             ],
             "dateCreated": "",
-            "dateModified": "2025-06-03T11:01:08Z",
+            "dateModified": "2025-06-06T05:03:36Z",
             "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalWorkflow/1.0-RELEASE/",
             "keywords": [
                 "nf-core",
@@ -147,6 +156,11 @@
             "license": [
                 "MIT"
             ],
+            "maintainer": [
+                {
+                    "@id": "#jfy133@gmail.com"
+                }
+            ],
             "name": [
                 "nf-core/createtaxdb"
             ],
@@ -158,10 +172,10 @@
             },
             "url": [
                 "https://github.com/nf-core/createtaxdb",
-                "https://nf-co.re/createtaxdb/dev/"
+                "https://nf-co.re/createtaxdb/1.0.0/"
             ],
             "version": [
-                "1.0dev"
+                "1.0.0"
             ]
         },
         {
@@ -177,11 +191,11 @@
             "version": "!>=24.04.2"
         },
         {
-            "@id": "#fd1a2585-fe0f-4b4e-a2d3-68a719f1649a",
+            "@id": "#955d4e77-efb8-466a-ac83-009106142043",
             "@type": "TestSuite",
             "instance": [
                 {
-                    "@id": "#8d7fb7cb-3335-4dbe-8fb6-4e650fed2d77"
+                    "@id": "#7bbe0e81-a7f8-46a9-9a9d-0f2d02d4bb8f"
                 }
             ],
             "mainEntity": {
@@ -190,7 +204,7 @@
             "name": "Test suite for nf-core/createtaxdb"
         },
         {
-            "@id": "#8d7fb7cb-3335-4dbe-8fb6-4e650fed2d77",
+            "@id": "#7bbe0e81-a7f8-46a9-9a9d-0f2d02d4bb8f",
             "@type": "TestInstance",
             "name": "GitHub Actions workflow for testing nf-core/createtaxdb",
             "resource": "repos/nf-core/createtaxdb/actions/workflows/nf-test.yml",
@@ -231,6 +245,11 @@
             "@id": "modules/",
             "@type": "Dataset",
             "description": "Modules used by the pipeline"
+        },
+        {
+            "@id": "modules/local/",
+            "@type": "Dataset",
+            "description": "Pipeline-specific modules"
         },
         {
             "@id": "modules/nf-core/",
@@ -323,6 +342,12 @@
             "@type": "Person",
             "email": "jfy133@gmail.com",
             "name": "James Fellows Yates"
+        },
+        {
+            "@id": "#sam1.wilkinson1@gmail.com",
+            "@type": "Person",
+            "email": "s.a.j.wilkinson@bham.ac.uk",
+            "name": "Sam W"
         }
     ]
 }

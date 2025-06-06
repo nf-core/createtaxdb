@@ -7,17 +7,17 @@
                 "nf-core": {
                     "bracken/build": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "20b042e352fc47ab6dab717a622253e96429e887",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "centrifuge/build": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "custom/dumpsoftwareversions": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "diamond/makedb": {
@@ -32,17 +32,17 @@
                     },
                     "find/unpigz": {
                         "branch": "master",
-                        "git_sha": "9b74dcad06abf4905524411c72efada0e5e189d9",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "ganon/buildcustom": {
                         "branch": "master",
-                        "git_sha": "4265ef4b3b9af8877671715b081f102041c64cfd",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "kaiju/mkfmi": {
                         "branch": "master",
-                        "git_sha": "f1304d447983034fe9892953796b484f85bcb999",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "kmcp/compute": {
@@ -57,12 +57,12 @@
                     },
                     "kraken2/add": {
                         "branch": "master",
-                        "git_sha": "739c726cb5a4be2a2bb985dca594c74fa7240761",
+                        "git_sha": "20b042e352fc47ab6dab717a622253e96429e887",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "kraken2/build": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "20b042e352fc47ab6dab717a622253e96429e887",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "krakenuniq/build": {
@@ -73,17 +73,17 @@
                     },
                     "malt/build": {
                         "branch": "master",
-                        "git_sha": "090e0b6f5a487513c54cd8bf5315b7cfb242173d",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "multiqc": {
                         "branch": "master",
-                        "git_sha": "f0719ae309075ae4a291533883847c3f7c441dad",
+                        "git_sha": "471cf3ca1617271b9b6fea09ea2ebdee78b874de",
                         "installed_by": ["modules"]
                     },
                     "pigz/compress": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "tar": {
@@ -93,7 +93,7 @@
                     },
                     "unzip": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     }
                 }
@@ -102,7 +102,7 @@
                 "nf-core": {
                     "fasta_build_add_kraken2_bracken": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "20b042e352fc47ab6dab717a622253e96429e887",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nextflow_pipeline": {
