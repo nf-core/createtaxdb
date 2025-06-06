@@ -137,7 +137,7 @@
                     "@id": "#jfy133@gmail.com"
                 },
                 {
-                    "@id": "#sam1.wilkinson1@gmail.com"
+                    "@id": "#s.a.j.wilkinson@bham.ac.uk"
                 }
             ],
             "dateCreated": "",
@@ -346,7 +346,7 @@
         {
             "@id": "#sam1.wilkinson1@gmail.com",
             "@type": "Person",
-            "email": "sam1.wilkinson1@gmail.com",
+            "email": "s.a.j.wilkinson@bham.ac.uk",
             "name": "Sam W"
         }
     ]
