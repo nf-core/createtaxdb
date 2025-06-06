@@ -41,6 +41,7 @@ workflow CREATETAXDB {
     file_accession2taxid   // file: accession2taxid file
     file_nucl2taxid        // fle: nucl2taxid file
     file_prot2taxid        // file: prot2taxid file
+    file_genomesizes       // file: genome sizes file
     file_malt_mapdb        // file: maltmap file
 
     main:
@@ -107,7 +108,7 @@ workflow CREATETAXDB {
         // Nodes must come first
         ch_ganon_tax_files = Channel.fromPath(file_taxonomy_nodesdmp).combine(Channel.fromPath(file_taxonomy_namesdmp))
 
-        GANON_BUILDCUSTOM(PREPROCESSING.out.grouped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, [])
+        GANON_BUILDCUSTOM(PREPROCESSING.out.grouped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, file_genomesizes)
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
     }

@@ -85,6 +85,12 @@
                     "description": "Path to NCBI-style taxonomy names dmp file.",
                     "help_text": "A tab/pipe/tab separated table file. See names.dmp section of [NCBI taxdump README](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/taxdump_readme.txt) for column file structure.\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/usage/faq)."
                 },
+                "genomesizes": {
+                    "type": "string",
+                    "description": "Path to NCBI or GTDB genome sizes file",
+                    "fa_icon": "fas fa-ruler-horizontal",
+                    "help_text": "A tab/pipe/tab separated table file. For NCBI versions see the species_genome_size section of [NCBI genome assembly reports README](https://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/README_species_genome_size.txt) for column file structure.\n\nIf not supplied, will be automatically downloaded for you.\n\nFor more information see the [nf-core/createtaxdb FAQ](https://nf-co.re/createtaxdb/docs/usage/usage/faq)."
+                },
                 "malt_mapdb": {
                     "type": "string",
                     "format": "file-path",
