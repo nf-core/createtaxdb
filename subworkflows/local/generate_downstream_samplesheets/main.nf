@@ -7,6 +7,7 @@ workflow SAMPLESHEET_TAXPROFILER {
     ch_databases
 
     main:
+    ch_versions = Channel.empty()
     format = 'csv'
 
     ch_list_for_samplesheet = ch_databases.map { meta, db ->
@@ -26,6 +27,7 @@ workflow SAMPLESHEET_TAXPROFILER {
 
     emit:
     samplesheet = ch_final_samplesheet
+    versions    = ch_versions
 }
 
 workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
@@ -33,14 +35,17 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
     ch_databases
 
     main:
+    ch_versions = Channel.empty()
     def downstreampipeline_names = params.generate_pipeline_samplesheets.split(",")
 
     if (downstreampipeline_names.contains('taxprofiler')) {
         ch_final_samplesheet = SAMPLESHEET_TAXPROFILER(ch_databases)
+        ch_versions = ch_versions.mix(SAMPLESHEET_TAXPROFILER.out.versions)
     }
 
     emit:
     samplesheet = ch_final_samplesheet
+    versions    = ch_versions
 }
 
 def channelToSamplesheet(ch_list_for_samplesheet, path, format) {
