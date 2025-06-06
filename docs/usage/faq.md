@@ -21,6 +21,7 @@ We provide a list of required or recommended files, and which pipeline parameter
 - ganon
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
+  - genome sizes file (`--genomesizes`)\*
 - kaiju (no additional files required)
 - kraken2
   - taxonomy name dump file (`--namesdmp`)
@@ -33,6 +34,8 @@ We provide a list of required or recommended files, and which pipeline parameter
   - (nucleotide) accession2taxid file (`--accession2taxid`)
 - malt
   - a MEGAN 'mapDB' mapping file (`--malt_mapdb`)
+
+\* _will be automatically downloaded if not supplied. You must supply this to the pipeline if on an offline cluster._
 
 ## What should an X auxiliary file look like?
 
@@ -208,6 +211,38 @@ QIK50436.1	694009
 WP_000002661.1	1311
 WP_000002812.1	1311
 WP_000003859.1	1311
+```
+
+### genome sizes file
+
+A genome sizes file is a file that maps taxonomy IDs to their estimated genome file size.
+
+This file is used by `ganon`, and would correspond to either `species_genome_size.txt` from the [NCBI genomes FTP server](https://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/) or `*metadata.tsv.gz` from the [GTDB FTP server](https://data.gtdb.ecogenomic.org/releases/latest/).
+
+The NCBI version is formatted as a 6 column tax-separated table with a header:
+
+| Column | Column Name              | Description                                                          |
+| ------ | ------------------------ | -------------------------------------------------------------------- |
+| 1      | species_taxid            | Taxonomic identifier of each species                                 |
+| 2      | min_ungapped_length      | Minimum expected ungapped genome size of an assembly for the species |
+| 3      | max_ungapped_length      | Maximum expected ungapped genome size of an assembly for the species |
+| 4      | expected_ungapped_length | Median genome assembly size of assemblies for the species            |
+| 5      | number of genomes        | Number of genomes used to calculate the expected size range          |
+| 6      | method_determined        | The method that was used to determine the size range.                |
+
+Descriptions from [`README_species_genome_size.txt`](https://ftp.ncbi.nlm.nih.gov/genomes/ASSEMBLY_REPORTS/README_species_genome_size.txt)
+
+Example:
+
+```tsv title="species_genome_size.txt"
+#species_taxid	min_ungapped_length	max_ungapped_length	expected_ungapped_length	number_of_genomes	method_determined
+7	4521000	6782000	5636513	5	automatic
+9	281000	845000	568059	141	automatic
+23	3680000	5522000	4636991	8	automatic
+24	3508000	5264000	4386237	15	automatic
+33	8643000	12965000	10772519	5	automatic
+34	7410000	11116000	9267256	22	automatic
+43	9852000	14780000	12282374	5	automatic
 ```
 
 ### malt mapDB
