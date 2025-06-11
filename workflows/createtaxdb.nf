@@ -215,10 +215,9 @@ workflow CREATETAXDB {
     // Package for portable databsae
     //
 
-    ch_tarred_dbs = Channel.empty
     if (params.generate_tar_archive) {
         TAR(ch_all_databases, '.gz')
-        ch_tarred_dbs = ch_tarred_dbs.mix(TAR.out.archive)
+        ch_tarred_dbs = TAR.out.archive
         ch_versions = ch_versions.mix(TAR.out.versions.first())
     }
 
@@ -309,5 +308,5 @@ workflow CREATETAXDB {
     krakenuniq_database      = ch_krakenuniq_output
     malt_database            = ch_malt_output
     kmcp_databae             = ch_kmcp_output
-    tarred_databases         = ch_tarred_dbs
+    tarred_databases         = ch_tarred_dbs.ifEmpty { [] }
 }
