@@ -90,7 +90,7 @@ The resulting `<db_name>/` directory can be given to Bracken itself with `bracke
 
 - `centrifuge/`
   - `database-centrifuge/`
-    - <database>.\*.cf`: Centrifuge database files
+    - `<database>.*.cf`: Centrifuge database files
 
 </details>
 

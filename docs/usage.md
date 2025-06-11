@@ -38,7 +38,7 @@ Haemophilus_influenzae,727,/path/to/fnahaemophilus_influenzae.fna.gz,
 | Column      | Description                                                                                                                                    |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`        | Custom reference sequence name.                                                                                                                |
-| `taxid`     | A numeric taxonomy ID of the reference that corresponds to species the reference sequence is from, as specified in the supplied taxonomy       |
+| `taxid`     | A numeric taxonomy ID of the reference that corresponds to species the reference sequence is from, as specified in the supplied taxonomy.      |
 | `fasta_dna` | Full path to FastA file with nucleotide sequences. File may be uncompressed or gzipped and have the extension `.fasta`, `.fna`, `.fas`, `.fa`. |
 | `fasta_aa`  | Full path to FastA file with amino acid sequences. File may be uncompressed or gzipped and have the extension `.fasta`, `.faa`, `.fas`, `.fa`. |
 

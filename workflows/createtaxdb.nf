@@ -39,7 +39,7 @@ workflow CREATETAXDB {
     file_taxonomy_namesdmp // file: taxonomy names file
     file_taxonomy_nodesdmp // file: taxonomy nodes file
     file_accession2taxid   // file: accession2taxid file
-    file_nucl2taxid        // fle: nucl2taxid file
+    file_nucl2taxid        // file: nucl2taxid file
     file_prot2taxid        // file: prot2taxid file
     file_genomesizes       // file: genome sizes file
     file_malt_mapdb        // file: maltmap file

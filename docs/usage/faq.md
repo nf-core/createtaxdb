@@ -161,7 +161,7 @@ The accession column should not include the accession version in the first colum
 
 ### nucl2taxid
 
-An accession2taxid file is a file that maps database sequence accession IDs (e.g. NCBI GenBank) to their corresponding taxon IDs.
+An accession2taxid-like file that maps database sequence accession IDs (e.g. NCBI GenBank) to their corresponding taxon IDs.
 
 It is a simpler version of the accession2taxid file, and is formatted as a two column tab-separated file **without** a header row.
 
@@ -184,7 +184,7 @@ NZ_LS483480.1	727
 
 ### prot2taxid
 
-An accession2taxid file is a file that maps database sequence accession IDs (e.g. NCBI GenBank) to their corresponding taxon IDs.
+An accession2taxid-like file that maps database sequence accession IDs (e.g. NCBI GenBank) to their corresponding taxon IDs.
 
 It is a simpler version of the accession2taxid file, and is formatted as a two column tab-separated file **with** a header row.
 

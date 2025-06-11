@@ -69,7 +69,7 @@ nextflow run nf-core/createtaxdb \
    -profile <docker/singularity/.../institute> \
    --input samplesheet.csv \
    --accession2taxid /<path>/<to>/taxonomy/nucl_gb.accession2taxid \
-   --nucl2taxid/<path>/<to>/taxonomy/nucl.accession2taxid.gz
+   --nucl2taxid /<path>/<to>/taxonomy/nucl.accession2taxid.gz
    --prot2taxid  /<path>/<to>/taxonomy/prot.accession2taxid.gz \
    --nodesdmp /<path>/<to>/taxonomy/nodes.dmp \
    --namesdmp /<path>/<to>/taxonomy/names.dmp \
