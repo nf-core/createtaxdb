@@ -217,7 +217,8 @@ workflow CREATETAXDB {
 
     if (params.generate_tar_archive) {
         TAR(ch_all_databases, '.gz')
-        TAR.out.archive
+        ch_tarred_dbs = TAR.out.archive
+        ch_versions = ch_versions.mix(TAR.out.versions.first())
     }
 
     //
@@ -307,4 +308,5 @@ workflow CREATETAXDB {
     krakenuniq_database      = ch_krakenuniq_output
     malt_database            = ch_malt_output
     kmcp_databae             = ch_kmcp_output
+    tarred_databases         = params.generate_tar_archive ? ch_tarred_dbs : []
 }
