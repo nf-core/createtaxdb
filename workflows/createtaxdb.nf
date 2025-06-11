@@ -308,5 +308,5 @@ workflow CREATETAXDB {
     krakenuniq_database      = ch_krakenuniq_output
     malt_database            = ch_malt_output
     kmcp_databae             = ch_kmcp_output
-    tarred_databases         = ch_tarred_dbs.ifEmpty { [] }
+    tarred_databases         = params.generate_tar_archive ? ch_tarred_dbs : []
 }
