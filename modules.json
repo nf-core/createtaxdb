@@ -15,11 +15,6 @@
                         "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
-                    "custom/dumpsoftwareversions": {
-                        "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
-                        "installed_by": ["modules"]
-                    },
                     "diamond/makedb": {
                         "branch": "master",
                         "git_sha": "dc71da5a29cee04ab99390d6f5f5d2fb9a8cb9ec",
