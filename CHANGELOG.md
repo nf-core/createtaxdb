@@ -41,7 +41,8 @@ Additional optimisation when running with very large number of genomes by @BioWi
 | seqkit     |             | 2.9.0       |
 | tar        |             | 1.34        |
 | MultiQC    |             | 1.29        |
-| p7zip | | 16.02 |
+| p7zip      |             | 16.02       |
+
 ### `Fixed`
 
 ### `Dependencies`
