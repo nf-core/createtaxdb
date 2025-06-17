@@ -22,7 +22,7 @@
                     },
                     "find/concatenate": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "7f1cf1ce2d98e945f7f6b1050a46ebe612877434",
                         "installed_by": ["modules"]
                     },
                     "find/unpigz": {
