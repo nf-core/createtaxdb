@@ -224,8 +224,6 @@ workflow CREATETAXDB {
     //
     // Samplesheet generation
     //
-
-
     if (params.generate_downstream_samplesheets) {
         if (params.generate_samplesheet_dbtype == 'tar') {
             ch_databases_for_samplesheets = TAR.out.archive
