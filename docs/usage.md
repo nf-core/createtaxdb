@@ -12,7 +12,7 @@ The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](htt
 
 In addition to this page, you can find additional usage information on the following pages:
 
-- [FAQ and troubleshooting](usage/faq-troubleshooting.md)
+- [FAQ and troubleshooting](usage/faq.md)
 
 ## Samplesheet input
 
