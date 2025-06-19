@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "preprocessing"
+description: Performs preprocessing of input FASTA files
+keywords:
+  - preprocessing
+  - fasta
+  - concatenation
+  - decompression
+components:
+  - find/unpigz
+  - find/concatenate
+  - seqkit/batchrename
+input:
+  - ch_samplesheet:
+      type: file
+      description: |
+        Channel containing parsed input samplesheet with meta and nucleotide and protein FASTA files.
+        Structure: [ val(meta), [ fasta ] ]
+  - malt_build_mode:
+      type: string
+      description: |
+        MALT build mode type to build.
+      pattern: "nucleotide|protein"
+output:
+  - singleref_for_dna:
+      type: file
+      description: |
+        Channel containing the prepared FASTA files for nucleotide sequences in a single FASTA file.
+        Structure: [ val(meta), path(fasta) ]
+      pattern: "*{fasta,fna,fas,fa}"
+  - singleref_for_aa:
+      type: file
+      description: |
+        Channel containing the prepared FASTA files for protein sequences in a single FASTA file.
+        Structure: [ val(meta), path(fasta) ]
+      pattern: "*{fasta,fna,fas,fa}"
+  - grouped_dna_fastas:
+      type: file
+      description: |
+        Channel containing the prepared FASTA files for nucleotide sequences grouped into a singe list element.
+        Structure: [ val(meta), path(fasta) ]
+      pattern: "*{fasta,fna,fas,fa}"
+  - grouped_aa_fastas:
+      type: file
+      description: |
+        Channel containing the prepared FASTA files for protein sequences grouped into a singe list element.
+        Structure: [ val(meta), path(fasta) ]
+      pattern: "*{fasta,fna,fas,fa}"
+  - ungrouped_dna:
+      type: file
+      description: |
+        Channel containing each prepared FASTA file for nucleotide sequences as independent elements.
+        Structure: [ val(meta), path(fasta) ]
+      pattern: "*{fasta,fna,fas,fa}"
+  - ungrouped_aa:
+      type: file
+      description: |
+        Channel containing each prepared FASTA file for protein sequences as independent elements.
+        Structure: [ val(meta), path(fasta) ]
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+  - multiqc_files:
+      type: file
+      description: |
+        File containing files for rendering in MultiQC report
+        Structure: [ path(files) ]
+authors:
+  - "@BioWilko"
+maintainers:
+  - "@BioWilko"

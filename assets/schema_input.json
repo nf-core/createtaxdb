@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/nf-core/createtaxdb/master/assets/schema_input.json",
     "title": "nf-core/createtaxdb pipeline - params.input schema",
     "description": "Schema for the file provided with params.input",
@@ -7,30 +7,52 @@
     "items": {
         "type": "object",
         "properties": {
-            "sample": {
+            "id": {
                 "type": "string",
                 "pattern": "^\\S+$",
-                "errorMessage": "Sample name must be provided and cannot contain spaces"
+                "uniqueItems": true,
+                "errorMessage": "Sequence reference name must be provided and cannot contain spaces",
+                "meta": ["id"]
             },
-            "fastq_1": {
+            "taxid": {
+                "type": "integer",
+                "errorMessage": "Please provide a valid taxonomic ID in integer format",
+                "meta": ["taxid"]
+            },
+            "fasta_dna": {
                 "type": "string",
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+                "format": "file-path",
+                "pattern": "^\\S+\\.(fasta|fas|fa|fna)(\\.gz)?$",
+                "exists": true,
+                "errorMessage": "FASTA file for nucleotide sequence cannot contain spaces and must have a valid FASTA extension (fasta, fna, fa, fas), optionally gzipped"
             },
-            "fastq_2": {
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'",
-                "anyOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.f(ast)?q\\.gz$"
-                    },
-                    {
-                        "type": "string",
-                        "maxLength": 0
-                    }
-                ]
+            "fasta_aa": {
+                "type": "string",
+                "format": "file-path",
+                "pattern": "^\\S+\\.(fasta|fas|fa|faa)(\\.gz)?$",
+                "exists": true,
+                "errorMessage": "FASTA file for amino acid reference sequence cannot contain spaces and must have a valid FASTA extension (fasta, faa, fa, fas), optionally gzipped"
             }
         },
-        "required": ["sample", "fastq_1"]
-    }
+        "required": ["id", "taxid"],
+        "anyOf": [
+            {
+                "required": ["fasta_dna"]
+            },
+            {
+                "required": ["fasta_aa"]
+            }
+        ]
+    },
+    "allOf": [
+        {
+            "uniqueEntries": ["id"]
+        },
+        {
+            "uniqueEntries": ["fasta_dna"]
+        },
+        {
+            "uniqueEntries": ["fasta_aa"]
+        }
+    ]
 }

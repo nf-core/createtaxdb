@@ -1,73 +1,94 @@
-# ![nf-core/createtaxdb](docs/images/nf-core-createtaxdb_logo_light.png#gh-light-mode-only) ![nf-core/createtaxdb](docs/images/nf-core-createtaxdb_logo_dark.png#gh-dark-mode-only)
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-createtaxdb_logo_dark_tax.png">
+    <img alt="nf-core/createtaxdb" src="docs/images/nf-core-createtaxdb_logo_light_tax.png">
+  </picture>
+</h1>
 
-[![GitHub Actions CI Status](https://github.com/nf-core/createtaxdb/workflows/nf-core%20CI/badge.svg)](https://github.com/nf-core/createtaxdb/actions?query=workflow%3A%22nf-core+CI%22)
-[![GitHub Actions Linting Status](https://github.com/nf-core/createtaxdb/workflows/nf-core%20linting/badge.svg)](https://github.com/nf-core/createtaxdb/actions?query=workflow%3A%22nf-core+linting%22)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/createtaxdb/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions CI Status](https://github.com/nf-core/createtaxdb/actions/workflows/ci.yml/badge.svg)](https://github.com/nf-core/createtaxdb/actions/workflows/ci.yml)
+[![GitHub Actions Linting Status](https://github.com/nf-core/createtaxdb/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/createtaxdb/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/createtaxdb/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A524.04.2-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.3.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.3.1)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/nf-core/createtaxdb)
+[![Launch on Seqera Platform](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Seqera%20Platform-%234256e7)](https://cloud.seqera.io/launch?pipeline=https://github.com/nf-core/createtaxdb)
 
-[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23createtaxdb-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/createtaxdb)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
+[![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23createtaxdb-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/createtaxdb)[![Follow on Bluesky](https://img.shields.io/badge/bluesky-%40nf__core-1185fe?labelColor=000000&logo=bluesky)](https://bsky.app/profile/nf-co.re)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
 
 ## Introduction
 
-**nf-core/createtaxdb** is a bioinformatics pipeline that ...
+**nf-core/createtaxdb** is a bioinformatics pipeline that constructs custom metagenomic classifier databases for multiple classifiers and profilers from the same input reference genome set in a highly automated and parallelised manner.
+It supports both nucleotide and protein based classifiers and profilers.
+The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](https://nf-co.re/taxprofiler/) for taxonomic profiling of metagenomic data, but can be used for any context.
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/createtaxdb-metromap-diagram-dark.png">
+    <img alt="nf-core/createtaxdb" src="assets/createtaxdb-metromap-diagram-light.png">
+  </picture>
+</h1>
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
-
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+1. Prepares input FASTA files for building
+2. Builds databases for:
+   - [Bracken](https://doi.org/10.7717/peerj-cs.104)
+   - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
+   - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
+   - [ganon](https://doi.org/10.1093/bioinformatics/btaa458)
+   - [Kaiju](https://doi.org/10.1038/ncomms11257)
+   - [KMCP](https://doi.org/10.1093/bioinformatics/btac845)
+   - [Kraken2](https://doi.org/10.1186/s13059-019-1891-0)
+   - [KrakenUniq](https://doi.org/10.1186/s13059-018-1568-0)
+   - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
 
 ## Usage
 
-:::note
-If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how
-to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline)
-with `-profile test` before running the workflow on actual data.
-:::
+> [!NOTE]
+> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
-
-First, prepare a samplesheet with your input data that looks as follows:
-
-`samplesheet.csv`:
+First, prepare an input CSV table with your input reference genomes that looks as follows:
 
 ```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+id,taxid,fasta_dna,fasta_aa
+Human_Mitochondrial_genome,9606,chrMT.fna,
+SARS-CoV-2_genome,694009,GCA_011545545.1_ASM1154554v1_genomic.fna.gz,GCA_011545545.1_ASM1154554v1_genomic.faa.gz
+Bacteroides_fragilis_genome,817,GCF_016889925.1_ASM1688992v1_genomic.fna.gz,GCF_016889925.1_ASM1688992v1_genomic.faa.gz
+Candidatus_portiera_aleyrodidarum_genome,91844,GCF_000292685.1_ASM29268v1_genomic.fna,GCF_000292685.1_ASM29268v1_genomic.faa
+Haemophilus_influenzae_genome,727,GCF_900478275.1_34211_D02_genomic.fna,GCF_900478275.1_34211_D02_genomic.faa
+Streptococcus_agalactiae_genome,1311,,GCF_002881355.1_ASM288135v1_genomic.faa
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+Each row contains a human readable name, the taxonomic ID of the organism, and then an (optionally gzipped) Nucleotide and/or Amino Acid FASTA file.
 
--->
-
-Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
+Now, with an appropriate set of taxonomy files you can build databases for multiple profilers - such as Kraken2, ganon, and DIAMOND - in parallel:
 
 ```bash
 nextflow run nf-core/createtaxdb \
    -profile <docker/singularity/.../institute> \
    --input samplesheet.csv \
+   --accession2taxid /<path>/<to>/taxonomy/nucl_gb.accession2taxid \
+   --nucl2taxid /<path>/<to>/taxonomy/nucl.accession2taxid.gz \
+   --prot2taxid /<path>/<to>/taxonomy/prot.accession2taxid.gz \
+   --nodesdmp /<path>/<to>/taxonomy/nodes.dmp \
+   --namesdmp /<path>/<to>/taxonomy/names.dmp \
+   --build_kraken2 \
+   --kraken2_build_options='--kmer-len 45' \
+   --build_ganon \
+   --ganon_build_options='--kmer-size 45' \
+   --build_diamond \
+   --diamond_build_options='--no-parse-seqids' \
    --outdir <OUTDIR>
 ```
 
-:::warning
-Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those
-provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
-see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
-:::
+The output directory will contain directories containing the database files for each of the profilers you selected to build.
+Optionally you can also package these as `tar.gz` archives.
+
+You can also generate pre-prepared input sheets for database specifications of pipelines such as [nf-core/taxprofiler](https://nf-co.re/taxprofiler) using `--generate_downstream_samplesheets`.
+
+> [!WARNING]
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/createtaxdb/usage) and the [parameter documentation](https://nf-co.re/createtaxdb/parameters).
 
@@ -79,11 +100,11 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/createtaxdb was originally written by James A. Fellows Yates and the nf-core community.
+nf-core/createtaxdb was originally written by James A. Fellows Yates, Sam Wilkinson, Alexander Ramos Díaz, Lili Andersson-Li and the nf-core community.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- Zandra Fagernäs for logo design
 
 ## Contributions and Support
 
@@ -94,9 +115,7 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 ## Citations
 
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use  nf-core/createtaxdb for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
+<!-- If you use nf-core/createtaxdb for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
