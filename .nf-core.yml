@@ -12,7 +12,7 @@ template:
   skip_features:
     - fastqc
     - igenomes
-  version: 1.0.0
+  version: 1.1.0dev
 lint:
   files_exist:
     - conf/igenomes.config
