@@ -270,3 +270,75 @@ This file should be a tab-separated file with two columns:
 - the taxon ID
 
 To supply this to the pipeline, you can give this to the `--nucl2taxid` parameter, as the Kraken2 `seqid2taxid.map` file is the same as Centrifuge's `--conversion-table` file.
+
+
+## What if my sequence file contains thousands of sequences? Can I use this pipeline?
+
+Yes, it has been shown to work but it has only been tested on Diamond and Kraken2 using NCBI Viral Refseq https://ftp.ncbi.nlm.nih.gov/refseq/release/viral. This approach is useful when you have large multi-sequence fasta files as splitting them into thousands of individual files and determining taxids manually for each sequence is too time consuming and technically difficult.
+
+### Test Case - NCBI Viral Refseq
+Viral RefSeq nucleotide and protein fasta files were downloaded from NCBI. Currently, there are over 18,000 nucleotide and 687,000 protein sequences in the fasta files.
+
+```
+wget https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.1.genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.protein.faa.gz
+```
+
+Then, NCBI taxonomy files were downloaded:
+
+```
+# Get Accession to Taxid files for Nucl and Prot
+wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/nucl_gb.accession2taxid.gz
+wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz
+
+# Get names.dmp and nodes.dmp
+wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdmp.zip
+unzip taxdmp.zip
+```
+
+And a samplesheet was constructed using `taxid` 1 as a dummy value.
+
+```
+id,taxid,fasta_dna,fasta_aa
+ViralRefSeq,1,viralrefseq/viral.1.1.genomic.fna,viralrefseq/viral.1.protein.faa
+```
+
+Finally, the pipeline was executed (Nextflow version 24.10.5) to create a Diamond and Kraken2 database.
+
+```
+nextflow run nf-core/createtaxdb -r 1.0.0 \
+  -c htc_resourceLimits.config \
+  --input samplesheet.csv \
+  --accession2taxid /path/to/nucl_gb.accession2taxid \
+  --prot2taxid /path/to/prot.accession2taxid.gz \
+  --nodesdmp /path/to/nodes.dmp \
+  --namesdmp /path/to/names.dmp \
+  --build_diamond \
+  --diamond_build_options='--no-parse-seqids' \
+  --build_kraken2 \
+  --dbname vrs \
+  --outdir results
+```
+
+### Testing the Diamond and Kraken2 databases
+
+To test that the databases were built properly, Diamond and Kraken2 was run using a viral nucleotide sequence and it successfully returns the taxonomy IDs for the hits:
+
+```
+diamond blastx --query tag.cdna.fa --db results/diamond/vrs-diamond.dmnd -f 6 staxids stitle sscinames pident evalue
+
+1891767	NP_043127.1 large T antigen [Betapolyomavirus macacae]	Betapolyomavirus macacae	100	0.0
+1236395	YP_009111344.1 large T antigen [Betapolyomavirus cercopitheci]	Betapolyomavirus cercopitheci	75.2	0.0
+```
+
+```
+kraken2 --db results/kraken2/vrs-kraken2 --output kraken_output.txt --report kraken_report.txt --use-names tag.cdna.fa
+
+cat kraken_output.txt 
+C       tag.cdna        Betapolyomavirus macacae (taxid 1891767)        2127    1891767:70 0:38 1891767:17 151341:5 1891714:2 1891767:80 0:29 1891767:134 1891714:5 1891767:64 151341:5 1891767:75 1891714:5 1891767:431 0:42 1891767:217 0:38 1891767:70 1891714:2 1891767:151 151341:1 1891714:5 1891767:52 1891714:7 1891767:548
+```
+
+### Summary
+Running the pipeline with sequence files containing thousands of sequences (currently only tested for Diamond and Kraken2 database building) will work with this pipeline. The key point is to use a dummy `taxid` value, `1` in this example, when creating your samplesheet.
+
+
