@@ -281,10 +281,10 @@ For example, if you want to use a pre-compiled NCBI RefSeq dataset (such as the 
 In these cases having to split the very large FASTA files into many independent files will be time- and disk storage consuming.
 Furthermore, this splitting may not be technically trivial when a particular genome has more than one chromosome or genetic element (e.g. plasmids).
 
-It is possible to use nf-core/createtaxdb to build databases from a single input FASTA file - even it is not the primary purpose of pipeline (which is more designed for highly customised/curated databases construction) - albeit with the caveat not all profiling building tools will support this.
+It is possible to use nf-core/createtaxdb to build databases from a single input FASTA file - even if it is not the primary purpose of pipeline (which is more designed for highly customised/curated databases construction) - albeit with the caveat that not all profiling building tools will support this.
 
 :::warning
-This work around is not official supported!
+This work around is not officially supported!
 :::
 
 ### Solution
@@ -292,9 +292,9 @@ This work around is not official supported!
 Generally, you just need to supply a single row to your `--input` pointing to your fasta, and specify a 'dummy' taxid (e.g. `1`).
 
 :::warning
-This solution only works where a tool does not require user input of taxonomy IDs (i.e.,, the tool retrieves these themselves from taxonomy files)!
+This solution only works where a tool does not require user input of taxonomy IDs (i.e. the tool retrieves these themselves from taxonomy files)!
 
-At the time of writing, this system will not work for building `ganon` databses!
+At the time of writing, this system will not work for building `ganon` databases!
 :::
 
 ### Example
@@ -344,14 +344,14 @@ $ nextflow run nf-core/createtaxdb -r 1.0.0 \
   --outdir results/
 ```
 
-To validate that the databases were built properly and are functional, Kraken2 and DIAMOND were executed using a viral nucleotide sequence that is known to be present in the NCBI viral RefSeq dataset.
+To validate that the databases were built properly and are functional, Kraken2 and DIAMOND were executed using a viral nucleotide sequence that is known to be present in the NCBI Viral RefSeq dataset.
 
-In both cases, they successfully returns the taxonomy IDs for the hits.
+In both cases, they successfully return the taxonomy IDs for the hits.
 
 For DIAMOND:
 
 ```bash
-$ diamond blastx --query tag.cdna.fa --db results/diamond/vrs-diamond.dmnd -f 6 staxids stitle sscinames pident evalue -o diamond_output.txt
+$ diamond blastx --query tag.cdna.fa --db results/diamond/ncbi_refseq_viral-diamond.dmnd -f 6 staxids stitle sscinames pident evalue -o diamond_output.txt
 ```
 
 The content of `diamond_output.txt` looks like:
@@ -364,7 +364,7 @@ The content of `diamond_output.txt` looks like:
 And for Kraken2:
 
 ```bash
-$ kraken2 --db results/kraken2/vrs-kraken2 --output kraken_output.txt --report kraken_report.txt --use-names tag.cdna.fa
+$ kraken2 --db results/kraken2/ncbi_refseq_viral-kraken2 --output kraken_output.txt --report kraken_report.txt --use-names tag.cdna.fa
 ```
 
 The contents of `kraken_output.txt` looks like
