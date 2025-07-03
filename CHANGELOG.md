@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- [#108](https://github.com/nf-core/createtaxdb/pull/108) - Document workaround for building databases from single FASTA files, e.g. from NCBI RefSeq (by @pcantalupo)
+
 ### `Fixed`
 
 ### `Dependencies`

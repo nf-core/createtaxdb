@@ -104,7 +104,8 @@ nf-core/createtaxdb was originally written by James A. Fellows Yates, Sam Wilkin
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-- Zandra Fagernäs for logo design
+- Zandra Fagernäs (@ZandraFagernas) for logo design
+- Paul Cantalupo (@pcantalupo) for additional documentation
 
 ## Contributions and Support
 
