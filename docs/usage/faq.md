@@ -323,7 +323,7 @@ unzip taxdmp.zip
 
 A samplesheet was constructed using `taxid` 1 as a dummy value.
 
-```csv
+```title="samplesheet.csv"
 id,taxid,fasta_dna,fasta_aa
 ViralRefSeq,1,viralrefseq/viral.1.1.genomic.fna,viralrefseq/viral.1.protein.faa
 ```
