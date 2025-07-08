@@ -1,0 +1,80 @@
+{
+    "sarscov2 - fasta - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genome.fna:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "proteome.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,032c681af9f6334832468597cfadc5dc"
+                ],
+                "fastx": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genome.fna:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "proteome.fasta:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,032c681af9f6334832468597cfadc5dc"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-06-06T09:11:48.366467452"
+    },
+    "sarscov2 - fasta - replace": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genome.fna:md5,725d06d8193c9af76a4c1cc2fe3d01d8",
+                            "proteome.fasta:md5,759d2bc37dfd4b294e29191ab9271022"
+                        ]
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,032c681af9f6334832468597cfadc5dc"
+                ],
+                "fastx": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genome.fna:md5,725d06d8193c9af76a4c1cc2fe3d01d8",
+                            "proteome.fasta:md5,759d2bc37dfd4b294e29191ab9271022"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,032c681af9f6334832468597cfadc5dc"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-06-06T09:11:40.638613077"
+    }
+}
