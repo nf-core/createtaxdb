@@ -1,7 +1,8 @@
 lint:
-  files_unchanged:
-    - .github/workflows/linting.yml
-nf_core_version: 3.3.1
+  files_exist:
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+nf_core_version: 3.3.2
 repository_type: pipeline
 template:
   author: James A. Fellows Yates and the nf-core community
@@ -15,4 +16,4 @@ template:
   skip_features:
     - fastqc
     - igenomes
-  version: 1.0dev
+  version: 1.1.0dev
