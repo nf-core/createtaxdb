@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "sourmash_create"
+description: |
+  Sketch the signatures of input genomes (FastA files) in batches and then
+  create an index (reference database) from those.
+keywords:
+  - metagenomics
+  - sourmash
+  - database
+  - build
+  - custom
+components:
+  - sourmash/sketch
+  - sourmash/index
+input:
+  - ch_fasta:
+      type: file
+      description: |
+        Channel of the ungrouped DNA FastA files to be sketched. One channel element per FastA file.
+        Structure: [ val(meta), path(fasta) ]
+      pattern: "*.{fasta,fa,fna}"
+  ## TODO: Fix description for taxonomy.
+  - ch_taxonomy:
+      type: file
+      description: |
+        Channel containing taxonomy information for the input FastA files.
+        Structure: [ val(meta), path(taxonomy) ]
+      pattern: "*"
+## TODO nf-core: List all of the channels used as output with a descriptions and their structure
+output:
+  - db:
+      type: file
+      description: |
+        Channel containing KMCP database directory files.
+        Use `ext.prefix` in a modules.conf file to change default name
+        Structure: [ val(meta), path(db) ]
+      pattern: "*/"
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+authors:
+  - "@Midnighter"
+maintainers:
+  - "@Midnighter"
