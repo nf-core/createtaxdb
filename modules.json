@@ -89,7 +89,8 @@
                     "sourmash/sketch": {
                         "branch": "master",
                         "git_sha": "30c7adaae047db8e06f71386eb6059fdd1ea6b13",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/sourmash/sketch/sourmash-sketch.diff"
                     },
                     "tar": {
                         "branch": "master",

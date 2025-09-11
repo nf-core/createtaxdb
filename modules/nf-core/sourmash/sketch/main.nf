@@ -8,7 +8,7 @@ process SOURMASH_SKETCH {
         'biocontainers/sourmash:4.9.4--hdfd78af_0' }"
 
     input:
-    tuple val(meta), path(sequence)
+    tuple val(meta), path(library, stageAs: 'library/*')
 
     output:
     tuple val(meta), path("*.sig"), emit: signatures
@@ -19,14 +19,16 @@ process SOURMASH_SKETCH {
 
     script:
     // required defaults for the tool to run, but can be overridden
-    def args = task.ext.args ?: "dna --param-string 'scaled=1000,k=21,k=31,k=51,abund'"
+    def args = task.ext.args ?: "dna --param-string 'scaled=1000,k=21,k=31,k=51,noabund'"
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
+    ls library/* > library.txt
+
     sourmash sketch \\
         $args \\
         --merge '${prefix}' \\
         --output '${prefix}.sig' \\
-        $sequence
+        --from-file library.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -35,8 +37,17 @@ process SOURMASH_SKETCH {
     """
 
     stub:
+    def args = task.ext.args ?: "dna --param-string 'scaled=1000,k=21,k=31,k=51,noabund'"
     def prefix = task.ext.prefix   ?: "${meta.id}"
     """
+    ls library/* > library.txt
+
+    echo sourmash sketch \\
+        $args \\
+        --merge '${prefix}' \\
+        --output '${prefix}.sig' \\
+        --from-file library.txt
+
     touch ${prefix}.sig
 
     cat <<-END_VERSIONS > versions.yml

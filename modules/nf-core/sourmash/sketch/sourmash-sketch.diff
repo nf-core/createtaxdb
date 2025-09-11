@@ -1,0 +1,56 @@
+Changes in component 'nf-core/sourmash/sketch'
+'modules/nf-core/sourmash/sketch/meta.yml' is unchanged
+Changes in 'sourmash/sketch/main.nf':
+--- modules/nf-core/sourmash/sketch/main.nf
++++ modules/nf-core/sourmash/sketch/main.nf
+@@ -8,7 +8,7 @@
+         'biocontainers/sourmash:4.9.4--hdfd78af_0' }"
+ 
+     input:
+-    tuple val(meta), path(sequence)
++    tuple val(meta), path(library, stageAs: 'library/*')
+ 
+     output:
+     tuple val(meta), path("*.sig"), emit: signatures
+@@ -19,14 +19,16 @@
+ 
+     script:
+     // required defaults for the tool to run, but can be overridden
+-    def args = task.ext.args ?: "dna --param-string 'scaled=1000,k=21,k=31,k=51,abund'"
++    def args = task.ext.args ?: "dna --param-string 'scaled=1000,k=21,k=31,k=51,noabund'"
+     def prefix = task.ext.prefix ?: "${meta.id}"
+     """
++    ls library/* > library.txt
++
+     sourmash sketch \\
+         $args \\
+         --merge '${prefix}' \\
+         --output '${prefix}.sig' \\
+-        $sequence
++        --from-file library.txt
+ 
+     cat <<-END_VERSIONS > versions.yml
+     "${task.process}":
+@@ -35,8 +37,17 @@
+     """
+ 
+     stub:
++    def args = task.ext.args ?: "dna --param-string 'scaled=1000,k=21,k=31,k=51,noabund'"
+     def prefix = task.ext.prefix   ?: "${meta.id}"
+     """
++    ls library/* > library.txt
++
++    echo sourmash sketch \\
++        $args \\
++        --merge '${prefix}' \\
++        --output '${prefix}.sig' \\
++        --from-file library.txt
++
+     touch ${prefix}.sig
+ 
+     cat <<-END_VERSIONS > versions.yml
+
+'modules/nf-core/sourmash/sketch/environment.yml' is unchanged
+'modules/nf-core/sourmash/sketch/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/sourmash/sketch/tests/main.nf.test' is unchanged
+************************************************************
