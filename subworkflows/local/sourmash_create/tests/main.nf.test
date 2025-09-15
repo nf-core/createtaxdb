@@ -9,27 +9,33 @@ nextflow_workflow {
     tag "subworkflows"
     tag "subworkflows_"
     tag "subworkflows/sourmash_create"
-    // TODO nf-core: Add tags for all modules used within this subworkflow. Example:
-    tag "samtools"
-    tag "samtools/sort"
-    tag "samtools/index"
+    tag "sourmash"
+    tag "sourmash/sketch"
+    tag "sourmash/index"
 
 
     // TODO nf-core: Change the test name preferably indicating the test-data and file-format used
-    test("sarscov2 - bam - single_end") {
+    test("library - fasta - batch size 1") {
 
         when {
             workflow {
                 """
-                // TODO nf-core: define inputs of the workflow here. Example:
-                input[0] = [
-                    [ id:'test', single_end:false ], // meta map
-                    file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/bam/test.paired_end.sorted.bam', checkIfExists: true),
-                ]
-                input[1] = [
-                    [ id:'genome' ],
-                    file(params.modules_testdata_base_path + 'genomics/sarscov2/illumina/bam/test.paired_end.sorted.bam', checkIfExists: true),
-                ]
+                input[0] = channel.of(
+                    [
+                        [ id:'E. coli' ],
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa', checkIfExists: true),
+                    ],
+                    [
+                        [ id:'B. fragilis' ],
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true),
+                    ],
+                    [
+                        [ id:'H. influenzae' ],
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/haemophilus_influenzae/genome/genome.fna.gz', checkIfExists: true),
+                    ],
+                )
+                input[1] = 1
+                input[2] = 31
                 """
             }
         }
@@ -38,7 +44,6 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success},
                 { assert snapshot(workflow.out).match()}
-                //TODO nf-core: Add all required assertions to verify the test output.
             )
         }
     }
