@@ -13,32 +13,36 @@ components:
   - sourmash/sketch
   - sourmash/index
 input:
-  - ch_fasta:
+  - ch_library:
       type: file
       description: |
-        Channel of the ungrouped DNA FastA files to be sketched. One channel element per FastA file.
-        Structure: [ val(meta), path(fasta) ]
+        Channel of the grouped DNA FastA files to be sketched. The channel must
+        have only one element which is a pair of the database meta information
+        and a list of FastA files.
+        Structure: [ val(meta), [ path(fasta) ] ]
       pattern: "*.{fasta,fa,fna}"
-  ## TODO: Fix description for taxonomy.
-  - ch_taxonomy:
-      type: file
+  - batch_size:
+      type: integer
       description: |
-        Channel containing taxonomy information for the input FastA files.
-        Structure: [ val(meta), path(taxonomy) ]
-      pattern: "*"
-## TODO nf-core: List all of the channels used as output with a descriptions and their structure
+        A single value for the batch size to use with sourmash sketch.
+        Structure: val(batch_size)
+  - kmer_size:
+      type: integer
+      description: |
+        A single value for the k-mer size to use with sourmash index. Typically
+        the value 31 is used.
+        Structure: val(kmer_size)
 output:
-  - db:
+  - index:
       type: file
       description: |
-        Channel containing KMCP database directory files.
-        Use `ext.prefix` in a modules.conf file to change default name
+        Channel containing a single sourmash index file.
         Structure: [ val(meta), path(db) ]
-      pattern: "*/"
+      pattern: "*.{sbt.zip}"
   - versions:
       type: file
       description: |
-        File containing software versions
+        File containing software versions.
         Structure: [ path(versions.yml) ]
       pattern: "versions.yml"
 authors:
