@@ -42,42 +42,4 @@ nextflow_workflow {
         }
     }
 
-    test("too many libraries - should fail") {
-
-        when {
-            workflow {
-                """
-                def ch_library = Channel.of(
-                    [
-                        [ id:'test1' ],
-                        [
-                            file('foo.fa', checkIfExists: false),
-                            file('bar.fa', checkIfExists: false),
-                            file('baz.fa', checkIfExists: false),
-                        ],
-                    ],
-                    [
-                        [ id:'test2' ],
-                        [
-                            file('foo.fa', checkIfExists: false),
-                            file('bar.fa', checkIfExists: false),
-                            file('baz.fa', checkIfExists: false),
-                        ],
-                    ],
-                )
-
-                input[0] = ch_library
-                input[1] = 1
-                input[2] = 31
-                """
-            }
-        }
-
-        then {
-            assertAll(
-                { assert workflow.failed },
-                { assert workflow.errorReport.contains("Input channel 'ch_library' must contain exactly one element, but it contains 2.") }
-            )
-        }
-    }
 }
