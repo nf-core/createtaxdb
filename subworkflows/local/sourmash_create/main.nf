@@ -54,6 +54,6 @@ workflow SOURMASH_CREATE {
     ch_versions = ch_versions.mix(SOURMASH_INDEX.out.versions.first())
 
     emit:
-    index    = SOURMASH_INDEX.out.signature_index // channel: [ val(meta), index ]
+    db       = SOURMASH_INDEX.out.signature_index // channel: [ val(meta), index ]
     versions = ch_versions // channel: [ versions.yml ]
 }

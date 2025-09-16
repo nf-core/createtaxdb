@@ -33,7 +33,7 @@ input:
         the value 31 is used.
         Structure: val(kmer_size)
 output:
-  - index:
+  - db:
       type: file
       description: |
         Channel containing a single sourmash index file.
