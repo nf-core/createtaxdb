@@ -27,6 +27,7 @@ include { TAR                              } from '../modules/nf-core/tar/main'
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN  } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
 include { KMCP_CREATE                      } from '../subworkflows/local/kmcp_create/main.nf'
+include { SOURMASH_CREATE                  } from '../subworkflows/local/sourmash_create/main.nf'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -196,6 +197,20 @@ workflow CREATETAXDB {
         ch_kmcp_output = Channel.empty()
     }
 
+    // SUBWORKFLOW: Run SOURMASH_CREATE
+    if (params.build_sourmash) {
+        SOURMASH_CREATE(
+            PREPROCESSING.out.grouped_dna_fastas,
+            params.sourmash_batch_size,
+            params.sourmash_kmer_size,
+        )
+        ch_sourmash_output = SOURMASH_CREATE.out.db
+        ch_versions = ch_versions.mix(SOURMASH_CREATE.out.versions.first())
+    }
+    else {
+        ch_sourmash_output = Channel.empty()
+    }
+
     //
     // Aggregate all databases for downstream processes
     //
@@ -209,6 +224,7 @@ workflow CREATETAXDB {
             ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq"], db] },
             ch_malt_output.map { db -> [[id: params.dbname, tool: "malt"], db] },
             ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp"], db] },
+            ch_sourmash_output.map { meta, db -> [meta + [tool: "sourmash"], db] },
         )
 
     //

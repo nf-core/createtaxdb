@@ -266,6 +266,25 @@
                     "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "default": "--sequenceType DNA",
                     "fa_icon": "fas fa-users-cog"
+                },
+                "build_sourmash": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Whether to build a sourmash database. Requires nucleotide FASTA file input."
+                },
+                "sourmash_batch_size": {
+                    "type": "integer",
+                    "default": 100,
+                    "fa_icon": "fas fa-users-cog",
+                    "minimum": 1,
+                    "description": "Sourmash can perform the main build step in parallel batches. Set the size of the batches."
+                },
+                "sourmash_kmer_size": {
+                    "type": "integer",
+                    "default": 31,
+                    "fa_icon": "fas fa-users-cog",
+                    "minimum": 3,
+                    "description": "A sourmash database is built for a particular k-mer size. This must be one of the k-mer sizes configured for the sourmash/sketch process."
                 }
             },
             "fa_icon": "fas fa-database"

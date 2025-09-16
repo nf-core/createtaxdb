@@ -56,6 +56,7 @@ nextflow_pipeline {
                         path("$outputDir/kmcp/database-kmcp-index/R001/__name_mapping.tsv").exists(),
                         "kmcp/database-kmcp-index.log - contains string: ${path("$outputDir/kmcp/database-kmcp-index.log").readLines().any{ it.contains('k-mers saved to database-kmcp-index')}}",
                         "kmcp/database-kmcp.tar.gz - minimum file size: ${file("$outputDir/kmcp/database-kmcp.tar.gz").length() >= 3200000}",
+                        "sourmash/database-sourmash.sbt.zip - exists: ${path("$outputDir/sourmash/database-sourmash.sbt.zip").exists()}",
                         "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 9}",
                     ).match()
                 },
