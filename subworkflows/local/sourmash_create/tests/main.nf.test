@@ -17,22 +17,16 @@ nextflow_workflow {
         when {
             workflow {
                 """
-                def ch_genomes = Channel.of(
+                def ch_library = Channel.of([
+                    [ id:'test' ],
                     [
-                        [ id:'E. coli' ],
                         file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa', checkIfExists: true),
-                    ],
-                    [
-                        [ id:'B. fragilis' ],
                         file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true),
-                    ],
-                    [
-                        [ id:'S. agalactiae' ],
                         file(params.modules_testdata_base_path + 'genomics/prokaryotes/streptococcus_agalactiae/genome/emu/species_taxid.fasta', checkIfExists: true),
-                    ]
-                )
+                    ],
+                ])
 
-                input[0] = ch_genomes
+                input[0] = ch_library
                 input[1] = 1
                 input[2] = 31
                 """
@@ -41,9 +35,48 @@ nextflow_workflow {
 
         then {
             assertAll(
-                { assert workflow.success},
-                { assert file(workflow.out.index.get(0).get(1)).name == 'all.sbt.zip' },
+                { assert workflow.success },
+                { assert file(workflow.out.index.get(0).get(1)).name == 'test.sbt.zip' },
                 { assert snapshot(workflow.out.versions).match('versions') }
+            )
+        }
+    }
+
+    test("too many libraries - should fail") {
+
+        when {
+            workflow {
+                """
+                def ch_library = Channel.of(
+                    [
+                        [ id:'test1' ],
+                        [
+                            file('foo.fa', checkIfExists: false),
+                            file('bar.fa', checkIfExists: false),
+                            file('baz.fa', checkIfExists: false),
+                        ],
+                    ],
+                    [
+                        [ id:'test2' ],
+                        [
+                            file('foo.fa', checkIfExists: false),
+                            file('bar.fa', checkIfExists: false),
+                            file('baz.fa', checkIfExists: false),
+                        ],
+                    ],
+                )
+
+                input[0] = ch_library
+                input[1] = 1
+                input[2] = 31
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.failed },
+                { assert workflow.errorReport.contains("Input channel 'ch_library' must contain exactly one element, but it contains 2.") }
             )
         }
     }
