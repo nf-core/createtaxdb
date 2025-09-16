@@ -10,7 +10,7 @@ workflow SOURMASH_CREATE {
     main:
 
     // The logic in this subworkflow assumes that ch_library has only one element.
-    ch_library.count().map { it == 1 || error("Input channel 'ch_library' must contain exactly one element, but it contains ${it}.") }
+    ch_library.count().map { it == 0 || it == 1 || error("Input channel 'ch_library' must contain exactly one element, but it contains ${it}.") }
 
     ch_versions = Channel.empty()
 
