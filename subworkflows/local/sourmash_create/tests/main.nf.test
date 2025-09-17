@@ -36,7 +36,7 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert file(workflow.out.db.get(0).get(1)).name == 'test.sbt.zip' },
+                { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash.sbt.zip' },
                 { assert snapshot(workflow.out.versions).match('versions') }
             )
         }
