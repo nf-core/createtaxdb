@@ -75,3 +75,7 @@
 - [SeqKit2](https://doi.org/10.1002/imt2.191)
 
 > Shen, W., Sipos, B., & Zhao, L. (2024). SeqKit2: A Swiss army knife for sequence and alignment processing. iMeta, e191. https://doi.org/10.1002/imt2.191
+
+- [sourmash](https://doi.org/10.21105/joss.00027)
+
+  > Titus Brown, C., & Irber, L. (2016). sourmash: A library for MinHash sketching of DNA. _The Journal of Open Source Software_, 1(5), 27. https://doi.org/10.21105/joss.00027
