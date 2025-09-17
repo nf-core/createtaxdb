@@ -41,12 +41,13 @@
             true,
             "kmcp/database-kmcp-index.log - contains string: true",
             "kmcp/database-kmcp.tar.gz - minimum file size: true",
+            "sourmash/database-sourmash.sbt.zip - exists: true",
             "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true"
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.04.2"
         },
-        "timestamp": "2025-06-05T11:34:20.971286311"
+        "timestamp": "2025-09-17T11:51:07.064391127"
     }
 }
