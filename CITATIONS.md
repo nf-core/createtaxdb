@@ -54,9 +54,9 @@
 
   > Shen, W., Sipos, B., & Zhao, L. (2024). SeqKit2: A Swiss army knife for sequence and alignment processing. iMeta, e191. https://doi.org/10.1002/imt2.191
 
-- [sourmash](https://doi.org/10.21105/joss.00027)
+- [sourmash](https://doi.org/10.21105/joss.06830)
 
-  > Titus Brown, C., & Irber, L. (2016). sourmash: A library for MinHash sketching of DNA. _The Journal of Open Source Software_, 1(5), 27. https://doi.org/10.21105/joss.00027
+  > Irber, L., Pierce-Ward, N. T., Abuelanin, M., Alexander, H., Anant, A., Barve, K., Baumler, C., Botvinnik, O., Brooks, P., Dsouza, D., Gautier, L., Hera, M. R., Houts, H. E., Johnson, L. K., Klötzl, F., Koslicki, D., Lim, M., Lim, R., Nelson, B., ... Brown, C. T. (2024). sourmash v4: A multitool to quickly search, compare,and analyze genomic and metagenomic data sets. Journal of Open Source Software, 9(98), 6830. https://doi.org/10.21105/joss.06830
 
 ## Software packaging/containerisation tools
 
