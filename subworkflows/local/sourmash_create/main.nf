@@ -3,9 +3,9 @@ include { SOURMASH_INDEX  } from '../../../modules/nf-core/sourmash/index/main'
 
 workflow SOURMASH_CREATE {
     take:
-    ch_library // channel: [ val(meta), [fasta] ]
+    ch_library    // channel: [ val(meta), [fasta] ]
+    kmer_sizes
     batch_size
-    kmer_size
 
     main:
 
@@ -31,13 +31,18 @@ workflow SOURMASH_CREATE {
     ch_versions = ch_versions.mix(SOURMASH_SKETCH.out.versions.first())
 
     // Drop the batch identifiers and flatten the batches. Then add the original
-    // database name.
+    // database name and index the signatures per k-mer size.
     def ch_index_input = SOURMASH_SKETCH.out.signatures
         .map { meta, signatures -> [meta.db, signatures] }
         .groupTuple()
-        .map { db, signatures -> [[id: db], signatures.flatten()] }
+        .map { db, signatures -> [[id: db, kmer_size: 1], signatures.flatten()] }
+        .combine(kmer_sizes)
+        .multiMap { meta, signatures, kmer_size ->
+            signatures: [meta + [kmer_size: kmer_size], signatures]
+            kmer_size: kmer_size
+        }
 
-    SOURMASH_INDEX(ch_index_input, kmer_size)
+    SOURMASH_INDEX(ch_index_input.signatures, ch_index_input.kmer_size)
 
     ch_versions = ch_versions.mix(SOURMASH_INDEX.out.versions.first())
 
