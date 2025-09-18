@@ -5,9 +5,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### `Added`
+
+- [#111](https://github.com/nf-core/createtaxdb/pull/111) - Added sourmash
+  reference building both for genomes and proteomes (by @Midnighter).
+
 ### `Fixed`
 
-- Corrected the documented structures of the grouped output from the `PREPROCESSING` subworkflow.
+- [#110](https://github.com/nf-core/createtaxdb/pull/110) - Corrected the
+  documented structures of the grouped output from the `PREPROCESSING` subworkflow
+  (by @Midnighter).
 
 ## v1.1.0dev - [date]
 
