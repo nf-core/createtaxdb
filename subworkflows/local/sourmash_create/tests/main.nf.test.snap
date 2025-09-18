@@ -1,5 +1,5 @@
 {
-    "versions": {
+    "dna-versions": {
         "content": [
             [
                 "versions.yml:md5,b27a2ac68adfe933ae2cda2e6ca4cfea",
@@ -10,6 +10,19 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.7"
         },
-        "timestamp": "2025-09-15T22:55:37.030417096"
+        "timestamp": "2025-09-18T16:12:58.677084083"
+    },
+    "protein-versions": {
+        "content": [
+            [
+                "versions.yml:md5,b27a2ac68adfe933ae2cda2e6ca4cfea",
+                "versions.yml:md5,d09fa3adb25645cb6407396a0544a7cc"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.7"
+        },
+        "timestamp": "2025-09-18T21:16:30.821601181"
     }
 }
