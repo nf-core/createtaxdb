@@ -214,7 +214,8 @@ The `malt_index` directory can be given to MALT itself with `malt-run --index <y
 <summary>Output files</summary>
 
 - `sourmash/`
-  - `<your_database>-sourmash.sbt.zip`: Default sourmash database file
+  - `<your_database>-sourmash-dna-31mer.sbt.zip`: Default sourmash DNA database file
+  - `<your_database>-sourmash-protein-11mer.sbt.zip`: Default sourmash AA database file
 
 </details>
 
