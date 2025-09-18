@@ -267,10 +267,27 @@
                     "default": "--sequenceType DNA",
                     "fa_icon": "fas fa-users-cog"
                 },
-                "build_sourmash": {
+                "build_sourmash_dna": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Whether to build a sourmash database. Requires nucleotide FASTA file input."
+                    "description": "Whether to build a sourmash reference from the provided genomes."
+                },
+                "sourmash_build_dna_options": {
+                    "type": "string",
+                    "default": "--param-string \\'scaled=1000,k=31,noabund\\",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Must be a single parameter string passed to sourmash sketch dna."
+                },
+                "build_sourmash_protein": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Whether to build a sourmash reference from the provided proteomes."
+                },
+                "sourmash_build_protein_options": {
+                    "type": "string",
+                    "default": "--param-string \\'scaled=100,k=11,noabund\\",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Must be a single parameter string passed to sourmash sketch protein."
                 },
                 "sourmash_batch_size": {
                     "type": "integer",
@@ -278,13 +295,6 @@
                     "fa_icon": "fas fa-users-cog",
                     "minimum": 1,
                     "description": "Sourmash can perform the main build step in parallel batches. Set the size of the batches."
-                },
-                "sourmash_kmer_size": {
-                    "type": "integer",
-                    "default": 31,
-                    "fa_icon": "fas fa-users-cog",
-                    "minimum": 3,
-                    "description": "A sourmash database is built for a particular k-mer size. This must be one of the k-mer sizes configured for the sourmash/sketch process."
                 }
             },
             "fa_icon": "fas fa-database"
