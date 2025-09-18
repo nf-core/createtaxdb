@@ -220,18 +220,36 @@ workflow CREATETAXDB {
         ch_kmcp_output = Channel.empty()
     }
 
-    // SUBWORKFLOW: Run SOURMASH_CREATE
-    if (params.build_sourmash) {
-        SOURMASH_CREATE(
+    // SUBWORKFLOW: Run SOURMASH_CREATE_DNA
+    if (params.build_sourmash_dna) {
+        SOURMASH_CREATE_DNA(
             PREPROCESSING.out.grouped_dna_fastas,
+            Channel.fromList(parse_kmer_sizes(params.sourmash_build_dna_options)),
             params.sourmash_batch_size,
-            params.sourmash_kmer_size,
         )
-        ch_sourmash_output = SOURMASH_CREATE.out.db
-        ch_versions = ch_versions.mix(SOURMASH_CREATE.out.versions.first())
+
+        ch_versions = ch_versions.mix(SOURMASH_CREATE_DNA.out.versions.first())
+
+        ch_sourmash_dna_output = SOURMASH_CREATE_DNA.out.db
     }
     else {
-        ch_sourmash_output = Channel.empty()
+        ch_sourmash_dna_output = Channel.empty()
+    }
+
+    // SUBWORKFLOW: Run SOURMASH_CREATE_PROTEIN
+    if (params.build_sourmash_protein) {
+        SOURMASH_CREATE_PROTEIN(
+            PREPROCESSING.out.grouped_aa_fastas,
+            Channel.fromList(parse_kmer_sizes(params.sourmash_build_protein_options)),
+            params.sourmash_batch_size,
+        )
+
+        ch_versions = ch_versions.mix(SOURMASH_CREATE_PROTEIN.out.versions.first())
+
+        ch_sourmash_protein_output = SOURMASH_CREATE_DNA.out.db.mix(SOURMASH_CREATE_PROTEIN.out.db)
+    }
+    else {
+        ch_sourmash_protein_output = Channel.empty()
     }
 
     //
@@ -239,15 +257,16 @@ workflow CREATETAXDB {
     //
     ch_all_databases = Channel.empty()
         .mix(
-            ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge"], db] },
-            ch_diamond_output.map { meta, db -> [meta + [tool: "diamond"], db] },
-            ch_ganon_output.map { meta, db -> [meta + [tool: "ganon"], db] },
-            ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju"], db] },
-            ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2"], db] },
-            ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq"], db] },
-            ch_malt_output.map { db -> [[id: params.dbname, tool: "malt"], db] },
-            ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp"], db] },
-            ch_sourmash_output.map { meta, db -> [meta + [tool: "sourmash"], db] },
+            ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge", type: 'dna'], db] },
+            ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'dna'], db] },
+            ch_ganon_output.map { meta, db -> [meta + [tool: "ganon", type: 'dna'], db] },
+            ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju", type: 'dna'], db] },
+            ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2", type: 'dna'], db] },
+            ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq", type: 'dna'], db] },
+            ch_malt_output.map { db -> [[id: params.dbname, tool: "malt", type: 'dna'], db] },
+            ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp", type: 'dna'], db] },
+            ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
+            ch_sourmash_protein_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
         )
 
     //
