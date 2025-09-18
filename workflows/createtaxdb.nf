@@ -246,7 +246,7 @@ workflow CREATETAXDB {
 
         ch_versions = ch_versions.mix(SOURMASH_CREATE_PROTEIN.out.versions.first())
 
-        ch_sourmash_protein_output = SOURMASH_CREATE_DNA.out.db.mix(SOURMASH_CREATE_PROTEIN.out.db)
+        ch_sourmash_protein_output = SOURMASH_CREATE_PROTEIN.out.db
     }
     else {
         ch_sourmash_protein_output = Channel.empty()
