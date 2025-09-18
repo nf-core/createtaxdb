@@ -32,6 +32,27 @@ include { SOURMASH_CREATE as SOURMASH_CREATE_PROTEIN } from '../subworkflows/loc
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    FUNCTION DEFINITIONS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+/**
+ * Parse k-mer sizes from a sourmash build options string.
+ *
+ * @param build_options The sourmash build options string.
+ * @return A list of k-mer sizes as integers.
+ */
+def parse_kmer_sizes(build_options) {
+    if ((build_options =~ /(-p|--param-string)/).size() != 1) {
+        throw new IllegalArgumentException("Error parsing k-mer sizes from sourmash build options: ${build_options}. Please provide exactly one '-p' or '--param-string' argument.")
+    }
+
+    def matches = build_options =~ /k=(\d+)/
+    return matches.collect { match -> match[1] as Integer }
+}
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */

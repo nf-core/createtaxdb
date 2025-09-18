@@ -1,0 +1,86 @@
+
+nextflow_function {
+
+    name "Test Functions"
+    script "./createtaxdb.nf"
+    function "parse_kmer_sizes"
+
+    test("Test parse_kmer_sizes with single correct k-mer") {
+
+        when {
+            function {
+                """
+                input[0] = "--param-string 'k=21'"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result == [21]
+        }
+    }
+
+    test("Test parse_kmer_sizes with multiple correct k-mers") {
+
+        when {
+            function {
+                """
+                input[0] = "-p 'k=21,k=31,k=51'"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result == [21, 31, 51]
+        }
+    }
+
+    test("Test parse_kmer_sizes without k-mers") {
+
+        when {
+            function {
+                """
+                input[0] = "-p 'scaled=1000,noabund'"
+                """
+            }
+        }
+
+        then {
+            assert function.success
+            assert function.result == []
+        }
+    }
+
+    test("Test parse_kmer_sizes failure with multiple parameters") {
+
+        when {
+            function {
+                """
+                input[0] = "-p 'k=21,k=31 --param-string scaled=1000'"
+                """
+            }
+        }
+
+        then {
+            assert function.failed
+        }
+    }
+
+    test("Test parse_kmer_sizes failure without parameters") {
+
+        when {
+            function {
+                """
+                input[0] = "--verbose"
+                """
+            }
+        }
+
+        then {
+            assert function.failed
+        }
+    }
+
+}
