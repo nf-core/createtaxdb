@@ -219,7 +219,8 @@ The `malt_index` directory can be given to MALT itself with `malt-run --index <y
 
 </details>
 
-The database name is fully configurable using the prefix.
+The database name by default distinguishes the sequence type (dna or protein)
+and the k-mer size for which the index was created.
 
 ### Downstream samplesheets
 
