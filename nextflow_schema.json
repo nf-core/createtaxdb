@@ -270,31 +270,36 @@
                 "build_sourmash_dna": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Whether to build a sourmash reference from the provided nucleotide sequences."
+                    "description": "Whether to build a sourmash reference from the provided nucleotide sequences.",
+                    "help_text": "Sourmash supports both nucleotide and amino acid sequences. With this flag, you determine that a reference database should be built from all the nucleotide FastA files defined in the sample sheet."
                 },
                 "sourmash_build_dna_options": {
                     "type": "string",
                     "default": "--param-string \\'scaled=1000,k=31,noabund\\",
                     "fa_icon": "fas fa-users-cog",
-                    "description": "Must be a single parameter string passed to sourmash sketch dna."
+                    "description": "Must be a single parameter string passed to sourmash sketch dna.",
+                    "help_text": "With this option you can completely define the arguments passed to sourmash sketch dna, when the pipeline parameter build_sourmash_dna is activated. If you modify this pipeline parameter, it must include one and only one --param-string (or -p) sourmash sketch option and however many other options you choose."
                 },
                 "build_sourmash_protein": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Whether to build a sourmash reference from the provided amino acid sequences."
+                    "description": "Whether to build a sourmash reference from the provided amino acid sequences.",
+                    "help_text": "Sourmash supports both nucleotide and amino acid sequences. With this flag, you determine that a reference database should be built from all the amino acid FastA files defined in the sample sheet."
                 },
                 "sourmash_build_protein_options": {
                     "type": "string",
-                    "default": "--param-string \\'scaled=100,k=11,noabund\\",
+                    "default": "--param-string \\'scaled=200,k=10,noabund\\",
                     "fa_icon": "fas fa-users-cog",
-                    "description": "Must be a single parameter string passed to sourmash sketch protein."
+                    "description": "Must be a single parameter string passed to sourmash sketch protein.",
+                    "help_text": "With this option you can completely define the arguments passed to sourmash sketch protein, when the pipeline parameter build_sourmash_protein is activated. If you modify this pipeline parameter, it must include one and only one --param-string (or -p) sourmash sketch option and however many other options you choose."
                 },
                 "sourmash_batch_size": {
                     "type": "integer",
                     "default": 100,
                     "fa_icon": "fas fa-users-cog",
                     "minimum": 1,
-                    "description": "Sourmash can perform the main build step in parallel batches. Set the size of the batches."
+                    "description": "Sourmash can perform the main build step in parallel batches. Set the size of the batches.",
+                    "help_text": "The batch size is a trade off between the overhead of starting a new nextflow process, staging files, and loading the sourmash tool compared to the speed up achieved by launching many sourmash processes in parallel. The current default of 100 was not tested at all."
                 }
             },
             "fa_icon": "fas fa-database"
