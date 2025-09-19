@@ -42,7 +42,42 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-dna-31mer.sbt.zip' },
-                { assert snapshot(workflow.out.versions).match('dna-versions') }
+                { assert snapshot(workflow.out.versions).match('fna-batch-size-1-versions') }
+            )
+        }
+    }
+
+    test("library - fna - batch size 2") {
+        config "./dna.config"
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+
+            workflow {
+                """
+                def ch_library = Channel.of([
+                    [ id:'test' ],
+                    [
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa', checkIfExists: true),
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true),
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/streptococcus_agalactiae/genome/emu/species_taxid.fasta', checkIfExists: true),
+                    ],
+                ])
+
+                input[0] = ch_library
+                input[1] = [31]
+                input[2] = 2
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-dna-31mer.sbt.zip' },
+                { assert snapshot(workflow.out.versions).match('fna-batch-size-2-versions') }
             )
         }
     }
@@ -67,7 +102,7 @@ nextflow_workflow {
                 ])
 
                 input[0] = ch_library
-                input[1] = [11]
+                input[1] = [10]
                 input[2] = 1
                 """
             }
@@ -76,7 +111,7 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.success },
-                { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-protein-11mer.sbt.zip' },
+                { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-protein-10mer.sbt.zip' },
                 { assert snapshot(workflow.out.versions).match('protein-versions') }
             )
         }
