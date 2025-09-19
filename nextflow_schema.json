@@ -270,7 +270,7 @@
                 "build_sourmash_dna": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Whether to build a sourmash reference from the provided genomes."
+                    "description": "Whether to build a sourmash reference from the provided nucleotide sequences."
                 },
                 "sourmash_build_dna_options": {
                     "type": "string",
@@ -281,7 +281,7 @@
                 "build_sourmash_protein": {
                     "type": "boolean",
                     "fa_icon": "fas fa-toggle-on",
-                    "description": "Whether to build a sourmash reference from the provided proteomes."
+                    "description": "Whether to build a sourmash reference from the provided amino acid sequences."
                 },
                 "sourmash_build_protein_options": {
                     "type": "string",

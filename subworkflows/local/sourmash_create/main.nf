@@ -8,7 +8,6 @@ workflow SOURMASH_CREATE {
     batch_size
 
     main:
-
     ch_versions = Channel.empty()
 
     /*
@@ -27,7 +26,6 @@ workflow SOURMASH_CREATE {
     }
 
     SOURMASH_SKETCH(ch_sketch_input)
-
     ch_versions = ch_versions.mix(SOURMASH_SKETCH.out.versions.first())
 
     // Drop the batch identifiers and flatten the batches. Then add the original
@@ -43,7 +41,6 @@ workflow SOURMASH_CREATE {
         }
 
     SOURMASH_INDEX(ch_index_input.signatures, ch_index_input.kmer_size)
-
     ch_versions = ch_versions.mix(SOURMASH_INDEX.out.versions.first())
 
     emit:
