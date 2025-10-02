@@ -4,29 +4,53 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { MULTIQC                          } from '../modules/nf-core/multiqc/main'
-include { paramsSummaryMap                 } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc             } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML           } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText           } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
+include { MULTIQC                                    } from '../modules/nf-core/multiqc/main'
+include { paramsSummaryMap                           } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc                       } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML                     } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText                     } from '../subworkflows/local/utils_nfcore_createtaxdb_pipeline'
 
 
 // Preprocessing
-include { PREPROCESSING                    } from '../subworkflows/local/preprocessing/main'
+include { PREPROCESSING                              } from '../subworkflows/local/preprocessing/main'
 
 // Database building (with specific auxiliary modules)
-include { CENTRIFUGE_BUILD                 } from '../modules/nf-core/centrifuge/build/main'
-include { DIAMOND_MAKEDB                   } from '../modules/nf-core/diamond/makedb/main'
-include { GANON_BUILDCUSTOM                } from '../modules/nf-core/ganon/buildcustom/main'
-include { KAIJU_MKFMI                      } from '../modules/nf-core/kaiju/mkfmi/main'
-include { KRAKENUNIQ_BUILD                 } from '../modules/nf-core/krakenuniq/build/main'
-include { UNZIP                            } from '../modules/nf-core/unzip/main'
-include { MALT_BUILD                       } from '../modules/nf-core/malt/build/main'
-include { TAR                              } from '../modules/nf-core/tar/main'
+include { CENTRIFUGE_BUILD                           } from '../modules/nf-core/centrifuge/build/main'
+include { DIAMOND_MAKEDB                             } from '../modules/nf-core/diamond/makedb/main'
+include { GANON_BUILDCUSTOM                          } from '../modules/nf-core/ganon/buildcustom/main'
+include { KAIJU_MKFMI                                } from '../modules/nf-core/kaiju/mkfmi/main'
+include { KRAKENUNIQ_BUILD                           } from '../modules/nf-core/krakenuniq/build/main'
+include { UNZIP                                      } from '../modules/nf-core/unzip/main'
+include { MALT_BUILD                                 } from '../modules/nf-core/malt/build/main'
+include { TAR                                        } from '../modules/nf-core/tar/main'
 
-include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN  } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
-include { GENERATE_DOWNSTREAM_SAMPLESHEETS } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
-include { KMCP_CREATE                      } from '../subworkflows/local/kmcp_create/main.nf'
+include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN            } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
+include { GENERATE_DOWNSTREAM_SAMPLESHEETS           } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
+include { KMCP_CREATE                                } from '../subworkflows/local/kmcp_create/main.nf'
+include { SOURMASH_CREATE as SOURMASH_CREATE_DNA     } from '../subworkflows/local/sourmash_create/main.nf'
+include { SOURMASH_CREATE as SOURMASH_CREATE_PROTEIN } from '../subworkflows/local/sourmash_create/main.nf'
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    FUNCTION DEFINITIONS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+/**
+ * Parse k-mer sizes from a sourmash build options string.
+ *
+ * @param build_options The sourmash build options string.
+ * @return A list of k-mer sizes as integers.
+ */
+def parse_kmer_sizes(build_options) {
+    if ((build_options =~ /(-p|--param-string)/).size() != 1) {
+        throw new IllegalArgumentException("Error parsing k-mer sizes from sourmash build options: ${build_options}. Please provide exactly one '-p' or '--param-string' argument.")
+    }
+
+    def matches = build_options =~ /k=(\d+)/
+    return matches.collect { match -> match[1] as Integer }
+}
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -196,19 +220,53 @@ workflow CREATETAXDB {
         ch_kmcp_output = Channel.empty()
     }
 
+    // SUBWORKFLOW: Run SOURMASH_CREATE_DNA
+    if (params.build_sourmash_dna) {
+        SOURMASH_CREATE_DNA(
+            PREPROCESSING.out.grouped_dna_fastas,
+            Channel.fromList(parse_kmer_sizes(params.sourmash_build_dna_options)),
+            params.sourmash_batch_size,
+        )
+
+        ch_versions = ch_versions.mix(SOURMASH_CREATE_DNA.out.versions.first())
+
+        ch_sourmash_dna_output = SOURMASH_CREATE_DNA.out.db
+    }
+    else {
+        ch_sourmash_dna_output = Channel.empty()
+    }
+
+    // SUBWORKFLOW: Run SOURMASH_CREATE_PROTEIN
+    if (params.build_sourmash_protein) {
+        SOURMASH_CREATE_PROTEIN(
+            PREPROCESSING.out.grouped_aa_fastas,
+            Channel.fromList(parse_kmer_sizes(params.sourmash_build_protein_options)),
+            params.sourmash_batch_size,
+        )
+
+        ch_versions = ch_versions.mix(SOURMASH_CREATE_PROTEIN.out.versions.first())
+
+        ch_sourmash_protein_output = SOURMASH_CREATE_PROTEIN.out.db
+    }
+    else {
+        ch_sourmash_protein_output = Channel.empty()
+    }
+
     //
     // Aggregate all databases for downstream processes
     //
     ch_all_databases = Channel.empty()
         .mix(
-            ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge"], db] },
-            ch_diamond_output.map { meta, db -> [meta + [tool: "diamond"], db] },
-            ch_ganon_output.map { meta, db -> [meta + [tool: "ganon"], db] },
-            ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju"], db] },
-            ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2"], db] },
-            ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq"], db] },
-            ch_malt_output.map { db -> [[id: params.dbname, tool: "malt"], db] },
-            ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp"], db] },
+            ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge", type: 'dna'], db] },
+            ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'protein'], db] },
+            ch_ganon_output.map { meta, db -> [meta + [tool: "ganon", type: 'dna'], db] },
+            ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju", type: 'protein'], db] },
+            ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2", type: 'dna'], db] },
+            ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq", type: 'dna'], db] },
+            ch_malt_output.map { db -> [[id: params.dbname, tool: "malt", type: malt_build_mode == 'protein' ? 'protein' : 'dna'], db] },
+            ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp", type: 'dna'], db] },
+            ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
+            ch_sourmash_protein_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
         )
 
     //

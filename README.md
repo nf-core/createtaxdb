@@ -42,6 +42,7 @@ The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](htt
    - [Kraken2](https://doi.org/10.1186/s13059-019-1891-0)
    - [KrakenUniq](https://doi.org/10.1186/s13059-018-1568-0)
    - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
+   - [sourmash](https://doi.org/10.21105/joss.06830)
 
 ## Usage
 
@@ -102,10 +103,13 @@ For more details about the output files and reports, please refer to the
 
 nf-core/createtaxdb was originally written by James A. Fellows Yates, Sam Wilkinson, Alexander Ramos Díaz, Lili Andersson-Li and the nf-core community.
 
+It has been extended by Moritz Beber (@Midnighter; adding sourmash support).
+
 We thank the following people for their extensive assistance in the development of this pipeline:
 
 - Zandra Fagernäs (@ZandraFagernas) for logo design
 - Paul Cantalupo (@pcantalupo) for additional documentation
+-
 
 ## Contributions and Support
 
