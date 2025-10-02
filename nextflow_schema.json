@@ -277,8 +277,8 @@
                     "type": "string",
                     "default": "--param-string \\'scaled=1000,k=31,noabund\\",
                     "fa_icon": "fas fa-users-cog",
-                    "description": "Must be a single parameter string passed to sourmash sketch dna.",
-                    "help_text": "With this option you can completely define the arguments passed to sourmash sketch dna, when the pipeline parameter build_sourmash_dna is activated. If you modify this pipeline parameter, it must include one and only one --param-string (or -p) sourmash sketch option and however many other options you choose."
+                    "description": "Specify parameters given to sourmash sketch dna. Must start with sourmash sketch dna's '--param-string'.",
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. \n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter."
                 },
                 "build_sourmash_protein": {
                     "type": "boolean",
@@ -290,8 +290,8 @@
                     "type": "string",
                     "default": "--param-string \\'scaled=200,k=10,noabund\\",
                     "fa_icon": "fas fa-users-cog",
-                    "description": "Must be a single parameter string passed to sourmash sketch protein.",
-                    "help_text": "With this option you can completely define the arguments passed to sourmash sketch protein, when the pipeline parameter build_sourmash_protein is activated. If you modify this pipeline parameter, it must include one and only one --param-string (or -p) sourmash sketch option and however many other options you choose."
+                    "description": "Specify parameters given to sourmash sketch protein. Must start with sourmash sketch protein's '--param-string'.",
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. \n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter."
                 },
                 "sourmash_batch_size": {
                     "type": "integer",
