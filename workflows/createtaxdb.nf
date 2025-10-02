@@ -258,12 +258,12 @@ workflow CREATETAXDB {
     ch_all_databases = Channel.empty()
         .mix(
             ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge", type: 'dna'], db] },
-            ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'dna'], db] },
+            ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'protein'], db] },
             ch_ganon_output.map { meta, db -> [meta + [tool: "ganon", type: 'dna'], db] },
-            ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju", type: 'dna'], db] },
+            ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju", type: 'protein'], db] },
             ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2", type: 'dna'], db] },
             ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq", type: 'dna'], db] },
-            ch_malt_output.map { db -> [[id: params.dbname, tool: "malt", type: 'dna'], db] },
+            ch_malt_output.map { db -> [[id: params.dbname, tool: "malt", type: malt_build_mode == 'protein' ? 'protein' : 'dna'], db] },
             ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp", type: 'dna'], db] },
             ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
             ch_sourmash_protein_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
