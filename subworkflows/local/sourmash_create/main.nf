@@ -3,7 +3,7 @@ include { SOURMASH_INDEX  } from '../../../modules/nf-core/sourmash/index/main'
 
 workflow SOURMASH_CREATE {
     take:
-    ch_library    // channel: [ val(meta), [fasta] ]
+    ch_library // channel: [ val(meta), [fasta] ]
     kmer_sizes
     batch_size
 
