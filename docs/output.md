@@ -21,6 +21,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [Kraken2](#kraken2) - Database files for Kraken2
 - [KrakenUniq](#krakenuniq) - Database files for KrakenUniq
 - [MALT](#malt) - Database files for MALT
+- [sourmash](#sourmash) - Database files for sourmash
 
 The pipeline can also generate downstream pipeline input samplesheets.
 These are stored in `<outdir>/downstream_samplesheets`.
@@ -204,6 +205,22 @@ Note there may be additional files in this directory, however the ones listed ab
 </details>
 
 The `malt_index` directory can be given to MALT itself with `malt-run --index <your_database>/` etc.
+
+### sourmash
+
+[sourmash](https://sourmash.readthedocs.io) is a command-line tool and Python/Rust library for metagenome analysis and genome comparison using k-mers.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `sourmash/`
+  - `<your_database>-sourmash-dna-<kmersize>mer.sbt.zip`: Default sourmash DNA database file
+  - `<your_database>-sourmash-protein-<kmersize>mer.sbt.zip`: Default sourmash AA database file
+
+</details>
+
+The database name by default distinguishes the sequence type (dna or protein)
+and the k-mer size for which the index was created.
 
 ### Downstream samplesheets
 

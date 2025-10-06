@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 - [#108](https://github.com/nf-core/createtaxdb/pull/108) - Document workaround for building databases from single FASTA files, e.g. from NCBI RefSeq (by @pcantalupo)
-- [#111](https://github.com/nf-core/createtaxdb/pull/111) - Add support for sourmash database building (by @Midnighter)
+- [#111](https://github.com/nf-core/createtaxdb/pull/111) - Added sourmash reference building both for genomes and proteomes (by @Midnighter)
 
 ### `Fixed`
 

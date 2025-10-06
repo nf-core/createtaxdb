@@ -266,6 +266,40 @@
                     "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
                     "default": "--sequenceType DNA",
                     "fa_icon": "fas fa-users-cog"
+                },
+                "build_sourmash_dna": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Whether to build a sourmash reference from the provided nucleotide sequences.",
+                    "help_text": "Sourmash supports both nucleotide and amino acid sequences. With this flag, you determine that a reference database should be built from all the nucleotide FastA files defined in the sample sheet."
+                },
+                "sourmash_build_dna_options": {
+                    "type": "string",
+                    "default": "--param-string \\'scaled=1000,k=31,noabund\\",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Specify parameters given to sourmash sketch dna. Must start with sourmash sketch dna's '--param-string'.",
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. \n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter."
+                },
+                "build_sourmash_protein": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Whether to build a sourmash reference from the provided amino acid sequences.",
+                    "help_text": "Sourmash supports both nucleotide and amino acid sequences. With this flag, you determine that a reference database should be built from all the amino acid FastA files defined in the sample sheet."
+                },
+                "sourmash_build_protein_options": {
+                    "type": "string",
+                    "default": "--param-string \\'scaled=200,k=10,noabund\\",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Specify parameters given to sourmash sketch protein. Must start with sourmash sketch protein's '--param-string'.",
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. \n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter."
+                },
+                "sourmash_batch_size": {
+                    "type": "integer",
+                    "default": 100,
+                    "fa_icon": "fas fa-users-cog",
+                    "minimum": 1,
+                    "description": "Sourmash can perform the main build step in parallel batches. Set the size of the batches.",
+                    "help_text": "The batch size is a trade off between the overhead of starting a new nextflow process, staging files, and loading the sourmash tool compared to the speed up achieved by launching many sourmash processes in parallel. The current default of 100 was not tested at all."
                 }
             },
             "fa_icon": "fas fa-database"
