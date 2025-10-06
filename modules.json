@@ -52,12 +52,12 @@
                     },
                     "kraken2/add": {
                         "branch": "master",
-                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "git_sha": "dc32c68b19e0afe8af9721dc7f45a6b9a7a118d2",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "kraken2/build": {
                         "branch": "master",
-                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "git_sha": "dc32c68b19e0afe8af9721dc7f45a6b9a7a118d2",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "krakenuniq/build": {
@@ -97,7 +97,7 @@
                 "nf-core": {
                     "fasta_build_add_kraken2_bracken": {
                         "branch": "master",
-                        "git_sha": "20b042e352fc47ab6dab717a622253e96429e887",
+                        "git_sha": "dc32c68b19e0afe8af9721dc7f45a6b9a7a118d2",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nextflow_pipeline": {
