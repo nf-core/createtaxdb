@@ -1,0 +1,66 @@
+nextflow_pipeline {
+
+    name "Test pipeline: NFCORE_CREATETAXDB"
+    script "main.nf"
+    tag "pipeline"
+    tag "nfcore_createtaxdb"
+    tag "test_alternatives"
+    profile "test_alternatives"
+
+    test("-profile test_alternatives") {
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                        "kaiju/database.fmi - minimum file size: ${file("$outputDir/kaiju/database-kaiju.fmi").length() >= 3519604}",
+                        "kaiju/database.bwt - minimum file size: ${file("$outputDir/kaiju/database-kaiju.bwt").length() >= 2612295}",
+                        "kaiju/database.sa - minimum file size: ${file("$outputDir/kaiju/database-kaiju.sa").length() >= 450917}",
+                        "krakenuniq/database-krakenuniq/database.idx - minimum file size: ${file("$outputDir/krakenuniq/database-krakenuniq/database.idx").length() >= 536870928}",
+                        file("$outputDir/krakenuniq/database-krakenuniq/database.kdb"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/taxDB"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/database0.kdb"),
+                        "krakenuniq/database-krakenuniq/database-build.log - contains string: ${path("$outputDir/krakenuniq/database-krakenuniq/database-build.log").readLines().last().contains('eval db_sort')}",
+                        file("$outputDir/krakenuniq/database-krakenuniq/database.idx"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/database.jdb"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/database.kdb"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/database.kdb.counts"),
+                        "krakenuniq/database-krakenuniq/database.kraken.tsv - contains string: ${path("$outputDir/krakenuniq/database-krakenuniq/database.kraken.tsv").readLines().any{ it.contains('NZ_LS483480.1')}}",
+                        "krakenuniq/database-krakenuniq/database.report.tsv - contains string: ${path("$outputDir/krakenuniq/database-krakenuniq/database.report.tsv").readLines().last().contains('unclassified')}",
+                        file("$outputDir/krakenuniq/database-krakenuniq/library/chrMT.fna"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/library/GCA_011545545.1_ASM1154554v1_genomic.fna"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/library/GCF_000292685.1_ASM29268v1_genomic.fna"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/library/GCF_016889925.1_ASM1688992v1_genomic.fna"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/library/GCF_900478275.1_34211_D02_genomic.fna"),
+                        "krakenuniq/database-krakenuniq/library-files.txt - contains string: ${path("$outputDir/krakenuniq/database-krakenuniq/library-files.txt").readLines().contains('library/GCF_900478275.1_34211_D02_genomic.fna')}",
+                        file("$outputDir/krakenuniq/database-krakenuniq/nucl2tax.map"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/seqid2taxid.map"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/taxDB"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/taxonomy/names.dmp"),
+                        file("$outputDir/krakenuniq/database-krakenuniq/taxonomy/nodes.dmp"),
+                        "malt/malt-build.log - contains string: ${path("$outputDir/malt/malt-build.log").readLines().any{ it.contains('--mapDB')}}",
+                        "malt/malt-build.log - contains string: ${path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory')}",
+                        path("$outputDir/malt/malt_index/index0.idx"),
+                        "malt/malt_index/ref.db - minimum file size: ${file("$outputDir/malt/malt_index/ref.db").length() >= 3241218}",
+                        "malt/malt_index/ref.idx- minimum file size: ${file("$outputDir/malt/malt_index/ref.idx").length() >= 48}",
+                        path("$outputDir/malt/malt_index/ref.inf"),
+                        path("$outputDir/malt/malt_index/taxonomy.idx"),
+                        path("$outputDir/malt/malt_index/taxonomy.map"),
+                        path("$outputDir/malt/malt_index/taxonomy.tre"),
+                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 5}",
+                    ).match()
+                },
+                { assert new File("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists() },
+                { assert new File("$outputDir/multiqc/multiqc_report.html").exists() },
+                { assert path("$outputDir/malt/malt_index/table0.db").exists() },
+                { assert path("$outputDir/malt/malt_index/table0.idx").exists() },
+            )
+        }
+    }
+}
