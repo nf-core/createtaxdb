@@ -44,6 +44,9 @@
                     "@id": "modules/"
                 },
                 {
+                    "@id": "modules/local/"
+                },
+                {
                     "@id": "modules/nf-core/"
                 },
                 {
@@ -121,8 +124,18 @@
         },
         {
             "@id": "main.nf",
-            "@type": ["File", "SoftwareSourceCode", "ComputationalWorkflow"],
+            "@type": [
+                "File",
+                "SoftwareSourceCode",
+                "ComputationalWorkflow"
+            ],
             "creator": [
+                {
+                    "@id": "#jfy133@gmail.com"
+                },
+                {
+                    "@id": "#sam1.wilkinson1@gmail.com"
+                },
                 {
                     "@id": "#jfy133@gmail.com"
                 }
@@ -140,16 +153,30 @@
                 "profiling",
                 "taxonomic-profiling"
             ],
-            "license": ["MIT"],
-            "name": ["nf-core/createtaxdb"],
+            "license": [
+                "MIT"
+            ],
+            "maintainer": [
+                {
+                    "@id": "#jfy133@gmail.com"
+                }
+            ],
+            "name": [
+                "nf-core/createtaxdb"
+            ],
             "programmingLanguage": {
                 "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"
             },
             "sdPublisher": {
                 "@id": "https://nf-co.re/"
             },
-            "url": ["https://github.com/nf-core/createtaxdb", "https://nf-co.re/createtaxdb/dev/"],
-            "version": ["1.1.0dev"]
+            "url": [
+                "https://github.com/nf-core/createtaxdb",
+                "https://nf-co.re/createtaxdb/dev/"
+            ],
+            "version": [
+                "1.1.0dev"
+            ]
         },
         {
             "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow",
@@ -218,6 +245,11 @@
             "@id": "modules/",
             "@type": "Dataset",
             "description": "Modules used by the pipeline"
+        },
+        {
+            "@id": "modules/local/",
+            "@type": "Dataset",
+            "description": "Pipeline-specific modules"
         },
         {
             "@id": "modules/nf-core/",
@@ -310,6 +342,12 @@
             "@type": "Person",
             "email": "jfy133@gmail.com",
             "name": "James Fellows Yates"
+        },
+        {
+            "@id": "#sam1.wilkinson1@gmail.com",
+            "@type": "Person",
+            "email": "sam1.wilkinson1@gmail.com",
+            "name": "Sam W"
         }
     ]
 }
