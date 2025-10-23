@@ -481,12 +481,6 @@
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
                     "hidden": true
                 },
-                "modules_testdata_base_path": {
-                    "type": "string",
-                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/",
-                    "description": "Base URL or local path to location of module test dataset files",
-                    "hidden": true
-                },
                 "trace_report_suffix": {
                     "type": "string",
                     "fa_icon": "far calendar",
