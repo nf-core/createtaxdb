@@ -1,6 +1,73 @@
 {
     "-profile test": {
         "content": [
+            {
+                "BRACKEN_BUILD": {
+                    "bracken": "3.0.1"
+                },
+                "CENTRIFUGE_BUILD": {
+                    "centrifuge": "1.0.4"
+                },
+                "DIAMOND_MAKEDB": {
+                    "diamond": "2.1.12"
+                },
+                "FIND_CONCATENATE_AA": {
+                    "find": "4.6.0",
+                    "pigz": 2.8,
+                    "coreutils": 9.4
+                },
+                "FIND_CONCATENATE_AA_KAIJU": {
+                    "find": "4.6.0",
+                    "pigz": 2.8,
+                    "coreutils": 9.4
+                },
+                "FIND_CONCATENATE_DNA": {
+                    "find": "4.6.0",
+                    "pigz": 2.8,
+                    "coreutils": 9.4
+                },
+                "GANON_BUILDCUSTOM": {
+                    "ganon": "2.1.0"
+                },
+                "KAIJU_MKFMI": {
+                    "kaiju": "1.10.0"
+                },
+                "KMCP_COMPUTE": {
+                    "kmcp": "0.9.4"
+                },
+                "KRAKEN2_ADD": {
+                    "kraken2": "2.1.5"
+                },
+                "KRAKEN2_BUILD": {
+                    "kraken2": "2.1.5"
+                },
+                "KRAKENUNIQ_BUILD": {
+                    "krakenuniq": "1.0.4"
+                },
+                "MALT_BUILD": {
+                    "malt": "0.6.2"
+                },
+                "SEQKIT_BATCHRENAME": {
+                    "seqkit": "2.9.0"
+                },
+                "SOURMASH_SKETCH": {
+                    "sourmash": "4.9.4"
+                },
+                "TAR": {
+                    "tar": 1.34
+                },
+                "UNPIGZ_AA": {
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "UNPIGZ_DNA": {
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "Workflow": {
+                    "nf-core/createtaxdb": "v1.1.0dev"
+                }
+            },
             "bracken/database-bracken-dna.tar.gz - minimum file size: true",
             "bracken/database-kraken2/database100mers.kmer_distrib - contains string: true}",
             "bracken/database-kraken2/database100mers.kraken - contains string: true",
@@ -10,7 +77,7 @@
             "centrifuge/database-centrifuge.2.cf - minimum file size: true",
             "centrifuge/database-centrifuge.3.cf - minimum file size: true",
             "centrifuge/database-centrifuge.4.cf - minimum file size: true",
-            "diamond/database-diamond-dna.tar.gz - minimum file size: true",
+            "diamond/database-diamond-protein.tar.gz - minimum file size: true",
             "diamond/database-diamond.dmnd - minimum file size: true",
             "ganon/database-ganon-dna.tar.gz - minimum file size: true",
             "database.hibf:md5,6459b0502321f96ec8009c633b09fc82",
@@ -49,6 +116,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.7"
         },
-        "timestamp": "2025-10-02T07:43:36.846188619"
+        "timestamp": "2025-10-23T13:55:26.682284282"
     }
 }

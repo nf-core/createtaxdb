@@ -17,6 +17,7 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
+                        removeNextflowVersion("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml"),
                         "bracken/database-bracken-dna.tar.gz - minimum file size: ${file("$outputDir/bracken/database-bracken-dna.tar.gz").length() >= 11000000}",
                         "bracken/database-kraken2/database100mers.kmer_distrib - contains string: ${path("$outputDir/bracken/database-kraken2/database100mers.kmer_distrib").readLines().any{ it.contains('91844')}}}",
                         "bracken/database-kraken2/database100mers.kraken - contains string: ${path("$outputDir/bracken/database-kraken2/database100mers.kraken").readLines().any{ it.contains('NC_018507.1')}}",
