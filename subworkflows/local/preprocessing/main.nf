@@ -7,7 +7,7 @@ include { SEQKIT_BATCHRENAME                            } from '../../../modules
 
 workflow PREPROCESSING {
     take:
-    ch_samplesheet  // channel: samplesheet read in from --input
+    ch_samplesheet // channel: samplesheet read in from --input
     malt_build_mode // string: 'nucleotide' or 'protein'
 
     main:

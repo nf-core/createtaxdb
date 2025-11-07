@@ -23,6 +23,7 @@ include { KRAKENUNIQ_BUILD                           } from '../modules/nf-core/
 include { UNZIP                                      } from '../modules/nf-core/unzip/main'
 include { MALT_BUILD                                 } from '../modules/nf-core/malt/build/main'
 include { TAR                                        } from '../modules/nf-core/tar/main'
+include { TAR_KRAKEN2BRACKEN                         } from '../modules/local/tar_kraken2bracken/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN            } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS           } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
@@ -59,19 +60,19 @@ def parse_kmer_sizes(build_options) {
 
 workflow CREATETAXDB {
     take:
-    ch_samplesheet         // channel: samplesheet read in from --input
+    ch_samplesheet // channel: samplesheet read in from --input
     file_taxonomy_namesdmp // file: taxonomy names file
     file_taxonomy_nodesdmp // file: taxonomy nodes file
-    file_accession2taxid   // file: accession2taxid file
-    file_nucl2taxid        // file: nucl2taxid file
-    file_prot2taxid        // file: prot2taxid file
-    file_genomesizes       // file: genome sizes file
-    file_malt_mapdb        // file: maltmap file
+    file_accession2taxid // file: accession2taxid file
+    file_nucl2taxid // file: nucl2taxid file
+    file_prot2taxid // file: prot2taxid file
+    file_genomesizes // file: genome sizes file
+    file_malt_mapdb // file: maltmap file
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_multiqc_files = Channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc_files = channel.empty()
 
     def malt_build_mode = null
     if (params.build_malt) {
@@ -98,7 +99,7 @@ workflow CREATETAXDB {
         ch_centrifuge_output = CENTRIFUGE_BUILD.out.cf
     }
     else {
-        ch_centrifuge_output = Channel.empty()
+        ch_centrifuge_output = channel.empty()
     }
 
     // MODULE: Run DIAMOND/MAKEDB
@@ -109,7 +110,7 @@ workflow CREATETAXDB {
         ch_diamond_output = DIAMOND_MAKEDB.out.db
     }
     else {
-        ch_diamond_output = Channel.empty()
+        ch_diamond_output = channel.empty()
     }
 
     if (params.build_ganon) {
@@ -130,14 +131,14 @@ workflow CREATETAXDB {
             }
 
         // Nodes must come first
-        ch_ganon_tax_files = Channel.fromPath(file_taxonomy_nodesdmp).combine(Channel.fromPath(file_taxonomy_namesdmp))
+        ch_ganon_tax_files = channel.fromPath(file_taxonomy_nodesdmp).combine(channel.fromPath(file_taxonomy_namesdmp))
 
         GANON_BUILDCUSTOM(PREPROCESSING.out.grouped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, file_genomesizes)
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
     }
     else {
-        ch_ganon_output = Channel.empty()
+        ch_ganon_output = channel.empty()
     }
 
     // MODULE: Run KAIJU/MKFMI
@@ -148,7 +149,7 @@ workflow CREATETAXDB {
         ch_kaiju_output = KAIJU_MKFMI.out.fmi
     }
     else {
-        ch_kaiju_output = Channel.empty()
+        ch_kaiju_output = channel.empty()
     }
 
     // SUBWORKFLOW: Kraken2 and Bracken
@@ -161,17 +162,17 @@ workflow CREATETAXDB {
         ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     }
     else {
-        ch_kraken2_bracken_output = Channel.empty()
+        ch_kraken2_bracken_output = channel.empty()
     }
 
     // SUBWORKFLOW: Run KRAKENUNIQ/BUILD
     if (params.build_krakenuniq) {
 
-        ch_taxdmpfiles_for_krakenuniq = Channel.of(file_taxonomy_namesdmp)
-            .combine(Channel.of(file_taxonomy_nodesdmp))
+        ch_taxdmpfiles_for_krakenuniq = channel.of(file_taxonomy_namesdmp)
+            .combine(channel.of(file_taxonomy_nodesdmp))
             .map { [it] }
 
-        Channel.of(file_nucl2taxid)
+        channel.of(file_nucl2taxid)
         ch_input_for_krakenuniq = PREPROCESSING.out.grouped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, file_nucl2taxid] }
 
         KRAKENUNIQ_BUILD(ch_input_for_krakenuniq, params.krakenuniq_keepintermediate)
@@ -179,7 +180,7 @@ workflow CREATETAXDB {
         ch_krakenuniq_output = KRAKENUNIQ_BUILD.out.db
     }
     else {
-        ch_krakenuniq_output = Channel.empty()
+        ch_krakenuniq_output = channel.empty()
     }
 
     // Module: Run MALT/BUILD
@@ -206,7 +207,7 @@ workflow CREATETAXDB {
         ch_malt_output = MALT_BUILD.out.index
     }
     else {
-        ch_malt_output = Channel.empty()
+        ch_malt_output = channel.empty()
     }
 
 
@@ -217,14 +218,14 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(KMCP_CREATE.out.versions.first())
     }
     else {
-        ch_kmcp_output = Channel.empty()
+        ch_kmcp_output = channel.empty()
     }
 
     // SUBWORKFLOW: Run SOURMASH_CREATE_DNA
     if (params.build_sourmash_dna) {
         SOURMASH_CREATE_DNA(
             PREPROCESSING.out.grouped_dna_fastas,
-            Channel.fromList(parse_kmer_sizes(params.sourmash_build_dna_options)),
+            channel.fromList(parse_kmer_sizes(params.sourmash_build_dna_options)),
             params.sourmash_batch_size,
         )
 
@@ -233,14 +234,14 @@ workflow CREATETAXDB {
         ch_sourmash_dna_output = SOURMASH_CREATE_DNA.out.db
     }
     else {
-        ch_sourmash_dna_output = Channel.empty()
+        ch_sourmash_dna_output = channel.empty()
     }
 
     // SUBWORKFLOW: Run SOURMASH_CREATE_PROTEIN
     if (params.build_sourmash_protein) {
         SOURMASH_CREATE_PROTEIN(
             PREPROCESSING.out.grouped_aa_fastas,
-            Channel.fromList(parse_kmer_sizes(params.sourmash_build_protein_options)),
+            channel.fromList(parse_kmer_sizes(params.sourmash_build_protein_options)),
             params.sourmash_batch_size,
         )
 
@@ -249,13 +250,13 @@ workflow CREATETAXDB {
         ch_sourmash_protein_output = SOURMASH_CREATE_PROTEIN.out.db
     }
     else {
-        ch_sourmash_protein_output = Channel.empty()
+        ch_sourmash_protein_output = channel.empty()
     }
 
     //
     // Aggregate all databases for downstream processes
     //
-    ch_all_databases = Channel.empty()
+    ch_all_databases = channel.empty()
         .mix(
             ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge", type: 'dna'], db] },
             ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'protein'], db] },
@@ -273,9 +274,20 @@ workflow CREATETAXDB {
     // Package for portable databsae
     //
 
+    // We have to TAR kraken2/bracken databases differently because the modules internally have hardcoded database names
+    // that will not match the <params.dbname>-<tool> structure even if the tar file itself is correct.
+    // We use a special tarprocess to hopefully correctly package with the right directory name.
     if (params.generate_tar_archive) {
-        TAR(ch_all_databases, '.gz')
-        ch_tarred_dbs = TAR.out.archive
+        ch_dbs_for_tarring = ch_all_databases.branch { meta, db ->
+            special: meta.tool == 'kraken2' || meta.tool == 'bracken'
+            normal: true
+        }
+
+        ch_tarred_dbs = channel.empty()
+        TAR(ch_dbs_for_tarring.normal, '.gz')
+        TAR_KRAKEN2BRACKEN(ch_dbs_for_tarring.special, '.gz')
+
+        ch_tarred_dbs = ch_tarred_dbs.mix(TAR.out.archive, TAR_KRAKEN2BRACKEN.out.archive)
         ch_versions = ch_versions.mix(TAR.out.versions.first())
     }
 
@@ -310,29 +322,29 @@ workflow CREATETAXDB {
     //
     // MODULE: MultiQC
     //
-    ch_multiqc_config = Channel.fromPath(
+    ch_multiqc_config = channel.fromPath(
         "${projectDir}/assets/multiqc_config.yml",
         checkIfExists: true
     )
     ch_multiqc_custom_config = params.multiqc_config
-        ? Channel.fromPath(params.multiqc_config, checkIfExists: true)
-        : Channel.empty()
+        ? channel.fromPath(params.multiqc_config, checkIfExists: true)
+        : channel.empty()
     ch_multiqc_logo = params.multiqc_logo
-        ? Channel.fromPath(params.multiqc_logo, checkIfExists: true)
-        : Channel.empty()
+        ? channel.fromPath(params.multiqc_logo, checkIfExists: true)
+        : channel.empty()
 
     summary_params = paramsSummaryMap(
         workflow,
         parameters_schema: "nextflow_schema.json"
     )
-    ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
+    ch_workflow_summary = channel.value(paramsSummaryMultiqc(summary_params))
     ch_multiqc_files = ch_multiqc_files.mix(
         ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml')
     )
     ch_multiqc_custom_methods_description = params.multiqc_methods_description
         ? file(params.multiqc_methods_description, checkIfExists: true)
         : file("${projectDir}/assets/methods_description_template.yml", checkIfExists: true)
-    ch_methods_description = Channel.value(
+    ch_methods_description = channel.value(
         methodsDescriptionText(ch_multiqc_custom_methods_description)
     )
 
