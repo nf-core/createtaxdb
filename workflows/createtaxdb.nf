@@ -159,7 +159,7 @@ workflow CREATETAXDB {
         def k2_keepintermediates = params.kraken2_keepintermediate || params.build_bracken ? false : true
         FASTA_BUILD_ADD_KRAKEN2_BRACKEN(PREPROCESSING.out.singleref_for_dna, file_taxonomy_namesdmp, file_taxonomy_nodesdmp, file_accession2taxid, k2_keepintermediates, file_nucl2taxid, params.build_bracken)
         ch_versions = ch_versions.mix(FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.versions)
-        ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
+        ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db_separated
     }
     else {
         ch_kraken2_bracken_output = channel.empty()
@@ -262,13 +262,16 @@ workflow CREATETAXDB {
             ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'protein'], db] },
             ch_ganon_output.map { meta, db -> [meta + [tool: "ganon", type: 'dna'], db] },
             ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju", type: 'protein'], db] },
-            ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2", type: 'dna'], db] },
             ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq", type: 'dna'], db] },
             ch_malt_output.map { db -> [[id: params.dbname, tool: "malt", type: malt_build_mode == 'protein' ? 'protein' : 'dna'], db] },
             ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp", type: 'dna'], db] },
             ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
             ch_sourmash_protein_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
+            ch_kraken2_bracken_output.dump(tag: 'hello'),
         )
+    // ch_kraken2_bracken_output.map { meta, distrib, k2d, map, lib, tax -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2", type: 'dna'], distrib, k2d, map, lib, tax] },
+
+
 
     //
     // Package for portable databsae
@@ -278,14 +281,14 @@ workflow CREATETAXDB {
     // that will not match the <params.dbname>-<tool> structure even if the tar file itself is correct.
     // We use a special tarprocess to hopefully correctly package with the right directory name.
     if (params.generate_tar_archive) {
-        ch_dbs_for_tarring = ch_all_databases.branch { meta, db ->
+        ch_dbs_for_tarring = ch_all_databases.branch { meta, _db ->
             special: meta.tool == 'kraken2' || meta.tool == 'bracken'
             normal: true
         }
 
         ch_tarred_dbs = channel.empty()
         TAR(ch_dbs_for_tarring.normal, '.gz')
-        TAR_KRAKEN2BRACKEN(ch_dbs_for_tarring.special, '.gz')
+        TAR_KRAKEN2BRACKEN(ch_dbs_for_tarring.special.dump(tag: 'hello'), '.gz')
 
         ch_tarred_dbs = ch_tarred_dbs.mix(TAR.out.archive, TAR_KRAKEN2BRACKEN.out.archive)
         ch_versions = ch_versions.mix(TAR.out.versions.first())

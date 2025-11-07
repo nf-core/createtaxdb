@@ -25,16 +25,16 @@ include { UTILS_NEXTFLOW_PIPELINE } from '../../nf-core/utils_nextflow_pipeline'
 
 workflow PIPELINE_INITIALISATION {
     take:
-    version           // boolean: Display version and exit
-    validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
-    monochrome_logs   // boolean: Do not use coloured log outputs
+    version // boolean: Display version and exit
+    validate_params // boolean: Boolean whether to validate parameters against the schema at runtime
+    _monochrome_logs // boolean: Do not use coloured log outputs
     nextflow_cli_args //   array: List of positional nextflow CLI args
-    outdir            //  string: The output directory where the results will be saved
-    input             //  string: Path to input samplesheet
+    outdir //  string: The output directory where the results will be saved
+    input //  string: Path to input samplesheet
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
@@ -74,7 +74,7 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
-    ch_samplesheet = Channel.fromList(samplesheetToList(params.input, "assets/schema_input.json"))
+    ch_samplesheet = channel.fromList(samplesheetToList(input, "assets/schema_input.json"))
 
     // Validate we have unique file names for DNA FASTAs
     ch_samplesheet
@@ -86,7 +86,7 @@ workflow PIPELINE_INITIALISATION {
         .map { fasta_dna ->
             if (fasta_dna.size() > fasta_dna.sort().unique(false).size()) {
                 // duplicate detection from https://stackoverflow.com/a/35922565
-                def not_unique_dna = fasta_dna.countBy { it }.grep { it.value > 1 }.collect { it.key }
+                def not_unique_dna = fasta_dna.countBy { names -> names }.grep { names -> names.value > 1 }.collect { names -> names.key }
                 error("[nf-core/createtaxdb] ERROR: All DNA FASTA filenames (also after decompressing!) must be unique! Check for filename(s) starting with: ${not_unique_dna.join(', ')}")
             }
         }
@@ -101,7 +101,7 @@ workflow PIPELINE_INITIALISATION {
         .map { fasta_aa ->
             if (fasta_aa.size() > fasta_aa.sort().unique(false).size()) {
                 // duplicate detection from https://stackoverflow.com/a/35922565
-                def not_unique_aa = fasta_aa.countBy { it }.grep { it.value > 1 }.collect { it.key }
+                def not_unique_aa = fasta_aa.countBy { names -> names }.grep { names -> names.value > 1 }.collect { names -> names.key }
                 error("[nf-core/createtaxdb] ERROR: All AA FASTA filenames (also after decompressing!) must be unique! Check for filename(s) starting with: ${not_unique_aa.join(', ')}")
             }
         }
@@ -119,13 +119,13 @@ workflow PIPELINE_INITIALISATION {
 
 workflow PIPELINE_COMPLETION {
     take:
-    email           //  string: email address
-    email_on_fail   //  string: email address sent on pipeline failure
+    email //  string: email address
+    email_on_fail //  string: email address sent on pipeline failure
     plaintext_email // boolean: Send plain-text email instead of HTML
-    outdir          //    path: Path to output directory where results will be published
+    outdir //    path: Path to output directory where results will be published
     monochrome_logs // boolean: Disable ANSI colour codes in log output
-    hook_url        //  string: hook URL for notifications
-    multiqc_report  //  string: Path to MultiQC report
+    hook_url //  string: hook URL for notifications
+    multiqc_report //  string: Path to MultiQC report
 
     main:
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")

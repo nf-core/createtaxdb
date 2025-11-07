@@ -7,7 +7,7 @@ workflow SAMPLESHEET_TAXPROFILER {
     ch_databases
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     format = 'csv'
 
     ch_list_for_samplesheet = ch_databases.map { meta, db ->
@@ -35,12 +35,12 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
     ch_databases
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     def downstreampipeline_names = params.generate_pipeline_samplesheets.split(",")
 
     if (downstreampipeline_names.contains('taxprofiler')) {
         SAMPLESHEET_TAXPROFILER(ch_databases)
-        ch_final_samplesheet = SAMPLESHEET_TAXPROFILER.failOnDuplicate.samplesheet_taxprofiler
+        ch_final_samplesheet = SAMPLESHEET_TAXPROFILER.out.samplesheet_taxprofiler
         ch_versions = ch_versions.mix(SAMPLESHEET_TAXPROFILER.out.versions)
     }
 
@@ -56,8 +56,8 @@ def channelToSamplesheet(ch_list_for_samplesheet, path, format) {
 
     def ch_samplesheet = ch_header
         .first()
-        .map { it.keySet().join(format_sep) }
-        .concat(ch_list_for_samplesheet.map { it.values().join(format_sep) })
+        .map { row -> row.keySet().join(format_sep) }
+        .concat(ch_list_for_samplesheet.map { row -> row.values().join(format_sep) })
         .collectFile(
             name: "${path}.${format}",
             newLine: true,

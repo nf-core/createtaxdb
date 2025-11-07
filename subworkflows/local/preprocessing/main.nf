@@ -12,17 +12,17 @@ workflow PREPROCESSING {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_multiqc_files = Channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc_files = channel.empty()
 
     // Initialise channels which may or may not get set depending on parameters
-    ch_singleref_for_dna = Channel.empty()
-    ch_singleref_for_aa = Channel.empty()
-    ch_prepped_dna_fastas = Channel.empty()
-    ch_prepped_aa_fastas = Channel.empty()
-    ch_prepped_dna_fastas_ungrouped = Channel.empty()
-    ch_prepped_aa_fastas_ungrouped = Channel.empty()
-    ch_prepped_aa_fastas_kaiju = Channel.empty()
+    ch_singleref_for_dna = channel.empty()
+    ch_singleref_for_aa = channel.empty()
+    ch_prepped_dna_fastas = channel.empty()
+    ch_prepped_aa_fastas = channel.empty()
+    ch_prepped_dna_fastas_ungrouped = channel.empty()
+    ch_prepped_aa_fastas_ungrouped = channel.empty()
+    ch_prepped_aa_fastas_kaiju = channel.empty()
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

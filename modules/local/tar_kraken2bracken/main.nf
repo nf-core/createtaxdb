@@ -8,7 +8,7 @@ process TAR_KRAKEN2BRACKEN {
         : 'community.wave.seqera.io/library/bzip2_gzip_lzip_lzop_pruned:5a822ddcf829e7af'}"
 
     input:
-    tuple val(meta), path(input)
+    tuple val(meta), path(distrib), path(k2d, stageAs: "bracken-database/"), path(map, stageAs: "bracken-database/"), path(library, stageAs: "bracken-database/library/added/"), path(taxonomy, stageAs: "bracken-database/taxonomy/")
     val compress_type
 
     output:
