@@ -7,7 +7,7 @@
                 "nf-core": {
                     "bracken/build": {
                         "branch": "master",
-                        "git_sha": "6a868c3381f6aa90cb98061170802ed17c3bcca1",
+                        "git_sha": "88fe665e628faa675604e719c94cb489711609e1",
                         "installed_by": ["fasta_build_add_kraken2_bracken"]
                     },
                     "centrifuge/build": {
