@@ -373,3 +373,31 @@ The contents of `kraken_output.txt` looks like
 ```txt
 C       tag.cdna        Betapolyomavirus macacae (taxid 1891767)        2127    1891767:70 0:38 1891767:17 151341:5 1891714:2 1891767:80 0:29 1891767:134 1891714:5 1891767:64 151341:5 1891767:75 1891714:5 1891767:431 0:42 1891767:217 0:38 1891767:70 1891714:2 1891767:151 151341:1 1891714:5 1891767:52 1891714:7 1891767:548
 ```
+
+## Where did the `.tar.gz` output files go?
+
+### Context
+
+In nf-core/createtaxdb v1.0.0, there was functionality that would automatically build `.tar.gz` compressed archives of each database after building.
+
+This unfortunately had some problems related to the way Nextflow passes files to each step of the pipeline and container systems, meaning that the `.tar.gz` files would not always have all the files inside them.
+
+Furthermore, in practise, generating the `.tar.gz` files put a huge strain on disk space, as during a run there would be three copies of the exact same database in different formats/locations, i.e., one in the intermediate `work/` directory, one in the final output directory, and one in the `.tar.gz` file.
+For very large databases this could be extremely 'expensive' in terms of disk space, for something that few users would use and could easily be created manually after the pipeline run.
+
+### Solution
+
+Once your pipeline has finished, you can manually create `.tar.gz` files of each database output directory using the `tar` command.
+
+For example
+
+```bash
+cd /<path>/<to>/<outdir>/
+tar czvf <dbname>-bracken.tar.gz bracken/<dbname>-bracken/
+tar czvf <dbname>-centrifuge.tar.gz kraken2/<dbname>-centrifuge/
+tar czvf <dbname>-kraken2.tar.gz kraken2/<dbname>-kraken2/
+tar czvf kmcp-krakenuniq.tar.gz krakenuniq/database-kmcp-index/
+tar czvf <dbname>-krakenuniq.tar.gz krakenuniq/<dbname>-krakenuniq/
+tar czvf <dbname>-ganon.tar.gz ganon/
+tar czvf <dbname>-malt.tar.gz malt/malt_index/
+```

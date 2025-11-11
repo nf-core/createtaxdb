@@ -22,7 +22,6 @@ include { KAIJU_MKFMI                                } from '../modules/nf-core/
 include { KRAKENUNIQ_BUILD                           } from '../modules/nf-core/krakenuniq/build/main'
 include { UNZIP                                      } from '../modules/nf-core/unzip/main'
 include { MALT_BUILD                                 } from '../modules/nf-core/malt/build/main'
-include { TAR                                        } from '../modules/nf-core/tar/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN            } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS           } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
@@ -59,14 +58,14 @@ def parse_kmer_sizes(build_options) {
 
 workflow CREATETAXDB {
     take:
-    ch_samplesheet         // channel: samplesheet read in from --input
+    ch_samplesheet // channel: samplesheet read in from --input
     file_taxonomy_namesdmp // file: taxonomy names file
     file_taxonomy_nodesdmp // file: taxonomy nodes file
-    file_accession2taxid   // file: accession2taxid file
-    file_nucl2taxid        // file: nucl2taxid file
-    file_prot2taxid        // file: prot2taxid file
-    file_genomesizes       // file: genome sizes file
-    file_malt_mapdb        // file: maltmap file
+    file_accession2taxid // file: accession2taxid file
+    file_nucl2taxid // file: nucl2taxid file
+    file_prot2taxid // file: prot2taxid file
+    file_genomesizes // file: genome sizes file
+    file_malt_mapdb // file: maltmap file
 
     main:
 
@@ -167,7 +166,8 @@ workflow CREATETAXDB {
     // SUBWORKFLOW: Run KRAKENUNIQ/BUILD
     if (params.build_krakenuniq) {
 
-        ch_taxdmpfiles_for_krakenuniq = Channel.of(file_taxonomy_namesdmp)
+        ch_taxdmpfiles_for_krakenuniq = Channel
+            .of(file_taxonomy_namesdmp)
             .combine(Channel.of(file_taxonomy_nodesdmp))
             .map { [it] }
 
@@ -255,7 +255,8 @@ workflow CREATETAXDB {
     //
     // Aggregate all databases for downstream processes
     //
-    ch_all_databases = Channel.empty()
+    ch_all_databases = Channel
+        .empty()
         .mix(
             ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge", type: 'dna'], db] },
             ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'protein'], db] },
@@ -270,29 +271,12 @@ workflow CREATETAXDB {
         )
 
     //
-    // Package for portable databsae
-    //
-
-    if (params.generate_tar_archive) {
-        TAR(ch_all_databases, '.gz')
-        ch_tarred_dbs = TAR.out.archive
-        ch_versions = ch_versions.mix(TAR.out.versions.first())
-    }
-
-    //
     // Samplesheet generation
     //
     if (params.generate_downstream_samplesheets) {
-        if (params.generate_samplesheet_dbtype == 'tar') {
-            ch_databases_for_samplesheets = TAR.out.archive
-        }
-        else if (params.generate_samplesheet_dbtype == 'raw') {
-            ch_databases_for_samplesheets = ch_all_databases
-        }
+        ch_databases_for_samplesheets = ch_all_databases
         GENERATE_DOWNSTREAM_SAMPLESHEETS(ch_databases_for_samplesheets)
     }
-
-
 
     //
     // Collate and save software versions
@@ -364,5 +348,6 @@ workflow CREATETAXDB {
     krakenuniq_database      = ch_krakenuniq_output
     malt_database            = ch_malt_output
     kmcp_databae             = ch_kmcp_output
-    tarred_databases         = params.generate_tar_archive ? ch_tarred_dbs : []
+    sourmash_dna_database    = ch_sourmash_dna_output
+    sourmash_aa_database     = ch_sourmash_protein_output
 }

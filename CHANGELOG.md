@@ -3,30 +3,30 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### `Added`
-
-- [#111](https://github.com/nf-core/createtaxdb/pull/111) - Added sourmash
-  reference building both for genomes and proteomes (by @Midnighter).
-
-### `Fixed`
-
-- [#110](https://github.com/nf-core/createtaxdb/pull/110) - Corrected the
-  documented structures of the grouped output from the `PREPROCESSING` subworkflow
-  (by @Midnighter).
-
 ## v1.1.0dev - [date]
 
 ### `Added`
 
 - [#108](https://github.com/nf-core/createtaxdb/pull/108) - Document workaround for building databases from single FASTA files, e.g. from NCBI RefSeq (by @pcantalupo)
+- [#111](https://github.com/nf-core/createtaxdb/pull/111) - Added sourmash reference building both for genomes and proteomes (by @Midnighter).
+- [#117](https://github.com/nf-core/createtaxdb/pull/117) - Updated to nf-core/tools template 3.4.1 (by @jfy133)
 
 ### `Fixed`
 
+- [#110](https://github.com/nf-core/createtaxdb/pull/110) - Corrected the documented structures of the grouped output from the `PREPROCESSING` subworkflow
+  (by @Midnighter).
+
 ### `Dependencies`
 
+| Tool     | Old Version | New Version |
+| -------- | ----------- | ----------- |
+| sourmash |             | 4.9.4       |
+| tar      | 1.34        |             |
+| nf-core  | 3.3.2       | 3.4.1       |
+
 ### `Deprecated`
+
+- [#118](https://github.com/nf-core/createtaxdb/pull/118) - Deprecated automated building of `tar.gz` archives of all databases (by @jfy133)
 
 ## v1.0 - Helpful Hydra - [2025-06-19]
 

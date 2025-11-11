@@ -233,7 +233,7 @@ pipelines:
 <summary>Output files</summary>
 
 - `downstream_samplesheets/`
-  - `taxprofiler.csv`: Partially filled out nf-core/taxprofiler `--databases` csv with paths to database directories or `tar.gz` relative to the results directory. e.g. `nextflow run nf-core/taxprofiler -profile docker --input samplesheet.csv --databases <createtaxdb_outdir>/downstream_samplesheets/<database_name>.csv>`
+  - `taxprofiler.csv`: Partially filled out nf-core/taxprofiler `--databases` csv with paths to database directories relative to the results directory. e.g. `nextflow run nf-core/taxprofiler -profile docker --input samplesheet.csv --databases <createtaxdb_outdir>/downstream_samplesheets/<database_name>.csv>`
   </details>
 
 :::warning

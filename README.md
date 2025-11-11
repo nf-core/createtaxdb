@@ -85,7 +85,6 @@ nextflow run nf-core/createtaxdb \
 ```
 
 The output directory will contain directories containing the database files for each of the profilers you selected to build.
-Optionally you can also package these as `tar.gz` archives.
 
 You can also generate pre-prepared input sheets for database specifications of pipelines such as [nf-core/taxprofiler](https://nf-co.re/taxprofiler) using `--generate_downstream_samplesheets`.
 
