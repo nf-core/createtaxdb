@@ -82,7 +82,7 @@ work                # Directory containing the nextflow working files
 If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file.
 
 > [!TIP]
-> Once the pipeline has run to completion, we highly recommend moving the resulting directories or tar files to a centralised 'cache' location.
+> Once the pipeline has run to completion, we highly recommend moving the resulting directories to a centralised 'cache' location.
 > This prevents databases being overwritten by future runs of the pipeline, or by clean up of old Nextflow run results directories
 >
 > If you do so, ensure to update the paths in any downstream samplesheets you create with the `--generate_downstream_samplesheets` parameter.

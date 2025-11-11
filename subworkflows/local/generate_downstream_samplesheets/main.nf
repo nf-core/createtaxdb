@@ -7,20 +7,26 @@ workflow SAMPLESHEET_TAXPROFILER {
     ch_databases
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     format = 'csv'
 
     ch_list_for_samplesheet = ch_databases.map { meta, db ->
+
+        // If the database consists of multiple files, give the parent directory name
+        // If database is directory or single file, just give that directory/file name
+        def db_output_name = db instanceof List ? "" : db.getName()
+
         def tool = meta.tool
         def db_name = meta.id + '-' + meta.tool
         def db_params = ""
         def db_type = ""
-        def db_path = file(params.outdir).toString() + '/' + meta.tool + '/' + db.getName()
+        def db_path = file(params.outdir).toString() + '/' + meta.tool + '/' + db_output_name
+
         [tool: tool, db_name: db_name, db_params: db_params, db_type: db_type, db_path: db_path]
     }
 
     if (params.build_bracken && params.build_kraken2) {
-        log.warn("Generated nf-core/taxprofiler samplesheet will only have a row for bracken. If Kraken2 is wished to be executed separately, duplicate the bracken row yourself and update tool column to Kraken2!")
+        log.warn("[nf-core/createtaxdb] Generated nf-core/taxprofiler samplesheet will only have a row for bracken. If Kraken2 is wished to be executed separately, duplicate the bracken row yourself and update tool column to Kraken2!")
     }
 
     ch_final_samplesheet = channelToSamplesheet(ch_list_for_samplesheet, "${params.outdir}/downstream_samplesheets/databases-taxprofiler", format)
@@ -35,7 +41,7 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
     ch_databases
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     def downstreampipeline_names = params.generate_pipeline_samplesheets.split(",")
 
     if (downstreampipeline_names.contains('taxprofiler')) {
@@ -55,8 +61,8 @@ def channelToSamplesheet(ch_list_for_samplesheet, path, format) {
 
     def ch_samplesheet = ch_header
         .first()
-        .map { it.keySet().join(format_sep) }
-        .concat(ch_list_for_samplesheet.map { it.values().join(format_sep) })
+        .map { row -> row.keySet().join(format_sep) }
+        .concat(ch_list_for_samplesheet.map { row -> row.values().join(format_sep) })
         .collectFile(
             name: "${path}.${format}",
             newLine: true,
