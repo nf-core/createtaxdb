@@ -36,10 +36,10 @@
                     "kmcp": "0.9.4"
                 },
                 "KRAKEN2_ADD": {
-                    "kraken2": "2.1.5"
+                    "kraken2": "2.1.6"
                 },
                 "KRAKEN2_BUILD": {
-                    "kraken2": "2.1.5"
+                    "kraken2": "2.1.6"
                 },
                 "KRAKENUNIQ_BUILD": {
                     "krakenuniq": "1.0.4"

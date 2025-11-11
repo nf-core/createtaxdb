@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Tool     | Old Version | New Version |
 | -------- | ----------- | ----------- |
 | sourmash |             | 4.9.4       |
+| kraken2  | 2.1.5       | 2.1.6       |
 | tar      | 1.34        |             |
 | nf-core  | 3.3.2       | 3.4.1       |
 
