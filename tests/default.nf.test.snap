@@ -65,9 +65,9 @@
                     "nf-core/createtaxdb": "v1.1.0dev"
                 }
             },
-            "bracken/database-kraken2/database100mers.kmer_distrib - contains string: true}",
-            "bracken/database-kraken2/database100mers.kraken - contains string: true",
-            "bracken/database-kraken2/database.kraken - contains string: true",
+            "bracken/database-bracken/database100mers.kmer_distrib - contains string: true}",
+            "bracken/database-bracken/database100mers.kraken - contains string: true",
+            "bracken/database-bracken/database.kraken - contains string: true",
             "centrifuge/database-centrifuge.1.cf - minimum file size: true",
             "centrifuge/database-centrifuge.2.cf - minimum file size: true",
             "centrifuge/database-centrifuge.3.cf - minimum file size: true",
