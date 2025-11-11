@@ -69,8 +69,8 @@ workflow CREATETAXDB {
 
     main:
 
-    ch_versions = Channel.empty()
-    ch_multiqc_files = Channel.empty()
+    ch_versions = channel.empty()
+    ch_multiqc_files = channel.empty()
 
     def malt_build_mode = null
     if (params.build_malt) {
@@ -97,7 +97,7 @@ workflow CREATETAXDB {
         ch_centrifuge_output = CENTRIFUGE_BUILD.out.cf
     }
     else {
-        ch_centrifuge_output = Channel.empty()
+        ch_centrifuge_output = channel.empty()
     }
 
     // MODULE: Run DIAMOND/MAKEDB
@@ -108,7 +108,7 @@ workflow CREATETAXDB {
         ch_diamond_output = DIAMOND_MAKEDB.out.db
     }
     else {
-        ch_diamond_output = Channel.empty()
+        ch_diamond_output = channel.empty()
     }
 
     if (params.build_ganon) {
@@ -129,14 +129,14 @@ workflow CREATETAXDB {
             }
 
         // Nodes must come first
-        ch_ganon_tax_files = Channel.fromPath(file_taxonomy_nodesdmp).combine(Channel.fromPath(file_taxonomy_namesdmp))
+        ch_ganon_tax_files = channel.fromPath(file_taxonomy_nodesdmp).combine(channel.fromPath(file_taxonomy_namesdmp))
 
         GANON_BUILDCUSTOM(PREPROCESSING.out.grouped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, file_genomesizes)
         ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
     }
     else {
-        ch_ganon_output = Channel.empty()
+        ch_ganon_output = channel.empty()
     }
 
     // MODULE: Run KAIJU/MKFMI
@@ -147,7 +147,7 @@ workflow CREATETAXDB {
         ch_kaiju_output = KAIJU_MKFMI.out.fmi
     }
     else {
-        ch_kaiju_output = Channel.empty()
+        ch_kaiju_output = channel.empty()
     }
 
     // SUBWORKFLOW: Kraken2 and Bracken
@@ -160,7 +160,7 @@ workflow CREATETAXDB {
         ch_kraken2_bracken_output = FASTA_BUILD_ADD_KRAKEN2_BRACKEN.out.db
     }
     else {
-        ch_kraken2_bracken_output = Channel.empty()
+        ch_kraken2_bracken_output = channel.empty()
     }
 
     // SUBWORKFLOW: Run KRAKENUNIQ/BUILD
@@ -168,10 +168,10 @@ workflow CREATETAXDB {
 
         ch_taxdmpfiles_for_krakenuniq = Channel
             .of(file_taxonomy_namesdmp)
-            .combine(Channel.of(file_taxonomy_nodesdmp))
+            .combine(channel.of(file_taxonomy_nodesdmp))
             .map { [it] }
 
-        Channel.of(file_nucl2taxid)
+        channel.of(file_nucl2taxid)
         ch_input_for_krakenuniq = PREPROCESSING.out.grouped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, file_nucl2taxid] }
 
         KRAKENUNIQ_BUILD(ch_input_for_krakenuniq, params.krakenuniq_keepintermediate)
@@ -179,7 +179,7 @@ workflow CREATETAXDB {
         ch_krakenuniq_output = KRAKENUNIQ_BUILD.out.db
     }
     else {
-        ch_krakenuniq_output = Channel.empty()
+        ch_krakenuniq_output = channel.empty()
     }
 
     // Module: Run MALT/BUILD
@@ -206,7 +206,7 @@ workflow CREATETAXDB {
         ch_malt_output = MALT_BUILD.out.index
     }
     else {
-        ch_malt_output = Channel.empty()
+        ch_malt_output = channel.empty()
     }
 
 
@@ -217,14 +217,14 @@ workflow CREATETAXDB {
         ch_versions = ch_versions.mix(KMCP_CREATE.out.versions.first())
     }
     else {
-        ch_kmcp_output = Channel.empty()
+        ch_kmcp_output = channel.empty()
     }
 
     // SUBWORKFLOW: Run SOURMASH_CREATE_DNA
     if (params.build_sourmash_dna) {
         SOURMASH_CREATE_DNA(
             PREPROCESSING.out.grouped_dna_fastas,
-            Channel.fromList(parse_kmer_sizes(params.sourmash_build_dna_options)),
+            channel.fromList(parse_kmer_sizes(params.sourmash_build_dna_options)),
             params.sourmash_batch_size,
         )
 
@@ -233,14 +233,14 @@ workflow CREATETAXDB {
         ch_sourmash_dna_output = SOURMASH_CREATE_DNA.out.db
     }
     else {
-        ch_sourmash_dna_output = Channel.empty()
+        ch_sourmash_dna_output = channel.empty()
     }
 
     // SUBWORKFLOW: Run SOURMASH_CREATE_PROTEIN
     if (params.build_sourmash_protein) {
         SOURMASH_CREATE_PROTEIN(
             PREPROCESSING.out.grouped_aa_fastas,
-            Channel.fromList(parse_kmer_sizes(params.sourmash_build_protein_options)),
+            channel.fromList(parse_kmer_sizes(params.sourmash_build_protein_options)),
             params.sourmash_batch_size,
         )
 
@@ -249,7 +249,7 @@ workflow CREATETAXDB {
         ch_sourmash_protein_output = SOURMASH_CREATE_PROTEIN.out.db
     }
     else {
-        ch_sourmash_protein_output = Channel.empty()
+        ch_sourmash_protein_output = channel.empty()
     }
 
     //
@@ -294,29 +294,29 @@ workflow CREATETAXDB {
     //
     // MODULE: MultiQC
     //
-    ch_multiqc_config = Channel.fromPath(
+    ch_multiqc_config = channel.fromPath(
         "${projectDir}/assets/multiqc_config.yml",
         checkIfExists: true
     )
     ch_multiqc_custom_config = params.multiqc_config
-        ? Channel.fromPath(params.multiqc_config, checkIfExists: true)
-        : Channel.empty()
+        ? channel.fromPath(params.multiqc_config, checkIfExists: true)
+        : channel.empty()
     ch_multiqc_logo = params.multiqc_logo
-        ? Channel.fromPath(params.multiqc_logo, checkIfExists: true)
-        : Channel.empty()
+        ? channel.fromPath(params.multiqc_logo, checkIfExists: true)
+        : channel.empty()
 
     summary_params = paramsSummaryMap(
         workflow,
         parameters_schema: "nextflow_schema.json"
     )
-    ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
+    ch_workflow_summary = channel.value(paramsSummaryMultiqc(summary_params))
     ch_multiqc_files = ch_multiqc_files.mix(
         ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml')
     )
     ch_multiqc_custom_methods_description = params.multiqc_methods_description
         ? file(params.multiqc_methods_description, checkIfExists: true)
         : file("${projectDir}/assets/methods_description_template.yml", checkIfExists: true)
-    ch_methods_description = Channel.value(
+    ch_methods_description = channel.value(
         methodsDescriptionText(ch_multiqc_custom_methods_description)
     )
 

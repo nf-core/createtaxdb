@@ -18,9 +18,9 @@ nextflow_pipeline {
                 { assert workflow.success },
                 { assert snapshot(
                         removeNextflowVersion("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml"),
-                        "bracken/database-kraken2/database100mers.kmer_distrib - contains string: ${path("$outputDir/bracken/database-kraken2/database100mers.kmer_distrib").readLines().any{ it.contains('91844')}}}",
-                        "bracken/database-kraken2/database100mers.kraken - contains string: ${path("$outputDir/bracken/database-kraken2/database100mers.kraken").readLines().any{ it.contains('NC_018507.1')}}",
-                        "bracken/database-kraken2/database.kraken - contains string: ${path("$outputDir/bracken/database-kraken2/database.kraken").readLines().any{ it.contains('NC_018507.1')}}",
+                        "bracken/database-bracken/database100mers.kmer_distrib - contains string: ${path("$outputDir/bracken/database-bracken/database100mers.kmer_distrib").readLines().any{ it.contains('91844')}}}",
+                        "bracken/database-bracken/database100mers.kraken - contains string: ${path("$outputDir/bracken/database-bracken/database100mers.kraken").readLines().any{ it.contains('NC_018507.1')}}",
+                        "bracken/database-bracken/database.kraken - contains string: ${path("$outputDir/bracken/database-bracken/database.kraken").readLines().any{ it.contains('NC_018507.1')}}",
                         "centrifuge/database-centrifuge.1.cf - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge/database-centrifuge.1.cf").length() >= 10904287}",
                         "centrifuge/database-centrifuge.2.cf - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge/database-centrifuge.2.cf").length() >= 943010}",
                         "centrifuge/database-centrifuge.3.cf - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge/database-centrifuge.3.cf").length() >= 2799}",
