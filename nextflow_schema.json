@@ -278,7 +278,7 @@
                     "default": "--param-string \\'scaled=1000,k=31,noabund\\",
                     "fa_icon": "fas fa-users-cog",
                     "description": "Specify parameters given to sourmash sketch dna. Must start with sourmash sketch dna's '--param-string'.",
-                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. "
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single `--param-string` (or `-p`) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default `--param` string specified in the pipeline matches that of the tool itself. "
                 },
                 "build_sourmash_protein": {
                     "type": "boolean",
