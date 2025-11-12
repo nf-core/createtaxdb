@@ -300,6 +300,17 @@
                     "minimum": 1,
                     "description": "Sourmash can perform the main build step in parallel batches. Set the size of the batches.",
                     "help_text": "The batch size is a trade off between the overhead of starting a new nextflow process, staging files, and loading the sourmash tool compared to the speed up achieved by launching many sourmash processes in parallel. The current default of 100 was not tested at all."
+                },
+                "build_sylph": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of sylph database. Requires nucleotide FASTA file input."
+                },
+                "sylph_build_options": {
+                    "type": "string",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Specify parameters being given to sylph sketch.",
+                    "help_text": "See [sylph documentation](https://github.com/bluenote-1577/sylph/wiki/sylph-cookbook#database-sketching-options)."
                 }
             },
             "fa_icon": "fas fa-database"

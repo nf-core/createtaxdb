@@ -22,6 +22,7 @@ include { KAIJU_MKFMI                                } from '../modules/nf-core/
 include { KRAKENUNIQ_BUILD                           } from '../modules/nf-core/krakenuniq/build/main'
 include { UNZIP                                      } from '../modules/nf-core/unzip/main'
 include { MALT_BUILD                                 } from '../modules/nf-core/malt/build/main'
+include { SYLPH_SKETCHGENOMES                        } from '../modules/nf-core/sylph/sketchgenomes/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN            } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS           } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
@@ -93,7 +94,7 @@ workflow CREATETAXDB {
 
     if (params.build_centrifuge) {
         CENTRIFUGE_BUILD(PREPROCESSING.out.singleref_for_dna, file_nucl2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, [])
-        ch_versions = ch_versions.mix(CENTRIFUGE_BUILD.out.versions.first())
+        ch_versions = ch_versions.mix(CENTRIFUGE_BUILD.out.versions)
         ch_centrifuge_output = CENTRIFUGE_BUILD.out.cf
     }
     else {
@@ -104,7 +105,7 @@ workflow CREATETAXDB {
 
     if (params.build_diamond) {
         DIAMOND_MAKEDB(PREPROCESSING.out.singleref_for_aa, file_prot2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
-        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions.first())
+        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions)
         ch_diamond_output = DIAMOND_MAKEDB.out.db
     }
     else {
@@ -128,11 +129,11 @@ workflow CREATETAXDB {
                 [[id: params.dbname], it]
             }
 
-        // Nodes must come first
+        // Nodes must come
         ch_ganon_tax_files = channel.fromPath(file_taxonomy_nodesdmp).combine(channel.fromPath(file_taxonomy_namesdmp))
 
         GANON_BUILDCUSTOM(PREPROCESSING.out.grouped_dna_fastas, ch_ganon_input_tsv.map { _meta, tsv -> tsv }, ch_ganon_tax_files, file_genomesizes)
-        ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions.first())
+        ch_versions = ch_versions.mix(GANON_BUILDCUSTOM.out.versions)
         ch_ganon_output = GANON_BUILDCUSTOM.out.db
     }
     else {
@@ -143,7 +144,7 @@ workflow CREATETAXDB {
 
     if (params.build_kaiju) {
         KAIJU_MKFMI(PREPROCESSING.out.kaiju_aa, params.kaiju_keepintermediate)
-        ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions.first())
+        ch_versions = ch_versions.mix(KAIJU_MKFMI.out.versions)
         ch_kaiju_output = KAIJU_MKFMI.out.fmi
     }
     else {
@@ -175,7 +176,7 @@ workflow CREATETAXDB {
         ch_input_for_krakenuniq = PREPROCESSING.out.grouped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, file_nucl2taxid] }
 
         KRAKENUNIQ_BUILD(ch_input_for_krakenuniq, params.krakenuniq_keepintermediate)
-        ch_versions = ch_versions.mix(KRAKENUNIQ_BUILD.out.versions.first())
+        ch_versions = ch_versions.mix(KRAKENUNIQ_BUILD.out.versions)
         ch_krakenuniq_output = KRAKENUNIQ_BUILD.out.db
     }
     else {
@@ -202,7 +203,7 @@ workflow CREATETAXDB {
         }
 
         MALT_BUILD(ch_input_for_malt, [], ch_malt_mapdb, params.malt_mapdb_format)
-        ch_versions = ch_versions.mix(MALT_BUILD.out.versions.first())
+        ch_versions = ch_versions.mix(MALT_BUILD.out.versions)
         ch_malt_output = MALT_BUILD.out.index
     }
     else {
@@ -214,7 +215,7 @@ workflow CREATETAXDB {
     if (params.build_kmcp) {
         KMCP_CREATE(PREPROCESSING.out.singleref_for_dna)
         ch_kmcp_output = KMCP_CREATE.out.db
-        ch_versions = ch_versions.mix(KMCP_CREATE.out.versions.first())
+        ch_versions = ch_versions.mix(KMCP_CREATE.out.versions)
     }
     else {
         ch_kmcp_output = channel.empty()
@@ -228,7 +229,7 @@ workflow CREATETAXDB {
             params.sourmash_batch_size,
         )
 
-        ch_versions = ch_versions.mix(SOURMASH_CREATE_DNA.out.versions.first())
+        ch_versions = ch_versions.mix(SOURMASH_CREATE_DNA.out.versions)
 
         ch_sourmash_dna_output = SOURMASH_CREATE_DNA.out.db
     }
@@ -244,19 +245,27 @@ workflow CREATETAXDB {
             params.sourmash_batch_size,
         )
 
-        ch_versions = ch_versions.mix(SOURMASH_CREATE_PROTEIN.out.versions.first())
-
+        ch_versions = ch_versions.mix(SOURMASH_CREATE_PROTEIN.out.versions)
         ch_sourmash_protein_output = SOURMASH_CREATE_PROTEIN.out.db
     }
     else {
         ch_sourmash_protein_output = channel.empty()
     }
 
+    // MODULE : Run SYLPH/SKETCHGENOMES
+    if (params.build_sylph) {
+        SYLPH_SKETCHGENOMES(PREPROCESSING.out.grouped_dna_fastas)
+        ch_versions = ch_versions.mix(SYLPH_SKETCHGENOMES.out.versions)
+        ch_sylph_output = SYLPH_SKETCHGENOMES.out.syldb
+    }
+    else {
+        ch_sylph_output = channel.empty()
+    }
+
     //
     // Aggregate all databases for downstream processes
     //
-    ch_all_databases = Channel
-        .empty()
+    ch_all_databases = channel.empty()
         .mix(
             ch_centrifuge_output.map { meta, db -> [meta + [tool: "centrifuge", type: 'dna'], db] },
             ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'protein'], db] },
@@ -268,6 +277,7 @@ workflow CREATETAXDB {
             ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp", type: 'dna'], db] },
             ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
             ch_sourmash_protein_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
+            ch_sylph_output.map { meta, db -> [meta + [tool: 'sylph', type: 'dna'], db] },
         )
 
     //
@@ -350,4 +360,5 @@ workflow CREATETAXDB {
     kmcp_databae             = ch_kmcp_output
     sourmash_dna_database    = ch_sourmash_dna_output
     sourmash_aa_database     = ch_sourmash_protein_output
+    sylph_database           = ch_sylph_output
 }

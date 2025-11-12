@@ -7,7 +7,7 @@ include { SEQKIT_BATCHRENAME                            } from '../../../modules
 
 workflow PREPROCESSING {
     take:
-    ch_samplesheet  // channel: samplesheet read in from --input
+    ch_samplesheet // channel: samplesheet read in from --input
     malt_build_mode // string: 'nucleotide' or 'protein'
 
     main:
@@ -30,7 +30,7 @@ workflow PREPROCESSING {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     // PREPARE: Prepare input for single file inputs modules
-    if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon, params.build_kmcp, params.build_sourmash_dna].any()) {
+    if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon, params.build_kmcp, params.build_sourmash_dna, params.build_sylph].any()) {
 
         // Pull just DNA sequences
         ch_dna_refs_for_singleref = ch_samplesheet
