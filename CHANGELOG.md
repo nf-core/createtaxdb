@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Deprecated`
 
 - [#118](https://github.com/nf-core/createtaxdb/pull/118) - Deprecated automated building of `tar.gz` archives of all databases (by @jfy133)
+- [#126](https://github.com/nf-core/createtaxdb/pull/126) - Remove guidance about needed double and single quotes when giving to `--<tool>_build_options` as actually not necessary (by @jfy133)
 
 ## v1.0 - Helpful Hydra - [2025-06-19]
 
