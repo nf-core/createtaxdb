@@ -153,8 +153,8 @@
                 },
                 "bracken_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to bracken build. Must be wrapped in single and double quotes: --bracken_build_options \"'--your_param'\"",
-                    "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to bracken build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_centrifuge": {
@@ -164,8 +164,8 @@
                 },
                 "centrifuge_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to centrifuge-build. Must be wrapped in single and double quotes: --centrifuge_build_options \"'--your_param'\"",
-                    "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to centrifuge-build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_diamond": {
@@ -175,8 +175,8 @@
                 },
                 "diamond_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to diamond makedb. Must be wrapped in single and double quotes: --diamond_build_options \"'--your_param'\"",
-                    "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to diamond makedb. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_ganon": {
@@ -186,8 +186,8 @@
                 },
                 "ganon_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to ganon buildcustom. Must be wrapped in single and double quotes: --ganon_build_options \"'--your_param'\"",
-                    "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to ganon buildcustom. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_kaiju": {
@@ -197,8 +197,8 @@
                 },
                 "kaiju_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kaiju-mkbwt. Must be wrapped in single and double quotes: --kaiju_build_options \"'--your_param'\"",
-                    "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to kaiju-mkbwt. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "kaiju_keepintermediate": {
@@ -213,14 +213,14 @@
                 },
                 "kmcp_compute_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kmcp compute. Must be wrapped in single and double quotes: --kmcp_compute_options \"'--your_param'\"",
-                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to kmcp compute. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "kmcp_index_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kmcp index. Must be wrapped in single and double quotes: --kmcp_index_options \"'--your_param'\"",
-                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#index).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to kmcp index. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#index).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_kraken2": {
@@ -230,8 +230,8 @@
                 },
                 "kraken2_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kraken2 build. Must be wrapped in single and double quotes: --kraken2_build_options \"'--your_param'\"",
-                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to kraken2 build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "kraken2_keepintermediate": {
@@ -246,8 +246,8 @@
                 },
                 "krakenuniq_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to krakenuniq build. Must be wrapped in single and double quotes: --krakenuniq_build_options \"'--your_param'\"",
-                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to krakenuniq build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "krakenuniq_keepintermediate": {
@@ -262,8 +262,8 @@
                 },
                 "malt_build_options": {
                     "type": "string",
-                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein and be wrapped in double and single quotes: --malt_build_options \"'--sequenceType DNA --your_param'\"",
-                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or --sequenceType Protein. Parameters must be supplied in quotes: `--malt_build_options \"--sequenceType DNA --your_param\".",
+                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).",
                     "default": "--sequenceType DNA",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -278,7 +278,7 @@
                     "default": "--param-string \\'scaled=1000,k=31,noabund\\",
                     "fa_icon": "fas fa-users-cog",
                     "description": "Specify parameters given to sourmash sketch dna. Must start with sourmash sketch dna's '--param-string'.",
-                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. \n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter."
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single `--param-string` (or `-p`) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default `--param` string specified in the pipeline matches that of the tool itself. "
                 },
                 "build_sourmash_protein": {
                     "type": "boolean",
@@ -291,7 +291,7 @@
                     "default": "--param-string \\'scaled=200,k=10,noabund\\",
                     "fa_icon": "fas fa-users-cog",
                     "description": "Specify parameters given to sourmash sketch protein. Must start with sourmash sketch protein's '--param-string'.",
-                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. \n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter."
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. "
                 },
                 "sourmash_batch_size": {
                     "type": "integer",
