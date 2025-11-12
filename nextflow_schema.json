@@ -213,13 +213,13 @@
                 },
                 "kmcp_compute_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kmcp compute. Must be wrapped in single and double quotes: --kmcp_compute_options \"'--your_param'\"",
+                    "description": "Specify parameters being given to kmcp compute. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\".",
                     "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "kmcp_index_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kmcp index. Must be wrapped in single and double quotes: --kmcp_index_options \"'--your_param'\"",
+                    "description": "Specify parameters being given to kmcp index. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\".",
                     "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#index).",
                     "fa_icon": "fas fa-users-cog"
                 },
@@ -230,7 +230,7 @@
                 },
                 "kraken2_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kraken2 build. Must be wrapped in single and double quotes: --kraken2_build_options \"'--your_param'\"",
+                    "description": "Specify parameters being given to kraken2 build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\".",
                     "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases).",
                     "fa_icon": "fas fa-users-cog"
                 },
