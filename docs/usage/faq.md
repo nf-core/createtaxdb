@@ -402,3 +402,27 @@ tar czvf <dbname>-krakenuniq.tar.gz krakenuniq/<dbname>-krakenuniq/
 tar czvf <dbname>-ganon.tar.gz ganon/
 tar czvf <dbname>-malt.tar.gz malt/malt_index/
 ```
+
+## I get an error about `ConcurrentModificationExeception`
+
+### Context
+
+Sometimes when running the pipeline you will see an error message like this:
+
+```
+ERROR ~ Error executing process > 'NFCORE_CREATETAXDB:CREATETAXDB:PREPROCESSING:FIND_CONCATENATE_DNA (1)'
+
+Caused by:
+  java.util.ConcurrentModificationException
+```
+
+This appears to happen for the processes `FIND_CONCATENATE_DNA`, `FIND_CONCATENATE_AA`, or `MALT_BUILD`.
+
+It's currently unclear what causes this error, and is under investigation.
+Unfortunately the error message is not very informative and difficult to debug, thus will take time to resolve.
+
+### Solution
+
+For now, you can simply rerun the pipeline from the beginning using the `-resume` flag.
+
+Keep re-running the pipeline with `-resume` until the pipeline passes.

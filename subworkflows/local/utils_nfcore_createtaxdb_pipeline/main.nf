@@ -224,7 +224,7 @@ def validateInputParameters() {
     }
 
     // Validate MALT auxiliary file combinations
-    if (params.build_krakenuniq && [!params.malt_mapdb].any()) {
+    if (params.build_malt && [!params.malt_mapdb].any()) {
         error('[nf-core/createtaxdb] Supplied --build_malt, but missing: --malt_mapdb (all are mandatory for MALT)')
     }
 

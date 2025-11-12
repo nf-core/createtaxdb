@@ -9,7 +9,7 @@
                     "centrifuge": "1.0.4"
                 },
                 "DIAMOND_MAKEDB": {
-                    "diamond": "2.1.12"
+                    "diamond": "2.1.16"
                 },
                 "FIND_CONCATENATE_AA": {
                     "find": "4.6.0",

@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#110](https://github.com/nf-core/createtaxdb/pull/110) - Corrected the documented structures of the grouped output from the `PREPROCESSING` subworkflow
   (by @Midnighter).
 - [#121](https://github.com/nf-core/createtaxdb/pull/121) - Fix Kraken2 build failing with local files due to symlink-in-symlink mounting error with containers (❤️ to @ellmagu for reporting, fix by @jfy133)
+- [#122](https://github.com/nf-core/createtaxdb/pull/122) - Update DIAMOND to support more recent versions of NCBI taxonomy (by @jfy133)
+- [#123](https://github.com/nf-core/createtaxdb/pull/123) - Fix a MALT build validation check incorrectly assigned to --build_krakenuniq (by @jfy133)
 
 ### `Dependencies`
 
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | kraken2  | 2.1.5       | 2.1.6       |
 | tar      | 1.34        |             |
 | nf-core  | 3.3.2       | 3.4.1       |
+| DIAMOND  | 2.1.12      | 2.1.16      |
 
 ### `Deprecated`
 
