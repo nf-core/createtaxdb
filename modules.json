@@ -17,7 +17,7 @@
                     },
                     "diamond/makedb": {
                         "branch": "master",
-                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "git_sha": "4012b87ef8f242b7aa1eb17e165aa003b86b49c0",
                         "installed_by": ["modules"]
                     },
                     "find/concatenate": {
