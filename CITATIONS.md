@@ -58,6 +58,10 @@
 
   > Irber, L., Pierce-Ward, N. T., Abuelanin, M., Alexander, H., Anant, A., Barve, K., Baumler, C., Botvinnik, O., Brooks, P., Dsouza, D., Gautier, L., Hera, M. R., Houts, H. E., Johnson, L. K., Klötzl, F., Koslicki, D., Lim, M., Lim, R., Nelson, B., ... Brown, C. T. (2024). sourmash v4: A multitool to quickly search, compare,and analyze genomic and metagenomic data sets. Journal of Open Source Software, 9(98), 6830. https://doi.org/10.21105/joss.06830
 
+- [sylph](https://doi.org/10.1038/s41587-024-02412-y)
+
+> Shaw, J., & Yu, Y. W. (2024). Rapid species-level metagenome profiling and containment estimation with sylph. Nature Biotechnology, 1–12. [https://doi.org/10.1038/s41587-024-02412-y](https://doi.org/10.1038/s41587-024-02412-y)
+
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)

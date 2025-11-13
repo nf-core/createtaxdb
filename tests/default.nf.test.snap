@@ -35,6 +35,9 @@
                 "KMCP_COMPUTE": {
                     "kmcp": "0.9.4"
                 },
+                "KMCP_INDEX": {
+                    "kmcp": "0.9.4"
+                },
                 "KRAKEN2_ADD": {
                     "kraken2": "2.1.6"
                 },
@@ -50,8 +53,14 @@
                 "SEQKIT_BATCHRENAME": {
                     "seqkit": "2.9.0"
                 },
+                "SOURMASH_INDEX": {
+                    "sourmash": "4.9.4"
+                },
                 "SOURMASH_SKETCH": {
                     "sourmash": "4.9.4"
+                },
+                "SYLPH_SKETCHGENOMES": {
+                    "sylph": "0.9.0"
                 },
                 "UNPIGZ_AA": {
                     "find": "4.6.0",
@@ -99,12 +108,13 @@
             "kmcp/database-kmcp-index.log - contains string: true",
             "sourmash/database-sourmash-dna-31mer.sbt.zip - exists: true",
             "sourmash/database-sourmash-protein-10mer.sbt.zip - exists: true",
-            "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true"
+            "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true",
+            "sylph/database-sylph.syldb - minimum file size: true"
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-12T07:38:29.787927064"
+        "timestamp": "2025-11-12T14:44:51.330323219"
     }
 }

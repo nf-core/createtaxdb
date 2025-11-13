@@ -22,6 +22,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [KrakenUniq](#krakenuniq) - Database files for KrakenUniq
 - [MALT](#malt) - Database files for MALT
 - [sourmash](#sourmash) - Database files for sourmash
+- [sylph](#sylph) - Database files for sylph
 
 The pipeline can also generate downstream pipeline input samplesheets.
 These are stored in `<outdir>/downstream_samplesheets`.
@@ -221,6 +222,20 @@ The `malt_index` directory can be given to MALT itself with `malt-run --index <y
 
 The database name by default distinguishes the sequence type (dna or protein)
 and the k-mer size for which the index was created.
+
+### sylph
+
+[sylph](https://github.com/bluenote-1577/sylph) is a program that performs ultrafast (1) ANI querying or (2) metagenomic profiling for metagenomic shotgun samples.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `sylph/`
+  - `<your_database>-sylph.syldb`: sylph multi-genome sketch database file
+
+</details>
+
+The `<your_database>-sylph.syldb` file can be given to sylph profile itself with `sylph profile <your_database>-sylph.syldb <...>` etc.
 
 ### Downstream samplesheets
 

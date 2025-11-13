@@ -52,7 +52,9 @@ nextflow_pipeline {
                         "kmcp/database-kmcp-index.log - contains string: ${path("$outputDir/kmcp/database-kmcp-index.log").readLines().any{ it.contains('k-mers saved to database-kmcp-index')}}",
                         "sourmash/database-sourmash-dna-31mer.sbt.zip - exists: ${path("$outputDir/sourmash/database-sourmash-dna-31mer.sbt.zip").exists()}",
                         "sourmash/database-sourmash-protein-10mer.sbt.zip - exists: ${path("$outputDir/sourmash/database-sourmash-protein-10mer.sbt.zip").exists()}",
-                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 11}",
+                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 12}",
+                        "sylph/database-sylph.syldb - minimum file size: ${file("$outputDir/sylph/database-sylph.syldb").length() >= 280000}",
+
                     ).match()
                 },
                 { assert new File("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists() },
