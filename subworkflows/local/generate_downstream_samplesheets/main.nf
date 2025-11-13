@@ -45,7 +45,8 @@ workflow GENERATE_DOWNSTREAM_SAMPLESHEETS {
     def downstreampipeline_names = params.generate_pipeline_samplesheets.split(",")
 
     if (downstreampipeline_names.contains('taxprofiler')) {
-        ch_final_samplesheet = SAMPLESHEET_TAXPROFILER(ch_databases).samplesheet_taxprofiler
+        SAMPLESHEET_TAXPROFILER(ch_databases)
+        ch_final_samplesheet = SAMPLESHEET_TAXPROFILER.out.samplesheet_taxprofiler
         ch_versions = ch_versions.mix(SAMPLESHEET_TAXPROFILER.out.versions)
     }
 
