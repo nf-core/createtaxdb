@@ -17,7 +17,8 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                        removeFromYamlMap("${params.outdir}/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml", 'Workflow'),                        "bracken/database-bracken/database100mers.kmer_distrib - contains string: ${path("$outputDir/bracken/database-bracken/database100mers.kmer_distrib").readLines().any{ it.contains('91844')}}}",
+                        removeFromYamlMap("${params.outdir}/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml", 'Workflow'),
+                        "bracken/database-bracken/database100mers.kmer_distrib - contains string: ${path("$outputDir/bracken/database-bracken/database100mers.kmer_distrib").readLines().any{ it.contains('91844')}}}",
                         "bracken/database-bracken/database100mers.kraken - contains string: ${path("$outputDir/bracken/database-bracken/database100mers.kraken").readLines().any{ it.contains('NC_018507.1')}}",
                         "bracken/database-bracken/database.kraken - contains string: ${path("$outputDir/bracken/database-bracken/database.kraken").readLines().any{ it.contains('NC_018507.1')}}",
                         "centrifuge/database-centrifuge.1.cf - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge/database-centrifuge.1.cf").length() >= 10904287}",
