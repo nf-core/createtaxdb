@@ -8,7 +8,7 @@ workflow SOURMASH_CREATE {
     batch_size
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     /*
      * Let sourmash sketch `batch_size` signatures at a time. This is a
