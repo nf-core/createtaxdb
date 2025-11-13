@@ -43,7 +43,7 @@ The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](htt
    - [Kraken2](https://doi.org/10.1186/s13059-019-1891-0)
    - [KrakenUniq](https://doi.org/10.1186/s13059-018-1568-0)
    - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
-   - [sourmash](https://doi.org/10.1038/s41587-024-02412-y)
+   - [sourmash](https://doi.org/10.21105/joss.06830)
    - [sylph](https://doi.org/10.1038/s41587-024-02412-y)
 
 ## Usage
@@ -51,17 +51,16 @@ The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](htt
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-First, prepare an input CSV table with your input reference genomes that looks as follows:
+First, prepare an input comma-separated table (csv) with your input reference genomes that looks as follows:
 
-```csv
-id,taxid,fasta_dna,fasta_aa
-Human_Mitochondrial_genome,9606,chrMT.fna,
-SARS-CoV-2_genome,694009,GCA_011545545.1_ASM1154554v1_genomic.fna.gz,GCA_011545545.1_ASM1154554v1_genomic.faa.gz
-Bacteroides_fragilis_genome,817,GCF_016889925.1_ASM1688992v1_genomic.fna.gz,GCF_016889925.1_ASM1688992v1_genomic.faa.gz
-Candidatus_portiera_aleyrodidarum_genome,91844,GCF_000292685.1_ASM29268v1_genomic.fna,GCF_000292685.1_ASM29268v1_genomic.faa
-Haemophilus_influenzae_genome,727,GCF_900478275.1_34211_D02_genomic.fna,GCF_900478275.1_34211_D02_genomic.faa
-Streptococcus_agalactiae_genome,1311,,GCF_002881355.1_ASM288135v1_genomic.faa
-```
+| id                                       | taxid  | fasta_dna                                   | fasta_aa                                    |
+| ---------------------------------------- | ------ | ------------------------------------------- | ------------------------------------------- |
+| Human_Mitochondrial_genome               | 9606   | chrMT.fna                                   |                                             |
+| SARS-CoV-2_genome                        | 694009 | GCA_011545545.1_ASM1154554v1_genomic.fna.gz | GCA_011545545.1_ASM1154554v1_genomic.faa.gz |
+| Bacteroides_fragilis_genome              | 817    | GCF_016889925.1_ASM1688992v1_genomic.fna.gz | GCF_016889925.1_ASM1688992v1_genomic.faa.gz |
+| Candidatus_portiera_aleyrodidarum_genome | 91844  | GCF_000292685.1_ASM29268v1_genomic.fna      | GCF_000292685.1_ASM29268v1_genomic.faa      |
+| Haemophilus_influenzae_genome            | 727    | GCF_900478275.1_34211_D02_genomic.fna       | GCF_900478275.1_34211_D02_genomic.faa       |
+| Streptococcus_agalactiae_genome          | 1311   |                                             | GCF_002881355.1_ASM288135v1_genomic.faa     |
 
 Each row contains a human readable name, the taxonomic ID of the organism, and then an (optionally gzipped) Nucleotide and/or Amino Acid FASTA file.
 
@@ -110,7 +109,6 @@ We thank the following people for their extensive assistance in the development 
 
 - Zandra Fagernäs (@ZandraFagernas) for logo design
 - Paul Cantalupo (@pcantalupo) for additional documentation
--
 
 ## Contributions and Support
 
