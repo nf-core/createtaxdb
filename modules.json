@@ -88,8 +88,9 @@
                     },
                     "sourmash/sketch": {
                         "branch": "master",
-                        "git_sha": "f0800157544a82ae222931764483331a81812012",
-                        "installed_by": ["modules"]
+                        "git_sha": "30c7adaae047db8e06f71386eb6059fdd1ea6b13",
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/sourmash/sketch/sourmash-sketch.diff"
                     },
                     "sylph/sketchgenomes": {
                         "branch": "master",
