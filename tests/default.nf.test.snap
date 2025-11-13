@@ -12,19 +12,19 @@
                     "diamond": "2.1.16"
                 },
                 "FIND_CONCATENATE_AA": {
+                    "coreutils": 9.4,
                     "find": "4.6.0",
-                    "pigz": 2.8,
-                    "coreutils": 9.4
+                    "pigz": 2.8
                 },
                 "FIND_CONCATENATE_AA_KAIJU": {
+                    "coreutils": 9.4,
                     "find": "4.6.0",
-                    "pigz": 2.8,
-                    "coreutils": 9.4
+                    "pigz": 2.8
                 },
                 "FIND_CONCATENATE_DNA": {
+                    "coreutils": 9.4,
                     "find": "4.6.0",
-                    "pigz": 2.8,
-                    "coreutils": 9.4
+                    "pigz": 2.8
                 },
                 "GANON_BUILDCUSTOM": {
                     "ganon": "2.1.0"
@@ -69,9 +69,6 @@
                 "UNPIGZ_DNA": {
                     "find": "4.6.0",
                     "pigz": 2.8
-                },
-                "Workflow": {
-                    "nf-core/createtaxdb": "v2.0.0dev"
                 }
             },
             "bracken/database-bracken/database100mers.kmer_distrib - contains string: true}",
@@ -115,6 +112,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-12T14:44:51.330323219"
+        "timestamp": "2025-11-13T10:17:11.260021335"
     }
 }
