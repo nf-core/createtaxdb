@@ -37,7 +37,7 @@
                     },
                     "kaiju/mkfmi": {
                         "branch": "master",
-                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "git_sha": "c16667b6a52ab35a95e471e94243913487deb36e",
                         "installed_by": ["modules"]
                     },
                     "kmcp/compute": {
