@@ -230,7 +230,7 @@ and the k-mer size for which the index was created.
 <details markdown="1">
 <summary>Output files</summary>
 
-- `sourmash/`
+- `sylph/`
   - `<your_database>-sylph.syldb`: sylph multi-genome sketch database file
 
 </details>
