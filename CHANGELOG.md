@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.1.0dev - [date]
+## v2.0.0 - Charming Chaac - [2025-11-13]
 
 ### `Added`
 
@@ -26,10 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Tool     | Old Version | New Version |
 | -------- | ----------- | ----------- |
 | sourmash |             | 4.9.4       |
+| sylph    |             | 0.9.0       |
 | kraken2  | 2.1.5       | 2.1.6       |
 | tar      | 1.34        |             |
 | nf-core  | 3.3.2       | 3.4.1       |
 | DIAMOND  | 2.1.12      | 2.1.16      |
+| MultiQC  | 1.31        | 1.32        |
 
 ### `Deprecated`
 
