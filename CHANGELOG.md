@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | nf-core  | 3.3.2       | 3.4.1       |
 | DIAMOND  | 2.1.12      | 2.1.16      |
 | MultiQC  | 1.31        | 1.32        |
+| Nextflow | 24.04.2     | 25.04.2     |
 
 ### `Deprecated`
 
