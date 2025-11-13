@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#121](https://github.com/nf-core/createtaxdb/pull/121) - Fix Kraken2 build failing with local files due to symlink-in-symlink mounting error with containers (❤️ to @ellmagu for reporting, fix by @jfy133)
 - [#122](https://github.com/nf-core/createtaxdb/pull/122) - Update DIAMOND to support more recent versions of NCBI taxonomy (by @jfy133)
 - [#123](https://github.com/nf-core/createtaxdb/pull/123) - Fix a MALT build validation check incorrectly assigned to --build_krakenuniq (by @jfy133)
+- [#133](https://github.com/nf-core/createtaxdb/pull/133) - Fix Kaiju compatible renamed FASTA files being always published even if --kaiju_keepintermediates false (by @jfy133)
 
 ### `Dependencies`
 
