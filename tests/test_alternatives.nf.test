@@ -19,6 +19,7 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
+                        removeFromYamlMap("${params.outdir}/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml", 'Workflow'),
                         "kaiju/database.fmi - minimum file size: ${file("$outputDir/kaiju/database-kaiju.fmi").length() >= 3519604}",
                         "kaiju/database.bwt - minimum file size: ${file("$outputDir/kaiju/database-kaiju.bwt").length() >= 2612295}",
                         "kaiju/database.sa - minimum file size: ${file("$outputDir/kaiju/database-kaiju.sa").length() >= 450917}",

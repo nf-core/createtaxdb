@@ -1,30 +1,93 @@
 {
     "-profile test": {
         "content": [
-            "bracken/database-bracken.tar.gz - minimum file size: true",
-            "bracken/database-kraken2/database100mers.kmer_distrib - contains string: true}",
-            "bracken/database-kraken2/database100mers.kraken - contains string: true",
-            "bracken/database-kraken2/database.kraken - contains string: true",
-            "centrifuge/database-centrifuge.tar.gz - minimum file size: true",
+            {
+                "BRACKEN_BUILD": {
+                    "bracken": "3.0.1"
+                },
+                "CENTRIFUGE_BUILD": {
+                    "centrifuge": "1.0.4"
+                },
+                "DIAMOND_MAKEDB": {
+                    "diamond": "2.1.16"
+                },
+                "FIND_CONCATENATE_AA": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "FIND_CONCATENATE_AA_KAIJU": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "FIND_CONCATENATE_DNA": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "GANON_BUILDCUSTOM": {
+                    "ganon": "2.1.0"
+                },
+                "KAIJU_MKFMI": {
+                    "kaiju": "1.10.0"
+                },
+                "KMCP_COMPUTE": {
+                    "kmcp": "0.9.4"
+                },
+                "KMCP_INDEX": {
+                    "kmcp": "0.9.4"
+                },
+                "KRAKEN2_ADD": {
+                    "kraken2": "2.1.6"
+                },
+                "KRAKEN2_BUILD": {
+                    "kraken2": "2.1.6"
+                },
+                "KRAKENUNIQ_BUILD": {
+                    "krakenuniq": "1.0.4"
+                },
+                "MALT_BUILD": {
+                    "malt": "0.6.2"
+                },
+                "SEQKIT_BATCHRENAME": {
+                    "seqkit": "2.9.0"
+                },
+                "SOURMASH_INDEX": {
+                    "sourmash": "4.9.4"
+                },
+                "SOURMASH_SKETCH": {
+                    "sourmash": "4.9.4"
+                },
+                "SYLPH_SKETCHGENOMES": {
+                    "sylph": "0.9.0"
+                },
+                "UNPIGZ_AA": {
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "UNPIGZ_DNA": {
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                }
+            },
+            "bracken/database-bracken/database100mers.kmer_distrib - contains string: true}",
+            "bracken/database-bracken/database100mers.kraken - contains string: true",
+            "bracken/database-bracken/database.kraken - contains string: true",
             "centrifuge/database-centrifuge.1.cf - minimum file size: true",
             "centrifuge/database-centrifuge.2.cf - minimum file size: true",
             "centrifuge/database-centrifuge.3.cf - minimum file size: true",
             "centrifuge/database-centrifuge.4.cf - minimum file size: true",
-            "diamond/database-diamond.tar.gz - minimum file size: true",
             "diamond/database-diamond.dmnd - minimum file size: true",
-            "ganon/database-ganon.tar.gz - minimum file size: true",
             "database.hibf:md5,6459b0502321f96ec8009c633b09fc82",
             "ganon/database.tax - contains string: true",
-            "kaiju/database-kaiju.tar.gz - minimum file size: true",
             "kaiju/database-kaiju.fmi - minimum file size: true",
             "kraken2/database-kraken2/hash.k2d - minimum file size: true",
             "kraken2/database-kraken2/opts.k2d - minimum file size: true",
             "taxo.k2d:md5,9eb6380ebcdd3dac42ccf3df3bbd9589",
-            "krakenuniq/database-krakenuniq.tar.gz - minimum file size: false",
             "database.idx:md5,57b7f061092bffaabc4974ee3e436a26",
             "database.kdb:md5,a3b3d0f109173d8c9b06a9dba7c47152",
             "taxDB:md5,a844cdf3103490c19748e7e4c2b65d74",
-            "malt/database-malt.tar.gz - minimum file size: true",
             "malt/malt-build.log - contains string: true",
             "malt/malt-build.log - contains string: true",
             "index0.idx:md5,ae0ad70b96e0f660cf9137ea1a5a2249",
@@ -40,13 +103,15 @@
             "kmcp yml file - contains string: true",
             true,
             "kmcp/database-kmcp-index.log - contains string: true",
-            "kmcp/database-kmcp.tar.gz - minimum file size: true",
-            "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true"
+            "sourmash/database-sourmash-dna-31mer.sbt.zip - exists: true",
+            "sourmash/database-sourmash-protein-10mer.sbt.zip - exists: true",
+            "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true",
+            "sylph/database-sylph.syldb - minimum file size: true"
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.2"
+            "nextflow": "25.10.0"
         },
-        "timestamp": "2025-06-05T11:34:20.971286311"
+        "timestamp": "2025-11-13T10:17:11.260021335"
     }
 }

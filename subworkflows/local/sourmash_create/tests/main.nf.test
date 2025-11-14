@@ -1,0 +1,120 @@
+nextflow_workflow {
+
+    name "Test Subworkflow SOURMASH_CREATE"
+    script "../main.nf"
+    workflow "SOURMASH_CREATE"
+
+    tag "subworkflows"
+    tag "subworkflows_"
+    tag "subworkflows/sourmash_create"
+    tag "sourmash"
+    tag "sourmash/sketch"
+    tag "sourmash/index"
+
+
+    test("library - fna - batch size 1") {
+        config "./dna.config"
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+
+            workflow {
+                """
+                def ch_library = Channel.of([
+                    [ id:'test' ],
+                    [
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa', checkIfExists: true),
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true),
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/streptococcus_agalactiae/genome/emu/species_taxid.fasta', checkIfExists: true),
+                    ],
+                ])
+
+                input[0] = ch_library
+                input[1] = [31]
+                input[2] = 1
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-dna-31mer.sbt.zip' },
+                { assert snapshot(workflow.out.versions).match('fna-batch-size-1-versions') }
+            )
+        }
+    }
+
+    test("library - fna - batch size 2") {
+        config "./dna.config"
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+
+            workflow {
+                """
+                def ch_library = Channel.of([
+                    [ id:'test' ],
+                    [
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/escherichia_coli/genome/genome.fa', checkIfExists: true),
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/genome/genome.fna.gz', checkIfExists: true),
+                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/streptococcus_agalactiae/genome/emu/species_taxid.fasta', checkIfExists: true),
+                    ],
+                ])
+
+                input[0] = ch_library
+                input[1] = [31]
+                input[2] = 2
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-dna-31mer.sbt.zip' },
+                { assert snapshot(workflow.out.versions).match('fna-batch-size-2-versions') }
+            )
+        }
+    }
+
+    test("library - faa - batch size 1") {
+        config "./protein.config"
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+
+            workflow {
+                """
+                def ch_library = Channel.of([
+                    [ id:'test' ],
+                    [
+                        file(params.pipelines_testdata_base_path + '/data/fasta/GCF_000292685.1_ASM29268v1_genomic.faa', checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + '/data/fasta/GCF_900478275.1_34211_D02_genomic.faa', checkIfExists: true),
+                        file(params.pipelines_testdata_base_path + '/data/fasta/GCF_002881355.1_ASM288135v1_genomic.faa', checkIfExists: true),
+                    ],
+                ])
+
+                input[0] = ch_library
+                input[1] = [10]
+                input[2] = 1
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-protein-10mer.sbt.zip' },
+                { assert snapshot(workflow.out.versions).match('protein-versions') }
+            )
+        }
+    }
+
+}

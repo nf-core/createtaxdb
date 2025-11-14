@@ -20,6 +20,7 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot (
+                        removeFromYamlMap("${params.outdir}/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml", 'Workflow'),
                         file("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists(),
                         file("$outputDir/multiqc/multiqc_data/multiqc.log").readLines().any {it.contains('Found 1 sample')},
                         file("$outputDir/multiqc/multiqc_report.html").exists()

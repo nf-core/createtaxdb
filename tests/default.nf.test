@@ -3,6 +3,7 @@ nextflow_pipeline {
     name "Test pipeline"
     script "../main.nf"
     tag "pipeline"
+    tag "test"
 
     test("-profile test") {
 
@@ -16,30 +17,24 @@ nextflow_pipeline {
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(
-                        "bracken/database-bracken.tar.gz - minimum file size: ${file("$outputDir/bracken/database-bracken.tar.gz").length() >= 11000000}",
-                        "bracken/database-kraken2/database100mers.kmer_distrib - contains string: ${path("$outputDir/bracken/database-kraken2/database100mers.kmer_distrib").readLines().any{ it.contains('91844')}}}",
-                        "bracken/database-kraken2/database100mers.kraken - contains string: ${path("$outputDir/bracken/database-kraken2/database100mers.kraken").readLines().any{ it.contains('NC_018507.1')}}",
-                        "bracken/database-kraken2/database.kraken - contains string: ${path("$outputDir/bracken/database-kraken2/database.kraken").readLines().any{ it.contains('NC_018507.1')}}",
-                        "centrifuge/database-centrifuge.tar.gz - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge.tar.gz").length() >= 3800000}",
+                        removeFromYamlMap("${params.outdir}/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml", 'Workflow'),
+                        "bracken/database-bracken/database100mers.kmer_distrib - contains string: ${path("$outputDir/bracken/database-bracken/database100mers.kmer_distrib").readLines().any{ it.contains('91844')}}}",
+                        "bracken/database-bracken/database100mers.kraken - contains string: ${path("$outputDir/bracken/database-bracken/database100mers.kraken").readLines().any{ it.contains('NC_018507.1')}}",
+                        "bracken/database-bracken/database.kraken - contains string: ${path("$outputDir/bracken/database-bracken/database.kraken").readLines().any{ it.contains('NC_018507.1')}}",
                         "centrifuge/database-centrifuge.1.cf - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge/database-centrifuge.1.cf").length() >= 10904287}",
                         "centrifuge/database-centrifuge.2.cf - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge/database-centrifuge.2.cf").length() >= 943010}",
                         "centrifuge/database-centrifuge.3.cf - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge/database-centrifuge.3.cf").length() >= 2799}",
                         "centrifuge/database-centrifuge.4.cf - minimum file size: ${file("$outputDir/centrifuge/database-centrifuge/database-centrifuge.4.cf").length() >= 84}",
-                        "diamond/database-diamond.tar.gz - minimum file size: ${file("$outputDir/diamond/database-diamond.tar.gz").length() >= 1700000}",
                         "diamond/database-diamond.dmnd - minimum file size: ${file("$outputDir/diamond/database-diamond.dmnd").length() >= 21901808}",
-                        "ganon/database-ganon.tar.gz - minimum file size: ${file("$outputDir/ganon/database-ganon.tar.gz").length() >= 2700000}",
                         path("$outputDir/ganon/database.hibf"),
                         "ganon/database.tax - contains string: ${path("$outputDir/ganon/database.tax").readLines().any{ it.contains('SARS-CoV-2_genome')}}",
-                        "kaiju/database-kaiju.tar.gz - minimum file size: ${file("$outputDir/kaiju/database-kaiju.tar.gz").length() >= 3100000}",
                         "kaiju/database-kaiju.fmi - minimum file size: ${file("$outputDir/kaiju/database-kaiju.fmi").length() >= 3519604}",
                         "kraken2/database-kraken2/hash.k2d - minimum file size: ${file("$outputDir/kraken2/database-kraken2/hash.k2d").length() >= 13410040}",
                         "kraken2/database-kraken2/opts.k2d - minimum file size: ${file("$outputDir/kraken2/database-kraken2/opts.k2d").length() >= 64}",
                         path("$outputDir/kraken2/database-kraken2/taxo.k2d"),
-                        "krakenuniq/database-krakenuniq.tar.gz - minimum file size: ${file("$outputDir/bracken/database-krakenuniq.tar.gz").length() >= 49000000}",
                         file("$outputDir/krakenuniq/database-krakenuniq/database.idx"),
                         file("$outputDir/krakenuniq/database-krakenuniq/database.kdb"),
                         file("$outputDir/krakenuniq/database-krakenuniq/taxDB"),
-                        "malt/database-malt.tar.gz - minimum file size: ${file("$outputDir/malt/database-malt.tar.gz").length() >= 7300000}",
                         "malt/malt-build.log - contains string: ${path("$outputDir/malt/malt-build.log").readLines().any{ it.contains('--acc2taxa')}}",
                         "malt/malt-build.log - contains string: ${path("$outputDir/malt/malt-build.log").readLines().last().contains('Peak memory')}",
                         path("$outputDir/malt/malt_index/index0.idx"),
@@ -55,8 +50,11 @@ nextflow_pipeline {
                         "kmcp yml file - contains string: ${path("$outputDir/kmcp/database-kmcp-index/R001/__db.yml").readLines().any{ it.contains('alias: database-kmcp-index')}}",
                         path("$outputDir/kmcp/database-kmcp-index/R001/__name_mapping.tsv").exists(),
                         "kmcp/database-kmcp-index.log - contains string: ${path("$outputDir/kmcp/database-kmcp-index.log").readLines().any{ it.contains('k-mers saved to database-kmcp-index')}}",
-                        "kmcp/database-kmcp.tar.gz - minimum file size: ${file("$outputDir/kmcp/database-kmcp.tar.gz").length() >= 3200000}",
-                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 9}",
+                        "sourmash/database-sourmash-dna-31mer.sbt.zip - exists: ${path("$outputDir/sourmash/database-sourmash-dna-31mer.sbt.zip").exists()}",
+                        "sourmash/database-sourmash-protein-10mer.sbt.zip - exists: ${path("$outputDir/sourmash/database-sourmash-protein-10mer.sbt.zip").exists()}",
+                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 12}",
+                        "sylph/database-sylph.syldb - minimum file size: ${file("$outputDir/sylph/database-sylph.syldb").length() >= 280000}",
+
                     ).match()
                 },
                 { assert new File("$outputDir/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml").exists() },

@@ -11,6 +11,7 @@
 include { UTILS_NFSCHEMA_PLUGIN   } from '../../nf-core/utils_nfschema_plugin'
 include { paramsSummaryMap        } from 'plugin/nf-schema'
 include { samplesheetToList       } from 'plugin/nf-schema'
+include { paramsHelp              } from 'plugin/nf-schema'
 include { completionEmail         } from '../../nf-core/utils_nfcore_pipeline'
 include { completionSummary       } from '../../nf-core/utils_nfcore_pipeline'
 include { imNotification          } from '../../nf-core/utils_nfcore_pipeline'
@@ -25,12 +26,15 @@ include { UTILS_NEXTFLOW_PIPELINE } from '../../nf-core/utils_nextflow_pipeline'
 
 workflow PIPELINE_INITIALISATION {
     take:
-    version           // boolean: Display version and exit
-    validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
-    monochrome_logs   // boolean: Do not use coloured log outputs
+    version // boolean: Display version and exit
+    validate_params // boolean: Boolean whether to validate parameters against the schema at runtime
+    monochrome_logs // boolean: Do not use coloured log outputs
     nextflow_cli_args //   array: List of positional nextflow CLI args
-    outdir            //  string: The output directory where the results will be saved
-    input             //  string: Path to input samplesheet
+    outdir //  string: The output directory where the results will be saved
+    input //  string: Path to input samplesheet
+    help // boolean: Display help message and exit
+    help_full // boolean: Show the full help message
+    show_hidden // boolean: Show hidden parameters in the help message
 
     main:
 
@@ -49,10 +53,35 @@ workflow PIPELINE_INITIALISATION {
     //
     // Validate parameters and generate parameter summary to stdout
     //
+    before_text = """
+-\033[2m----------------------------------------------------\033[0m-
+                                        \033[0;32m,--.\033[0;30m/\033[0;32m,-.\033[0m
+\033[0;34m        ___     __   __   __   ___     \033[0;32m/,-._.--~\'\033[0m
+\033[0;34m  |\\ | |__  __ /  ` /  \\ |__) |__         \033[0;33m}  {\033[0m
+\033[0;34m  | \\| |       \\__, \\__/ |  \\ |___     \033[0;32m\\`-._,-`-,\033[0m
+                                        \033[0;32m`._,._,\'\033[0m
+\033[0;35m  nf-core/createtaxdb ${workflow.manifest.version}\033[0m
+-\033[2m----------------------------------------------------\033[0m-
+"""
+    after_text = """${workflow.manifest.doi ? "\n* The pipeline\n" : ""}${workflow.manifest.doi.tokenize(",").collect { "    https://doi.org/${it.trim().replace('https://doi.org/', '')}" }.join("\n")}${workflow.manifest.doi ? "\n" : ""}
+* The nf-core framework
+    https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+    https://github.com/nf-core/createtaxdb/blob/main/CITATIONS.md
+"""
+    command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
+
     UTILS_NFSCHEMA_PLUGIN(
         workflow,
         validate_params,
         null,
+        help,
+        help_full,
+        show_hidden,
+        before_text,
+        after_text,
+        command,
     )
 
     //
@@ -119,13 +148,13 @@ workflow PIPELINE_INITIALISATION {
 
 workflow PIPELINE_COMPLETION {
     take:
-    email           //  string: email address
-    email_on_fail   //  string: email address sent on pipeline failure
+    email //  string: email address
+    email_on_fail //  string: email address sent on pipeline failure
     plaintext_email // boolean: Send plain-text email instead of HTML
-    outdir          //    path: Path to output directory where results will be published
+    outdir //    path: Path to output directory where results will be published
     monochrome_logs // boolean: Disable ANSI colour codes in log output
-    hook_url        //  string: hook URL for notifications
-    multiqc_report  //  string: Path to MultiQC report
+    hook_url //  string: hook URL for notifications
+    multiqc_report //  string: Path to MultiQC report
 
     main:
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
@@ -195,7 +224,7 @@ def validateInputParameters() {
     }
 
     // Validate MALT auxiliary file combinations
-    if (params.build_krakenuniq && [!params.malt_mapdb].any()) {
+    if (params.build_malt && [!params.malt_mapdb].any()) {
         error('[nf-core/createtaxdb] Supplied --build_malt, but missing: --malt_mapdb (all are mandatory for MALT)')
     }
 
@@ -206,10 +235,6 @@ def validateInputParameters() {
     // Validate samplesheet generation parameters
     if (params.generate_downstream_samplesheets && !params.generate_pipeline_samplesheets) {
         error('[nf-core/createtaxdb] If supplying `--generate_downstream_samplesheets`, you must also specify which pipeline to generate for with `--generate_pipeline_samplesheets! Check input.')
-    }
-
-    if (params.generate_downstream_samplesheets && !params.generate_tar_archive && params.generate_samplesheet_dbtype == 'tar') {
-        error('[nf-core/createtaxdb] Supplied --generate_downstream_samplesheets with --generate_samplesheet_dbtype tar, but missing --generate_tar_archive (mandatory for tar archive output).')
     }
 }
 
@@ -242,6 +267,8 @@ def toolCitationText() {
         params.build_kraken2 ? "Kraken2 (Wood et al. 2019)," : "",
         params.build_krakenuniq ? "KrakenUniq (Breitwieser et al. 2018)," : "",
         params.build_malt ? "MALT (Vågene et al. 2018)," : "",
+        params.build_sourmash_dna || params.build_sourmash_protein ? "sourmash sketch dna (Irber et al. 2024)," : "",
+        params.build_sylph ? "sylph (Shaw and Yu 2024)," : "",
         "and MultiQC (Ewels et al. 2016)",
         ".",
     ].join(' ').trim()
@@ -261,6 +288,8 @@ def toolBibliographyText() {
         params.build_kraken2 ? '<li>Wood, D. E., Lu, J., & Langmead, B. (2019). Improved metagenomic analysis with Kraken 2. Genome Biology, 20(1), 257.  <a href="https://doi.org/10.1186/s13059-019-1891-0">10.1186/s13059-019-1891-0</a></li>' : "",
         params.build_krakenuniq ? '<li>Breitwieser, F. P., Baker, D. N., & Salzberg, S. L. (2018). KrakenUniq: confident and fast metagenomics classification using unique k-mer counts. Genome Biology, 19(1), 198.  <a href="https://doi.org/10.1186/s13059-018-1568-0">10.1186/s13059-018-1568-0</a></li>' : "",
         params.build_malt ? '<li>Vågene, Å. J., Herbig, A., Campana, M. G., Robles García, N. M., Warinner, C., Sabin, S., Spyrou, M. A., Andrades Valtueña, A., Huson, D., Tuross, N., Bos, K. I., & Krause, J. (2018). Salmonella enterica genomes from victims of a major sixteenth-century epidemic in Mexico. Nature Ecology & Evolution, 2(3), 520–528.  <a href="https://doi.org/10.1038/s41559-017-0446-6">10.1038/s41559-017-0446-6</a></li>' : "",
+        params.build_sourmash_dna || params.build_sourmash_protein ? '<li>Irber, L., Pierce-Ward, N. T., Abuelanin, M., Alexander, H., Anant, A., Barve, K., Baumler, C., Botvinnik, O., Brooks, P., Dsouza, D., Gautier, L., Hera, M. R., Houts, H. E., Johnson, L. K., Klötzl, F., Koslicki, D., Lim, M., Lim, R., Nelson, B., ... Brown, C. T. (2024). sourmash v4: A multitool to quickly search, compare,and analyze genomic and metagenomic data sets. Journal of Open Source Software, 9(98), 6830. <a href=\"https://doi.org/10.21105/joss.06830\">10.21105/joss.06830</a></li>' : "",
+        params.build_sylph ? '<li>Shaw, J., & Yu, Y. W. (2024). Rapid species-level metagenome profiling and containment estimation with sylph. Nature Biotechnology, 1–12. <a href=\"https://doi.org/10.1038/s41587-024-02412-y\">10.1038/s41587-024-02412-y</a></li>' : "",
         '<li>Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics , 32(19), 3047–3048. doi: <a href="https://doi.org/10.1093/bioinformatics/btw354">10.1093/bioinformatics/btw354</li>',
     ].join(' ').trim()
 

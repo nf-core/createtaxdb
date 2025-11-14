@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/nf-core/createtaxdb/master/nextflow_schema.json",
+    "$id": "https://raw.githubusercontent.com/nf-core/createtaxdb/main/nextflow_schema.json",
     "title": "nf-core/createtaxdb pipeline parameters",
     "description": "Parallelised and automated creation of metagenomic classifier databases of different tools",
     "type": "object",
@@ -153,8 +153,8 @@
                 },
                 "bracken_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to bracken build. Must be wrapped in single and double quotes: --bracken_build_options \"'--your_param'\"",
-                    "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to bracken build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_centrifuge": {
@@ -164,8 +164,8 @@
                 },
                 "centrifuge_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to centrifuge-build. Must be wrapped in single and double quotes: --centrifuge_build_options \"'--your_param'\"",
-                    "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to centrifuge-build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Centrifuge documentation](https://github.com/DaehwanKimLab/centrifuge/blob/master/MANUAL.markdown#database-download-and-index-building).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_diamond": {
@@ -175,8 +175,8 @@
                 },
                 "diamond_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to diamond makedb. Must be wrapped in single and double quotes: --diamond_build_options \"'--your_param'\"",
-                    "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to diamond makedb. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [diamond documentation](https://github.com/bbuchfink/diamond/wiki/3.-Command-line-options#makedb-options).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_ganon": {
@@ -186,8 +186,8 @@
                 },
                 "ganon_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to ganon buildcustom. Must be wrapped in single and double quotes: --ganon_build_options \"'--your_param'\"",
-                    "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to ganon buildcustom. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [ganon documentation](https://pirovc.github.io/ganon/custom_databases/).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_kaiju": {
@@ -197,8 +197,8 @@
                 },
                 "kaiju_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kaiju-mkbwt. Must be wrapped in single and double quotes: --kaiju_build_options \"'--your_param'\"",
-                    "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to kaiju-mkbwt. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Kaiju documentation](https://github.com/bioinformatics-centre/kaiju/tree/master#custom-database).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "kaiju_keepintermediate": {
@@ -213,14 +213,14 @@
                 },
                 "kmcp_compute_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kmcp compute. Must be wrapped in single and double quotes: --kmcp_compute_options \"'--your_param'\"",
-                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to kmcp compute. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "kmcp_index_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kmcp index. Must be wrapped in single and double quotes: --kmcp_index_options \"'--your_param'\"",
-                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#index).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to kmcp index. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#index).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "build_kraken2": {
@@ -230,8 +230,8 @@
                 },
                 "kraken2_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to kraken2 build. Must be wrapped in single and double quotes: --kraken2_build_options \"'--your_param'\"",
-                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to kraken2 build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Kraken2 documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#custom-databases).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "kraken2_keepintermediate": {
@@ -246,8 +246,8 @@
                 },
                 "krakenuniq_build_options": {
                     "type": "string",
-                    "description": "Specify parameters being given to krakenuniq build. Must be wrapped in single and double quotes: --krakenuniq_build_options \"'--your_param'\"",
-                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters being given to krakenuniq build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "krakenuniq_keepintermediate": {
@@ -262,10 +262,55 @@
                 },
                 "malt_build_options": {
                     "type": "string",
-                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or Protein and be wrapped in double and single quotes: --malt_build_options \"'--sequenceType DNA --your_param'\"",
-                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).\n\nParameters must be wrapped in _both_ single and then double quotes outside these, to ensure the parameters are interpreted as a string for internal use rather than interpreted by the terminal as a pipeline-level parameter.",
+                    "description": "Specify parameters given to malt-build. Must include --sequenceType DNA or --sequenceType Protein. Parameters must be supplied in quotes: `--malt_build_options \"--sequenceType DNA --your_param\".",
+                    "help_text": "At least the type of reference sequences should be specified. (For RNA sequences, use the DNA setting) - from [MALT manual](https://software-ab.cs.uni-tuebingen.de/download/malt/).",
                     "default": "--sequenceType DNA",
                     "fa_icon": "fas fa-users-cog"
+                },
+                "build_sourmash_dna": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Whether to build a sourmash reference from the provided nucleotide sequences.",
+                    "help_text": "Sourmash supports both nucleotide and amino acid sequences. With this flag, you determine that a reference database should be built from all the nucleotide FastA files defined in the sample sheet."
+                },
+                "sourmash_build_dna_options": {
+                    "type": "string",
+                    "default": "--param-string \\'scaled=1000,k=31,noabund\\",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Specify parameters given to sourmash sketch dna. Must start with sourmash sketch dna's '--param-string'.",
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single `--param-string` (or `-p`) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default `--param` string specified in the pipeline matches that of the tool itself. "
+                },
+                "build_sourmash_protein": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Whether to build a sourmash reference from the provided amino acid sequences.",
+                    "help_text": "Sourmash supports both nucleotide and amino acid sequences. With this flag, you determine that a reference database should be built from all the amino acid FastA files defined in the sample sheet."
+                },
+                "sourmash_build_protein_options": {
+                    "type": "string",
+                    "default": "--param-string \\'scaled=200,k=10,noabund\\",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Specify parameters given to sourmash sketch protein. Must start with sourmash sketch protein's '--param-string'.",
+                    "help_text": "See the [sourmash documentation](https://sourmash.readthedocs.io/en/latest/sourmash-sketch.html#parameter-strings) for more information. If you modify this pipeline parameter, it must start with a single --param-string (or -p) sourmash sketch option and however many other options you choose as described in the sourmash documentation. The default --param string specified in the pipeline matches that of the tool itself. "
+                },
+                "sourmash_batch_size": {
+                    "type": "integer",
+                    "default": 100,
+                    "fa_icon": "fas fa-users-cog",
+                    "minimum": 1,
+                    "description": "Sourmash can perform the main build step in parallel batches. Set the size of the batches.",
+                    "help_text": "The batch size is a trade off between the overhead of starting a new nextflow process, staging files, and loading the sourmash tool compared to the speed up achieved by launching many sourmash processes in parallel. The current default of 100 was not tested at all."
+                },
+                "build_sylph": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of sylph database. Requires nucleotide FASTA file input."
+                },
+                "sylph_build_options": {
+                    "type": "string",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Specify parameters being given to sylph sketch.",
+                    "help_text": "See [sylph documentation](https://github.com/bluenote-1577/sylph/wiki/sylph-cookbook#database-sketching-options)."
                 }
             },
             "fa_icon": "fas fa-database"
@@ -276,12 +321,6 @@
             "fa_icon": "fas fa-align-justify",
             "description": "Options for generating input samplesheets for complementary downstream pipelines.",
             "properties": {
-                "generate_tar_archive": {
-                    "type": "boolean",
-                    "description": "Generate `.tar.gz` archived versions of all databases",
-                    "help_text": "Many of the tools create databases that consist of a directory with multiple files.\n\nThis option can be useful when you will be downloading taxonomic profiling tools that require remote downloading of files for staging (assuming the tool or pipeline supports decompression of `.tar.gz` files).\n\nA common use case is running taxonomic profilers in the cloud, and where staging tools do not support downloading of directories.\nAnother is if you have to long-term archive your database for reproducibility purposes.\n\nBy giving this flag, `.tar.gz` files of all the databases will be created in the output directory.",
-                    "fa_icon": "fas fa-file-archive"
-                },
                 "generate_downstream_samplesheets": {
                     "type": "boolean",
                     "description": "Turn on generation of samplesheets for downstream pipelines.",
@@ -292,14 +331,6 @@
                     "description": "Specify a comma separated string in quotes to specify which pipeline to generate a samplesheet for.",
                     "fa_icon": "fas fa-toolbox",
                     "pattern": "^(taxprofiler)(?:,(taxprofiler)){0,1}"
-                },
-                "generate_samplesheet_dbtype": {
-                    "type": "string",
-                    "default": "raw",
-                    "fa_icon": "fas fa-file-code",
-                    "description": "Specify which type of database to list paths of in the generated pipeline samplesheet.",
-                    "enum": ["raw", "tar"],
-                    "help_text": "It is recommend to select `tar` if you plan to run the downstream pipeline in the cloud, or similar environments where you cannot easily download directories."
                 }
             }
         },
@@ -447,17 +478,23 @@
                     "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
                     "hidden": true
                 },
-                "modules_testdata_base_path": {
-                    "type": "string",
-                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/",
-                    "description": "Base URL or local path to location of module test dataset files",
-                    "hidden": true
-                },
                 "trace_report_suffix": {
                     "type": "string",
                     "fa_icon": "far calendar",
                     "description": "Suffix to add to the trace report filename. Default is the date and time in the format yyyy-MM-dd_HH-mm-ss.",
                     "hidden": true
+                },
+                "help": {
+                    "type": ["boolean", "string"],
+                    "description": "Display the help message."
+                },
+                "help_full": {
+                    "type": "boolean",
+                    "description": "Display the full detailed help message."
+                },
+                "show_hidden": {
+                    "type": "boolean",
+                    "description": "Display hidden parameters in the help message (only works when --help or --help_full are provided)."
                 }
             },
             "required": ["unzip_batch_size"]

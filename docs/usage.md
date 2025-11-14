@@ -13,6 +13,7 @@ The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](htt
 In addition to this page, you can find additional usage information on the following pages:
 
 - [FAQ and troubleshooting](usage/faq.md)
+- [Development documentation](usage/dev.md) (only relevant for people contributing to code to the pipeline!)
 
 ## Samplesheet input
 
@@ -82,7 +83,7 @@ work                # Directory containing the nextflow working files
 If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file.
 
 > [!TIP]
-> Once the pipeline has run to completion, we highly recommend moving the resulting directories or tar files to a centralised 'cache' location.
+> Once the pipeline has run to completion, we highly recommend moving the resulting directories to a centralised 'cache' location.
 > This prevents databases being overwritten by future runs of the pipeline, or by clean up of old Nextflow run results directories
 >
 > If you do so, ensure to update the paths in any downstream samplesheets you create with the `--generate_downstream_samplesheets` parameter.
@@ -162,7 +163,7 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
 - `shifter`
   - A generic configuration profile to be used with [Shifter](https://nersc.gitlab.io/development/shifter/how-to-use/)
 - `charliecloud`
-  - A generic configuration profile to be used with [Charliecloud](https://hpc.github.io/charliecloud/)
+  - A generic configuration profile to be used with [Charliecloud](https://charliecloud.io/)
 - `apptainer`
   - A generic configuration profile to be used with [Apptainer](https://apptainer.org/)
 - `wave`
