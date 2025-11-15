@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Deprecated`
 
-## v2.0.0 - Charming Chaac - [2025-11-13]
+## v2.0.0 - Charming Chaac - [2025-11-14]
 
 ### `Added`
 
