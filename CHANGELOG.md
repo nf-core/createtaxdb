@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- [#117](https://github.com/nf-core/createtaxdb/pull/117) - Updated to nf-core/tools template 3.5.1 (by @jfy133)
+
 ### `Fixed`
 
 ### `Dependencies`
+
+| Tool    | Old Version | New Version |
+| ------- | ----------- | ----------- |
+| nf-core | 3.4.1       | 3.5.1       |
 
 ### `Deprecated`
 
