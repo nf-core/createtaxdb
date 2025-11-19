@@ -1,0 +1,41 @@
+{
+    "protein-versions": {
+        "content": [
+            [
+                "versions.yml:md5,b27a2ac68adfe933ae2cda2e6ca4cfea",
+                "versions.yml:md5,d09fa3adb25645cb6407396a0544a7cc"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.7"
+        },
+        "timestamp": "2025-09-18T21:16:30.821601181"
+    },
+    "fna-batch-size-2-versions": {
+        "content": [
+            [
+                "versions.yml:md5,b27a2ac68adfe933ae2cda2e6ca4cfea",
+                "versions.yml:md5,d09fa3adb25645cb6407396a0544a7cc"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.7"
+        },
+        "timestamp": "2025-09-19T21:40:34.849149087"
+    },
+    "fna-batch-size-1-versions": {
+        "content": [
+            [
+                "versions.yml:md5,b27a2ac68adfe933ae2cda2e6ca4cfea",
+                "versions.yml:md5,d09fa3adb25645cb6407396a0544a7cc"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.7"
+        },
+        "timestamp": "2025-09-19T21:40:22.492426279"
+    }
+}
