@@ -54,6 +54,8 @@ nextflow_pipeline {
                         "sourmash/database-sourmash-protein-10mer.sbt.zip - exists: ${path("$outputDir/sourmash/database-sourmash-protein-10mer.sbt.zip").exists()}",
                         "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 12}",
                         "sylph/database-sylph.syldb - minimum file size: ${file("$outputDir/sylph/database-sylph.syldb").length() >= 280000}",
+                        "metacache/database-metacache.meta - minimum file size: ${file("$outputDir/metacache/database-metacache.meta").length() >= 24000}",
+                        "metacache/database-metacache.cache0 - minimum file size: ${file("$outputDir/metacache/database-metacache.cache0").length() >= 13000000}",
 
                     ).match()
                 },
