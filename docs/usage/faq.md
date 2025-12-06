@@ -36,6 +36,10 @@ We provide a list of required or recommended files, and which pipeline parameter
   - a MEGAN 'mapDB' mapping file (`--malt_mapdb`)
 - sourmash (no additional files required)
 - sylph (no additional files required)
+- metacache
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - custom seqid2taxid file (`--nucl2taxid`)
 
 \* _will be automatically downloaded if not supplied. You must supply this to the pipeline if on an offline cluster._
 
@@ -401,6 +405,7 @@ tar czvf kmcp-krakenuniq.tar.gz krakenuniq/database-kmcp-index/
 tar czvf <dbname>-krakenuniq.tar.gz krakenuniq/<dbname>-krakenuniq/
 tar czvf <dbname>-ganon.tar.gz ganon/
 tar czvf <dbname>-malt.tar.gz malt/malt_index/
+tar czvf <dbname>-metacache.tar.gz metacache/
 ```
 
 ## I get an error about `ConcurrentModificationExeception`

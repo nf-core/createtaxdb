@@ -45,6 +45,7 @@ The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](htt
    - [MALT](https://doi.org/10.1038/s41559-017-0446-6)
    - [sourmash](https://doi.org/10.21105/joss.06830)
    - [sylph](https://doi.org/10.1038/s41587-024-02412-y)
+   - [MetaCache](https://doi.org/10.1093/bioinformatics/btx520)
 
 ## Usage
 
@@ -81,6 +82,7 @@ nextflow run nf-core/createtaxdb \
    --ganon_build_options='--kmer-size 45' \
    --build_diamond \
    --diamond_build_options='--no-parse-seqids' \
+   --build_metacache \
    --outdir <OUTDIR>
 ```
 

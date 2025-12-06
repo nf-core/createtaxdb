@@ -23,6 +23,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [MALT](#malt) - Database files for MALT
 - [sourmash](#sourmash) - Database files for sourmash
 - [sylph](#sylph) - Database files for sylph
+- [MetaCache](#metacache) - Database files for metacache
 
 The pipeline can also generate downstream pipeline input samplesheets.
 These are stored in `<outdir>/downstream_samplesheets`.
@@ -236,6 +237,21 @@ and the k-mer size for which the index was created.
 </details>
 
 The `<your_database>-sylph.syldb` file can be given to sylph profile itself with `sylph profile <your_database>-sylph.syldb <...>` etc.
+
+### metacache
+
+[MetaCache](https://github.com/muellan/metacache) is a classification system for mapping genomic sequences (short reads, long reads, contigs, ...) from metagenomic samples to their most likely taxon of origin.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `metacache/`
+  - `<your_database>.meta`: sequence signature database binary file
+  - `<your_database>.cache0`: sequence signature database binary file  
+
+</details>
+
+The `<your_database>-metacache/<your_database>-.meta` file can be given to metacache query itself with `metacache query metacache/<your_database>.meta <...>` etc.
 
 ### Downstream samplesheets
 
