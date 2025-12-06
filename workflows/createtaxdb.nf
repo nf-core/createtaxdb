@@ -23,6 +23,7 @@ include { KRAKENUNIQ_BUILD                           } from '../modules/nf-core/
 include { UNZIP                                      } from '../modules/nf-core/unzip/main'
 include { MALT_BUILD                                 } from '../modules/nf-core/malt/build/main'
 include { SYLPH_SKETCHGENOMES                        } from '../modules/nf-core/sylph/sketchgenomes/main'
+include { METACACHE_BUILD                            } from '../modules/nf-core/metacache/build/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN            } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS           } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
@@ -262,6 +263,19 @@ workflow CREATETAXDB {
         ch_sylph_output = channel.empty()
     }
 
+    // MODULE : Run METACACHE/BUILD
+    if (params.build_metacache) {
+        METACACHE_BUILD(
+            PREPROCESSING.out.grouped_dna_fastas,
+            [file_taxonomy_namesdmp,file_taxonomy_nodesdmp],
+            [file_nucl2taxid]
+        )
+        ch_versions = ch_versions.mix(METACACHE_BUILD.out.versions)
+        ch_metacache_output = METACACHE_BUILD.out.db  
+    } else {
+        ch_metacache_output = channel.empty()
+    }
+
     //
     // Aggregate all databases for downstream processes
     //
@@ -278,6 +292,7 @@ workflow CREATETAXDB {
             ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
             ch_sourmash_protein_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
             ch_sylph_output.map { meta, db -> [meta + [tool: 'sylph', type: 'dna'], db] },
+            ch_sylph_output.map { meta, db -> [meta + [tool: 'metacache', type: 'dna'], db] },
         )
 
     //
@@ -373,4 +388,5 @@ workflow CREATETAXDB {
     sourmash_dna_database    = ch_sourmash_dna_output
     sourmash_aa_database     = ch_sourmash_protein_output
     sylph_database           = ch_sylph_output
+    metacache_database       = ch_metacache_output
 }
