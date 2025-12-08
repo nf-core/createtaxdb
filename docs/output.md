@@ -247,7 +247,7 @@ The `<your_database>-sylph.syldb` file can be given to sylph profile itself with
 
 - `metacache/`
   - `<your_database>.meta`: sequence signature database binary file
-  - `<your_database>.cache0`: sequence signature database binary file  
+  - `<your_database>.cache0`: sequence signature database binary file
 
 </details>
 
