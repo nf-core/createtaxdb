@@ -271,7 +271,7 @@ workflow CREATETAXDB {
             [file_nucl2taxid]
         )
         ch_versions = ch_versions.mix(METACACHE_BUILD.out.versions)
-        ch_metacache_output = METACACHE_BUILD.out.db  
+        ch_metacache_output = METACACHE_BUILD.out.db
     } else {
         ch_metacache_output = channel.empty()
     }
