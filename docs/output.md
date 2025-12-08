@@ -23,7 +23,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [MALT](#malt) - Database files for MALT
 - [sourmash](#sourmash) - Database files for sourmash
 - [sylph](#sylph) - Database files for sylph
-- [MetaCache](#metacache) - Database files for metacache
+- [MetaCache](#metacache) - Database files for MetaCache
 
 The pipeline can also generate downstream pipeline input samplesheets.
 These are stored in `<outdir>/downstream_samplesheets`.
