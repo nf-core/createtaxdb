@@ -426,3 +426,25 @@ Unfortunately the error message is not very informative and difficult to debug, 
 For now, you can simply rerun the pipeline from the beginning using the `-resume` flag.
 
 Keep re-running the pipeline with `-resume` until the pipeline passes.
+
+## Building a KrakenUniq database results in an error an unbound variable for `jellyfish`
+
+### Context
+
+When building a KrakenUniq database using certain container systems, you may see an error message like this:
+
+```bash
+JELLYFISH_BIN: unbound variable
+```
+
+This is related to an internal dependency not configured correctly in the container.
+
+### Solution
+
+You can fix this issue by specifying to KrakenUniq the path to the `jellyfish` binary in the container directly.
+
+Within nf-core/createtaxdb, you can do this by supply the following pipeline parameter and value:
+
+```bash
+--krakenuniq_build_options "--jellyfish-bin \"\$(which jellyfish)\" <your_additional_krakenuniq_options>"
+```

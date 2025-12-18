@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 - [#117](https://github.com/nf-core/createtaxdb/pull/117) - Updated to nf-core/tools template 3.5.1 (by @jfy133)
+- [#143](https://github/com/nf-core/createtaxdb/pull/143) - Documented how to resovle KrakenUniq unbound variable jellfish issue (❤️ to @flass for suggesting, added by @jfy133)
 
 ### `Fixed`
 
