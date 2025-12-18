@@ -108,7 +108,7 @@
             "kmcp/database-kmcp-index.log - contains string: true",
             "sourmash/database-sourmash-dna-31mer.sbt.zip - exists: true",
             "sourmash/database-sourmash-protein-10mer.sbt.zip - exists: true",
-            "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: false",
+            "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true",
             "sylph/database-sylph.syldb - minimum file size: true",
             "metacache/database-metacache.meta - minimum file size: true",
             "metacache/database-metacache.cache0 - minimum file size: true"
@@ -117,6 +117,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-12-18T10:41:06.242232944"
+        "timestamp": "2025-12-18T11:27:08.015469503"
     }
 }

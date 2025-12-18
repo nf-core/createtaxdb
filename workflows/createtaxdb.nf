@@ -268,11 +268,14 @@ workflow CREATETAXDB {
         METACACHE_BUILD(
             PREPROCESSING.out.grouped_dna_fastas,
             [file_taxonomy_namesdmp, file_taxonomy_nodesdmp],
-            [file_nucl2taxid]
+            [file_nucl2taxid],
         )
         ch_versions = ch_versions.mix(METACACHE_BUILD.out.versions)
-        ch_metacache_output = METACACHE_BUILD.out.db
-    } else {
+        // Current module emits the two file as separate elements of the same tuple, so we need to combine them here
+        // to satisfy our later final output directory
+        ch_metacache_output = METACACHE_BUILD.out.db.map { meta, dbmeta, dbcache -> [meta, [dbmeta, dbcache]] }
+    }
+    else {
         ch_metacache_output = channel.empty()
     }
 
@@ -306,7 +309,8 @@ workflow CREATETAXDB {
     //
     // Collate and save software versions
     //
-    def topic_versions = Channel.topic("versions")
+    def topic_versions = Channel
+        .topic("versions")
         .distinct()
         .branch { entry ->
             versions_file: entry instanceof Path
@@ -315,9 +319,9 @@ workflow CREATETAXDB {
 
     def topic_versions_string = topic_versions.versions_tuple
         .map { process, tool, version ->
-            [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: ${version}" ]
+            [process[process.lastIndexOf(':') + 1..-1], "  ${tool}: ${version}"]
         }
-        .groupTuple(by:0)
+        .groupTuple(by: 0)
         .map { process, tool_versions ->
             tool_versions.unique().sort()
             "${process}:\n${tool_versions.join('\n')}"
@@ -337,25 +341,31 @@ workflow CREATETAXDB {
     //
     // MODULE: MultiQC
     //
-    ch_multiqc_config        = channel.fromPath(
-        "$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-    ch_multiqc_custom_config = params.multiqc_config ?
-        channel.fromPath(params.multiqc_config, checkIfExists: true) :
-        channel.empty()
-    ch_multiqc_logo          = params.multiqc_logo ?
-        channel.fromPath(params.multiqc_logo, checkIfExists: true) :
-        channel.empty()
+    ch_multiqc_config = channel.fromPath(
+        "${projectDir}/assets/multiqc_config.yml",
+        checkIfExists: true
+    )
+    ch_multiqc_custom_config = params.multiqc_config
+        ? channel.fromPath(params.multiqc_config, checkIfExists: true)
+        : channel.empty()
+    ch_multiqc_logo = params.multiqc_logo
+        ? channel.fromPath(params.multiqc_logo, checkIfExists: true)
+        : channel.empty()
 
-    summary_params      = paramsSummaryMap(
-        workflow, parameters_schema: "nextflow_schema.json")
+    summary_params = paramsSummaryMap(
+        workflow,
+        parameters_schema: "nextflow_schema.json"
+    )
     ch_workflow_summary = channel.value(paramsSummaryMultiqc(summary_params))
     ch_multiqc_files = ch_multiqc_files.mix(
-        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-    ch_multiqc_custom_methods_description = params.multiqc_methods_description ?
-        file(params.multiqc_methods_description, checkIfExists: true) :
-        file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
-    ch_methods_description                = channel.value(
-        methodsDescriptionText(ch_multiqc_custom_methods_description))
+        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml')
+    )
+    ch_multiqc_custom_methods_description = params.multiqc_methods_description
+        ? file(params.multiqc_methods_description, checkIfExists: true)
+        : file("${projectDir}/assets/methods_description_template.yml", checkIfExists: true)
+    ch_methods_description = channel.value(
+        methodsDescriptionText(ch_multiqc_custom_methods_description)
+    )
 
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
     ch_multiqc_files = ch_multiqc_files.mix(
