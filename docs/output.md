@@ -251,7 +251,7 @@ The `<your_database>-sylph.syldb` file can be given to sylph profile itself with
 
 </details>
 
-The `<your_database>-metacache/<your_database>-.meta` file can be given to metacache query itself with `metacache query metacache/<your_database>.meta <...>` etc.
+The `metacache/<your_database>-metacache.meta` file can be given to metacache query itself with `metacache query metacache/<your_database>-metacache.meta <...>` etc.
 
 ### Downstream samplesheets
 
