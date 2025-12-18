@@ -63,7 +63,7 @@ workflow PIPELINE_INITIALISATION {
 \033[0;35m  nf-core/createtaxdb ${workflow.manifest.version}\033[0m
 -\033[2m----------------------------------------------------\033[0m-
 """
-    after_text = """${workflow.manifest.doi ? "\n* The pipeline\n" : ""}${workflow.manifest.doi.tokenize(",").collect { doi -> "    https://doi.org/${doi.trim().replace('https://doi.org/','')}"}.join("\n")}${workflow.manifest.doi ? "\n" : ""}
+    after_text = """${workflow.manifest.doi ? "\n* The pipeline\n" : ""}${workflow.manifest.doi.tokenize(",").collect { doi -> "    https://doi.org/${doi.trim().replace('https://doi.org/', '')}" }.join("\n")}${workflow.manifest.doi ? "\n" : ""}
 * The nf-core framework
     https://doi.org/10.1038/s41587-020-0439-x
 
@@ -267,10 +267,10 @@ def toolCitationText() {
         params.build_kraken2 ? "Kraken2 (Wood et al. 2019)," : "",
         params.build_krakenuniq ? "KrakenUniq (Breitwieser et al. 2018)," : "",
         params.build_malt ? "MALT (Vågene et al. 2018)," : "",
+        params.build_metacache ? "MetaCache (Müller et al. 2017)," : "",
         params.build_sourmash_dna || params.build_sourmash_protein ? "sourmash sketch dna (Irber et al. 2024)," : "",
         params.build_sylph ? "sylph (Shaw and Yu 2024)," : "",
-        "and MultiQC (Ewels et al. 2016)",
-        ".",
+        "and MultiQC (Ewels et al. 2016).",
     ].join(' ').trim()
 
     return citation_text
@@ -287,6 +287,7 @@ def toolBibliographyText() {
         params.build_kmcp ? '<li>Shen, W., Xiang, H., Huang, T., Tang, H., Peng, M., Cai, D., Hu, P., & Ren, H. (2023). KMCP: accurate metagenomic profiling of both prokaryotic and viral populations by pseudo-mapping. Bioinformatics (Oxford, England), 39(1). <a href=\"https://doi.org/10.1093/bioinformatics/btac845\">10.1093/bioinformatics/btac845</a></li>' : "",
         params.build_kraken2 ? '<li>Wood, D. E., Lu, J., & Langmead, B. (2019). Improved metagenomic analysis with Kraken 2. Genome Biology, 20(1), 257.  <a href="https://doi.org/10.1186/s13059-019-1891-0">10.1186/s13059-019-1891-0</a></li>' : "",
         params.build_krakenuniq ? '<li>Breitwieser, F. P., Baker, D. N., & Salzberg, S. L. (2018). KrakenUniq: confident and fast metagenomics classification using unique k-mer counts. Genome Biology, 19(1), 198.  <a href="https://doi.org/10.1186/s13059-018-1568-0">10.1186/s13059-018-1568-0</a></li>' : "",
+        params.build_metacache ? '<li>Müller, A., Hundt, C., Hildebrandt, A., Hankeln, T., & Schmidt, B. (2017). MetaCache: context-aware classification of metagenomic reads using minhashing. Bioinformatics (Oxford, England), 33(23), 3740–3748. <a href="https://doi.org/10.1093/bioinformatics/btx520">10.1093/bioinformatics/btx520</a></li>' : "",
         params.build_malt ? '<li>Vågene, Å. J., Herbig, A., Campana, M. G., Robles García, N. M., Warinner, C., Sabin, S., Spyrou, M. A., Andrades Valtueña, A., Huson, D., Tuross, N., Bos, K. I., & Krause, J. (2018). Salmonella enterica genomes from victims of a major sixteenth-century epidemic in Mexico. Nature Ecology & Evolution, 2(3), 520–528.  <a href="https://doi.org/10.1038/s41559-017-0446-6">10.1038/s41559-017-0446-6</a></li>' : "",
         params.build_sourmash_dna || params.build_sourmash_protein ? '<li>Irber, L., Pierce-Ward, N. T., Abuelanin, M., Alexander, H., Anant, A., Barve, K., Baumler, C., Botvinnik, O., Brooks, P., Dsouza, D., Gautier, L., Hera, M. R., Houts, H. E., Johnson, L. K., Klötzl, F., Koslicki, D., Lim, M., Lim, R., Nelson, B., ... Brown, C. T. (2024). sourmash v4: A multitool to quickly search, compare,and analyze genomic and metagenomic data sets. Journal of Open Source Software, 9(98), 6830. <a href=\"https://doi.org/10.21105/joss.06830\">10.21105/joss.06830</a></li>' : "",
         params.build_sylph ? '<li>Shaw, J., & Yu, Y. W. (2024). Rapid species-level metagenome profiling and containment estimation with sylph. Nature Biotechnology, 1–12. <a href=\"https://doi.org/10.1038/s41587-024-02412-y\">10.1038/s41587-024-02412-y</a></li>' : "",
