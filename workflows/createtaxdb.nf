@@ -267,7 +267,7 @@ workflow CREATETAXDB {
     if (params.build_metacache) {
         METACACHE_BUILD(
             PREPROCESSING.out.grouped_dna_fastas,
-            [file_taxonomy_namesdmp,file_taxonomy_nodesdmp],
+            [file_taxonomy_namesdmp, file_taxonomy_nodesdmp],
             [file_nucl2taxid]
         )
         ch_versions = ch_versions.mix(METACACHE_BUILD.out.versions)
@@ -292,7 +292,7 @@ workflow CREATETAXDB {
             ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
             ch_sourmash_protein_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
             ch_sylph_output.map { meta, db -> [meta + [tool: 'sylph', type: 'dna'], db] },
-            ch_sylph_output.map { meta, db -> [meta + [tool: 'metacache', type: 'dna'], db] },
+            ch_metacache_output.map { meta, db -> [meta + [tool: 'metacache', type: 'dna'], db] },
         )
 
     //

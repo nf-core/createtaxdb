@@ -240,7 +240,7 @@ The `<your_database>-sylph.syldb` file can be given to sylph profile itself with
 
 ### metacache
 
-[MetaCache](https://github.com/muellan/metacache) is a classification system for mapping genomic sequences (short reads, long reads, contigs, ...) from metagenomic samples to their most likely taxon of origin.
+[MetaCache](https://github.com/muellan/metacache) is a classification system for mapping genomic sequences (short reads, long reads, contigs, ...) from metagenomic samples to their most likely taxon of origin. It uses locality sensitive hashing to quickly identify candidate regions within one or multiple reference genomes.
 
 <details markdown="1">
 <summary>Output files</summary>
