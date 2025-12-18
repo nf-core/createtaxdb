@@ -50,6 +50,9 @@
                 "MALT_BUILD": {
                     "malt": "0.6.2"
                 },
+                "METACACHE_BUILD": {
+                    "metacache": "2.5.0"
+                },
                 "SEQKIT_BATCHRENAME": {
                     "seqkit": "2.9.0"
                 },
@@ -106,12 +109,14 @@
             "sourmash/database-sourmash-dna-31mer.sbt.zip - exists: true",
             "sourmash/database-sourmash-protein-10mer.sbt.zip - exists: true",
             "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true",
-            "sylph/database-sylph.syldb - minimum file size: true"
+            "sylph/database-sylph.syldb - minimum file size: true",
+            "metacache/database-metacache.meta - minimum file size: true",
+            "metacache/database-metacache.cache0 - minimum file size: true"
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
         },
-        "timestamp": "2025-11-13T10:17:11.260021335"
+        "timestamp": "2025-12-18T11:27:08.015469503"
     }
 }
