@@ -224,4 +224,4 @@ We used standard command line tools to download, filter, and reformat the assemb
 
 Use these steps to quickly build custom taxonomic classification databases for your metagenomic analyses from one of the most popular source of reference genomes.
 
-_Note: The `awk` command in step 4 was partly written with the assistance of AI (Claude Haiku 4.5)._
+_Note: The `awk` command in step 4 was partly written with the assistance of AI (Claude Haiku 4.5). Documentation style review with GPT-5.1-Codex-Max_
