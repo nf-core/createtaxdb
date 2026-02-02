@@ -16,7 +16,7 @@ The goals of this tutorial are:
 - Build DNA-based Kraken2 and an Amino Acid-based Kaiju databases with the pipeline using the generated samplesheet
 
 :::info
-This tutorial is tested with NCBI assembly_summary files from January 2026.
+This tutorial is tested with NCBI assembly_summary files from January 2026 using nf-core/createtaxdb v2.0.0.
 
 You may need to modify commands if NCBI changes the format of these files in the future.
 :::
@@ -107,7 +107,12 @@ You may need to modify commands if NCBI changes the format of these files in the
    If you only want to build DNA-based databases (for example, Kraken2), omit the `$4` variable definition and printing.
 
    ```bash
-   awk 'BEGIN { FS=OFS="\t" } NR > 1 { n=split($3,p,"/"); $3=$3"/"p[n]"_genomic.fna.gz"} {print $1","$2","$3}' assembly_summary_simplified.txt > samplesheet_dna.csv
+   awk 'BEGIN { FS="\t"; OFS="," }
+   NR>1 {
+   base=$3; sub(".*/","",base)
+   $3=$3 "/" base "_genomic.fna.gz"
+   }
+   { print $1,$2,$3 }' assembly_summary_simplified.txt > samplesheet.csv
    ```
 
    This results in:
@@ -123,8 +128,12 @@ You may need to modify commands if NCBI changes the format of these files in the
    You will also need to replace the header:
 
    ```bash
-   awk 'BEGIN { FS=OFS="\t" } NR > 1 { n=split($3,p,"/"); $3=$3"/"p[n]"_protein.faa.gz"} {print $1","$2","$3}' assembly_summary_simplified.txt > samplesheet_aa.csv
-   sed -i '1s/fasta_dna/fasta_aa/' samplesheet_aa.csv
+   awk 'BEGIN { FS="\t"; OFS="," }
+   NR>1 {
+   base=$3; sub(".*/","",base)
+   $3=$3 "/" base "_protein.faa.gz"
+   }
+   { print $1,$2,$3 }' assembly_summary_simplified.txt > samplesheet.csv
    ```
 
    This results in:
@@ -212,14 +221,16 @@ hash.k2d  opts.k2d  taxo.k2d
 In fact, we can execute all the commands to generate the samplesheet described [above](#convert-ncbi-assembly_summary-file-to-nf-corecreatetaxdb-samplesheet) in one go as single UNIX one-liner command:
 
 ```bash
-awk -F '\t' 'NF>2; $12 == "Complete Genome" {print}' assembly_summary.txt $(curl https://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/assembly_summary.txt) | \
+curl --silent https://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/assembly_summary.txt |
+awk -F '\t' 'NF>2; $12 == "Complete Genome" {print}' | \
 head -n 4 | cut -f 1,7,20 | \
 sed 's/#assembly_accession.*/id\ttaxid\tfasta_dna\tfasta_aa/' | \
-awk 'BEGIN { FS=OFS="\t" } NR > 1 { n=split($3,p,"/"); $4=$3"/"p[n]"_protein.faa.gz"; $3=$3"/"p[n]"_genomic.fna.gz"} {print $1","$2","$3","$4}' > samplesheet.csv
+awk 'BEGIN { FS="\t"; OFS="," } NR>1 { base=$3; sub(".*/","",base); $4=$3 "/" base "_protein.faa.gz"; $3=$3 "/" base "_genomic.fna.gz" } { print $1,$2,$3,$4 }' > samplesheet.csv
 ```
 
-:::info
-We have to place the `curl` command within the `awk` command substitution `$()` to ensure the file is completely downloaded before the rest of the pipe starts processing.
+:::warn
+We have to set `curl` to 'silent' to prevent false-positive error messages of `Failure writing output to destination`.
+Note that this also has the side-effect of hiding of other potentially valid errors!
 :::
 
 ### Summary
@@ -230,4 +241,4 @@ We used standard command line tools to download, filter, and reformat the assemb
 
 Use these steps to quickly build custom taxonomic classification databases for your metagenomic analyses from one of the most popular source of reference genomes.
 
-_Note: The `awk` command in step 4 was partly written with the assistance of AI (Claude Haiku 4.5). Documentation style review with GPT-5.1-Codex-Max_
+_Note: The `awk` command in step 4 was partly written with the assistance of AI (Claude Haiku 4.5) and improved by @dialvarezs. Documentation style review with GPT-5.1-Codex-Max_
