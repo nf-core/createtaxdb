@@ -74,7 +74,13 @@ You may need to modify commands if NCBI changes the format of these files in the
 4. Reconstruct the complete URLs of the relevant FASTA files to make them downloadable.
 
    ```bash
-   awk 'BEGIN { FS=OFS="\t" } NR > 1 { n=split($3,p,"/"); $4=$3"/"p[n]"_protein.faa.gz"; $3=$3"/"p[n]"_genomic.fna.gz"} {print $1","$2","$3","$4}' assembly_summary_simplified.txt > samplesheet.csv
+   awk 'BEGIN { FS="\t"; OFS="," }
+   NR>1 {
+   base=$3; sub(".*/","",base)
+   $4=$3 "/" base "_protein.faa.gz"
+   $3=$3 "/" base "_genomic.fna.gz"
+   }
+   { print $1,$2,$3,$4 }' assembly_summary_simplified.txt > samplesheet.csv
    ```
 
    :::info{collapse="true" title="Explanation of `awk` command"}
