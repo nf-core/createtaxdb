@@ -13,7 +13,7 @@ Does not have to be in this precise order
   - [ ] Added other profiler-specific parameters (e.g. additional taxonomy files)
   - [ ] Format with VSCode Nextflow extension
 - [ ] Update the `subworkflows/local/preprocessing/main.nf`
-  - [ ] Update subworkflow's the if/else (contatenation) sections for either DNA or AA FASTA preprocessing
+  - [ ] Update the subworkflow's if/else (concatenation) sections for either DNA or AA FASTA preprocessing
   - [ ] Format with VSCode Nextflow extension
 - [ ] Added tools(s) to `workflow/createtaxdb.nf`
   - [ ] Added relevant new input files to `take:` block, and pass into from `main.nf` to the `NFCORE_CREATETAXDB` workflow

@@ -12,7 +12,7 @@ Using this file as a source of reference FASTAs can provide two primary benefits
 
 The goals of this tutorial are:
 
-- Use standard terminal commands to convert an NCBI `assembly_summary.txt` file to a nf-core/createtaxdb compatible samplesheet
+- Use standard terminal commands to convert an NCBI `assembly_summary.txt` file to an nf-core/createtaxdb compatible samplesheet
 - Build DNA-based Kraken2 and an Amino Acid-based Kaiju databases with the pipeline using the generated samplesheet
 
 :::info
