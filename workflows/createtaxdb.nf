@@ -23,6 +23,7 @@ include { KRAKENUNIQ_BUILD                           } from '../modules/nf-core/
 include { UNZIP                                      } from '../modules/nf-core/unzip/main'
 include { MALT_BUILD                                 } from '../modules/nf-core/malt/build/main'
 include { SYLPH_SKETCHGENOMES                        } from '../modules/nf-core/sylph/sketchgenomes/main'
+include { METACACHE_BUILD                            } from '../modules/nf-core/metacache/build/main'
 
 include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN            } from '../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
 include { GENERATE_DOWNSTREAM_SAMPLESHEETS           } from '../subworkflows/local/generate_downstream_samplesheets/main.nf'
@@ -262,6 +263,22 @@ workflow CREATETAXDB {
         ch_sylph_output = channel.empty()
     }
 
+    // MODULE : Run METACACHE/BUILD
+    if (params.build_metacache) {
+        METACACHE_BUILD(
+            PREPROCESSING.out.grouped_dna_fastas,
+            [file_taxonomy_namesdmp, file_taxonomy_nodesdmp],
+            [file_nucl2taxid],
+        )
+        ch_versions = ch_versions.mix(METACACHE_BUILD.out.versions)
+        // Current module emits the two file as separate elements of the same tuple, so we need to combine them here
+        // to satisfy our later final output directory
+        ch_metacache_output = METACACHE_BUILD.out.db.map { meta, dbmeta, dbcache -> [meta, [dbmeta, dbcache]] }
+    }
+    else {
+        ch_metacache_output = channel.empty()
+    }
+
     //
     // Aggregate all databases for downstream processes
     //
@@ -278,6 +295,7 @@ workflow CREATETAXDB {
             ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
             ch_sourmash_protein_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
             ch_sylph_output.map { meta, db -> [meta + [tool: 'sylph', type: 'dna'], db] },
+            ch_metacache_output.map { meta, db -> [meta + [tool: 'metacache', type: 'dna'], db] },
         )
 
     //
@@ -291,7 +309,26 @@ workflow CREATETAXDB {
     //
     // Collate and save software versions
     //
-    softwareVersionsToYAML(ch_versions)
+    def topic_versions = Channel
+        .topic("versions")
+        .distinct()
+        .branch { entry ->
+            versions_file: entry instanceof Path
+            versions_tuple: true
+        }
+
+    def topic_versions_string = topic_versions.versions_tuple
+        .map { process, tool, version ->
+            [process[process.lastIndexOf(':') + 1..-1], "  ${tool}: ${version}"]
+        }
+        .groupTuple(by: 0)
+        .map { process, tool_versions ->
+            tool_versions.unique().sort()
+            "${process}:\n${tool_versions.join('\n')}"
+        }
+
+    softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
+        .mix(topic_versions_string)
         .collectFile(
             storeDir: "${params.outdir}/pipeline_info",
             name: 'nf_core_' + 'createtaxdb_software_' + 'mqc_' + 'versions.yml',
@@ -361,4 +398,5 @@ workflow CREATETAXDB {
     sourmash_dna_database    = ch_sourmash_dna_output
     sourmash_aa_database     = ch_sourmash_protein_output
     sylph_database           = ch_sylph_output
+    metacache_database       = ch_metacache_output
 }

@@ -311,6 +311,17 @@
                     "fa_icon": "fas fa-users-cog",
                     "description": "Specify parameters being given to sylph sketch.",
                     "help_text": "See [sylph documentation](https://github.com/bluenote-1577/sylph/wiki/sylph-cookbook#database-sketching-options)."
+                },
+                "build_metacache": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-toggle-on",
+                    "description": "Turn on building of MetaCache database. Requires nucleotide FASTA file input."
+                },
+                "metacache_build_options": {
+                    "type": "string",
+                    "fa_icon": "fas fa-users-cog",
+                    "description": "Specify parameters being given to metacache build.",
+                    "help_text": "See [MetaCache documentation](https://github.com/muellan/metacache/blob/master/docs/mode_build.txt)."
                 }
             },
             "fa_icon": "fas fa-database"

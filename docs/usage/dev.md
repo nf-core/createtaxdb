@@ -12,10 +12,12 @@ Does not have to be in this precise order
   - [ ] Added `--<profiler>_build_params`
   - [ ] Added other profiler-specific parameters (e.g. additional taxonomy files)
   - [ ] Format with VSCode Nextflow extension
+- [ ] Update the `subworkflows/local/preprocessing/main.nf`
+  - [ ] Update the subworkflow's if/else (concatenation) sections for either DNA or AA FASTA preprocessing
+  - [ ] Format with VSCode Nextflow extension
 - [ ] Added tools(s) to `workflow/createtaxdb.nf`
   - [ ] Added relevant new input files to `take:` block, and pass into from `main.nf` to the `NFCORE_CREATETAXDB` workflow
   - [ ] Added relevant modules/subworkflows at the top using `include` statement
-  - [ ] Add the tool into the `PREPROCESSING` subworkflow's PREPARE if/else (contatenation) section
   - [ ] Added the tool-specific if/else statement in the main `createtaxdb.nf`
   - [ ] Version and MultiQC (if available) channels mixed
   - [ ] Include output channel in workflow `emit` statement
@@ -27,12 +29,12 @@ Does not have to be in this precise order
   - [ ] Format with VSCode Nextflow extension
 - [ ] If necessary, added any profiler-specific parameter validation checks to `utils_nfcore_createtaxdb_pipeline` and possible at the top of `createtaxdb.nf`
 - [ ] Update tests
-  - [ ] Include the tool in the `test_minimal.config` (as false), `test.config`, `test_nothing.config`, and `test_full.config`
-  - [ ] Do a mini test of `test_minimal` to make sure it executes when sole tool
+  - [ ] Include the tool in the `test_minimal.config` (as false), `test.config` and `test_full.config` (as true), and `test_alternatives.config`, as required.
+  - [ ] Run a mini test of `test_minimal` to make sure it executes when sole tool
   - [ ] Format these files with VSCode Nextflow extension
   - [ ] Include the output object in the `tests/test.nf.test` file
-  - [ ] Re-run nf-test to update snapshot: `nf-test test --tag test --profile +docker --updateSnapshot` (tip: for assertions, borrow from the modules assertions!)
-- [ ] Updated Documentation
+  - [ ] Re-run nf-test to update snapshot: `nf-test test --tag test --profile +docker --update-snapshot` (tip: for assertions, borrow from the modules assertions!)
+- [ ] Update Documentation
   - [ ] `nf-core pipelines schema build` has been run and updated
     - [ ] All additional tool specific pipeline parameters have a additional help entry with the `Modifies tool parameter(s)` quote block
   - [ ] Added citation to `citations.md` (citation style: APA 7th edition)

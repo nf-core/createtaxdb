@@ -36,6 +36,10 @@ We provide a list of required or recommended files, and which pipeline parameter
   - a MEGAN 'mapDB' mapping file (`--malt_mapdb`)
 - sourmash (no additional files required)
 - sylph (no additional files required)
+- metacache
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - custom seqid2taxid file (`--nucl2taxid`)
 
 \* _will be automatically downloaded if not supplied. You must supply this to the pipeline if on an offline cluster._
 
@@ -401,6 +405,7 @@ tar czvf kmcp-krakenuniq.tar.gz krakenuniq/database-kmcp-index/
 tar czvf <dbname>-krakenuniq.tar.gz krakenuniq/<dbname>-krakenuniq/
 tar czvf <dbname>-ganon.tar.gz ganon/
 tar czvf <dbname>-malt.tar.gz malt/malt_index/
+tar czvf <dbname>-metacache.tar.gz metacache/
 ```
 
 ## I get an error about `ConcurrentModificationExeception`
@@ -426,3 +431,25 @@ Unfortunately the error message is not very informative and difficult to debug, 
 For now, you can simply rerun the pipeline from the beginning using the `-resume` flag.
 
 Keep re-running the pipeline with `-resume` until the pipeline passes.
+
+## Building a KrakenUniq database results in an error an unbound variable for `jellyfish`
+
+### Context
+
+When building a KrakenUniq database using certain container systems, you may see an error message like this:
+
+```bash
+JELLYFISH_BIN: unbound variable
+```
+
+This is related to an internal dependency not configured correctly in the container.
+
+### Solution
+
+You can fix this issue by specifying to KrakenUniq the path to the `jellyfish` binary in the container directly.
+
+Within nf-core/createtaxdb, you can do this by supply the following pipeline parameter and value:
+
+```bash
+--krakenuniq_build_options "--jellyfish-bin \"\$(which jellyfish)\" <your_additional_krakenuniq_options>"
+```

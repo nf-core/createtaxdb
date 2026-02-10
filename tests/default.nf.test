@@ -52,8 +52,10 @@ nextflow_pipeline {
                         "kmcp/database-kmcp-index.log - contains string: ${path("$outputDir/kmcp/database-kmcp-index.log").readLines().any{ it.contains('k-mers saved to database-kmcp-index')}}",
                         "sourmash/database-sourmash-dna-31mer.sbt.zip - exists: ${path("$outputDir/sourmash/database-sourmash-dna-31mer.sbt.zip").exists()}",
                         "sourmash/database-sourmash-protein-10mer.sbt.zip - exists: ${path("$outputDir/sourmash/database-sourmash-protein-10mer.sbt.zip").exists()}",
-                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 12}",
+                        "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: ${path("$outputDir/downstream_samplesheets/databases-taxprofiler.csv").readLines().size() == 13}",
                         "sylph/database-sylph.syldb - minimum file size: ${file("$outputDir/sylph/database-sylph.syldb").length() >= 280000}",
+                        "metacache/database-metacache.meta - minimum file size: ${file("$outputDir/metacache/database-metacache.meta").length() >= 24000}",
+                        "metacache/database-metacache.cache0 - minimum file size: ${file("$outputDir/metacache/database-metacache.cache0").length() >= 13000000}",
 
                     ).match()
                 },
