@@ -3,6 +3,20 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## dev - [unreleased]
+
+### `Added`
+
+### `Fixed`
+
+### `Dependencies`
+
+| Tool | Old Version | New Version |
+| ---- | ----------- | ----------- |
+|      |             |             |
+
+### `Deprecated`
+
 ## v2.1.0 - Gracious Goblin - [2026-02-10]
 
 ### `Added`
