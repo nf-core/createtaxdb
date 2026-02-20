@@ -1,0 +1,82 @@
+%%metro title: nf-core/createtaxdb
+%%metro style: dark
+%%metro line: dna | Nucleotide sequences | #004b86
+%%metro line: aa | Amino acid sequences | #d9aa00
+%%metro file: input_fna | .fna
+%%metro file: input_faa | .faa
+%%metro file: output_db | db
+
+graph LR
+    subgraph input [Input Processing]
+        %%metro exit: right | dna, aa
+        input_fna[.fna]
+        input_faa[.faa]
+        gunzip[gunzip]
+        cat[cat]
+        input_fna -->|dna| gunzip
+        gunzip -->|dna| cat
+        input_faa -->|aa| cat
+    end
+
+    subgraph dna_db [DNA Classifiers]
+        %%metro entry: left | dna
+        %%metro exit: right | dna
+        kraken2[Kraken2]
+        bracken[Bracken]
+        centrifuge[Centrifuge]
+        ganon[ganon]
+        krakenuniq[KrakenUniq]
+        kmcp[KMCP]
+        metacache[MetaCache]
+        malt[MALT]
+        sourmash_dna[sourmash]
+        sylph[sylph]
+        kraken2 -->|dna| bracken
+    end
+
+    subgraph aa_db [AA Classifiers]
+        %%metro entry: left | aa
+        %%metro exit: right | aa
+        seqkit[SeqKit]
+        kaiju[Kaiju]
+        diamond[DIAMOND]
+        sourmash_aa[sourmash]
+        seqkit -->|aa| kaiju
+    end
+
+    subgraph output [Output]
+        %%metro entry: left | dna, aa
+        output_db[db]
+    end
+
+    %% Inter-section: input -> dna classifiers
+    cat -->|dna| kraken2
+    cat -->|dna| centrifuge
+    cat -->|dna| ganon
+    cat -->|dna| krakenuniq
+    cat -->|dna| kmcp
+    cat -->|dna| metacache
+    cat -->|dna| malt
+    cat -->|dna| sourmash_dna
+    cat -->|dna| sylph
+
+    %% Inter-section: input -> aa classifiers
+    cat -->|aa| seqkit
+    cat -->|aa| diamond
+    cat -->|aa| sourmash_aa
+
+    %% Inter-section: classifiers -> output
+    kraken2 -->|dna| output_db
+    bracken -->|dna| output_db
+    centrifuge -->|dna| output_db
+    ganon -->|dna| output_db
+    krakenuniq -->|dna| output_db
+    kmcp -->|dna| output_db
+    metacache -->|dna| output_db
+    malt -->|dna| output_db
+    sourmash_dna -->|dna| output_db
+    sylph -->|dna| output_db
+
+    kaiju -->|aa| output_db
+    diamond -->|aa| output_db
+    sourmash_aa -->|aa| output_db
