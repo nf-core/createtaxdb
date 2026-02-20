@@ -47,6 +47,6 @@ Does not have to be in this precise order
     - [ ] Entry in table of contents
     - [ ] Entry describing output file and how to supply it to the downstream classification tool
   - [ ] Added to pipeline summary list on `README.md`
-  - [ ] Added to pipeline metro map diagram
+  - [ ] Added to pipeline metro map diagram and nf-metro `.mmd` file
   - [ ] If it's your first contribution, add or move yourself to the Team list on `README.md`!
 - [ ] Test(s) pass
