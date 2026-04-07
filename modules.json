@@ -99,7 +99,7 @@
                     },
                     "sylph/sketchgenomes": {
                         "branch": "master",
-                        "git_sha": "8876c5459b2f102a8164dce3ea259ec409e4ed4f",
+                        "git_sha": "17ba62c5f1b826cb6b98da1fa57b3efbc951edf5",
                         "installed_by": ["modules"]
                     },
                     "unzip": {
