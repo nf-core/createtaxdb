@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
+- [#158](https://github.com/nf-core/createtaxdb/pull/158) Prevent sylph failing due to too long commands when many input genomes (by @softstam, @jfy133)
 - [#160](https://github.com/nf-core/createtaxdb/pull/160) Prevent sourmash failing due to too long commands when many input genomes (by @softstam, @jfy133)
 
 ### `Dependencies`
