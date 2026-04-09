@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
-- [#XXX](https://github.com/nf-core/createtaxdb/pull/XXX) Prevent sourmash failing due to too long commands when many input genomes (by @softstam, @jfy133)
+- [#160](https://github.com/nf-core/createtaxdb/pull/160) Prevent sourmash failing due to too long commands when many input genomes (by @softstam, @jfy133)
 
 ### `Dependencies`
 
