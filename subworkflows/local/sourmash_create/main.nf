@@ -26,7 +26,6 @@ workflow SOURMASH_CREATE {
     }
 
     SOURMASH_SKETCH(ch_sketch_input)
-    ch_versions = ch_versions.mix(SOURMASH_SKETCH.out.versions.first())
 
     // Drop the batch identifiers and flatten the batches. Then add the original
     // database name and index the signatures per k-mer size.
@@ -41,7 +40,6 @@ workflow SOURMASH_CREATE {
         }
 
     SOURMASH_INDEX(ch_index_input.signatures, ch_index_input.kmer_size)
-    ch_versions = ch_versions.mix(SOURMASH_INDEX.out.versions.first())
 
     emit:
     db       = SOURMASH_INDEX.out.signature_index // channel: [ val(meta), index ]
