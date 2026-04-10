@@ -229,9 +229,6 @@ workflow CREATETAXDB {
             channel.fromList(parse_kmer_sizes(params.sourmash_build_dna_options)),
             params.sourmash_batch_size,
         )
-
-        ch_versions = ch_versions.mix(SOURMASH_CREATE_DNA.out.versions)
-
         ch_sourmash_dna_output = SOURMASH_CREATE_DNA.out.db
     }
     else {
@@ -245,8 +242,6 @@ workflow CREATETAXDB {
             channel.fromList(parse_kmer_sizes(params.sourmash_build_protein_options)),
             params.sourmash_batch_size,
         )
-
-        ch_versions = ch_versions.mix(SOURMASH_CREATE_PROTEIN.out.versions)
         ch_sourmash_protein_output = SOURMASH_CREATE_PROTEIN.out.db
     }
     else {

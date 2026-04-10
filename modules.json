@@ -88,12 +88,12 @@
                     },
                     "sourmash/index": {
                         "branch": "master",
-                        "git_sha": "30c7adaae047db8e06f71386eb6059fdd1ea6b13",
+                        "git_sha": "7834ddbe2ac8ac536eee9ee2b9e4140f1a0b56d6",
                         "installed_by": ["modules"]
                     },
                     "sourmash/sketch": {
                         "branch": "master",
-                        "git_sha": "30c7adaae047db8e06f71386eb6059fdd1ea6b13",
+                        "git_sha": "7834ddbe2ac8ac536eee9ee2b9e4140f1a0b56d6",
                         "installed_by": ["modules"],
                         "patch": "modules/nf-core/sourmash/sketch/sourmash-sketch.diff"
                     },
