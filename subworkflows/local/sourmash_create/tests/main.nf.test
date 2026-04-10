@@ -42,7 +42,6 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-dna-31mer.sbt.zip' },
-                { assert snapshot(workflow.out.versions).match('fna-batch-size-1-versions') }
             )
         }
     }
@@ -77,7 +76,6 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-dna-31mer.sbt.zip' },
-                { assert snapshot(workflow.out.versions).match('fna-batch-size-2-versions') }
             )
         }
     }
@@ -112,7 +110,6 @@ nextflow_workflow {
             assertAll(
                 { assert workflow.success },
                 { assert file(workflow.out.db.get(0).get(1)).name == 'test-sourmash-protein-10mer.sbt.zip' },
-                { assert snapshot(workflow.out.versions).match('protein-versions') }
             )
         }
     }
