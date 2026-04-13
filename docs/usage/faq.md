@@ -201,7 +201,7 @@ It is a simpler version of the accession2taxid file, and is formatted as a two c
 
 Example:
 
-```tsv title="nucl2tax.map"
+```tsv title="prot2taxid.map"
 accession.version	taxid
 QIK50426.1	694009
 QIK50427.1	694009
