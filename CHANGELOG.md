@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#158](https://github.com/nf-core/createtaxdb/pull/158) Prevent sylph failing due to too long commands when many input genomes (by @softstam, @jfy133)
 - [#160](https://github.com/nf-core/createtaxdb/pull/160) Prevent sourmash failing due to too long commands when many input genomes (by @softstam, @jfy133)
-- [#161](https://github.com/nf-core/createtaxdb/pull/161) Force METACACHE_BUILD module to always use one CPU, as not multithreaded, removing warning (by @jfy133)
+- [#161](https://github.com/nf-core/createtaxdb/pull/161) Force METACACHE_BUILD module to always use one CPU, as not multi-threaded, removing warning (by @jfy133)
+- [#162](https://github.com/nf-core/createtaxdb/pull/162) Fix links to FAQ in parameter docs (by @jfy133)
 
 ### `Dependencies`
 
