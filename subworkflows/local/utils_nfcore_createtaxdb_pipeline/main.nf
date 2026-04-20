@@ -102,8 +102,7 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
-
-    ch_samplesheet = input.fromList(samplesheetToList(params.input, "assets/schema_input.json"))
+    ch_samplesheet = channel.fromList(samplesheetToList(file(input, checkIfExists: true), "assets/schema_input.json"))
 
     // Validate we have unique file names for DNA FASTAs
     ch_samplesheet
