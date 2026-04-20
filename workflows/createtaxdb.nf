@@ -144,7 +144,7 @@ workflow CREATETAXDB {
     // MODULE: Run KAIJU/MKFMI
 
     if (params.build_kaiju) {
-        KAIJU_MKFMI(PREPROCESSING.out.kaiju_aa, params.kaiju_keepintermediate, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
+        KAIJU_MKFMI(PREPROCESSING.out.kaiju_aa, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, params.kaiju_keepintermediate)
         ch_kaiju_output = KAIJU_MKFMI.out.fmi
     }
     else {
