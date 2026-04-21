@@ -171,6 +171,7 @@ Note that the pipeline does not output files from `kmcp-compute` as these are no
     - `library/`: Intermediate directory containing FASTAs and related files of added genomes (only present if `--build_bracken` or `--kraken2_keepintermediate` supplied)
     - `taxonomy/`: Intermediate directory containing taxonomy files of added genomes (only present if `--build_bracken` or `--kraken2_keepintermediate` supplied)
     - `seqid2taxid.map`: Intermediate file containing taxonomy files of added genomes (only present if `--build_bracken` or `--kraken2_keepintermediate` supplied)
+    - `unmapped.txt`: Optional file that only will be generated if input genome accessions not found in taxonomy files.
 
 </details>
 
