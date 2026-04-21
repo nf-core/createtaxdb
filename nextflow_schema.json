@@ -217,6 +217,11 @@
                     "help_text": "See [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#compute).",
                     "fa_icon": "fas fa-users-cog"
                 },
+                "kmcp_compute_byfile": {
+                    "type": "boolean",
+                    "description": "Specify to use build k-mer sketch for whole file rather than per sequence.",
+                    "help_text": "By default, nf-core/createtaxdb will pass a concatenation of all input FASTA files to KMCP, with the assumption of each FASTA entry representing a separate genome sequence, utilising the `--by-seq` parameter.\n\nIf you supply a single FASTA pre-concenteated file, specify this to remove the `--by-seq` option from the KMCP compute command.\n\n> Modify(s) tool parameters:\n>   - kmcp compute: `--by-seq`"
+                },
                 "kmcp_index_options": {
                     "type": "string",
                     "description": "Specify parameters being given to kmcp index. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
@@ -247,7 +252,7 @@
                 "krakenuniq_build_options": {
                     "type": "string",
                     "description": "Specify parameters being given to krakenuniq build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
-                    "help_text": "See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building).",
+                    "help_text": "Note: the `--jellyfish-bin` is already specified in the pipeline, it is not necessary to supply this here. See [KrakenUniq documentation](https://github.com/fbreitwieser/krakenuniq?tab=readme-ov-file#database-building).",
                     "fa_icon": "fas fa-users-cog"
                 },
                 "krakenuniq_keepintermediate": {
