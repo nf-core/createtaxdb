@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- [#165](https://github.com/nf-core/createtaxdb/pull/165) Set defualt use of KMCP `--by-seq` with option to turn off, to reduce memory usage (by @jfy133)
+
 ### `Fixed`
 
 - [#158](https://github.com/nf-core/createtaxdb/pull/158) Prevent sylph failing due to too long commands when many input genomes (by @softstam, @jfy133)
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#161](https://github.com/nf-core/createtaxdb/pull/161) Force METACACHE_BUILD module to always use one CPU, as not multi-threaded, removing warning (by @jfy133)
 - [#162](https://github.com/nf-core/createtaxdb/pull/162) Fix links to FAQ in parameter docs (by @jfy133)
 - [#163](https://github.com/nf-core/createtaxdb/pull/163) Fix code block title in auxiliary files section of FAQ (by @jfy133)
+- [#165](https://github.com/nf-core/createtaxdb/pull/165) Force use of KrakenUniq `--jellyfish-bin` to ensure more regular execution (by @jfy133)
 
 ### `Dependencies`
 
