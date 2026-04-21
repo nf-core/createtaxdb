@@ -136,10 +136,13 @@ The `dmnd` file can be given to one of the DIAMOND alignment commands with `diam
 
 - `kaiju/`
   - `<database_name>.fmi`: Kaiju FMI index file
+  - `nodes.dmp`: Nodes NCBI taxdmp file to be for use by the downstream Kaiju profiling module in nf-core/taxprofiler
+  - `names.dmp`: Names NCBI taxdmp file to be for use by the downstream Kaiju profiling module in nf-core/taxprofiler
 
 </details>
 
-The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi` etc.
+The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi`.
+However you will you will almost definitely want to also provide the `nodes.dmp` and `names.dmp` files as well with `kaiju -f <your_database>.fmi -t nodes.dmp` and `kaiju-kaiju2table -t nodes.dmp -n names.dmp`.
 
 ### KMCP
 

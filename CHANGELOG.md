@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- [#169](https://github.com/nf-core/createtaxdb/pull/160) Have KAIJU_MKFMI module also export relevant taxdump files for downstream processes (by @jfy133)
+
 ### `Fixed`
 
 - [#158](https://github.com/nf-core/createtaxdb/pull/158) Prevent sylph failing due to too long commands when many input genomes (by @softstam, @jfy133)
