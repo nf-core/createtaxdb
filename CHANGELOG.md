@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- [#169](https://github.com/nf-core/createtaxdb/pull/160) Have KAIJU_MKFMI module also export relevant taxdump files for downstream processes (by @jfy133)
 - [#165](https://github.com/nf-core/createtaxdb/pull/165) Set defualt use of KMCP `--by-seq` with option to turn off, to reduce memory usage (by @jfy133)
 
 ### `Fixed`
