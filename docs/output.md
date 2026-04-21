@@ -142,7 +142,7 @@ The `dmnd` file can be given to one of the DIAMOND alignment commands with `diam
 </details>
 
 The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi`.
-However you will you will almost definitely want to also provide the `nodes.dmp` and `names.dmp` files as well with `kaiju -f <your_database>.fmi -t nodes.dmp` and `kaiju-kaiju2table -t nodes.dmp -n names.dmp`.
+However you will almost definitely want to also provide the `nodes.dmp` and `names.dmp` files as well with `kaiju -f <your_database>.fmi -t nodes.dmp` and `kaiju-kaiju2table -t nodes.dmp -n names.dmp`.
 
 ### KMCP
 
