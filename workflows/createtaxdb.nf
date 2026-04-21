@@ -121,13 +121,13 @@ workflow CREATETAXDB {
                 def fasta_name = fasta.toString().split('/').last()
                 [fasta_name, meta.id, meta.taxid]
             }
-            .map { it.join("\t") }
+            .map { fastas -> fastas.join("\t") }
             .collectFile(
                 name: "ganon_fasta_input.tsv",
                 newLine: true,
             )
-            .map {
-                [[id: params.dbname], it]
+            .map { files ->
+                [[id: params.dbname], files]
             }
 
         // Nodes must come
@@ -169,7 +169,7 @@ workflow CREATETAXDB {
 
         ch_taxdmpfiles_for_krakenuniq = channel.of(file_taxonomy_namesdmp)
             .combine(channel.of(file_taxonomy_nodesdmp))
-            .map { files -> [files] }
+            .map { taxdmp_files -> [taxdmp_files] }
 
         channel.of(file_nucl2taxid)
         ch_input_for_krakenuniq = PREPROCESSING.out.grouped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, file_nucl2taxid] }
@@ -302,8 +302,7 @@ workflow CREATETAXDB {
     //
     // Collate and save software versions
     //
-    def topic_versions = Channel
-        .topic("versions")
+    def topic_versions = channel.topic("versions")
         .distinct()
         .branch { entry ->
             versions_file: entry instanceof Path
