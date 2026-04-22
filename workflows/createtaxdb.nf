@@ -260,7 +260,7 @@ workflow CREATETAXDB {
         METACACHE_BUILD(
             PREPROCESSING.out.grouped_dna_fastas,
             [file_taxonomy_namesdmp, file_taxonomy_nodesdmp],
-            [file_nucl2taxid],
+            [file_accession2taxid],
         )
         ch_versions = ch_versions.mix(METACACHE_BUILD.out.versions)
         // Current module emits the two file as separate elements of the same tuple, so we need to combine them here
