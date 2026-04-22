@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#162](https://github.com/nf-core/createtaxdb/pull/162) Fix links to FAQ in parameter docs (by @jfy133)
 - [#163](https://github.com/nf-core/createtaxdb/pull/163) Fix code block title in auxiliary files section of FAQ (by @jfy133)
 - [#165](https://github.com/nf-core/createtaxdb/pull/165) Force use of KrakenUniq `--jellyfish-bin` to ensure more regular execution (by @jfy133)
-- [#174](https://github.com/nf-core/createtaxdb/pull/174) Fix metacache recieving wrong taxonomy file (was seq2map, should have been accession2taxid) (by @sofstam, @jfy133)
+- [#175](https://github.com/nf-core/createtaxdb/pull/175) Fix metacache recieving wrong taxonomy file (was seq2map, should have been accession2taxid) (by @sofstam, @jfy133)
 
 ### `Dependencies`
 
