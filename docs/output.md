@@ -149,7 +149,7 @@ The directory containing these two files can be given to ganon itself with using
 
 ### Diamond
 
-[DIAMOND](https://github.com/bbuchfink/diamond) is a accelerated BLAST compatible local sequence aligner particularly used for protein alignment.
+[DIAMOND](https://github.com/bbuchfink/diamond) is an accelerated BLAST compatible local sequence aligner particularly used for protein alignment.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -176,7 +176,7 @@ The `dmnd` file can be given to one of the DIAMOND alignment commands with `diam
 </details>
 
 The `fmi` file can be given to Kaiju itself with `kaiju -f <your_database>.fmi`.
-However you will almost definitely want to also provide the `nodes.dmp` and `names.dmp` files as well with `kaiju -f <your_database>.fmi -t nodes.dmp` and `kaiju-kaiju2table -t nodes.dmp -n names.dmp`.
+However, you will almost definitely want to also provide the `nodes.dmp` and `names.dmp` files as well with `kaiju -f <your_database>.fmi -t nodes.dmp` and `kaiju-kaiju2table -t nodes.dmp -n names.dmp`.
 
 ### KMCP
 
@@ -264,7 +264,7 @@ and the k-mer size for which the index was created.
 
 ### sylph
 
-[sylph](https://github.com/bluenote-1577/sylph) is a program that performs ultrafast (1) ANI querying or (2) metagenomic profiling for metagenomic shotgun samples.
+[sylph](https://github.com/bluenote-1577/sylph) is a program that performs ultra fast (1) ANI querying or (2) metagenomic profiling for metagenomic shotgun samples.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -278,7 +278,7 @@ The `<your_database>-sylph.syldb` file can be given to sylph profile itself with
 
 ### metacache
 
-[MetaCache](https://github.com/muellan/metacache) is a classification system for mapping genomic sequences (short reads, long reads, contigs, ...) from metagenomic samples to their most likely taxon of origin. It uses locality sensitive hashing to quickly identify candidate regions within one or multiple reference genomes.
+[MetaCache](https://github.com/muellan/metacache) is a classification system for mapping genomic sequences (short reads, long reads, contigs, …) from metagenomic samples to their likeliest taxon of origin. It uses locality sensitive hashing to quickly identify candidate regions within one or multiple reference genomes.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -302,7 +302,7 @@ pipelines:
 <summary>Output files</summary>
 
 - `downstream_samplesheets/`
-  - `taxprofiler.csv`: Partially filled out nf-core/taxprofiler `--databases` csv with paths to database directories relative to the results directory. e.g. `nextflow run nf-core/taxprofiler -profile docker --input samplesheet.csv --databases <createtaxdb_outdir>/downstream_samplesheets/<database_name>.csv>`. Modify to add additional classification parameters.
+  - `taxprofiler.csv`: Partially filled out nf-core/taxprofiler `--databases` CSV with paths to database directories relative to the results directory. e.g. `nextflow run nf-core/taxprofiler -profile docker --input samplesheet.csv --databases <createtaxdb_outdir>/downstream_samplesheets/<database_name>.csv>`. Modify to add additional classification parameters.
   </details>
 
 :::warning
