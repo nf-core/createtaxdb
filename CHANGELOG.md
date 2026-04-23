@@ -13,7 +13,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#178](https://github.com/nf-core/createtaxdb/pull/180) Add additional validation checks for required MetaCache inputs (by @jfy133)
 - [#179](https://github.com/nf-core/createtaxdb/pull/179) Add new parameter `--save_uncompressed_fastas` to only optionally save decompressed input files (fix @jfy133)
 
-
 ### `Fixed`
 
 - [#158](https://github.com/nf-core/createtaxdb/pull/158) Prevent sylph failing due to too long commands when many input genomes (by @softstam, @jfy133)
