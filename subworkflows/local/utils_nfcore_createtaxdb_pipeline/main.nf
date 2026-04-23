@@ -197,6 +197,11 @@ workflow PIPELINE_COMPLETION {
 //
 def validateInputParameters() {
 
+    // Validate BRACKEN/KRAKEN parameter combinations
+    if ((params.build_bracken || params.build_kraken2) && [!params.accession2taxid, !params.nodesdmp, !params.namesdmp].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_kraken2 or --bracken, but missing at least one of: --accession2taxid, --nodesdmp, or --namesdmp (all are mandatory for BRACKEN/KRAKEN2)')
+    }
+
     // Validate CENTRIFUGE auxiliary file combinations
     if (params.build_centrifuge && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
         error('[nf-core/createtaxdb] Supplied --build_centrifuge, but missing at least one of: --nucl2taxid, --nodesdmp, or --namesdmp (all are mandatory for CENTRIFUGE)')
@@ -212,11 +217,6 @@ def validateInputParameters() {
         error('[nf-core/createtaxdb] Supplied --build_ganon, but missing at least one of: --nodesdmp, or --namesdmp (all are mandatory for GANON)')
     }
 
-    // Validate BRACKEN/KRAKEN parameter combinations
-    if ((params.build_bracken || params.build_kraken2) && [!params.accession2taxid, !params.nodesdmp, !params.namesdmp].any()) {
-        error('[nf-core/createtaxdb] Supplied --build_kraken2 or --bracken, but missing at least one of: --accession2taxid, --nodesdmp, or --namesdmp (all are mandatory for BRACKEN/KRAKEN2)')
-    }
-
     // Validate KRAKENUNIQ auxiliary file combinations
     if (params.build_krakenuniq && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
         error('[nf-core/createtaxdb] Supplied --build_krakenuniq, but missing at least one of: --nucl2taxid, --nodesdmp, or --namesdmp (all are mandatory for KRAKENUNIQ)')
@@ -225,6 +225,11 @@ def validateInputParameters() {
     // Validate MALT auxiliary file combinations
     if (params.build_malt && [!params.malt_mapdb].any()) {
         error('[nf-core/createtaxdb] Supplied --build_malt, but missing: --malt_mapdb (all are mandatory for MALT)')
+    }
+
+    // Validate METACACHE auxiliary file combinations
+    if (params.build_metacache && [!params.nodesdmp, !params.namesdmp, !params.accession2taxid].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_metacache, but missing at least one of: --nodesdmp, --namesdmp, `--accession2taxid` (all are mandatory for METACACHE)')
     }
 
     if (params.build_malt && !(params.malt_build_options.contains('--sequenceType DNA') || params.malt_build_options.contains('--sequenceType Protein'))) {
