@@ -151,7 +151,7 @@
                     "help_text": "Some tools require a single input FASTA of all reference genomes. The pipeline will do this concatenation for you, and by supplying this flag you can save the resulting single fasta for you in the results directory under `cat/`. ",
                     "fa_icon": "fas fa-save"
                 },
-                "save_unzipped_auxfiles": {
+                "save_uncompressed_auxfiles": {
                     "type": "boolean",
                     "fa_icon": "fas fa-save",
                     "description": "Save automatically unzipped input auxiliary files.",

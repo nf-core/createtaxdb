@@ -107,7 +107,7 @@ Unzip is used to optionally uncompress input auxiliary files for certain tools, 
 
 </details>
 
-Will only be present if you run with `--save_unzipped_auxfiles`.
+Will only be present if you run with `--save_uncompressed_auxfiles`.
 
 ### Bracken
 
