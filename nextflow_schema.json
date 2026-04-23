@@ -130,10 +130,24 @@
                         "t4seed"
                     ],
                     "help_text": "While MALT now theoretically supports only a single type of MEGAN mapping file (`*.db`), in some cases this does not appear to work.\n\nYou can however still currently use [technically 'deprecated' MEGAN mapping files](https://software-ab.cs.uni-tuebingen.de/download/megan6/old.html) that end in `.abin`.\n\nFor nf-core/createtaxdb, when specifying the MALT mapping file you therefore also need to specify which format this file is, based on the corresponding (short) MALT flags for malt-build. For example for the new type of mapping file, you can give just `mdb`. For a nucleotide accession to taxonomy file you give `a2t`. For a accession to SEED category mapping file, you specify `a2seed`. "
+                }
+            }
+        },
+        "input_file_preprocessing": {
+            "title": "Input file preprocessing",
+            "type": "object",
+            "description": "Parameters controlling preprocessing of input FASTAs prior build",
+            "default": "",
+            "properties": {
+                "save_uncompressed_fastas": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-save",
+                    "description": "Save uncompressed input FASTAs",
+                    "help_text": "Most tools require uncompressed FASTA files of all reference genomes. The pipeline will do this decompression for you in batches, and by supplying this flag you can save the resulting uncompressed files for you in the results directory under `unpigz/`. "
                 },
                 "save_concatenated_fastas": {
                     "type": "boolean",
-                    "description": "Save concatenated input FASTAs",
+                    "description": "Save uncompressed concatenated input FASTAs",
                     "help_text": "Some tools require a single input FASTA of all reference genomes. The pipeline will do this concatenation for you, and by supplying this flag you can save the resulting single fasta for you in the results directory under `cat/`. ",
                     "fa_icon": "fas fa-save"
                 }
@@ -519,6 +533,9 @@
     "allOf": [
         {
             "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/input_file_preprocessing"
         },
         {
             "$ref": "#/$defs/database_building_options"
