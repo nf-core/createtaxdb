@@ -28,6 +28,7 @@ Does not have to be in this precise order
   - [ ] Added other args (`ext.args`) based on additional profiler specific parameters modules
   - [ ] Format with VSCode Nextflow extension
 - [ ] If necessary, added any profiler-specific parameter validation checks to `utils_nfcore_createtaxdb_pipeline` and possible at the top of `createtaxdb.nf`
+  - [ ] For example, if a new tool requires auxiliary taxonomy files, add a check for this
 - [ ] Update tests
   - [ ] Include the tool in the `test_minimal.config` (as false), `test.config` and `test_full.config` (as true), and `test_alternatives.config`, as required.
   - [ ] Run a mini test of `test_minimal` to make sure it executes when sole tool
