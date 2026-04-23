@@ -4,18 +4,25 @@ include { KMCP_INDEX   } from '../../../modules/nf-core/kmcp/index/main'
 workflow KMCP_CREATE {
     take:
     ch_fasta // channel: [ val(meta), [ fasta ] ]
+    file_taxonomy_nodesdmp // channel: [ nodes.dmp ]
+    file_taxonomy_namesdmp // channel: [ names.dmp ]
+    file_nucl2taxid // channel: [ file_nucl2taxid.map ]
 
     main:
-
-    ch_versions = channel.empty()
-
     KMCP_COMPUTE(ch_fasta)
-    ch_versions = ch_versions.mix(KMCP_COMPUTE.out.versions.first())
 
-    KMCP_INDEX(KMCP_COMPUTE.out.outdir)
-    ch_versions = ch_versions.mix(KMCP_INDEX.out.versions.first())
+    KMCP_INDEX(
+        KMCP_COMPUTE.out.outdir,
+        [
+            [],
+            [
+                file_taxonomy_nodesdmp,
+                file_taxonomy_namesdmp,
+            ],
+        ],
+        [[], file_nucl2taxid],
+    )
 
     emit:
-    db       = KMCP_INDEX.out.kmcp // channel: [ val(meta), [ db ] ]
-    versions = ch_versions // channel: [ versions.yml ]
+    db = KMCP_INDEX.out.kmcp // channel: [ val(meta), [ db ] ]
 }

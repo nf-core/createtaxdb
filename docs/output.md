@@ -152,7 +152,7 @@ However you will almost definitely want to also provide the `nodes.dmp` and `nam
 <summary>Output files</summary>
 
 - `kmcp/`
-  - `database-kmcp-index/`: directory containing KMCP index files
+  - `database-kmcp-index/`: directory containing KMCP index files, and additional taxdump files required for downstream KMCP profiling modules.
 
 </details>
 

@@ -211,9 +211,8 @@ workflow CREATETAXDB {
 
     // SUBWORKFLOW: Run KMCP_CREATE
     if (params.build_kmcp) {
-        KMCP_CREATE(PREPROCESSING.out.singleref_for_dna)
+        KMCP_CREATE(PREPROCESSING.out.singleref_for_dna, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, file_nucl2taxid)
         ch_kmcp_output = KMCP_CREATE.out.db
-        ch_versions = ch_versions.mix(KMCP_CREATE.out.versions)
     }
     else {
         ch_kmcp_output = channel.empty()
