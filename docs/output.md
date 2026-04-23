@@ -16,6 +16,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - Preprocessing
   - [unpigz](#unpigz) - Uncompressed input files
   - [cat](#cat) - Concatenated input files
+  - [unzip](#unzip) - Unzipped auxiliary files
 - Database building
   - [Bracken](#bracken) - Database files for Bracken
   - [ganon](#ganon) - Database files for ganon
@@ -80,7 +81,7 @@ Will only be present if you run with `--save_uncompressed_fastas`.
 
 ### cat
 
-[cat](https://github.com/coreutils/coreutils/) is used to combined uncompressed input FASTA files for certain tools.
+[cat](https://github.com/coreutils/coreutils/) is used to combine uncompressed input FASTA files for certain tools.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -92,6 +93,21 @@ Will only be present if you run with `--save_uncompressed_fastas`.
 </details>
 
 Will only be present if you run with `--save_concatenated_fastas`.
+
+### unzip
+
+Unzip is used to optionally uncompress input auxiliary files for certain tools, such as MALT's taxonomy database file.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `unpigz/`
+  - `<archive name>/`
+    - `*`: Uncompressed file
+
+</details>
+
+Will only be present if you run with `--save_unzipped_auxfiles`.
 
 ### Bracken
 
