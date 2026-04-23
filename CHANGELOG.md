@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#165](https://github.com/nf-core/createtaxdb/pull/165) Set default use of KMCP `--by-seq` with option to turn off, to reduce memory usage (by @jfy133)
 - [#169](https://github.com/nf-core/createtaxdb/pull/160) Have KAIJU_MKFMI module also export relevant taxdump files for downstream processes (by @jfy133)
 - [#170](https://github.com/nf-core/createtaxdb/pull/170) Publish sometimes generated `unmapped.txt` file for Kraken2 databases (❤️ to @softstam for reporting, fix @jfy133)
+- [#178](https://github.com/nf-core/createtaxdb/pull/180) Add additional validation checks for required MetaCache inputs (by @jfy133)
 
 ### `Fixed`
 
