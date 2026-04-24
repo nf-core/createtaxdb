@@ -42,7 +42,7 @@
                     },
                     "kmcp/compute": {
                         "branch": "master",
-                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
+                        "git_sha": "36c763abe8b59e2900dfe82e1963ee38ca9d1ecb",
                         "installed_by": ["modules"]
                     },
                     "kmcp/index": {
