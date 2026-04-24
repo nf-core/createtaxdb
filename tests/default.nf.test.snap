@@ -10,10 +10,6 @@
                 "bracken/database-bracken/hash.k2d",
                 "bracken/database-bracken/library",
                 "bracken/database-bracken/library/added",
-                "bracken/database-bracken/library/added/prelim_map.txt",
-                "bracken/database-bracken/library/added/prelim_map_uHpPahPuRq.txt",
-                "bracken/database-bracken/library/added/t3psYPkTSV.fna",
-                "bracken/database-bracken/library/added/t3psYPkTSV.fna.masked",
                 "bracken/database-bracken/opts.k2d",
                 "bracken/database-bracken/seqid2taxid.map",
                 "bracken/database-bracken/taxo.k2d",
@@ -50,10 +46,6 @@
                 "kraken2/database-kraken2/hash.k2d",
                 "kraken2/database-kraken2/library",
                 "kraken2/database-kraken2/library/added",
-                "kraken2/database-kraken2/library/added/prelim_map.txt",
-                "kraken2/database-kraken2/library/added/prelim_map_uHpPahPuRq.txt",
-                "kraken2/database-kraken2/library/added/t3psYPkTSV.fna",
-                "kraken2/database-kraken2/library/added/t3psYPkTSV.fna.masked",
                 "kraken2/database-kraken2/opts.k2d",
                 "kraken2/database-kraken2/seqid2taxid.map",
                 "kraken2/database-kraken2/taxo.k2d",
@@ -107,11 +99,11 @@
                 "unzip/nucl_acc2tax-Jul2019/nucl_acc2tax-Jul2019.abin"
             ]
         ],
-        "timestamp": "2026-04-23T10:53:16.774379994",
         "meta": {
-            "nf-test": "0.9.5",
+            "nf-test": "0.9.2",
             "nextflow": "25.10.4"
-        }
+        },
+        "timestamp": "2026-04-24T11:38:29.123105574"
     },
     "-profile test": {
         "content": [
@@ -227,10 +219,10 @@
             "metacache/database-metacache.meta - minimum file size: true",
             "metacache/database-metacache.cache0 - minimum file size: true"
         ],
-        "timestamp": "2025-12-18T11:27:08.015469503",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "25.10.0"
-        }
+        },
+        "timestamp": "2025-12-18T11:27:08.015469503"
     }
 }

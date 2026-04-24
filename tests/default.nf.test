@@ -15,7 +15,7 @@ nextflow_pipeline {
 
         then {
 
-            def stable_name_all = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            def stable_name_all = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}', 'bracken/database-bracken/library/added/*', 'kraken2/database-kraken2/library/added/*'])
 
             assertAll(
                 { assert workflow.success },
