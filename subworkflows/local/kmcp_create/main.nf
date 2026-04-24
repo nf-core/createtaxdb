@@ -3,13 +3,26 @@ include { KMCP_INDEX   } from '../../../modules/nf-core/kmcp/index/main'
 
 workflow KMCP_CREATE {
     take:
-    ch_fasta // channel: [ val(meta), [ fasta ] ]
+    ch_ungrouped_dna_fastas // channel: [ [ val(meta), [ fasta ], [ val(meta), [ fasta ], [ val(meta), [ fasta ] ]
+    ch_grouped_dna_fastas // channel: [ val(meta), [ fasta, fasta, fasta ] ]
     file_taxonomy_nodesdmp // channel: [ nodes.dmp ]
     file_taxonomy_namesdmp // channel: [ names.dmp ]
-    file_ref2taxid // channel: [ file_ref2taxid.map ]
 
     main:
-    KMCP_COMPUTE(ch_fasta)
+
+    // Create the required special taxonomy file
+    ch_kmcp_reftotaxid = ch_ungrouped_dna_fastas
+        .map { meta, fasta ->
+            [fasta.baseName, meta.taxid]
+        }
+        .collectFile(
+            name: "kmcp_ref2taxid.map",
+            newLine: true,
+        ) { line ->
+            line.join('\t')
+        }
+
+    KMCP_COMPUTE(ch_grouped_dna_fastas)
 
     KMCP_INDEX(
         KMCP_COMPUTE.out.outdir,
@@ -20,7 +33,7 @@ workflow KMCP_CREATE {
                 file_taxonomy_namesdmp,
             ],
         ],
-        file_ref2taxid.map { file -> [[], file] },
+        ch_kmcp_reftotaxid.map { file -> [[], file] },
     )
 
     emit:

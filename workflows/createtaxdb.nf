@@ -211,7 +211,7 @@ workflow CREATETAXDB {
 
     // SUBWORKFLOW: Run KMCP_CREATE
     if (params.build_kmcp) {
-        KMCP_CREATE(PREPROCESSING.out.grouped_dna_fastas, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, PREPROCESSING.out.kmcp_reftotaxid)
+        KMCP_CREATE(PREPROCESSING.out.ungrouped_dna, PREPROCESSING.out.grouped_dna_fastas, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
         ch_kmcp_output = KMCP_CREATE.out.db
     }
     else {
