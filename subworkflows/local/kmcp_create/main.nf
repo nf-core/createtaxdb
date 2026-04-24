@@ -6,7 +6,7 @@ workflow KMCP_CREATE {
     ch_fasta // channel: [ val(meta), [ fasta ] ]
     file_taxonomy_nodesdmp // channel: [ nodes.dmp ]
     file_taxonomy_namesdmp // channel: [ names.dmp ]
-    file_nucl2taxid // channel: [ file_nucl2taxid.map ]
+    file_ref2taxid // channel: [ file_ref2taxid.map ]
 
     main:
     KMCP_COMPUTE(ch_fasta)
@@ -20,7 +20,7 @@ workflow KMCP_CREATE {
                 file_taxonomy_namesdmp,
             ],
         ],
-        [[], file_nucl2taxid],
+        file_ref2taxid.map { file -> [[], file] },
     )
 
     emit:

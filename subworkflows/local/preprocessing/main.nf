@@ -81,6 +81,19 @@ workflow PREPROCESSING {
             .join(ch_dna_refs_for_rematching, failOnMismatch: true, failOnDuplicate: true)
             .map { _fasta_name, fasta, meta -> [meta, fasta] }
 
+        if (params.build_kmcp) {
+            ch_kmcp_reftotaxid = ch_prepped_dna_fastas_ungrouped
+                .map { meta, fasta ->
+                    [fasta.baseName, meta.taxid]
+                }
+                .collectFile(
+                    name: "kmcp_ref2taxid.map",
+                    newLine: true,
+                ) { line ->
+                    line.join('\t')
+                }
+        }
+
         // Prepare for making the mega file
         ch_prepped_dna_fastas = ch_prepped_dna_fastas_ungrouped
             .map { _meta, fasta ->
@@ -186,6 +199,7 @@ workflow PREPROCESSING {
     grouped_aa_fastas  = ch_prepped_aa_fastas
     ungrouped_dna      = ch_prepped_dna_fastas_ungrouped
     ungrouped_aa       = ch_prepped_aa_fastas_ungrouped
+    kmcp_reftotaxid    = ch_kmcp_reftotaxid
     kaiju_aa           = ch_prepped_aa_fastas_kaiju
     versions           = ch_versions
     multiqc_files      = ch_multiqc_files

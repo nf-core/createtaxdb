@@ -211,7 +211,7 @@ workflow CREATETAXDB {
 
     // SUBWORKFLOW: Run KMCP_CREATE
     if (params.build_kmcp) {
-        KMCP_CREATE(PREPROCESSING.out.singleref_for_dna, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, file_nucl2taxid)
+        KMCP_CREATE(PREPROCESSING.out.grouped_dna_fastas, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, PREPROCESSING.out.kmcp_reftotaxid)
         ch_kmcp_output = KMCP_CREATE.out.db
     }
     else {
@@ -384,7 +384,7 @@ workflow CREATETAXDB {
     kraken2_bracken_database = ch_kraken2_bracken_output
     krakenuniq_database      = ch_krakenuniq_output
     malt_database            = ch_malt_output
-    kmcp_databae             = ch_kmcp_output
+    kmcp_database            = ch_kmcp_output
     sourmash_dna_database    = ch_sourmash_dna_output
     sourmash_aa_database     = ch_sourmash_protein_output
     sylph_database           = ch_sylph_output
