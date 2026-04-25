@@ -16,8 +16,12 @@ nextflow_pipeline {
         }
 
         then {
+
+            def stable_name_all = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+
             assertAll(
                 { assert workflow.success },
+                { assert snapshot ( stable_name_all ).match("all_files") },
                 { assert snapshot(
                         removeFromYamlMap("${params.outdir}/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml", 'Workflow'),
                         "kaiju/database.fmi - minimum file size: ${file("$outputDir/kaiju/database-kaiju.fmi").length() >= 3519604}",

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#169](https://github.com/nf-core/createtaxdb/pull/160) Have KAIJU_MKFMI module also export relevant taxdump files for downstream processes (by @jfy133)
 - [#170](https://github.com/nf-core/createtaxdb/pull/170) Publish sometimes generated `unmapped.txt` file for Kraken2 databases (❤️ to @softstam for reporting, fix @jfy133)
 - [#178](https://github.com/nf-core/createtaxdb/pull/180) Add additional validation checks for required MetaCache inputs (by @jfy133)
+- [#179](https://github.com/nf-core/createtaxdb/pull/179) Add new parameter `--save_uncompressed_fastas` to only optionally save decompressed input files (fix @jfy133)
 
 ### `Fixed`
 
@@ -21,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#163](https://github.com/nf-core/createtaxdb/pull/163) Fix code block title in auxiliary files section of FAQ (by @jfy133)
 - [#165](https://github.com/nf-core/createtaxdb/pull/165) Force use of KrakenUniq `--jellyfish-bin` to ensure more regular execution (by @jfy133)
 - [#173](https://github.com/nf-core/createtaxdb/pull/173) Fix generated downstream samplesheet's Bracken directory name being flipped (by @jfy133)
-- [#175](https://github.com/nf-core/createtaxdb/pull/175) Fix metacache receiving wrong taxonomy file (was seq2map, should have been accession2taxid) (by @sofstam, @jfy133)
+- [#175](https://github.com/nf-core/createtaxdb/pull/175) Fix MetaCache receiving wrong taxonomy file (was seq2map, should have been accession2taxid) (by @sofstam, @jfy133)
 
 ### `Dependencies`
 
@@ -30,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 |      |             |             |
 
 ### `Deprecated`
+
+- [#179](https://github.com/nf-core/createtaxdb/pull/179) The pipeline no longer by default saves decompressed input FASTA files (see new `save_uncompressed_fastas` parameter) (@jfy133)
 
 ## v2.1.0 - Gracious Goblin - [2026-02-10]
 
