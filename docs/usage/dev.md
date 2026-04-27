@@ -14,7 +14,7 @@ Does not have to be in this precise order
   - [ ] Format with VSCode Nextflow extension
 - [ ] Update the `subworkflows/local/preprocessing/main.nf`
   - [ ] Update the subworkflow's if/else (prepare) sections for either DNA or AA FASTA preprocessing
-  - [ ] If relevant, Update the subworkflow's if/else (conatenate into a single ref) sections for either DNA or AA FASTA preprocessing
+  - [ ] If relevant, update the subworkflow's if/else (conatenate into a single ref) sections for either DNA or AA FASTA preprocessing
   - [ ] Format with VSCode Nextflow extension
 - [ ] Added tools(s) to `workflow/createtaxdb.nf`
   - [ ] Added relevant new input files to `take:` block, and pass into from `main.nf` to the `NFCORE_CREATETAXDB` workflow
