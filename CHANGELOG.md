@@ -23,11 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#165](https://github.com/nf-core/createtaxdb/pull/165) Force use of KrakenUniq `--jellyfish-bin` to ensure more regular execution (by @jfy133)
 - [#173](https://github.com/nf-core/createtaxdb/pull/173) Fix generated downstream samplesheet's Bracken directory name being flipped (by @jfy133)
 - [#175](https://github.com/nf-core/createtaxdb/pull/175) Fix MetaCache receiving wrong taxonomy file (was seq2map, should have been accession2taxid) (by @sofstam, @jfy133)
-<<<<<<< 181-only-execute-concatenation-when-tools-using-such-file-activated
-- [#184](https://github.com/nf-core/createtaxdb/pull/184) Stop generation of concatenated FASTA file of input files if not needed by selected tools (by @jfy133)
-=======
 - [#183](https://github.com/nf-core/createtaxdb/pull/193) Fix KrakenUniq using incorrectly non-renamed seqid2map taxonomy file, resulting in no taxonomy info during classification (by @jfy133)
->>>>>>> dev
+- [#184](https://github.com/nf-core/createtaxdb/pull/184) Stop generation of concatenated FASTA file of input files if not needed by selected tools (by @jfy133)
 
 ### `Dependencies`
 
