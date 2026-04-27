@@ -88,10 +88,12 @@ workflow PREPROCESSING {
             }
             .groupTuple()
 
-        // Place in single mega file
-        FIND_CONCATENATE_DNA(ch_prepped_dna_fastas)
-        ch_versions = ch_versions.mix(FIND_CONCATENATE_DNA.out.versions)
-        ch_singleref_for_dna = FIND_CONCATENATE_DNA.out.file_out
+        if (params.build_bracken || params.build_centrifuge || params.build_kraken2) {
+            // Place in single mega file for those classifiers that need it
+            FIND_CONCATENATE_DNA(ch_prepped_dna_fastas)
+            ch_versions = ch_versions.mix(FIND_CONCATENATE_DNA.out.versions)
+            ch_singleref_for_dna = FIND_CONCATENATE_DNA.out.file_out
+        }
     }
 
     if ([(params.build_malt && malt_build_mode == 'protein'), params.build_kaiju, params.build_diamond, params.build_sourmash_protein].any()) {
