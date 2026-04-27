@@ -44,7 +44,6 @@ nextflow_pipeline {
                         file("$outputDir/krakenuniq/database-krakenuniq/library/GCF_016889925.1_ASM1688992v1_genomic.fna"),
                         file("$outputDir/krakenuniq/database-krakenuniq/library/GCF_900478275.1_34211_D02_genomic.fna"),
                         "krakenuniq/database-krakenuniq/library-files.txt - contains string: ${path("$outputDir/krakenuniq/database-krakenuniq/library-files.txt").readLines().contains('library/GCF_900478275.1_34211_D02_genomic.fna')}",
-                        file("$outputDir/krakenuniq/database-krakenuniq/nucl2tax.map"),
                         file("$outputDir/krakenuniq/database-krakenuniq/seqid2taxid.map"),
                         file("$outputDir/krakenuniq/database-krakenuniq/taxDB"),
                         file("$outputDir/krakenuniq/database-krakenuniq/taxonomy/names.dmp"),
