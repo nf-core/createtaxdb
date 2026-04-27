@@ -171,10 +171,13 @@ workflow CREATETAXDB {
             .map { taxdmp_files -> [taxdmp_files] }
 
         channel.of(file_nucl2taxid)
-        ch_input_for_krakenuniq = PREPROCESSING.out.grouped_dna_fastas.combine(ch_taxdmpfiles_for_krakenuniq).map { meta, fastas, taxdump -> [meta, fastas, taxdump, file_nucl2taxid] }
+        ch_input_for_krakenuniq = PREPROCESSING.out.grouped_dna_fastas
+            .combine(ch_taxdmpfiles_for_krakenuniq)
+            .map { meta, fastas, taxdump ->
+                [meta, fastas, taxdump, file_nucl2taxid]
+            }
 
         KRAKENUNIQ_BUILD(ch_input_for_krakenuniq, params.krakenuniq_keepintermediate)
-        ch_versions = ch_versions.mix(KRAKENUNIQ_BUILD.out.versions)
         ch_krakenuniq_output = KRAKENUNIQ_BUILD.out.db
     }
     else {
