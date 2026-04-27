@@ -93,7 +93,7 @@
             "nf-test": "0.9.2",
             "nextflow": "25.10.4"
         },
-        "timestamp": "2026-04-27T09:36:36.900949971"
+        "timestamp": "2026-04-27T13:11:46.222315139"
     },
     "-profile test_alternatives": {
         "content": [
