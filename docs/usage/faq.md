@@ -23,6 +23,10 @@ We provide a list of required or recommended files, and which pipeline parameter
   - taxonomy nodes dump file (`--nodesdmp`)
   - genome sizes file (`--genomesizes`)\*
 - kaiju (no additional files required)
+- kmcp
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - nucl2taxid file (`--nucl2taxid`)
 - kraken2
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
