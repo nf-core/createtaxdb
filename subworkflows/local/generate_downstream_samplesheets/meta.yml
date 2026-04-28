@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "samplesheet_taxprofiler"
+description: Generates samplesheets for downstream pipelines
+keywords:
+  - database
+  - samplesheet
+  - pipeline-chaining
+components:
+  - samplesheet_taxprofiler
+  - generate_downstream_samplesheets
+input:
+  - ch_databases:
+      type: file
+      description: |
+        Channel containing a meta, and either database directories/file or TAR archives.
+        Structure: [ val(meta), [ db ] ]
+      pattern: "*"
+output:
+  - samplesheet:
+      type: file
+      description: |
+        Channel containing downstream samplesheets for the requested pipeline
+      pattern: "*.{csv,tsv}"
+authors:
+  - "@jfy133"
+maintainers:
+  - "@jfy133"

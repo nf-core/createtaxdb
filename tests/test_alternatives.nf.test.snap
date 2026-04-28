@@ -1,0 +1,184 @@
+{
+    "all_files": {
+        "content": [
+            [
+                "cat",
+                "cat/database.faa",
+                "cat/database.fna",
+                "downstream_samplesheets",
+                "downstream_samplesheets/databases-taxprofiler.csv",
+                "kaiju",
+                "kaiju/database-kaiju.bwt",
+                "kaiju/database-kaiju.fmi",
+                "kaiju/database-kaiju.sa",
+                "kaiju/names.dmp",
+                "kaiju/nodes.dmp",
+                "kraken2",
+                "kraken2/database-kraken2",
+                "kraken2/database-kraken2/hash.k2d",
+                "kraken2/database-kraken2/opts.k2d",
+                "kraken2/database-kraken2/taxo.k2d",
+                "krakenuniq",
+                "krakenuniq/database-krakenuniq",
+                "krakenuniq/database-krakenuniq/database-build.log",
+                "krakenuniq/database-krakenuniq/database.idx",
+                "krakenuniq/database-krakenuniq/database.jdb",
+                "krakenuniq/database-krakenuniq/database.kdb",
+                "krakenuniq/database-krakenuniq/database.kdb.counts",
+                "krakenuniq/database-krakenuniq/database.kraken.tsv",
+                "krakenuniq/database-krakenuniq/database.report.tsv",
+                "krakenuniq/database-krakenuniq/database0.kdb",
+                "krakenuniq/database-krakenuniq/library",
+                "krakenuniq/database-krakenuniq/library-files.txt",
+                "krakenuniq/database-krakenuniq/library/GCA_011545545.1_ASM1154554v1_genomic.fna",
+                "krakenuniq/database-krakenuniq/library/GCF_000292685.1_ASM29268v1_genomic.fna",
+                "krakenuniq/database-krakenuniq/library/GCF_016889925.1_ASM1688992v1_genomic.fna",
+                "krakenuniq/database-krakenuniq/library/GCF_900478275.1_34211_D02_genomic.fna",
+                "krakenuniq/database-krakenuniq/library/chrMT.fna",
+                "krakenuniq/database-krakenuniq/seqid2taxid.map",
+                "krakenuniq/database-krakenuniq/taxDB",
+                "krakenuniq/database-krakenuniq/taxonomy",
+                "krakenuniq/database-krakenuniq/taxonomy/names.dmp",
+                "krakenuniq/database-krakenuniq/taxonomy/nodes.dmp",
+                "malt",
+                "malt/malt-build.log",
+                "malt/malt_index",
+                "malt/malt_index/index0.idx",
+                "malt/malt_index/index1.idx",
+                "malt/malt_index/index2.idx",
+                "malt/malt_index/index3.idx",
+                "malt/malt_index/ref.db",
+                "malt/malt_index/ref.idx",
+                "malt/malt_index/ref.inf",
+                "malt/malt_index/table0.db",
+                "malt/malt_index/table0.idx",
+                "malt/malt_index/table1.db",
+                "malt/malt_index/table1.idx",
+                "malt/malt_index/table2.db",
+                "malt/malt_index/table2.idx",
+                "malt/malt_index/table3.db",
+                "malt/malt_index/table3.idx",
+                "malt/malt_index/taxonomy.idx",
+                "malt/malt_index/taxonomy.map",
+                "malt/malt_index/taxonomy.tre",
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/llms-full.txt",
+                "multiqc/multiqc_data/multiqc.log",
+                "multiqc/multiqc_data/multiqc.parquet",
+                "multiqc/multiqc_data/multiqc_citations.txt",
+                "multiqc/multiqc_data/multiqc_data.json",
+                "multiqc/multiqc_data/multiqc_software_versions.txt",
+                "multiqc/multiqc_data/multiqc_sources.txt",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml",
+                "seqkit",
+                "seqkit/renamed_files",
+                "seqkit/renamed_files/GCA_011545545.1_ASM1154554v1_genomic.faa",
+                "seqkit/renamed_files/GCF_000292685.1_ASM29268v1_genomic.faa",
+                "seqkit/renamed_files/GCF_002881355.1_ASM288135v1_genomic.faa",
+                "seqkit/renamed_files/GCF_016889925.1_ASM1688992v1_genomic.faa",
+                "seqkit/renamed_files/GCF_900478275.1_34211_D02_genomic.faa",
+                "unpigz",
+                "unpigz/ungzipped",
+                "unpigz/ungzipped/ungzipped",
+                "unpigz/ungzipped/ungzipped/GCA_011545545.1_ASM1154554v1_genomic.faa",
+                "unpigz/ungzipped/ungzipped/GCA_011545545.1_ASM1154554v1_genomic.fna",
+                "unpigz/ungzipped/ungzipped/GCF_016889925.1_ASM1688992v1_genomic.faa",
+                "unpigz/ungzipped/ungzipped/GCF_016889925.1_ASM1688992v1_genomic.fna"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-04-27T13:11:46.222315139"
+    },
+    "-profile test_alternatives": {
+        "content": [
+            {
+                "FIND_CONCATENATE_AA": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "FIND_CONCATENATE_AA_KAIJU": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "FIND_CONCATENATE_DNA": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "KAIJU_MKFMI": {
+                    "kaiju": "1.10.0"
+                },
+                "KRAKEN2_ADD": {
+                    "kraken2": "2.1.6"
+                },
+                "KRAKEN2_BUILD": {
+                    "kraken2": "2.1.6"
+                },
+                "KRAKENUNIQ_BUILD": {
+                    "krakenuniq": "1.0.4"
+                },
+                "MALT_BUILD": {
+                    "malt": "0.6.2"
+                },
+                "SEQKIT_BATCHRENAME": {
+                    "seqkit": "2.9.0"
+                },
+                "UNPIGZ_AA": {
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "UNPIGZ_DNA": {
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                }
+            },
+            "kaiju/database.fmi - minimum file size: true",
+            "kaiju/database.bwt - minimum file size: true",
+            "kaiju/database.sa - minimum file size: true",
+            "krakenuniq/database-krakenuniq/database.idx - minimum file size: true",
+            "database.kdb:md5,4b54bdd88fddd739a8950d6d8be390fd",
+            "taxDB:md5,a844cdf3103490c19748e7e4c2b65d74",
+            "database0.kdb:md5,4b54bdd88fddd739a8950d6d8be390fd",
+            "krakenuniq/database-krakenuniq/database-build.log - contains string: true",
+            "database.idx:md5,57b7f061092bffaabc4974ee3e436a26",
+            "database.jdb:md5,e7ac0b0f2c3121805ece28e19dd0e7d8",
+            "database.kdb:md5,4b54bdd88fddd739a8950d6d8be390fd",
+            "database.kdb.counts:md5,fff109bb9cfd7fa14c29021d8758ddaa",
+            "krakenuniq/database-krakenuniq/database.kraken.tsv - contains string: true",
+            "krakenuniq/database-krakenuniq/database.report.tsv - contains string: false",
+            "chrMT.fna:md5,3cb614280efbed3e7ffb9cac502b860c",
+            "GCA_011545545.1_ASM1154554v1_genomic.fna:md5,6e9fe4042a72f2345f644f239272b7e6",
+            "GCF_000292685.1_ASM29268v1_genomic.fna:md5,341571a5f4fd6e95e46c5917d31083c4",
+            "GCF_016889925.1_ASM1688992v1_genomic.fna:md5,dafd38f5454b54fbea38245d773062a5",
+            "GCF_900478275.1_34211_D02_genomic.fna:md5,f9f0fbb922adaf3968f8edbfbafe0bd8",
+            "krakenuniq/database-krakenuniq/library-files.txt - contains string: true",
+            "seqid2taxid.map:md5,42279f731df6d5d34ed79dad1ade5aa1",
+            "taxDB:md5,a844cdf3103490c19748e7e4c2b65d74",
+            "names.dmp:md5,07761f8949156d6e78f298544a81dfcb",
+            "nodes.dmp:md5,8930afd1adeb8f5bbf9f308714495d42",
+            "malt/malt-build.log - contains string: true",
+            "malt/malt-build.log - contains string: true",
+            "index0.idx:md5,e3c8adef9bbef32318614d07b90d2cd4",
+            "malt/malt_index/ref.db - minimum file size: true",
+            "malt/malt_index/ref.idx- minimum file size: true",
+            "ref.inf:md5,6326bf8add85ac5f9249a535fddc9152",
+            "taxonomy.idx:md5,113f65da8d2da1b89d47c90161edf148",
+            "taxonomy.map:md5,5bb3f2192e925bca2e61e4b54f1671e0",
+            "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e",
+            "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true"
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-04-27T09:38:40.233994512"
+    }
+}
