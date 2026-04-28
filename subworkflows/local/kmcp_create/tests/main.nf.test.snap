@@ -1,0 +1,13 @@
+{
+    "metagenome - kmcp - fasta": {
+        "content": [
+            true,
+            true
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-04-25T07:01:12.683879509"
+    }
+}
