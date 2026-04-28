@@ -328,9 +328,9 @@ workflow CREATETAXDB {
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${outdir}/pipeline_info",
-            name: 'nf_core_'  +  'createtaxdb_software_'  + 'mqc_'  + 'versions.yml',
+            name: 'nf_core_' + 'createtaxdb_software_' + 'mqc_' + 'versions.yml',
             sort: true,
-            newLine: true
+            newLine: true,
         )
 
     //
@@ -358,15 +358,6 @@ workflow CREATETAXDB {
                 [],
             ]
         }
-    )
-
-    MULTIQC(
-        ch_multiqc_files.collect(),
-        ch_multiqc_config.toList(),
-        ch_multiqc_custom_config.toList(),
-        ch_multiqc_logo.toList(),
-        [],
-        [],
     )
 
     emit:

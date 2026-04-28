@@ -29,7 +29,6 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_crea
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
 workflow NFCORE_CREATETAXDB {
-
     take:
     samplesheet // channel: samplesheet read in from --input
 
@@ -38,7 +37,7 @@ workflow NFCORE_CREATETAXDB {
     //
     // WORKFLOW: Run pipeline
     //
-    
+
     ch_samplesheet = samplesheet
 
     ch_taxonomy_namesdmp = params.namesdmp ? file(params.namesdmp, checkIfExists: true) : []
@@ -48,14 +47,13 @@ workflow NFCORE_CREATETAXDB {
     ch_prot2taxid = params.prot2taxid ? file(params.prot2taxid, checkIfExists: true) : []
     ch_genomesizes = params.genomesizes ? file(params.genomesizes, checkIfExists: true) : []
     ch_malt_mapdb = params.malt_mapdb ? file(params.malt_mapdb, checkIfExists: true) : []
-    
-    CREATETAXDB (
-        samplesheet,
+
+    CREATETAXDB(
+        ch_samplesheet,
         params.multiqc_config,
         params.multiqc_logo,
         params.multiqc_methods_description,
         params.outdir,
-        ch_samplesheet,
         ch_taxonomy_namesdmp,
         ch_taxonomy_nodesdmp,
         ch_accession2taxid,
@@ -64,6 +62,7 @@ workflow NFCORE_CREATETAXDB {
         ch_genomesizes,
         ch_malt_mapdb,
     )
+
     emit:
     multiqc_report = CREATETAXDB.out.multiqc_report // channel: /path/to/multiqc_report.html
 }
@@ -86,7 +85,7 @@ workflow {
         params.input,
         params.help,
         params.help_full,
-        params.show_hidden
+        params.show_hidden,
     )
 
     //
@@ -104,6 +103,6 @@ workflow {
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        NFCORE_CREATETAXDB.out.multiqc_report
+        NFCORE_CREATETAXDB.out.multiqc_report,
     )
 }
