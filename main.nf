@@ -28,7 +28,6 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_crea
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
 workflow NFCORE_CREATETAXDB {
-
     take:
     samplesheet // channel: samplesheet read in from --input
 
@@ -45,7 +44,7 @@ workflow NFCORE_CREATETAXDB {
     //
     // WORKFLOW: Run pipeline
     //
-    CREATETAXDB (
+    CREATETAXDB(
         samplesheet,
         params.multiqc_config,
         params.multiqc_logo,
@@ -57,8 +56,9 @@ workflow NFCORE_CREATETAXDB {
         ch_nucl2taxid,
         ch_prot2taxid,
         ch_genomesizes,
-        ch_malt_mapdb
+        ch_malt_mapdb,
     )
+
     emit:
     multiqc_report = CREATETAXDB.out.multiqc_report // channel: /path/to/multiqc_report.html
 }
@@ -81,7 +81,7 @@ workflow {
         params.input,
         params.help,
         params.help_full,
-        params.show_hidden
+        params.show_hidden,
     )
 
     //
@@ -99,6 +99,6 @@ workflow {
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        NFCORE_CREATETAXDB.out.multiqc_report
+        NFCORE_CREATETAXDB.out.multiqc_report,
     )
 }
