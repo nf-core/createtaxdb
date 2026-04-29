@@ -44,6 +44,9 @@
                     "@id": "modules/"
                 },
                 {
+                    "@id": "modules/local/"
+                },
+                {
                     "@id": "modules/nf-core/"
                 },
                 {
@@ -140,8 +143,17 @@
                 "profiling",
                 "taxonomic-profiling"
             ],
-            "license": ["MIT"],
-            "name": ["nf-core/createtaxdb"],
+            "license": [
+                "MIT"
+            ],
+            "maintainer": [
+                {
+                    "@id": "#jfy133@gmail.com"
+                }
+            ],
+            "name": [
+                "nf-core/createtaxdb"
+            ],
             "programmingLanguage": {
                 "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"
             },
@@ -218,6 +230,11 @@
             "@id": "modules/",
             "@type": "Dataset",
             "description": "Modules used by the pipeline"
+        },
+        {
+            "@id": "modules/local/",
+            "@type": "Dataset",
+            "description": "Pipeline-specific modules"
         },
         {
             "@id": "modules/nf-core/",
@@ -306,7 +323,12 @@
             "url": "https://nf-co.re/"
         },
         {
-            "@id": "#46ad634c-4a7f-4c20-aac3-273f42aa9fae",
+            "@id": "#sam1.wilkinson1@gmail.com",
+            "@type": "Person",
+            "name": "Sam W"
+        },
+        {
+            "@id": "#jfy133@gmail.com",
             "@type": "Person",
             "name": "James A. Fellows Yates and the nf-core community"
         }

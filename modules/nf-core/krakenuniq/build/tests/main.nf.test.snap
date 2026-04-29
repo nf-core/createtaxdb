@@ -1,0 +1,137 @@
+{
+    "sarscov2 - fasta - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "database-build.log:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.idx:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.jdb:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.kdb:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.kdb.counts:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.kraken.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.report.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        "KRAKENUNIQ_BUILD",
+                        "krakenuniq",
+                        "1.0.4"
+                    ]
+                ],
+                "db": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "database-build.log:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.idx:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.jdb:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.kdb:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.kdb.counts:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.kraken.tsv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "database.report.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions_krakenuniq": [
+                    [
+                        "KRAKENUNIQ_BUILD",
+                        "krakenuniq",
+                        "1.0.4"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-04-25T13:34:52.419463205",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "sarscov2 - fasta - nocleanup": {
+        "content": [
+            [
+                "database.idx:md5,f5298aa4215c956d2f737b5988721a24",
+                "database.jdb:md5,48db5f6bb9b9e9db7f5bbdd0d8bec4a8",
+                "database.kdb:md5,46542be19979e867075f9e455a314e00",
+                "database.kdb.counts:md5,a82149480a435210ec1e870f06b6cdb3",
+                "database.kraken.tsv:md5,be9bd0cb3a8bea30989e65aa42a73727",
+                "database0.kdb:md5,46542be19979e867075f9e455a314e00",
+                "library-files.txt:md5,8a9817d2de8465eb436aa3aa8696a717",
+                "genome.fasta:md5,6e9fe4042a72f2345f644f239272b7e6",
+                "seqid2taxid.map:md5,fe738f2333d57dde0db32239c04a93b8",
+                "taxDB:md5,2a6c6234f8f4edba2b94ec75ea9f1b4c",
+                "citations.dmp:md5,7b2e5d0fbea3da110c4a0e3bb7c3720d",
+                "division.dmp:md5,f93fc4c838fdaa4b8923f003e8c11712",
+                "gc.prt:md5,accfbf13bca0899e7ba9849195af241a",
+                "gencode.dmp:md5,a5f39fc7a6608775d4c62a96cf1d170c",
+                "images.dmp:md5,3855c67cfa06ef8ae713cab73f009e3d",
+                "merged.dmp:md5,5e78eb1c4a235889458ef9f83a64e81e",
+                "readme.txt:md5,051060a90b7b89ad8e0fa33fe280211c"
+            ],
+            [
+                "database-build.log",
+                "database-build.log",
+                "database.report.tsv",
+                "delnodes.dmp",
+                "names.dmp",
+                "names.dmp",
+                "nodes.dmp",
+                "nodes.dmp",
+                "taxdump.tar.gz",
+                "taxdump.tar.gz",
+                "timestamp"
+            ],
+            {
+                "versions_krakenuniq": [
+                    [
+                        "KRAKENUNIQ_BUILD",
+                        "krakenuniq",
+                        "1.0.4"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-04-25T13:34:38.850675715",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    },
+    "sarscov2 - fasta": {
+        "content": [
+            [
+                "database.idx:md5,f5298aa4215c956d2f737b5988721a24",
+                "database.kdb:md5,46542be19979e867075f9e455a314e00",
+                "database.kdb.counts:md5,a82149480a435210ec1e870f06b6cdb3",
+                "database0.kdb:md5,46542be19979e867075f9e455a314e00",
+                "taxDB:md5,2a6c6234f8f4edba2b94ec75ea9f1b4c"
+            ],
+            [
+                
+            ],
+            {
+                "versions_krakenuniq": [
+                    [
+                        "KRAKENUNIQ_BUILD",
+                        "krakenuniq",
+                        "1.0.4"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-04-25T13:33:43.689590026",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
+    }
+}
