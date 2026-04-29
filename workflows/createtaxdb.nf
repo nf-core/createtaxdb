@@ -264,7 +264,6 @@ workflow CREATETAXDB {
             [file_taxonomy_namesdmp, file_taxonomy_nodesdmp],
             [file_accession2taxid],
         )
-        ch_versions = ch_versions.mix(METACACHE_BUILD.out.versions)
         // Current module emits the two file as separate elements of the same tuple, so we need to combine them here
         // to satisfy our later final output directory
         ch_metacache_output = METACACHE_BUILD.out.db.map { meta, dbmeta, dbcache -> [meta, [dbmeta, dbcache]] }
