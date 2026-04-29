@@ -64,7 +64,7 @@ workflow CREATETAXDB {
     multiqc_config
     multiqc_logo
     multiqc_methods_description
-    outdir,
+    outdir
     file_taxonomy_namesdmp // file: taxonomy names file
     file_taxonomy_nodesdmp // file: taxonomy nodes file
     file_accession2taxid // file: accession2taxid file
@@ -327,9 +327,9 @@ workflow CREATETAXDB {
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${outdir}/pipeline_info",
-            name: 'nf_core_'  +  'createtaxdb_software_'  + 'mqc_'  + 'versions.yml',
+            name: 'nf_core_' + 'createtaxdb_software_' + 'mqc_' + 'versions.yml',
             sort: true,
-            newLine: true
+            newLine: true,
         )
 
     //
@@ -358,6 +358,7 @@ workflow CREATETAXDB {
             ]
         }
     )
+
     emit:
     versions                 = ch_versions // channel: [ path(versions.yml) ]
     multiqc_report           = MULTIQC.out.report.map { _meta, report -> [report] }.toList() // channel: /path/to/multiqc_report.html
