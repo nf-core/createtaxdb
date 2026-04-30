@@ -23,6 +23,10 @@ We provide a list of required or recommended files, and which pipeline parameter
   - taxonomy nodes dump file (`--nodesdmp`)
   - genome sizes file (`--genomesizes`)\*
 - kaiju (no additional files required)
+- kmcp
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - nucl2taxid file (`--nucl2taxid`)
 - kraken2
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
@@ -34,12 +38,12 @@ We provide a list of required or recommended files, and which pipeline parameter
   - (nucleotide) accession2taxid file (`--accession2taxid`)
 - malt
   - a MEGAN 'mapDB' mapping file (`--malt_mapdb`)
-- sourmash (no additional files required)
-- sylph (no additional files required)
 - metacache
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
-  - custom seqid2taxid file (`--nucl2taxid`)
+  - (nucleotide) accession2taxid file (`--accession2taxid`)
+- sourmash (no additional files required)
+- sylph (no additional files required)
 
 \* _will be automatically downloaded if not supplied. You must supply this to the pipeline if on an offline cluster._
 
@@ -201,7 +205,7 @@ It is a simpler version of the accession2taxid file, and is formatted as a two c
 
 Example:
 
-```tsv title="nucl2tax.map"
+```tsv title="prot2taxid.map"
 accession.version	taxid
 QIK50426.1	694009
 QIK50427.1	694009

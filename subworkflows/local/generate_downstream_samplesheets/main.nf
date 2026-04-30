@@ -14,7 +14,7 @@ workflow SAMPLESHEET_TAXPROFILER {
 
         // If the database consists of multiple files, give the parent directory name
         // If database is directory or single file, just give that directory/file name
-        def db_output_name = db instanceof List ? "" : db.getName()
+        def db_output_name = meta.tool == 'bracken' ? "${params.dbname}-bracken" : db instanceof List ? "" : db.getName()
 
         def tool = meta.tool
         def db_name = meta.id + '-' + meta.tool

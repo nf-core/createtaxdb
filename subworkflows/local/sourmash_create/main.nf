@@ -8,8 +8,6 @@ workflow SOURMASH_CREATE {
     batch_size
 
     main:
-    ch_versions = channel.empty()
-
     /*
      * Let sourmash sketch `batch_size` signatures at a time. This is a
      * compromise between sourmash being single threaded and the overhead of
@@ -26,7 +24,6 @@ workflow SOURMASH_CREATE {
     }
 
     SOURMASH_SKETCH(ch_sketch_input)
-    ch_versions = ch_versions.mix(SOURMASH_SKETCH.out.versions.first())
 
     // Drop the batch identifiers and flatten the batches. Then add the original
     // database name and index the signatures per k-mer size.
@@ -41,9 +38,7 @@ workflow SOURMASH_CREATE {
         }
 
     SOURMASH_INDEX(ch_index_input.signatures, ch_index_input.kmer_size)
-    ch_versions = ch_versions.mix(SOURMASH_INDEX.out.versions.first())
 
     emit:
-    db       = SOURMASH_INDEX.out.signature_index // channel: [ val(meta), index ]
-    versions = ch_versions // channel: [ versions.yml ]
+    db = SOURMASH_INDEX.out.signature_index // channel: [ val(meta), index ]
 }

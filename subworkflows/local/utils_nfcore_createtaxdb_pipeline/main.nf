@@ -8,15 +8,14 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { UTILS_NFSCHEMA_PLUGIN   } from '../../nf-core/utils_nfschema_plugin'
-include { paramsSummaryMap        } from 'plugin/nf-schema'
-include { samplesheetToList       } from 'plugin/nf-schema'
-include { paramsHelp              } from 'plugin/nf-schema'
-include { completionEmail         } from '../../nf-core/utils_nfcore_pipeline'
-include { completionSummary       } from '../../nf-core/utils_nfcore_pipeline'
-include { imNotification          } from '../../nf-core/utils_nfcore_pipeline'
-include { UTILS_NFCORE_PIPELINE   } from '../../nf-core/utils_nfcore_pipeline'
-include { UTILS_NEXTFLOW_PIPELINE } from '../../nf-core/utils_nextflow_pipeline'
+include { UTILS_NFSCHEMA_PLUGIN     } from '../../nf-core/utils_nfschema_plugin'
+include { paramsSummaryMap          } from 'plugin/nf-schema'
+include { samplesheetToList         } from 'plugin/nf-schema'
+include { paramsHelp                } from 'plugin/nf-schema'
+include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
+include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
+include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
+include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,6 +52,9 @@ workflow PIPELINE_INITIALISATION {
     //
     // Validate parameters and generate parameter summary to stdout
     //
+
+    def before_text = ""
+    def after_text = ""
     before_text = """
 -\033[2m----------------------------------------------------\033[0m-
                                         \033[0;32m,--.\033[0;30m/\033[0;32m,-.\033[0m
@@ -70,6 +72,10 @@ workflow PIPELINE_INITIALISATION {
 * Software dependencies
     https://github.com/nf-core/createtaxdb/blob/main/CITATIONS.md
 """
+    if (monochrome_logs) {
+        before_text = before_text.replaceAll(/\033\[[0-9;]*m/, '')
+    }
+
     command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
 
     UTILS_NFSCHEMA_PLUGIN(
@@ -102,8 +108,7 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
-
-    ch_samplesheet = Channel.fromList(samplesheetToList(params.input, "assets/schema_input.json"))
+    ch_samplesheet = channel.fromList(samplesheetToList(file(input, checkIfExists: true), "assets/schema_input.json"))
 
     // Validate we have unique file names for DNA FASTAs
     ch_samplesheet
@@ -115,7 +120,7 @@ workflow PIPELINE_INITIALISATION {
         .map { fasta_dna ->
             if (fasta_dna.size() > fasta_dna.sort().unique(false).size()) {
                 // duplicate detection from https://stackoverflow.com/a/35922565
-                def not_unique_dna = fasta_dna.countBy { it }.grep { it.value > 1 }.collect { it.key }
+                def not_unique_dna = fasta_dna.countBy { sizes -> sizes }.grep { element -> element.value > 1 }.collect { result -> result.key }
                 error("[nf-core/createtaxdb] ERROR: All DNA FASTA filenames (also after decompressing!) must be unique! Check for filename(s) starting with: ${not_unique_dna.join(', ')}")
             }
         }
@@ -130,7 +135,7 @@ workflow PIPELINE_INITIALISATION {
         .map { fasta_aa ->
             if (fasta_aa.size() > fasta_aa.sort().unique(false).size()) {
                 // duplicate detection from https://stackoverflow.com/a/35922565
-                def not_unique_aa = fasta_aa.countBy { it }.grep { it.value > 1 }.collect { it.key }
+                def not_unique_aa = fasta_aa.countBy { sizes -> sizes }.grep { element -> element.value > 1 }.collect { result -> result.key }
                 error("[nf-core/createtaxdb] ERROR: All AA FASTA filenames (also after decompressing!) must be unique! Check for filename(s) starting with: ${not_unique_aa.join(', ')}")
             }
         }
@@ -153,8 +158,7 @@ workflow PIPELINE_COMPLETION {
     plaintext_email // boolean: Send plain-text email instead of HTML
     outdir //    path: Path to output directory where results will be published
     monochrome_logs // boolean: Disable ANSI colour codes in log output
-    hook_url //  string: hook URL for notifications
-    multiqc_report //  string: Path to MultiQC report
+    multiqc_report  //  string: Path to MultiQC report
 
     main:
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
@@ -177,13 +181,11 @@ workflow PIPELINE_COMPLETION {
         }
 
         completionSummary(monochrome_logs)
-        if (hook_url) {
-            imNotification(summary_params, hook_url)
-        }
+
     }
 
     workflow.onError {
-        log.error("Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting")
+        log.error "Pipeline failed. Please refer to troubleshooting docs for common issues: https://nf-co.re/docs/running/troubleshooting"
     }
 }
 
@@ -197,6 +199,11 @@ workflow PIPELINE_COMPLETION {
 // Check and validate pipeline parameters
 //
 def validateInputParameters() {
+
+    // Validate BRACKEN/KRAKEN parameter combinations
+    if ((params.build_bracken || params.build_kraken2) && [!params.accession2taxid, !params.nodesdmp, !params.namesdmp].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_kraken2 or --bracken, but missing at least one of: --accession2taxid, --nodesdmp, or --namesdmp (all are mandatory for BRACKEN/KRAKEN2)')
+    }
 
     // Validate CENTRIFUGE auxiliary file combinations
     if (params.build_centrifuge && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
@@ -213,11 +220,6 @@ def validateInputParameters() {
         error('[nf-core/createtaxdb] Supplied --build_ganon, but missing at least one of: --nodesdmp, or --namesdmp (all are mandatory for GANON)')
     }
 
-    // Validate BRACKEN/KRAKEN parameter combinations
-    if ((params.build_bracken || params.build_kraken2) && [!params.accession2taxid, !params.nodesdmp, !params.namesdmp].any()) {
-        error('[nf-core/createtaxdb] Supplied --build_kraken2 or --bracken, but missing at least one of: --accession2taxid, --nodesdmp, or --namesdmp (all are mandatory for BRACKEN/KRAKEN2)')
-    }
-
     // Validate KRAKENUNIQ auxiliary file combinations
     if (params.build_krakenuniq && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
         error('[nf-core/createtaxdb] Supplied --build_krakenuniq, but missing at least one of: --nucl2taxid, --nodesdmp, or --namesdmp (all are mandatory for KRAKENUNIQ)')
@@ -226,6 +228,11 @@ def validateInputParameters() {
     // Validate MALT auxiliary file combinations
     if (params.build_malt && [!params.malt_mapdb].any()) {
         error('[nf-core/createtaxdb] Supplied --build_malt, but missing: --malt_mapdb (all are mandatory for MALT)')
+    }
+
+    // Validate METACACHE auxiliary file combinations
+    if (params.build_metacache && [!params.nodesdmp, !params.namesdmp, !params.accession2taxid].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_metacache, but missing at least one of: --nodesdmp, --namesdmp, `--accession2taxid` (all are mandatory for METACACHE)')
     }
 
     if (params.build_malt && !(params.malt_build_options.contains('--sequenceType DNA') || params.malt_build_options.contains('--sequenceType Protein'))) {

@@ -12,7 +12,7 @@ process SOURMASH_SKETCH {
 
     output:
     tuple val(meta), path("*.sig"), emit: signatures
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('sourmash'), eval("sourmash --version 2>&1 | sed 's/^sourmash //'"), emit: versions_sourmash, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,31 +22,28 @@ process SOURMASH_SKETCH {
     def args = task.ext.args ?: "dna --param-string 'scaled=1000,k=21,k=31,k=51,abund'"
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    ls library/* > library.txt
+    find -L library/ -type f > library.txt
 
     sourmash sketch \\
         ${args} \\
         --merge '${prefix}' \\
         --output '${prefix}.sig' \\
         --from-file library.txt
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        sourmash: \$(echo \$(sourmash --version 2>&1) | sed 's/^sourmash //' )
-    END_VERSIONS
     """
 
     stub:
     def args = task.ext.args ?: "dna --param-string 'scaled=1000,k=21,k=31,k=51,abund'"
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    ls library/* > library.txt
+    find -L library/ -type f > library.txt
 
-    echo sourmash sketch \\
+    echo "sourmash sketch \\
         ${args} \\
         --merge '${prefix}' \\
         --output '${prefix}.sig' \\
-        --from-file library.txt
+        --from-file library.txt"
+
+    touch '${prefix}.sig'
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

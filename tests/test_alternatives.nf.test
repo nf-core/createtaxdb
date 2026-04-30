@@ -16,8 +16,12 @@ nextflow_pipeline {
         }
 
         then {
+
+            def stable_name_all = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+
             assertAll(
                 { assert workflow.success },
+                { assert snapshot ( stable_name_all ).match("all_files") },
                 { assert snapshot(
                         removeFromYamlMap("${params.outdir}/pipeline_info/nf_core_createtaxdb_software_mqc_versions.yml", 'Workflow'),
                         "kaiju/database.fmi - minimum file size: ${file("$outputDir/kaiju/database-kaiju.fmi").length() >= 3519604}",
@@ -40,7 +44,6 @@ nextflow_pipeline {
                         file("$outputDir/krakenuniq/database-krakenuniq/library/GCF_016889925.1_ASM1688992v1_genomic.fna"),
                         file("$outputDir/krakenuniq/database-krakenuniq/library/GCF_900478275.1_34211_D02_genomic.fna"),
                         "krakenuniq/database-krakenuniq/library-files.txt - contains string: ${path("$outputDir/krakenuniq/database-krakenuniq/library-files.txt").readLines().contains('library/GCF_900478275.1_34211_D02_genomic.fna')}",
-                        file("$outputDir/krakenuniq/database-krakenuniq/nucl2tax.map"),
                         file("$outputDir/krakenuniq/database-krakenuniq/seqid2taxid.map"),
                         file("$outputDir/krakenuniq/database-krakenuniq/taxDB"),
                         file("$outputDir/krakenuniq/database-krakenuniq/taxonomy/names.dmp"),

@@ -3,6 +3,39 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v3.0.0 - Mystical Medusa - [2026-04-30]
+
+### `Added`
+
+- [#169](https://github.com/nf-core/createtaxdb/pull/169) Have KAIJU_MKFMI module also export relevant taxdump files for downstream processes (by @jfy133)
+- [#170](https://github.com/nf-core/createtaxdb/pull/170) Publish sometimes generated `unmapped.txt` file for Kraken2 databases (❤️ to @softstam for reporting, fix @jfy133)
+- [#178](https://github.com/nf-core/createtaxdb/pull/178) Add additional validation checks for required MetaCache inputs (by @jfy133)
+- [#179](https://github.com/nf-core/createtaxdb/pull/179) Add new parameter `--save_uncompressed_fastas` to only optionally save decompressed input files (fix @jfy133)
+
+### `Fixed`
+
+- [#158](https://github.com/nf-core/createtaxdb/pull/158) Prevent sylph failing due to too long commands when many input genomes (by @softstam, @jfy133)
+- [#160](https://github.com/nf-core/createtaxdb/pull/160) Prevent sourmash failing due to too long commands when many input genomes (by @softstam, @jfy133)
+- [#161](https://github.com/nf-core/createtaxdb/pull/161) Force METACACHE_BUILD module to always use one CPU, as not multi-threaded, removing warning (by @jfy133)
+- [#162](https://github.com/nf-core/createtaxdb/pull/162) Fix links to FAQ in parameter docs (by @jfy133)
+- [#163](https://github.com/nf-core/createtaxdb/pull/163) Fix code block title in auxiliary files section of FAQ (by @jfy133)
+- [#165](https://github.com/nf-core/createtaxdb/pull/165) Force use of KrakenUniq `--jellyfish-bin` to ensure more regular execution (by @jfy133)
+- [#173](https://github.com/nf-core/createtaxdb/pull/173) Fix generated downstream samplesheet's Bracken directory name being flipped (by @jfy133)
+- [#175](https://github.com/nf-core/createtaxdb/pull/175) Fix MetaCache receiving wrong taxonomy file (was seq2map, should have been accession2taxid) (by @sofstam, @jfy133)
+- [#182](https://github.com/nf-core/createtaxdb/pull/182) KMCP emits correct taxonomy files for downstream use (by @sofstam, @jfy133)
+- [#183](https://github.com/nf-core/createtaxdb/pull/183) Fix KrakenUniq using incorrectly non-renamed seqid2map taxonomy file, resulting in no taxonomy info during classification (by @jfy133)
+- [#184](https://github.com/nf-core/createtaxdb/pull/184) Stop generation of concatenated FASTA file of input files if not needed by selected tools (by @jfy133)
+
+### `Dependencies`
+
+| Tool | Old Version | New Version |
+| ---- | ----------- | ----------- |
+|      |             |             |
+
+### `Deprecated`
+
+- [#179](https://github.com/nf-core/createtaxdb/pull/179) The pipeline no longer by default saves decompressed input FASTA files (see new `save_uncompressed_fastas` parameter) (@jfy133)
+
 ## v2.1.0 - Gracious Goblin - [2026-02-10]
 
 ### `Added`

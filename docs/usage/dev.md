@@ -13,7 +13,8 @@ Does not have to be in this precise order
   - [ ] Added other profiler-specific parameters (e.g. additional taxonomy files)
   - [ ] Format with VSCode Nextflow extension
 - [ ] Update the `subworkflows/local/preprocessing/main.nf`
-  - [ ] Update the subworkflow's if/else (concatenation) sections for either DNA or AA FASTA preprocessing
+  - [ ] Update the subworkflow's if/else (prepare) sections for either DNA or AA FASTA preprocessing
+  - [ ] If relevant, update the subworkflow's if/else (conatenate into a single ref) sections for either DNA or AA FASTA preprocessing
   - [ ] Format with VSCode Nextflow extension
 - [ ] Added tools(s) to `workflow/createtaxdb.nf`
   - [ ] Added relevant new input files to `take:` block, and pass into from `main.nf` to the `NFCORE_CREATETAXDB` workflow
@@ -28,6 +29,7 @@ Does not have to be in this precise order
   - [ ] Added other args (`ext.args`) based on additional profiler specific parameters modules
   - [ ] Format with VSCode Nextflow extension
 - [ ] If necessary, added any profiler-specific parameter validation checks to `utils_nfcore_createtaxdb_pipeline` and possible at the top of `createtaxdb.nf`
+  - [ ] For example, if a new tool requires auxiliary taxonomy files, add a check for this
 - [ ] Update tests
   - [ ] Include the tool in the `test_minimal.config` (as false), `test.config` and `test_full.config` (as true), and `test_alternatives.config`, as required.
   - [ ] Run a mini test of `test_minimal` to make sure it executes when sole tool
