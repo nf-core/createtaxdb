@@ -61,7 +61,7 @@ jobs:
         id: read_yml
         run: |
           echo "nf_core_version=$(yq '.nf_core_version' ${{ github.workspace }}/.nf-core.yml)" >> "$GITHUB_OUTPUT"
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
