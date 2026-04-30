@@ -82,11 +82,10 @@
                 "seqkit/renamed_files/GCF_900478275.1_34211_D02_genomic.faa",
                 "unpigz",
                 "unpigz/ungzipped",
-                "unpigz/ungzipped/ungzipped",
-                "unpigz/ungzipped/ungzipped/GCA_011545545.1_ASM1154554v1_genomic.faa",
-                "unpigz/ungzipped/ungzipped/GCA_011545545.1_ASM1154554v1_genomic.fna",
-                "unpigz/ungzipped/ungzipped/GCF_016889925.1_ASM1688992v1_genomic.faa",
-                "unpigz/ungzipped/ungzipped/GCF_016889925.1_ASM1688992v1_genomic.fna"
+                "unpigz/ungzipped/GCA_011545545.1_ASM1154554v1_genomic.faa",
+                "unpigz/ungzipped/GCA_011545545.1_ASM1154554v1_genomic.fna",
+                "unpigz/ungzipped/GCF_016889925.1_ASM1688992v1_genomic.faa",
+                "unpigz/ungzipped/GCF_016889925.1_ASM1688992v1_genomic.fna"
             ]
         ],
         "meta": {
