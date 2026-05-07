@@ -177,6 +177,17 @@
                     "help_text": "See [Bracken documentation](https://github.com/jenniferlu717/Bracken?tab=readme-ov-file#step-1-generate-the-bracken-database-file-databasexmerskmer_distrib).",
                     "fa_icon": "fas fa-users-cog"
                 },
+                "build_centrifuger": {
+                    "type": "boolean",
+                    "description": "Turn on building of Centrifuger database. Requires nucleotide FASTA file input.",
+                    "fa_icon": "fas fa-database"
+                },
+                "centrifuger_build_options": {
+                    "type": "string",
+                    "description": "Specify parameters being given to centrifuger-build. Parameters must be supplied in quotes: `--<tool>_build_options \"--your_param\"`.",
+                    "help_text": "See [Centrifuger documentation](https://github.com/mourisl/centrifuger#build-index)",
+                    "fa_icon": "fas fa-users-cog"
+                },
                 "build_centrifuge": {
                     "type": "boolean",
                     "description": "Turn on building of Centrifuge database. Requires nucleotide FASTA file input.",

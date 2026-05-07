@@ -88,11 +88,11 @@
                 "unpigz/ungzipped/GCF_016889925.1_ASM1688992v1_genomic.fna"
             ]
         ],
+        "timestamp": "2026-05-07T12:03:10.917477",
         "meta": {
-            "nf-test": "0.9.2",
+            "nf-test": "0.9.4",
             "nextflow": "25.10.4"
-        },
-        "timestamp": "2026-04-27T13:11:46.222315139"
+        }
     },
     "-profile test_alternatives": {
         "content": [
@@ -174,10 +174,10 @@
             "taxonomy.tre:md5,f76fb2d5aa9b0d637234d48175841e0e",
             "downstream_samplesheets/databases-taxprofiler.csv - nr. lines: true"
         ],
+        "timestamp": "2026-05-07T12:03:10.953825",
         "meta": {
-            "nf-test": "0.9.2",
+            "nf-test": "0.9.4",
             "nextflow": "25.10.4"
-        },
-        "timestamp": "2026-04-27T09:38:40.233994512"
+        }
     }
 }

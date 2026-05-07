@@ -21,6 +21,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
   - [Bracken](#bracken) - Database files for Bracken
   - [ganon](#ganon) - Database files for ganon
   - [Centrifuge](#centrifuge) - Database files for Centrifuge
+  - [Centrifuger](#centrifuger) - Database files for Centrifuger
   - [DIAMOND](#diamond) - Database files for DIAMOND
   - [Kaiju](#kaiju) - Database files for Kaiju
   - [KMCP](#kmcp) - Database files for KMCP
@@ -135,7 +136,7 @@ The resulting `<db_name>/` directory can be given to Bracken itself with `bracke
 
 ### Centrifuge
 
-[Centrifuge](https://github.com/bbuchfink/diamond) is a very rapid and memory-efficient system for the classification of DNA sequences from microbial samples.
+[Centrifuge](https://github.com/DaehwanKimLab/centrifuge) is a very rapid and memory-efficient system for the classification of DNA sequences from microbial samples.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -147,6 +148,21 @@ The resulting `<db_name>/` directory can be given to Bracken itself with `bracke
 </details>
 
 A directory and `cf` files can be given to the Centrifuge command with `centrifuge -x /<path>/<to>/<cf_files_basename>` etc.
+
+### Centrifuger
+
+[Centrifuger](https://github.com/mourisl/centrifuger) is an efficient taxonomic classification method that compares sequencing reads against a microbial genome database.
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `centrifuger/`
+  - `database-centrifuger/`
+    - `<database>.*.cfr`: Centrifuger database files
+
+</details>
+
+The `cfr` database files can be given to the Centrifuger classification command with `centrifuger -x /<path>/<to>/<database_prefix>` etc.
 
 ### Ganon
 

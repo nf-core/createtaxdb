@@ -210,6 +210,11 @@ def validateInputParameters() {
         error('[nf-core/createtaxdb] Supplied --build_centrifuge, but missing at least one of: --nucl2taxid, --nodesdmp, or --namesdmp (all are mandatory for CENTRIFUGE)')
     }
 
+    // Validate CENTRIFUGER auxiliary file combinations
+    if (params.build_centrifuger && [!params.nucl2taxid, !params.nodesdmp, !params.namesdmp].any()) {
+        error('[nf-core/createtaxdb] Supplied --build_centrifuger, but missing at least one of: --nucl2taxid, --nodesdmp, or --namesdmp (all are mandatory for CENTRIFUGER)')
+    }
+
     // Validate DIAMOND auxiliary file combinations
     if (params.build_diamond && [!params.prot2taxid, !params.nodesdmp, !params.namesdmp].any()) {
         error('[nf-core/createtaxdb] Supplied --build_diamond, but missing at least one of: --prot2taxid, --nodesdmp, or --namesdmp (all are mandatory for DIAMOND)')
@@ -267,6 +272,7 @@ def toolCitationText() {
         "Tools used in the workflow included:",
         params.build_bracken ? "Bracken (Lu et al. 2017)," : "",
         params.build_centrifuge ? "Centrifuge (Kim et al. 2016)," : "",
+        params.build_centrifuger ? "Centrifuger (Song & Langmead, 2024)," : "",
         params.build_ganon ? "ganon (Piro et al. 2020)," : "",
         params.build_diamond ? "DIAMOND (Buchfink et al. 2015)," : "",
         params.build_kaiju ? "SeqKit (Shen et al. 2024) and Kaiju (Menzel et al. 2016)," : "",
@@ -287,6 +293,7 @@ def toolBibliographyText() {
     def reference_text = [
         params.build_bracken ? '<li>Lu, J., Breitwieser, F. P., Thielen, P., & Salzberg, S. L. (2017). Bracken: estimating species abundance in metagenomics data. PeerJ. Computer Science, 3(e104), e104. <a href="https://doi.org/10.7717/peerj-cs.104">10.7717/peerj-cs.104</a></li>' : "",
         params.build_centrifuge ? '<li>Kim, D., Song, L., Breitwieser, F. P., & Salzberg, S. L. (2016). Centrifuge: rapid and sensitive classification of metagenomic sequences. Genome Research, 26(12), 1721–1729.  <a href="https://doi.org/10.1101/gr.210641.116">10.1101/gr.210641.116</a></li>' : "",
+        params.build_centrifuger ? '<li> Song, L., Langmead, B. (2024). Centrifuger: lossless compression of microbial genomes for efficient and accurate metagenomic sequence classification. Genome Biol 25, 106.  <a href="https://doi.org/10.1186/s13059-024-03244-4">10.1186/s13059-024-03244-4</a></li>' : "",
         params.build_ganon ? "<li>Piro, V. C., Dadi, T. H., Seiler, E., Reinert, K., & Renard, B. Y. (2020). Ganon: Precise metagenomics classification against large and up-to-date sets of reference sequences. Bioinformatics (Oxford, England), 36(Suppl_1), i12–i20. <a href=\"https://doi.org/10.1093/bioinformatics/btaa458\">10.1093/bioinformatics/btaa458</a></li>" : "",
         params.build_diamond ? '<li>Buchfink, B., Xie, C., & Huson, D. H. (2015). Fast and sensitive protein alignment using DIAMOND. Nature Methods, 12(1), 59–60. <a href="https://doi.org/10.1038/nmeth.3176">10.1038/nmeth.3176</a></li>' : "",
         params.build_kaiju ? '<li>Shen, W., Sipos, B., & Zhao, L. (2024). SeqKit2: A Swiss army knife for sequence and alignment processing. iMeta, e191. <a href=\"https://doi.org/10.1002/imt2.191\">https://doi.org/10.1002/imt2.191</a></li>' : "",
