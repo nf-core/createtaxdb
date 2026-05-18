@@ -5,15 +5,117 @@
         "https://github.com/nf-core/modules.git": {
             "modules": {
                 "nf-core": {
+                    "bracken/build": {
+                        "branch": "master",
+                        "git_sha": "e18a4623c894acbdaf3c07aaf37f741f13f737fd",
+                        "installed_by": ["fasta_build_add_kraken2_bracken"]
+                    },
+                    "centrifuge/build": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "diamond/makedb": {
+                        "branch": "master",
+                        "git_sha": "4012b87ef8f242b7aa1eb17e165aa003b86b49c0",
+                        "installed_by": ["modules"]
+                    },
+                    "find/concatenate": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "find/unpigz": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "ganon/buildcustom": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "kaiju/mkfmi": {
+                        "branch": "master",
+                        "git_sha": "c0c2de19671473eae364344b5f21ce0170f3d930",
+                        "installed_by": ["modules"]
+                    },
+                    "kmcp/compute": {
+                        "branch": "master",
+                        "git_sha": "36c763abe8b59e2900dfe82e1963ee38ca9d1ecb",
+                        "installed_by": ["modules"]
+                    },
+                    "kmcp/index": {
+                        "branch": "master",
+                        "git_sha": "5c7b45afd4f0c480f7290c9527552f28d53852f4",
+                        "installed_by": ["modules"]
+                    },
+                    "kraken2/add": {
+                        "branch": "master",
+                        "git_sha": "e18a4623c894acbdaf3c07aaf37f741f13f737fd",
+                        "installed_by": ["fasta_build_add_kraken2_bracken"]
+                    },
+                    "kraken2/build": {
+                        "branch": "master",
+                        "git_sha": "e18a4623c894acbdaf3c07aaf37f741f13f737fd",
+                        "installed_by": ["fasta_build_add_kraken2_bracken"]
+                    },
+                    "krakenuniq/build": {
+                        "branch": "master",
+                        "git_sha": "e470d5ff122a960dbba26acb47caeb74d4db1cc8",
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/krakenuniq/build/krakenuniq-build.diff"
+                    },
+                    "malt/build": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "metacache/build": {
+                        "branch": "master",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
+                        "installed_by": ["modules"]
+                    },
                     "multiqc": {
                         "branch": "master",
                         "git_sha": "008f9d3e61209bf995edac3ba531f54e269e1215",
+                        "installed_by": ["modules"]
+                    },
+                    "pigz/compress": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
+                        "installed_by": ["modules"]
+                    },
+                    "sourmash/index": {
+                        "branch": "master",
+                        "git_sha": "7834ddbe2ac8ac536eee9ee2b9e4140f1a0b56d6",
+                        "installed_by": ["modules"]
+                    },
+                    "sourmash/sketch": {
+                        "branch": "master",
+                        "git_sha": "7834ddbe2ac8ac536eee9ee2b9e4140f1a0b56d6",
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/sourmash/sketch/sourmash-sketch.diff"
+                    },
+                    "sylph/sketchgenomes": {
+                        "branch": "master",
+                        "git_sha": "17ba62c5f1b826cb6b98da1fa57b3efbc951edf5",
+                        "installed_by": ["modules"]
+                    },
+                    "unzip": {
+                        "branch": "master",
+                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
                     }
                 }
             },
             "subworkflows": {
                 "nf-core": {
+                    "fasta_build_add_kraken2_bracken": {
+                        "branch": "master",
+                        "git_sha": "e18a4623c894acbdaf3c07aaf37f741f13f737fd",
+                        "installed_by": ["subworkflows"]
+                    },
                     "utils_nextflow_pipeline": {
                         "branch": "master",
                         "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
