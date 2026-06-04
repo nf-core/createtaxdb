@@ -227,10 +227,11 @@ Does not have to be in this precise order
     - [ ] Added in-text citation
     - [ ] Added bibliography (citation style: APA 7th edition)
   - [ ] Added relevant documentation to `usage.md`
-    - [ ] Add line to FAQ of recommended auxiliary files (if required)
   - [ ] Described module output in `output.md`
     - [ ] Entry in table of contents
     - [ ] Entry describing output file and how to supply it to the downstream classification tool
+  - [ ] Added relevant documentation to `faq.md`
+    - [ ] Add line to FAQ of recommended auxiliary files (if required)
   - [ ] Added to pipeline summary list on `README.md`
   - [ ] Added to pipeline metro map diagram
   - [ ] If it's your first contribution, add, or move yourself to the Team list on `README.md`!
@@ -251,6 +252,8 @@ This checklist is the same as the previous section, but in the order that GitHub
   - [ ] Include the tool in the `test_minimal.config` (as false), `test.config` and `test_full.config` (as true), and `test_alternatives.config`, as required.
   - [ ] Run a mini test of `test_minimal` to make sure it executes when sole tool
   - [ ] Format these files with VSCode Nextflow extension
+  - [ ] `docs/faq.md`
+    - [ ] Added line(s) to FAQ of recommended auxiliary files (if required)
 - [ ] `docs/output.md`
   - [ ] Described module output in `output.md`
     - [ ] Entry in table of contents
