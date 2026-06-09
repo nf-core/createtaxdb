@@ -151,7 +151,8 @@ A directory and `cf` files can be given to the Centrifuge command with `centrifu
 
 ### Centrifuger
 
-[Centrifuger](https://github.com/mourisl/centrifuger) is an efficient taxonomic classification method that compares sequencing reads against a microbial genome database.
+[Centrifuger](https://github.com/mourisl/centrifuger) is an efficient taxonomic classification method that compares sequencing reads against a microbial genome database,
+ with a more efficient compression method for database construction over the original centrifuge.
 
 <details markdown="1">
 <summary>Output files</summary>

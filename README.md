@@ -106,7 +106,7 @@ For more details about the output files and reports, please refer to the
 
 nf-core/createtaxdb was originally written by James A. Fellows Yates, Sam Wilkinson, Alexander Ramos Díaz, Lili Andersson-Li and the nf-core community.
 
-It has been extended by Moritz Beber (@Midnighter; adding sourmash support).
+It has been extended by Moritz Beber (@Midnighter; adding sourmash support) and Haris Spyridis (@haris18s; adding centrifuger support).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 

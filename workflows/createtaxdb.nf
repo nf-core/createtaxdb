@@ -374,6 +374,7 @@ workflow CREATETAXDB {
     versions                 = ch_versions // channel: [ path(versions.yml) ]
     multiqc_report           = MULTIQC.out.report.map { _meta, report -> [report] }.toList() // channel: /path/to/multiqc_report.html
     centrifuge_database      = ch_centrifuge_output
+    centrifuger_database     = ch_centrifuger_output
     diamond_database         = ch_diamond_output
     ganon_database           = ch_ganon_output
     kaiju_database           = ch_kaiju_output
