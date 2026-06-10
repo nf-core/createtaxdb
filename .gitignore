@@ -10,4 +10,4 @@ null/
 .lineage/
 .nf-test*
 test.xml
-settings.json
+.vscode/settings.json
