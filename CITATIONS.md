@@ -18,6 +18,10 @@
 
   > Kim, D., Song, L., Breitwieser, F. P., & Salzberg, S. L. (2016). Centrifuge: rapid and sensitive classification of metagenomic sequences. Genome Research, 26(12), 1721–1729. https://doi.org/10.1101/gr.210641.116
 
+- [Centrifuger](https://doi.org/10.1186/s13059-024-03244-4)
+
+  > Song, L., Langmead, B. Centrifuger: lossless compression of microbial genomes for efficient and accurate metagenomic sequence classification. Genome Biol 25, 106 (2024). https://doi.org/10.1186/s13059-024-03244-4
+
 - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
 
   > Buchfink, B., Xie, C., & Huson, D. H. (2015). Fast and sensitive protein alignment using DIAMOND. Nature Methods, 12(1), 59–60. https://doi.org/10.1038/nmeth.3176
