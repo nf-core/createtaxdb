@@ -36,6 +36,7 @@ The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](htt
 2. Builds databases for:
    - [Bracken](https://doi.org/10.7717/peerj-cs.104)
    - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
+   - [Centrifuger](https://doi.org/10.1186/s13059-024-03244-4)
    - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
    - [ganon](https://doi.org/10.1093/bioinformatics/btaa458)
    - [Kaiju](https://doi.org/10.1038/ncomms11257)
@@ -105,7 +106,7 @@ For more details about the output files and reports, please refer to the
 
 nf-core/createtaxdb was originally written by James A. Fellows Yates, Sam Wilkinson, Alexander Ramos Díaz, Lili Andersson-Li and the nf-core community.
 
-It has been extended by Moritz Beber (@Midnighter; adding sourmash support).
+It has been extended by Moritz Beber (@Midnighter; adding sourmash support) and Haris Spyridis (@haris18s; adding centrifuger support).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 

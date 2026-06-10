@@ -16,6 +16,7 @@ include { PREPROCESSING                              } from '../subworkflows/loc
 
 // Database building (with specific auxiliary modules)
 include { CENTRIFUGE_BUILD                           } from '../modules/nf-core/centrifuge/build/main'
+include { CENTRIFUGER_BUILD                          } from '../modules/nf-core/centrifuger/build/main'
 include { DIAMOND_MAKEDB                             } from '../modules/nf-core/diamond/makedb/main'
 include { GANON_BUILDCUSTOM                          } from '../modules/nf-core/ganon/buildcustom/main'
 include { KAIJU_MKFMI                                } from '../modules/nf-core/kaiju/mkfmi/main'
@@ -104,6 +105,16 @@ workflow CREATETAXDB {
     }
     else {
         ch_centrifuge_output = channel.empty()
+    }
+
+    // Module: Run CENTRIFUGER/BUILD
+
+    if (params.build_centrifuger) {
+        CENTRIFUGER_BUILD(PREPROCESSING.out.singleref_for_dna, file_taxonomy_nodesdmp, file_taxonomy_namesdmp, file_nucl2taxid)
+        ch_centrifuger_output = CENTRIFUGER_BUILD.out.db
+    }
+    else {
+        ch_centrifuger_output = channel.empty()
     }
 
     // MODULE: Run DIAMOND/MAKEDB
@@ -363,6 +374,7 @@ workflow CREATETAXDB {
     versions                 = ch_versions // channel: [ path(versions.yml) ]
     multiqc_report           = MULTIQC.out.report.map { _meta, report -> [report] }.toList() // channel: /path/to/multiqc_report.html
     centrifuge_database      = ch_centrifuge_output
+    centrifuger_database     = ch_centrifuger_output
     diamond_database         = ch_diamond_output
     ganon_database           = ch_ganon_output
     kaiju_database           = ch_kaiju_output
