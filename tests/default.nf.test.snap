@@ -63,9 +63,7 @@
                 "krakenuniq/database-krakenuniq/database.kdb",
                 "krakenuniq/database-krakenuniq/database.kdb.counts",
                 "krakenuniq/database-krakenuniq/database0.kdb",
-                "krakenuniq/database-krakenuniq/library",
                 "krakenuniq/database-krakenuniq/taxDB",
-                "krakenuniq/database-krakenuniq/taxonomy",
                 "malt",
                 "malt/malt-build.log",
                 "malt/malt_index",
@@ -105,9 +103,9 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.10.4"
+            "nextflow": "26.04.3"
         },
-        "timestamp": "2026-04-27T13:10:55.215481982"
+        "timestamp": "2026-06-10T09:59:31.262570917"
     },
     "-profile test": {
         "content": [
