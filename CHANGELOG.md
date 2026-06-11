@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
+- [#196](https://github.com/nf-core/createtaxdb/pull/169) Improved KrakenUniq build clean up step (by @mahesh-panchal, @jfy133)
+
 ### `Dependencies`
 
 | Tool | Old Version | New Version |
