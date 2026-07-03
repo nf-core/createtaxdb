@@ -3,9 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v3.1.0dev - [unreleased]
+## v3.1.0 - [unreleased]
 
 ### `Added`
+
+- [#195](https://github.com/nf-core/createtaxdb/pull/195) **New building tool** Centrifuger (by @haris18s)
 
 ### `Fixed`
 
@@ -13,9 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-| Tool | Old Version | New Version |
-| ---- | ----------- | ----------- |
-|      |             |             |
+| Tool             | Old Version | New Version |
+| ---------------- | ----------- | ----------- |
+| nf-core template | 4.0.1       | 4.0.2       |
+| nf-schema        | 2.5.1       | 2.7.2       |
+| Centrifuger      |             | 1.1.0       |
 
 ## v3.0.0 - Mystical Medusa - [2026-04-30]
 
