@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- [#194](https://github.com/nf-core/createtaxdb/pull/194) Updated to nf-core template 4.0.2 (by @jfy133)
 - [#195](https://github.com/nf-core/createtaxdb/pull/195) **New building tool** Centrifuger (by @haris18s)
 
 ### `Fixed`
