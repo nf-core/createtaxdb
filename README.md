@@ -11,7 +11,7 @@
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
 [![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.10.4-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
-[![nf-core template version](https://img.shields.io/badge/nf--core_template-4.0.1-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/4.0.1)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-4.0.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/4.0.2)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -36,6 +36,7 @@ The pipeline is designed to be a companion pipeline to [nf-core/taxprofiler](htt
 2. Builds databases for:
    - [Bracken](https://doi.org/10.7717/peerj-cs.104)
    - [Centrifuge](https://doi.org/10.1101/gr.210641.116)
+   - [Centrifuger](https://doi.org/10.1186/s13059-024-03244-4)
    - [DIAMOND](https://doi.org/10.1038/nmeth.3176)
    - [ganon](https://doi.org/10.1093/bioinformatics/btaa458)
    - [Kaiju](https://doi.org/10.1038/ncomms11257)
@@ -105,7 +106,7 @@ For more details about the output files and reports, please refer to the
 
 nf-core/createtaxdb was originally written by James A. Fellows Yates, Sam Wilkinson, Alexander Ramos Díaz, Lili Andersson-Li and the nf-core community.
 
-It has been extended by Moritz Beber (@Midnighter; adding sourmash support).
+It has been extended by Moritz Beber (@Midnighter; adding sourmash support) and Haris Spyridis (@haris18s; adding centrifuger support).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 

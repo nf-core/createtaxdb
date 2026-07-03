@@ -15,6 +15,11 @@
                         "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
                     },
+                    "centrifuger/build": {
+                        "branch": "master",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
+                        "installed_by": ["modules"]
+                    },
                     "diamond/makedb": {
                         "branch": "master",
                         "git_sha": "4012b87ef8f242b7aa1eb17e165aa003b86b49c0",
@@ -62,9 +67,8 @@
                     },
                     "krakenuniq/build": {
                         "branch": "master",
-                        "git_sha": "e470d5ff122a960dbba26acb47caeb74d4db1cc8",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/krakenuniq/build/krakenuniq-build.diff"
+                        "git_sha": "e069fcf0b37ce455ebc845c1d278219ffc065c37",
+                        "installed_by": ["modules"]
                     },
                     "malt/build": {
                         "branch": "master",

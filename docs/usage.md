@@ -14,7 +14,7 @@ In addition to this page, you can find additional usage information on the follo
 
 - [Tutorials](usage/tutorials.md)
 - [FAQ and troubleshooting](usage/faq.md)
-- [Development documentation](usage/dev.md) (only relevant for people contributing to code to the pipeline!)
+- [Development documentation](contributing.md) (only relevant for people contributing to code to the pipeline!)
 
 ## Samplesheet input
 

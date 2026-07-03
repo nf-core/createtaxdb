@@ -30,7 +30,7 @@ workflow PREPROCESSING {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     // PREPARE: Prepare input for single file inputs modules
-    if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon, params.build_kmcp, params.build_sourmash_dna, params.build_sylph, params.build_metacache].any()) {
+    if ([(params.build_malt && malt_build_mode == 'nucleotide'), params.build_centrifuge, params.build_centrifuger, params.build_kraken2, params.build_bracken, params.build_krakenuniq, params.build_ganon, params.build_kmcp, params.build_sourmash_dna, params.build_sylph, params.build_metacache].any()) {
 
         // Pull just DNA sequences
         ch_dna_refs_for_singleref = ch_samplesheet
@@ -88,7 +88,7 @@ workflow PREPROCESSING {
             }
             .groupTuple()
 
-        if (params.build_bracken || params.build_centrifuge || params.build_kraken2) {
+        if (params.build_bracken || params.build_centrifuge || params.build_centrifuger || params.build_kraken2) {
             // Place in single mega file for those classifiers that need it
             FIND_CONCATENATE_DNA(ch_prepped_dna_fastas)
             ch_versions = ch_versions.mix(FIND_CONCATENATE_DNA.out.versions)

@@ -14,6 +14,10 @@ We provide a list of required or recommended files, and which pipeline parameter
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
   - nucl2taxid file (`--nucl2taxid`)
+- centrifuger
+  - taxonomy name dump file (`--namesdmp`)
+  - taxonomy nodes dump file (`--nodesdmp`)
+  - nucl2taxid file (`--nucl2taxid`)
 - diamond
   - taxonomy name dump file (`--namesdmp`)
   - taxonomy nodes dump file (`--nodesdmp`)
@@ -403,7 +407,8 @@ For example
 ```bash
 cd /<path>/<to>/<outdir>/
 tar czvf <dbname>-bracken.tar.gz bracken/<dbname>-bracken/
-tar czvf <dbname>-centrifuge.tar.gz kraken2/<dbname>-centrifuge/
+tar czvf <dbname>-centrifuge.tar.gz centrifuge/<dbname>-centrifuge/
+tar czvf <dbname>-centrifuger.tar.gz centrifuger/<dbname>-centrifuger/
 tar czvf <dbname>-kraken2.tar.gz kraken2/<dbname>-kraken2/
 tar czvf kmcp-krakenuniq.tar.gz krakenuniq/database-kmcp-index/
 tar czvf <dbname>-krakenuniq.tar.gz krakenuniq/<dbname>-krakenuniq/
