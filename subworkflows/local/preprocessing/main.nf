@@ -182,13 +182,13 @@ workflow PREPROCESSING {
     }
 
     emit:
-    singleref_for_dna  = ch_singleref_for_dna
-    singleref_for_aa   = ch_singleref_for_aa
-    grouped_dna_fastas = ch_prepped_dna_fastas
-    grouped_aa_fastas  = ch_prepped_aa_fastas
-    ungrouped_dna      = ch_prepped_dna_fastas_ungrouped
-    ungrouped_aa       = ch_prepped_aa_fastas_ungrouped
-    kaiju_aa           = ch_prepped_aa_fastas_kaiju
-    versions           = ch_versions
-    multiqc_files      = ch_multiqc_files
+    singleref_for_dna    = ch_singleref_for_dna
+    singleref_for_aa     = ch_singleref_for_aa
+    grouped_dna_fastas   = ch_prepped_dna_fastas
+    grouped_aa_fastas    = ch_prepped_aa_fastas
+    ungrouped_dna_fastas = ch_prepped_dna_fastas_ungrouped
+    ungrouped_aa_fastas  = ch_prepped_aa_fastas_ungrouped
+    kaiju_aa             = ch_prepped_aa_fastas_kaiju
+    versions             = ch_versions
+    multiqc_files        = ch_multiqc_files
 }
