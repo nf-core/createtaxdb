@@ -86,7 +86,7 @@ workflow PREPROCESSING {
             .map { _meta, fasta ->
                 [[id: params.dbname], fasta]
             }
-            .groupTuple()
+            .groupBy()
 
         if (params.build_bracken || params.build_centrifuge || params.build_centrifuger || params.build_kraken2) {
             // Place in single mega file for those classifiers that need it
@@ -144,7 +144,7 @@ workflow PREPROCESSING {
 
         ch_prepped_aa_fastas = ch_prepped_aa_fastas_ungrouped
             .map { _meta, fasta -> [[id: params.dbname], fasta] }
-            .groupTuple()
+            .groupBy()
 
         if ([(params.build_malt && malt_build_mode == 'protein'), params.build_diamond].any()) {
             FIND_CONCATENATE_AA(ch_prepped_aa_fastas)
@@ -170,7 +170,7 @@ workflow PREPROCESSING {
 
             ch_prepped_aa_fastas_renamed = SEQKIT_BATCHRENAME.out.fastx
                 .map { _meta, fasta -> [[id: params.dbname], fasta] }
-                .groupTuple()
+                .groupBy()
                 .map { meta, fasta ->
                     [meta, fasta.flatten()]
                 }
