@@ -1,0 +1,202 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "building"
+description: Main database building subworkflow
+keywords:
+  - metagenomics
+  - database
+  - build
+  - custom
+components:
+  - centrifuge/build'
+  - centrifuger/build'
+  - diamond/makedb'
+  - ganon/buildcustom'
+  - kaiju/mkfmi'
+  - krakenuniq/build'
+  - unzip'
+  - malt/build'
+  - sylph/sketchgenomes'
+  - metacache/build'
+  - fasta_build_add_kraken2_bracken'
+  - kmcp_create'
+  - sourmash_create'
+  - sourmash_create'
+input:
+  - ch_singleref_for_dna:
+      type: file
+      description: |
+        Channel containing a meta with a single FASTA or a directory containing multiple DNA FASTAs to be built
+        Structure: [ val(meta), [ fasta ] ]
+      pattern: "*.{fasta,fa,fna}"
+  - ch_singleref_for_aa:
+      type: file
+      description: |
+        Channel containing a meta with a single FASTA or a directory containing multiple AA FASTAs to be built
+        Structure: [ val(meta), [ fasta ] ]
+      pattern: "*.{fasta,fa,fna}"
+  - ch_ungrouped_dna_fastas:
+      type: file
+      description: |
+        Channel with each meta/FASTA combination concatenated into a single channel element
+        Structure: [ [ val(meta), [ fasta ], [ val(meta), [ fasta ], [ val(meta), [ fasta ] ]
+      pattern: "*.{fasta,fa,fna}"
+  - ch_kaiju_aa:
+      type: file
+      description: |
+        Channel containing a meta and a single AA FASTA with modified Kaiju-compatible headers
+        Structure: // channel: [ val(meta), fasta ]
+      pattern: "*.{fasta,fa,fna}"
+  - ch_grouped_dna_fastas:
+      type: file
+      description: |
+        Channel with single meta and list of of all DNA FASTAs in a single list
+        Structure: // channel: [ val(meta), [ fasta, fasta, fasta ] ]
+      pattern: "*.{fasta,fa,fna}"
+  - ch_grouped_aa_fastas:
+      type: file
+      description: |
+        Channel with single meta and list of of all AA FASTAs in a single list
+        Structure: // channel: [ val(meta), [ fasta, fasta, fasta ] ]
+      pattern: "*.{fasta,fa,fna}"
+  - file_taxonomy_namesdmp:
+      type: file
+      description: |
+        NCBI taxonomy names dmp file
+        Structure: // file: [ <taxonomy names file> ]
+      pattern: "names.dmp"
+  - file_taxonomy_nodesdmp:
+      type: file
+      description: |
+        NCBI taxonomy nodes dmp file
+        Structure:// file: [ <taxonomy nodes file> ]
+      pattern: "nodes.dmp"
+  - file_accession2taxid:
+      type: file
+      description: |
+        NCBI taxonomy accession2taxid file
+        Structure: // file: [ <accession2taxid file> ]
+      pattern: "nucl_gb.accession2taxid"
+  - file_nucl2taxid:
+      type: file
+      description: |
+        Centrifuge style nucleotide accession to taxid file
+        Structure: // file: [ <nucl2taxid file> ]
+      pattern: "*"
+  - file_prot2taxid:
+      type: file
+      description: |
+        Centrifuge style protein accession to taxid file
+        Structure: // file: [ <prot2taxid file> ]
+      pattern: "*"
+  - file_genomesizes:
+      type: file
+      description: |
+        File containing NCBI genome genome sizes file for each accession
+        Structure: // file: [ <genome sizes file> ]
+      pattern: "species_genome_size.txt.gz"
+  - malt_build_mode:
+      type: string
+      description: |
+        Mode for malt database building.
+        Structure: // val: [nucleotide|protein]
+      pattern: "nucleotide|protein"
+  - file_malt_mapdb:
+      type: file
+      description: |
+        MALT taxonomy file for building MALT database
+        Structure: // file: [ <maltmap file> ]
+      pattern: "*.{zip,db}"
+output:
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+  - multiqc_files:
+      type: directory
+      description: |
+        Channel containing log files for use in MultiQC
+        Structure: [ [file], [file], [file] ]
+      pattern: "*/"
+  - centrifuge_output:
+      type: directory
+      description: |
+        Channel containing Centrifuge database directory files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*/"
+  - centrifuger_output:
+      type: directory
+      description: |
+        Channel containing Centrifuger database directory files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*/"
+  - diamond_output:
+      type: file
+      description: |
+        Channel containing DIAMOND database  files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*.dmnd"
+  - ganon_output:
+      type: file
+      description: |
+        Channel containing Ganon database files.
+        Structure: [ val(meta), path(hibf),  ]
+      pattern: "*{hibf,ibf,tax}"
+  - kaiju_output:
+      type: file
+      description: |
+        Channel containing Kaiju database files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*{fmi,dmp}"
+  - kmcp_output:
+      type: directory
+      description: |
+        Channel containing directory of KMCP database directory files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*/"
+  - kraken2_bracken_output:
+      type: directory
+      description: |
+        Channel containing Kraken2 and Bracken database files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*/"
+  - krakenuniq_output:
+      type: directory
+      description: |
+        Channel containing directory of KrakenUniq database files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*/"
+  - malt_output:
+      type: directory
+      description: |
+        Channel containing directory of MALT database files.
+        Structure: [ path(db) ]
+      pattern: "*/"
+  - metacache_output:
+      type: file
+      description: |
+        Channel containing metacache database files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*.{cache0,meta}"
+  - sourmash_dna_output:
+      type: file
+      description: |
+        Channel containing sourmash DNA database files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*.sbt.zip"
+  - sourmash_aa_output:
+      type: file
+      description: |
+        Channel containing sourmash amino acid database files.
+        Structure: [ val(meta), path(db) ]
+      pattern: "*.sbt.zip"
+  - sylph_output:
+      type: file
+      description: |
+        Channel containing sylph database file.
+        Structure: [ val(meta), path(db) ]
+authors:
+  - "@jfy133"
+maintainers:
+  - "@jfy133"

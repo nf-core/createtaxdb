@@ -148,6 +148,16 @@ workflow BUILDING {
         ch_krakenuniq_output = channel.empty()
     }
 
+
+    // SUBWORKFLOW: Run KMCP_CREATE
+    if (params.build_kmcp) {
+        KMCP_CREATE(ch_ungrouped_dna_fastas, ch_grouped_dna_fastas, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
+        ch_kmcp_output = KMCP_CREATE.out.db
+    }
+    else {
+        ch_kmcp_output = channel.empty()
+    }
+
     // Module: Run MALT/BUILD
 
     if (params.build_malt) {
@@ -176,14 +186,19 @@ workflow BUILDING {
         ch_malt_output = channel.empty()
     }
 
-
-    // SUBWORKFLOW: Run KMCP_CREATE
-    if (params.build_kmcp) {
-        KMCP_CREATE(ch_ungrouped_dna_fastas, ch_grouped_dna_fastas, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
-        ch_kmcp_output = KMCP_CREATE.out.db
+    // MODULE : Run METACACHE/BUILD
+    if (params.build_metacache) {
+        METACACHE_BUILD(
+            ch_grouped_dna_fastas,
+            [file_taxonomy_namesdmp, file_taxonomy_nodesdmp],
+            [file_accession2taxid],
+        )
+        // Current module emits the two file as separate elements of the same tuple, so we need to combine them here
+        // to satisfy our later final output directory
+        ch_metacache_output = METACACHE_BUILD.out.db.map { meta, dbmeta, dbcache -> [meta, [dbmeta, dbcache]] }
     }
     else {
-        ch_kmcp_output = channel.empty()
+        ch_metacache_output = channel.empty()
     }
 
     // SUBWORKFLOW: Run SOURMASH_CREATE_DNA
@@ -222,20 +237,6 @@ workflow BUILDING {
         ch_sylph_output = channel.empty()
     }
 
-    // MODULE : Run METACACHE/BUILD
-    if (params.build_metacache) {
-        METACACHE_BUILD(
-            ch_grouped_dna_fastas,
-            [file_taxonomy_namesdmp, file_taxonomy_nodesdmp],
-            [file_accession2taxid],
-        )
-        // Current module emits the two file as separate elements of the same tuple, so we need to combine them here
-        // to satisfy our later final output directory
-        ch_metacache_output = METACACHE_BUILD.out.db.map { meta, dbmeta, dbcache -> [meta, [dbmeta, dbcache]] }
-    }
-    else {
-        ch_metacache_output = channel.empty()
-    }
 
     //
     // Aggregate all databases for downstream processes
@@ -246,14 +247,14 @@ workflow BUILDING {
             ch_diamond_output.map { meta, db -> [meta + [tool: "diamond", type: 'protein'], db] },
             ch_ganon_output.map { meta, db -> [meta + [tool: "ganon", type: 'dna'], db] },
             ch_kaiju_output.map { meta, db -> [meta + [tool: "kaiju", type: 'protein'], db] },
+            ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp", type: 'dna'], db] },
             ch_kraken2_bracken_output.map { meta, db -> [meta + [tool: params.build_bracken ? "bracken" : "kraken2", type: 'dna'], db] },
             ch_krakenuniq_output.map { meta, db -> [meta + [tool: "krakenuniq", type: 'dna'], db] },
             ch_malt_output.map { db -> [[id: params.dbname, tool: "malt", type: malt_build_mode == 'protein' ? 'protein' : 'dna'], db] },
-            ch_kmcp_output.map { meta, db -> [meta + [tool: "kmcp", type: 'dna'], db] },
+            ch_metacache_output.map { meta, db -> [meta + [tool: 'metacache', type: 'dna'], db] },
             ch_sourmash_dna_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'dna'], db] },
             ch_sourmash_aa_output.map { meta, db -> [meta + [tool: 'sourmash', type: 'protein'], db] },
             ch_sylph_output.map { meta, db -> [meta + [tool: 'sylph', type: 'dna'], db] },
-            ch_metacache_output.map { meta, db -> [meta + [tool: 'metacache', type: 'dna'], db] },
         )
 
     emit:
@@ -264,14 +265,14 @@ workflow BUILDING {
     diamond_output         = ch_diamond_output
     ganon_output           = ch_ganon_output
     kaiju_output           = ch_kaiju_output
+    kmcp_output            = ch_kmcp_output
     kraken2_bracken_output = ch_kraken2_bracken_output
     krakenuniq_output      = ch_krakenuniq_output
     malt_output            = ch_malt_output
-    kmcp_output            = ch_kmcp_output
+    metacache_output       = ch_metacache_output
     sourmash_dna_output    = ch_sourmash_dna_output
     sourmash_aa_output     = ch_sourmash_aa_output
     sylph_output           = ch_sylph_output
-    metacache_output       = ch_metacache_output
     all_databases          = ch_all_databases
 }
 
