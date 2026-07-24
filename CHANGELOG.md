@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Fixed`
 
+- [#202](https://github.com/nf-core/createtaxdb/pull/202) - Fix `ConcurrentModificationException` error through replacement of groupTuple with new groupBy (by @bentsherman and @jfy133)
+
 ### `Dependencies`
 
 | Tool | Old Version | New Version |
