@@ -7,15 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Added`
 
+- [#194](https://github.com/nf-core/createtaxdb/pull/194) - Updated to nf-core template 4.0.3 (by @jfy133)
+
 ### `Fixed`
 
 - [#202](https://github.com/nf-core/createtaxdb/pull/202) - Fix `ConcurrentModificationException` error through replacement of groupTuple with new groupBy (by @bentsherman and @jfy133)
 
 ### `Dependencies`
 
-| Tool | Old Version | New Version |
-| ---- | ----------- | ----------- |
-|      |             |
+| Tool    | Old Version | New Version |
+| ------- | ----------- | ----------- |
+| nf-core | 4.0.2       | 4.0.3       |
 
 ## v3.1.0 - Seductive Siren - [2026-07-03]
 
