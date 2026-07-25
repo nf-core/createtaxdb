@@ -46,13 +46,13 @@ output:
         Channel containing the prepared FASTA files for protein sequences grouped into a singe list element.
         Structure: [ val(meta), [ fasta ] ]
       pattern: "*{fasta,fna,fas,fa}"
-  - ungrouped_dna:
+  - ungrouped_dna_fastas:
       type: file
       description: |
         Channel containing each prepared FASTA file for nucleotide sequences as independent elements.
         Structure: [ val(meta), path(fasta) ]
       pattern: "*{fasta,fna,fas,fa}"
-  - ungrouped_aa:
+  - ungrouped_aa_fastas:
       type: file
       description: |
         Channel containing each prepared FASTA file for protein sequences as independent elements.

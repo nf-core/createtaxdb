@@ -1,7 +1,7 @@
 nextflow_function {
 
     name "Test Functions"
-    script "./createtaxdb.nf"
+    script "../main.nf"
     function "parse_kmer_sizes"
 
     test("Test parse_kmer_sizes with single correct k-mer") {
