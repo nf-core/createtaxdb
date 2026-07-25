@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "sourmash_create"
+description: |
+  Sketch the signatures of input genomes or proteomes (FastA files) in batches
+  and then create an index (reference database) from those.
+keywords:
+  - metagenomics
+  - sourmash
+  - database
+  - build
+  - custom
+components:
+  - sourmash/sketch
+  - sourmash/index
+input:
+  - ch_library:
+      type: file
+      description: |
+        Channel of the grouped DNA or AA FastA files to be sketched. The channel
+        consists of pairs of the database meta information and a list of FastA
+        files which may be compressed.
+
+        Structure: [ val(meta), [ path(fasta) ] ]
+      pattern: "*.{fasta,fa,fna,faa}{.gz}"
+  - kmer_sizes:
+      type: integer
+      description: |
+        Channel of the k-mer sizes found in the sourmash sketch options.
+
+        Structure: [ val(kmer_size) ]
+  - batch_size:
+      type: integer
+      description: |
+        A single value for the batch size to use with sourmash sketch.
+
+        Structure: val(batch_size)
+output:
+  - db:
+      type: file
+      description: |
+        Channel containing a single sourmash index file.
+
+        Structure: [ val(meta), path(db) ]
+      pattern: "*.{sbt.zip}"
+  - versions:
+      type: file
+      description: |
+        File containing software versions.
+
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+authors:
+  - "@Midnighter"
+maintainers:
+  - "@Midnighter"
