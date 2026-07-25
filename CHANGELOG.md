@@ -13,9 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-| Tool     | Old Version | New Version |
-| -------- | ----------- | ----------- |
-|  nf-core | 4.0.2       | 4.0.3       |
+| Tool    | Old Version | New Version |
+| ------- | ----------- | ----------- |
+| nf-core | 4.0.2       | 4.0.3       |
 
 ## v3.1.0 - Seductive Siren - [2026-07-03]
 
