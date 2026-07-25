@@ -7,20 +7,20 @@ keywords:
   - build
   - custom
 components:
-  - centrifuge/build'
-  - centrifuger/build'
-  - diamond/makedb'
-  - ganon/buildcustom'
-  - kaiju/mkfmi'
-  - krakenuniq/build'
-  - unzip'
-  - malt/build'
-  - sylph/sketchgenomes'
-  - metacache/build'
-  - fasta_build_add_kraken2_bracken'
-  - kmcp_create'
-  - sourmash_create'
-  - sourmash_create'
+  - centrifuge/build
+  - centrifuger/build
+  - diamond/makedb
+  - ganon/buildcustom
+  - kaiju/mkfmi
+  - krakenuniq/build
+  - unzip
+  - malt/build
+  - sylph/sketchgenomes
+  - metacache/build
+  - fasta_build_add_kraken2_bracken
+  - kmcp_create
+  - sourmash_create
+  - sourmash_create
 input:
   - ch_singleref_for_dna:
       type: file
