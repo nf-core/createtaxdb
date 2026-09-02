@@ -8,3 +8,6 @@ testing*
 *.pyc
 null/
 .lineage/
+.nf-test*
+test.xml
+.vscode/settings.json

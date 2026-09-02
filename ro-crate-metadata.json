@@ -1,6 +1,6 @@
 {
     "@context": [
-        "https://w3id.org/ro/crate/1.2/context",
+        "https://w3id.org/ro/crate/1.1/context",
         {
             "GithubService": "https://w3id.org/ro/terms/test#GithubService",
             "JenkinsService": "https://w3id.org/ro/terms/test#JenkinsService",
@@ -42,6 +42,9 @@
                 },
                 {
                     "@id": "modules/"
+                },
+                {
+                    "@id": "modules/local/"
                 },
                 {
                     "@id": "modules/nf-core/"
@@ -112,7 +115,7 @@
             },
             "conformsTo": [
                 {
-                    "@id": "https://w3id.org/ro/crate/1.2"
+                    "@id": "https://w3id.org/ro/crate/1.1"
                 },
                 {
                     "@id": "https://w3id.org/workflowhub/workflow-ro-crate/1.0"
@@ -121,7 +124,16 @@
         },
         {
             "@id": "main.nf",
-            "@type": ["File", "SoftwareSourceCode", "ComputationalWorkflow"],
+            "@type": [
+                "File",
+                "SoftwareSourceCode",
+                "ComputationalWorkflow"
+            ],
+            "author": [
+                {
+                    "@id": "https://orcid.org/0000-0001-5585-6277"
+                }
+            ],
             "contributor": [
                 {
                     "@id": "#eb973314-39dd-4ceb-995f-c7b32f9c0b7c"
@@ -140,16 +152,30 @@
                 "profiling",
                 "taxonomic-profiling"
             ],
-            "license": ["MIT"],
-            "name": ["nf-core/createtaxdb"],
+            "license": [
+                "MIT"
+            ],
+            "maintainer": [
+                {
+                    "@id": "https://orcid.org/0000-0001-5585-6277"
+                }
+            ],
+            "name": [
+                "nf-core/createtaxdb"
+            ],
             "programmingLanguage": {
                 "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"
             },
             "sdPublisher": {
                 "@id": "https://nf-co.re/"
             },
-            "url": ["https://github.com/nf-core/createtaxdb", "https://nf-co.re/createtaxdb/dev/"],
-            "version": ["3.2.0dev"]
+            "url": [
+                "https://github.com/nf-core/createtaxdb",
+                "https://nf-co.re/createtaxdb/dev/"
+            ],
+            "version": [
+                "3.2.0dev"
+            ]
         },
         {
             "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow",
@@ -161,7 +187,7 @@
             "url": {
                 "@id": "https://www.nextflow.io/"
             },
-            "version": "!>=25.10.4"
+            "version": "!>=26.04.6"
         },
         {
             "@id": "#2a080819-40ed-4a21-a7f9-3096754eb3cc",
@@ -218,6 +244,11 @@
             "@id": "modules/",
             "@type": "Dataset",
             "description": "Modules used by the pipeline"
+        },
+        {
+            "@id": "modules/local/",
+            "@type": "Dataset",
+            "description": "Pipeline-specific modules"
         },
         {
             "@id": "modules/nf-core/",
@@ -308,7 +339,8 @@
         {
             "@id": "#eb973314-39dd-4ceb-995f-c7b32f9c0b7c",
             "@type": "Person",
-            "name": "James A. Fellows Yates and the nf-core community"
+            "name": "and the nf-core community",
+            "url": "https://github.com/nf-core"
         }
     ]
 }
