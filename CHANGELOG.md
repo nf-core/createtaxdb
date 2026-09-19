@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#194](https://github.com/nf-core/createtaxdb/pull/194) - Updated to nf-core template 4.0.3 (by @jfy133)
 - [#202](https://github.com/nf-core/createtaxdb/pull/202) - Bumped minimum version of Nextflow to 26.04.6 (by @jf133)
+- [#205](https://github.com/nf-core/createtaxdb/pull/205) - Updated to nf-core template 4.1.0 (by @jfy133)
 
 ### `Fixed`
 
