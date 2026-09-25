@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#194](https://github.com/nf-core/createtaxdb/pull/194) - Updated to nf-core template 4.0.3 (by @jfy133)
 - [#202](https://github.com/nf-core/createtaxdb/pull/202) - Bumped minimum version of Nextflow to 26.04.6 (by @jf133)
 - [#205](https://github.com/nf-core/createtaxdb/pull/205) - Updated to nf-core template 4.1.0 (by @jfy133)
+- [#209](https://github.com/nf-core/createtaxdb/pull/209) - Updated kraken2 and sylph versions to be consistent with nf-core/taxprofiler (by @sofstam)
 
 ### `Fixed`
 
@@ -20,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Tool    | Old Version | New Version |
 | ------- | ----------- | ----------- |
 | nf-core | 4.0.2       | 4.0.3       |
+| kraken2 | 2.1.5       | 2.1.6       |
+| sylph   | 0.7.0       | 0.9.0       |
 
 ## v3.1.0 - Seductive Siren - [2026-07-03]
 
