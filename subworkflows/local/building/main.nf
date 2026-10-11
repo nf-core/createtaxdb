@@ -1,21 +1,21 @@
 // Database building (with specific auxiliary modules)
 
 // Modules
-include { CENTRIFUGE_BUILD                           } from '../../../modules/nf-core/centrifuge/build/main'
-include { CENTRIFUGER_BUILD                          } from '../../../modules/nf-core/centrifuger/build/main'
-include { DIAMOND_MAKEDB                             } from '../../../modules/nf-core/diamond/makedb/main'
-include { GANON_BUILDCUSTOM                          } from '../../../modules/nf-core/ganon/buildcustom/main'
-include { KAIJU_MKFMI                                } from '../../../modules/nf-core/kaiju/mkfmi/main'
-include { KRAKENUNIQ_BUILD                           } from '../../../modules/nf-core/krakenuniq/build/main'
-include { UNZIP                                      } from '../../../modules/nf-core/unzip/main'
-include { MALT_BUILD                                 } from '../../../modules/nf-core/malt/build/main'
-include { SYLPH_SKETCHGENOMES                        } from '../../../modules/nf-core/sylph/sketchgenomes/main'
-include { METACACHE_BUILD                            } from '../../../modules/nf-core/metacache/build/main'
+include { CENTRIFUGE_BUILD } from '../../../modules/nf-core/centrifuge/build/main'
+include { CENTRIFUGER_BUILD } from '../../../modules/nf-core/centrifuger/build/main'
+include { DIAMOND_MAKEDB } from '../../../modules/nf-core/diamond/makedb/main'
+include { GANON_BUILDCUSTOM } from '../../../modules/nf-core/ganon/buildcustom/main'
+include { KAIJU_MKFMI } from '../../../modules/nf-core/kaiju/mkfmi/main'
+include { KRAKENUNIQ_BUILD } from '../../../modules/nf-core/krakenuniq/build/main'
+include { UNZIP } from '../../../modules/nf-core/unzip/main'
+include { MALT_BUILD } from '../../../modules/nf-core/malt/build/main'
+include { SYLPH_SKETCHGENOMES } from '../../../modules/nf-core/sylph/sketchgenomes/main'
+include { METACACHE_BUILD } from '../../../modules/nf-core/metacache/build/main'
 
 // Subworkflows
-include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN            } from '../../../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
-include { KMCP_CREATE                                } from '../../../subworkflows/local/kmcp_create/main'
-include { SOURMASH_CREATE as SOURMASH_CREATE_DNA     } from '../../../subworkflows/local/sourmash_create/main'
+include { FASTA_BUILD_ADD_KRAKEN2_BRACKEN } from '../../../subworkflows/nf-core/fasta_build_add_kraken2_bracken/main'
+include { KMCP_CREATE } from '../../../subworkflows/local/kmcp_create/main'
+include { SOURMASH_CREATE as SOURMASH_CREATE_DNA } from '../../../subworkflows/local/sourmash_create/main'
 include { SOURMASH_CREATE as SOURMASH_CREATE_PROTEIN } from '../../../subworkflows/local/sourmash_create/main'
 
 workflow BUILDING {
@@ -230,7 +230,6 @@ workflow BUILDING {
     // MODULE : Run SYLPH/SKETCHGENOMES
     if (params.build_sylph) {
         SYLPH_SKETCHGENOMES(ch_grouped_dna_fastas)
-        ch_versions = ch_versions.mix(SYLPH_SKETCHGENOMES.out.versions)
         ch_sylph_output = SYLPH_SKETCHGENOMES.out.syldb
     }
     else {
@@ -258,22 +257,22 @@ workflow BUILDING {
         )
 
     emit:
-    versions               = ch_versions
-    multiqc_files          = ch_multiqc_files
-    centrifuge_output      = ch_centrifuge_output
-    centrifuger_output     = ch_centrifuger_output
-    diamond_output         = ch_diamond_output
-    ganon_output           = ch_ganon_output
-    kaiju_output           = ch_kaiju_output
-    kmcp_output            = ch_kmcp_output
+    versions = ch_versions
+    multiqc_files = ch_multiqc_files
+    centrifuge_output = ch_centrifuge_output
+    centrifuger_output = ch_centrifuger_output
+    diamond_output = ch_diamond_output
+    ganon_output = ch_ganon_output
+    kaiju_output = ch_kaiju_output
+    kmcp_output = ch_kmcp_output
     kraken2_bracken_output = ch_kraken2_bracken_output
-    krakenuniq_output      = ch_krakenuniq_output
-    malt_output            = ch_malt_output
-    metacache_output       = ch_metacache_output
-    sourmash_dna_output    = ch_sourmash_dna_output
-    sourmash_aa_output     = ch_sourmash_aa_output
-    sylph_output           = ch_sylph_output
-    all_databases          = ch_all_databases
+    krakenuniq_output = ch_krakenuniq_output
+    malt_output = ch_malt_output
+    metacache_output = ch_metacache_output
+    sourmash_dna_output = ch_sourmash_dna_output
+    sourmash_aa_output = ch_sourmash_aa_output
+    sylph_output = ch_sylph_output
+    all_databases = ch_all_databases
 }
 
 /*

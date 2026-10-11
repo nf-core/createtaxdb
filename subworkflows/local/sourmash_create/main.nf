@@ -1,5 +1,5 @@
 include { SOURMASH_SKETCH } from '../../../modules/nf-core/sourmash/sketch/main'
-include { SOURMASH_INDEX  } from '../../../modules/nf-core/sourmash/index/main'
+include { SOURMASH_INDEX } from '../../../modules/nf-core/sourmash/index/main'
 
 workflow SOURMASH_CREATE {
     take:
@@ -23,7 +23,7 @@ workflow SOURMASH_CREATE {
             .collect { batch, idx -> [[id: "${meta.id}_${idx}", db: meta.id], batch] }
     }
 
-    SOURMASH_SKETCH(ch_sketch_input)
+    SOURMASH_SKETCH(ch_sketch_input, false)
 
     // Drop the batch identifiers and flatten the batches. Then add the original
     // database name and index the signatures per k-mer size.
