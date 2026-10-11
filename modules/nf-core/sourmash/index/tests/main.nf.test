@@ -9,7 +9,6 @@ nextflow_process {
     tag "sourmash"
     tag "sourmash/index"
     tag "sourmash/sketch"
-    tag "blah"
 
     setup {
         run("SOURMASH_SKETCH") {
@@ -20,6 +19,7 @@ nextflow_process {
                         [ id:'test', single_end:false ], // meta map
                         file(params.modules_testdata_base_path + 'genomics/sarscov2/genome/genome.fasta', checkIfExists: true)
             ]
+            input[1] =  false // merge_sigs
             """
             }
         }
