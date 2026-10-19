@@ -92,14 +92,13 @@
                     },
                     "sourmash/index": {
                         "branch": "master",
-                        "git_sha": "7834ddbe2ac8ac536eee9ee2b9e4140f1a0b56d6",
+                        "git_sha": "6eaecd6ef9bfc7faf313b1abeaae9b129795291d",
                         "installed_by": ["modules"]
                     },
                     "sourmash/sketch": {
                         "branch": "master",
-                        "git_sha": "7834ddbe2ac8ac536eee9ee2b9e4140f1a0b56d6",
-                        "installed_by": ["modules"],
-                        "patch": "modules/nf-core/sourmash/sketch/sourmash-sketch.diff"
+                        "git_sha": "c98a14d32fc13603d68be1d16d3214e17a4404a0",
+                        "installed_by": ["modules"]
                     },
                     "sylph/sketchgenomes": {
                         "branch": "master",

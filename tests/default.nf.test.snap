@@ -107,10 +107,10 @@
                 "unzip/nucl_acc2tax-Jul2019/nucl_acc2tax-Jul2019.abin"
             ]
         ],
-        "timestamp": "2026-06-04T11:46:43.26349127",
+        "timestamp": "2026-10-11T18:24:23.081773492",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "26.04.3"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.6"
         }
     },
     "-profile test": {
