@@ -23,12 +23,8 @@ jobs:
           echo "revision=${{ (github.event_name == 'workflow_dispatch' || github.event_name == 'release') && github.sha || 'dev' }}" >> "$GITHUB_OUTPUT"
 
       - name: Launch workflow via Seqera Platform
-<<<<<<< nf-core-template-merge-4.2.0
         uses: seqeralabs/action-tower-launch@9856f1ae20c8b02884733f79b7cd0e3ea5d2bdab # v2.4.0
         # TODO nf-core: You can customise AWS full pipeline tests as required
-=======
-        uses: seqeralabs/action-tower-launch@51565b514bff1827cf34620de25d0055759f1fc9 # v2
->>>>>>> dev
         # Add full size test data (but still relatively small datasets for few samples)
         # on the `test_full.config` test runs with only one set of parameters
         with:
