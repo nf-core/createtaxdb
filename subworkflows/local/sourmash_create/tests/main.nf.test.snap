@@ -1,0 +1,23 @@
+{
+    "fna-batch-size-2-versions": {
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-04-10T08:55:19.442660198"
+    },
+    "proteins-versions": {
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-04-10T08:55:38.409422337"
+    },
+    "fna-batch-size-1-versions": {
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-04-10T08:49:57.973875855"
+    }
+}

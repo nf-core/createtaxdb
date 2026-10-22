@@ -38,6 +38,9 @@
                     "@id": "modules/"
                 },
                 {
+                    "@id": "modules/local/"
+                },
+                {
                     "@id": "modules/nf-core/"
                 },
                 {
@@ -163,7 +166,7 @@
             "url": {
                 "@id": "https://www.nextflow.io/"
             },
-            "version": "!>=25.10.4"
+            "version": "!>=26.04.6"
         },
         {
             "@id": "https://w3id.org/workflowhub/workflow-ro-crate/1.1",
@@ -238,6 +241,11 @@
             "@id": "modules/",
             "@type": "Dataset",
             "description": "Modules used by the pipeline"
+        },
+        {
+            "@id": "modules/local/",
+            "@type": "Dataset",
+            "description": "Pipeline-specific modules"
         },
         {
             "@id": "modules/nf-core/",
@@ -328,7 +336,8 @@
         {
             "@id": "#69fcf89f-f085-4113-b401-9dd2f2eb4277",
             "@type": "Person",
-            "name": "James A. Fellows Yates and the nf-core community"
+            "name": "and the nf-core community",
+            "url": "https://github.com/nf-core"
         }
     ]
 }

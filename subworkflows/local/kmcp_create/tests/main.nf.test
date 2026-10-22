@@ -1,0 +1,51 @@
+nextflow_workflow {
+
+    name "Test Subworkflow KMCP_CREATE"
+    script "../main.nf"
+    config "./nextflow.config"
+    workflow "KMCP_CREATE"
+
+    tag "subworkflows"
+    tag "subworkflows_local"
+    tag "subworkflows/kmcp_create"
+    tag "gunzip"
+    tag "kmcp"
+    tag "kmcp/compute"
+    tag "kmcp/index"
+
+    test("metagenome - kmcp - fasta") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [id:'db'],
+                        file(params.modules_testdata_base_path + "/genomics/prokaryotes/metagenome/fasta/sarscov2.fasta", checkIfExists: true)
+                    ]
+                )
+                input[1] = Channel.of(
+                    [
+                        [id:'db'],
+                        file(params.modules_testdata_base_path + "/genomics/prokaryotes/metagenome/fasta/sarscov2.fasta", checkIfExists: true)
+                    ]
+                ).groupTuple()
+                input[2] = file(params.modules_testdata_base_path + 'genomics/sarscov2/metagenome/nodes.dmp', checkIfExists: true)
+                input[3] = file(params.modules_testdata_base_path + 'genomics/sarscov2/metagenome/names.dmp', checkIfExists: true)
+
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot (
+                        workflow.out.db.get(0).get(1) ==~ ".*/db-kmcp-index",
+                        path("${workflow.out.db[0][1]}/R001/").exists()
+                    ).match()
+                }
+            )
+        }
+    }
+}
