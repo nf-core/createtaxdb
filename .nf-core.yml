@@ -1,8 +1,8 @@
 lint:
   files_exist:
-    - conf/igenomes.config
-    - conf/igenomes_ignored.config
-nf_core_version: 4.1.0
+  - conf/igenomes.config
+  - conf/igenomes_ignored.config
+nf_core_version: 4.2.0
 repository_type: pipeline
 template:
   author: James A. Fellows Yates and the nf-core community
@@ -14,6 +14,6 @@ template:
   org: nf-core
   outdir: .
   skip_features:
-    - fastqc
-    - igenomes
+  - fastqc
+  - igenomes
   version: 3.2.0dev
