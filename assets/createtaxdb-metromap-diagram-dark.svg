@@ -3,15 +3,15 @@
 
 <svg
    width="270.40421mm"
-   height="183.09166mm"
-   viewBox="0 0 270.40421 183.09166"
+   height="186mm"
+   viewBox="0 0 270.40421 186"
    version="1.1"
    id="svg1"
-   inkscape:version="1.3.2 (1:1.3.2+202311252150+091e20ef0f)"
+   inkscape:version="1.4.4 (1:1.4.4+202605061435+dcaf3e7d9e)"
    sodipodi:docname="createtaxdb-metromap-diagram-dark.svg"
    inkscape:export-filename="createtaxdb-metromap-diagram-dark.png"
-   inkscape:export-xdpi="300"
-   inkscape:export-ydpi="300"
+   inkscape:export-xdpi="289.407"
+   inkscape:export-ydpi="289.407"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -28,16 +28,21 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.90509668"
-     inkscape:cx="540.27377"
-     inkscape:cy="406.5864"
-     inkscape:current-layer="layer1"
+     inkscape:cx="402.16698"
+     inkscape:cy="517.07183"
+     inkscape:current-layer="g3"
      showgrid="true"
-     showguides="true">
+     showguides="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
     <inkscape:grid
        id="grid1"
        units="px"
-       originx="0.26458351"
-       originy="-73.818745"
+       originx="0.2645835"
+       originy="-73.818748"
        spacingx="0.26458334"
        spacingy="0.26458333"
        empcolor="#e50000"
@@ -50,22 +55,22 @@
        gridanglez="30"
        visible="true" />
     <sodipodi:guide
-       position="127.26459,203.44375"
+       position="127.26459,205.44409"
        orientation="0,-1"
        id="guide1"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="5.55625,129.36042"
+       position="5.5562501,131.36076"
        orientation="1,0"
        id="guide2"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="248.97294,118.77708"
+       position="248.97295,120.77742"
        orientation="1,0"
        id="guide3"
        inkscape:locked="false" />
     <sodipodi:guide
-       position="132.55625,34.110426"
+       position="132.55625,36.110763"
        orientation="0,-1"
        id="guide4"
        inkscape:locked="false" />
@@ -750,7 +755,7 @@
            id="tspan199"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.23333px;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';fill:#fffffd;fill-opacity:1;stroke:none;stroke-width:0.793749"
            x="91.487419"
-           y="22.75222">v3.1</tspan></text>
+           y="22.75222">v3.2</tspan></text>
       <g
          id="g2-8"
          transform="matrix(0.03319327,0,0,0.03319327,27.823603,7.9835833)">
@@ -969,7 +974,8 @@
        height="140.22916"
        x="103.1875"
        y="113.77083"
-       ry="2.6458414" />
+       ry="2.6458414"
+       rx="2.6458414" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.529167;stroke-opacity:0.25;paint-order:markers stroke fill"
        d="M 150.8125,116.41666 V 243.41665"
@@ -1440,7 +1446,7 @@
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Maven Pro';-inkscape-font-specification:'Maven Pro Bold';text-align:center;text-anchor:middle;stroke:none;stroke-width:0.264583"
          x="127.13229"
-         y="127.28484"
+         y="127.39539"
          id="tspan4">PREPROCESSING</tspan></text>
     <path
        style="fill:none;stroke:#fccc04;stroke-width:2.64583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
