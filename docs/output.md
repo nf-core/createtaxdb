@@ -34,8 +34,6 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - Postprocessing
   - [Downstream pipeline](#downstream-samplesheets) input samplesheets.
 
-
-
 ### MultiQC
 
 <details markdown="1">
