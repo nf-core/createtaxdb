@@ -3,7 +3,32 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v3.1.0 - Seductive Siren - [2026-06-03]
+## v3.2.0 - Conscientious Chimera [2026-11-13]
+
+### `Added`
+
+- [#194](https://github.com/nf-core/createtaxdb/pull/194) - Updated to nf-core template 4.0.3 (by @jfy133)
+- [#202](https://github.com/nf-core/createtaxdb/pull/202) - Bumped minimum version of Nextflow to 26.04.6 (by @jf133)
+- [#205](https://github.com/nf-core/createtaxdb/pull/205) - Updated to nf-core template 4.1.0 (by @jfy133)
+- [#209](https://github.com/nf-core/createtaxdb/pull/209) - Updated kraken2 and sylph versions to be consistent with nf-core/taxprofiler (by @sofstam)
+- [#216](https://github.com/nf-core/createtaxdb/pull/216) - Updated to nf-core template 4.2.1 (by @jfy133)
+- [#222](https://github.com/nf-core/createtaxdb/pull/222) - Added FAQ section to help guide users which building tool to select (by @jfy133)
+- [#224](https://github.com/nf-core/createtaxdb/pull/224) - Updated to nf-core template 4.2.2 (by @jfy133)
+
+### `Fixed`
+
+- [#202](https://github.com/nf-core/createtaxdb/pull/202) - Fix `ConcurrentModificationException` error through replacement of groupTuple with new groupBy (by @bentsherman and @jfy133)
+- [#212](https://github.com/nf-core/createtaxdb/pull/212) - Fix inclusion of `--merge` parameter from Sourmash modules which incorrectly merged all input files into single genome signature (by @jfy133, @haris18s, @Midnighter)
+
+### `Dependencies`
+
+| Tool    | Old Version | New Version |
+| ------- | ----------- | ----------- |
+| nf-core | 4.0.2       | 4.0.3       |
+| kraken2 | 2.1.5       | 2.1.6       |
+| sylph   | 0.7.0       | 0.9.0       |
+
+## v3.1.0 - Seductive Siren - [2026-07-03]
 
 ### `Added`
 
