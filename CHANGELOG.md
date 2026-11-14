@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#209](https://github.com/nf-core/createtaxdb/pull/209) - Updated kraken2 and sylph versions to be consistent with nf-core/taxprofiler (by @sofstam)
 - [#216](https://github.com/nf-core/createtaxdb/pull/216) - Updated to nf-core template 4.2.1 (by @jfy133)
 - [#222](https://github.com/nf-core/createtaxdb/pull/222) - Added FAQ section to help guide users which building tool to select (by @jfy133)
+- [#224](https://github.com/nf-core/createtaxdb/pull/224) - Updated to nf-core template 4.2.2 (by @jfy133)
 
 ### `Fixed`
 
