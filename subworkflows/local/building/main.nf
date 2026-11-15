@@ -43,7 +43,7 @@ workflow BUILDING {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     DATABASE BUILDING
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */
+     */
 
     // Module: Run CENTRIFUGE/BUILD
 
@@ -81,8 +81,7 @@ workflow BUILDING {
 
         ch_ganon_input_tsv = ch_ungrouped_dna_fastas
             .map { meta, fasta ->
-                // I tried with .name() but it kept giving error of `Unknown method invocation `name` on XPath type... not sure why
-                def fasta_name = fasta.toString().split('/').last()
+                def fasta_name = fasta.name
                 [fasta_name, meta.id, meta.taxid]
             }
             .map { fastas -> fastas.join("\t") }
@@ -277,9 +276,9 @@ workflow BUILDING {
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    FUNCTION DEFINITIONS
+FUNCTION DEFINITIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
+ */
 
 /**
  * Parse k-mer sizes from a sourmash build options string.
