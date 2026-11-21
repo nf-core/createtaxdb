@@ -1,5 +1,11 @@
 # Frequently asked questions and troubleshooting
 
+## Which tool should I use?
+
+You should use the database construction tool that corresponds to the taxonomic classifier you wish to use for your sequencing data.
+
+See see the [nf-core/taxprofiler FAQ page](https://nf-co.re/taxprofiler/usage/faq-troubleshooting/) for guidance on which classifier to use in different contexts.
+
 ## Recommended auxiliary files
 
 Some tools may require or recommend additional files to the reference sequence files - such as taxonomy files - to execute.
