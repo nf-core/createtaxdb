@@ -70,7 +70,6 @@ workflow BUILDING {
 
     if (params.build_diamond) {
         DIAMOND_MAKEDB(ch_singleref_for_aa, file_prot2taxid, file_taxonomy_nodesdmp, file_taxonomy_namesdmp)
-        ch_versions = ch_versions.mix(DIAMOND_MAKEDB.out.versions)
         ch_diamond_output = DIAMOND_MAKEDB.out.db
     }
     else {

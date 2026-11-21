@@ -22,11 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### `Dependencies`
 
-| Tool    | Old Version | New Version |
-| ------- | ----------- | ----------- |
-| nf-core | 4.0.2       | 4.0.3       |
-| kraken2 | 2.1.5       | 2.1.6       |
-| sylph   | 0.7.0       | 0.9.0       |
+| Tool        | Old Version | New Version |
+| ----------- | ----------- | ----------- |
+| nf-core     | 4.0.2       | 4.0.3       |
+| kraken2     | 2.1.5       | 2.1.6       |
+| sylph       | 0.7.0       | 0.9.0       |
+| centrifuger | 1.1.0       | 1.1.2       |
+| diamond     | 2.1.16      | 2.2.1       |
 
 ## v3.1.0 - Seductive Siren - [2026-07-03]
 
